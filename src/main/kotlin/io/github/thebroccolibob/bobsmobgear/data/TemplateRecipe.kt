@@ -71,6 +71,10 @@ class TemplateRecipe(
 
     override fun getType(): RecipeType<TemplateRecipe> = SerializerAndType
 
+    override fun createIcon(): ItemStack = template.asItem().defaultStack
+
+    override fun isEmpty(): Boolean = false
+
     companion object SerializerAndType : RecipeSerializer<TemplateRecipe>, RecipeType<TemplateRecipe> {
         val CODEC: MapCodec<TemplateRecipe> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
