@@ -10,13 +10,17 @@ import net.minecraft.advancement.AdvancementRequirements
 import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion
 import net.minecraft.block.Blocks
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.FoodComponent
 import net.minecraft.data.server.recipe.RecipeExporter
 import net.minecraft.fluid.Fluids
+import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
@@ -28,16 +32,18 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             TemplateRecipe(
                 Blocks.STONE,
                 BobsMobGearBlocks.SMITHING_SURFACE,
-                Ingredient.ofStacks(Items.STONE_SWORD.defaultStack),
+                Ingredient.ofItems(Items.STONE_SWORD),
                 DefaultedList.copyOf(
                     Ingredient.EMPTY,
-                    Ingredient.ofStacks(Items.COBBLESTONE.defaultStack),
-                    Ingredient.ofStacks(Items.STRING.defaultStack)
+                    Ingredient.ofItems(Items.COBBLESTONE),
+                    Ingredient.ofItems(Items.STRING)
                 ),
                 FluidVariant.of(Fluids.LAVA),
                 3,
                 false,
-                Items.IRON_SWORD.defaultStack,
+                ItemStack(Items.IRON_SWORD).also {
+                    it[DataComponentTypes.FOOD] = FoodComponent(10, 10F, true, 10F, Optional.empty(), listOf())
+                }
             ),
             exporter
         )
@@ -47,7 +53,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             TemplateRecipe(
                 Blocks.IRON_BLOCK,
                 null,
-                Ingredient.ofStacks(Items.STICK.defaultStack),
+                Ingredient.ofItems(Items.STICK),
                 DefaultedList.of(),
                 FluidVariant.blank(),
                 0,
