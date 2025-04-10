@@ -1,0 +1,10 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:stick"
+  },
+  "result": {
+    "id": "minecraft:diamond_sword"
+  },
+  "template": "minecraft:iron_block"
+}

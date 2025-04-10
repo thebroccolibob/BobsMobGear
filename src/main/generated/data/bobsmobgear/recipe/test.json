@@ -1,0 +1,23 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:stone_sword"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "minecraft:lava"
+  },
+  "fluid_amount": 3,
+  "ingredients": [
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "item": "minecraft:string"
+    }
+  ],
+  "result": {
+    "id": "minecraft:iron_sword"
+  },
+  "template": "minecraft:stone"
+}

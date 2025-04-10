@@ -1,87 +1,109 @@
 package io.github.thebroccolibob.bobsmobgear.data
 
 import com.mojang.serialization.Codec
-import com.mojang.serialization.DataResult
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.github.thebroccolibob.bobsmobgear.util.defaultedList
 import io.github.thebroccolibob.bobsmobgear.util.packetCodecTuple
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
-import net.minecraft.predicate.block.BlockStatePredicate
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryCodecs
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
-import net.minecraft.world.gen.blockpredicate.BlockPredicate
+import java.util.*
 
 class TemplateRecipe(
-    val blockBelow: BlockPredicate,
-    val templateBlock: Block,
+    val template: Block,
+    val blockBelow: Optional<TagKey<Block>>,
     val base: Ingredient,
+    @get:JvmName("ingredients")
     val ingredients: DefaultedList<Ingredient>,
     val fluid: FluidVariant,
+    val fluidAmount: Int,
     val requiresHammer: Boolean,
     val result: ItemStack,
 ) : Recipe<TemplateRecipeInput> {
 
+    constructor(
+        template: Block,
+        blockBelow: TagKey<Block>?,
+        base: Ingredient,
+        ingredients: DefaultedList<Ingredient>,
+        fluid: FluidVariant,
+        fluidAmount: Int,
+        requiresHammer: Boolean,
+        result: ItemStack,
+    ) : this(template, Optional.ofNullable(blockBelow), base, ingredients, fluid, fluidAmount, requiresHammer, result)
+
     override fun matches(input: TemplateRecipeInput, world: World): Boolean {
-        TODO("Not yet implemented")
+        return template == input.template
+            && blockBelow.map { input.blockBelow.isIn(it) }.orElse(true)
+            && base.test(input.base)
+            && fluid == input.fluid
+            && input.fluidAmount >= fluidAmount
+            && input.ingredients.size != ingredients.size
+            && if (input.ingredients.size == 1)
+                ingredients.first().test(input.getStackInSlot(0))
+            else
+                input.ingredientMatcher.match(this, null)
     }
 
-    override fun craft(input: TemplateRecipeInput, lookup: WrapperLookup): ItemStack {
-        TODO("Not yet implemented")
-    }
+    override fun getIngredients(): DefaultedList<Ingredient> = ingredients
 
-    override fun fits(width: Int, height: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun craft(input: TemplateRecipeInput, lookup: WrapperLookup): ItemStack = result
 
-    override fun getResult(registriesLookup: WrapperLookup): ItemStack {
-        TODO("Not yet implemented")
-    }
+    override fun fits(width: Int, height: Int): Boolean = height >= 1 && width >= ingredients.size + 1
 
-    override fun getSerializer(): RecipeSerializer<*> {
-        TODO("Not yet implemented")
-    }
+    override fun getResult(registriesLookup: WrapperLookup): ItemStack = result
 
-    override fun getType(): RecipeType<*> {
-        TODO("Not yet implemented")
-    }
+    override fun getSerializer(): RecipeSerializer<*> = SerializerAndType
 
-    companion object {
-        val CODEC = RecordCodecBuilder.create {
-            it.group(
-                BlockPredicate.BASE_CODEC.optionalFieldOf("block_below", BlockPredicate.alwaysTrue()).forGetter(TemplateRecipe::blockBelow),
-                Registries.BLOCK.codec.fieldOf("template_block").forGetter(TemplateRecipe::templateBlock),
+    override fun getType(): RecipeType<TemplateRecipe> = SerializerAndType
+
+    companion object SerializerAndType : RecipeSerializer<TemplateRecipe>, RecipeType<TemplateRecipe> {
+        val CODEC: MapCodec<TemplateRecipe> = RecordCodecBuilder.mapCodec { instance ->
+            instance.group(
+                Registries.BLOCK.codec.fieldOf("template").forGetter(TemplateRecipe::template),
+                TagKey.codec(RegistryKeys.BLOCK).optionalFieldOf("block_below").forGetter(TemplateRecipe::blockBelow),
                 Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("base").forGetter(TemplateRecipe::base),
                 Ingredient.DISALLOW_EMPTY_CODEC.listOf().xmap({ DefaultedList.copyOf(Ingredient.EMPTY, *it.toTypedArray()) }, { it })
                     .optionalFieldOf("ingredients", DefaultedList.of()).forGetter(TemplateRecipe::ingredients),
                 FluidVariant.CODEC.optionalFieldOf("fluid", FluidVariant.blank()).forGetter(TemplateRecipe::fluid),
+                Codec.INT.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),
                 Codec.BOOL.optionalFieldOf("requires_hammer", false).forGetter(TemplateRecipe::requiresHammer),
                 ItemStack.VALIDATED_UNCOUNTED_CODEC.fieldOf("result").forGetter(TemplateRecipe::result)
-            ).apply(it, ::TemplateRecipe)
+            ).apply(instance, ::TemplateRecipe)
         }
 
-        val PACKET_CODEC = packetCodecTuple(
-            PacketCodecs.codec(BlockPredicate.BASE_CODEC), TemplateRecipe::blockBelow,
-            PacketCodecs.registryValue(RegistryKeys.BLOCK), TemplateRecipe::templateBlock,
+        val PACKET_CODEC: PacketCodec<RegistryByteBuf, TemplateRecipe> = packetCodecTuple(
+            PacketCodecs.registryValue(RegistryKeys.BLOCK), TemplateRecipe::template,
+            PacketCodecs.optional(PacketCodecs.codec(TagKey.codec(RegistryKeys.BLOCK))), TemplateRecipe::blockBelow,
             Ingredient.PACKET_CODEC, TemplateRecipe::base,
-            Ingredient.PACKET_CODEC.collect({ PacketCodecs.collection({ DefaultedList.ofSize(it, Ingredient.EMPTY)}, Ingredient.PACKET_CODEC) }), TemplateRecipe::ingredients,
+            Ingredient.PACKET_CODEC.defaultedList(Ingredient.EMPTY), TemplateRecipe::ingredients,
             FluidVariant.PACKET_CODEC, TemplateRecipe::fluid,
+            PacketCodecs.INTEGER, TemplateRecipe::fluidAmount,
             PacketCodecs.BOOL, TemplateRecipe::requiresHammer,
             ItemStack.PACKET_CODEC, TemplateRecipe::result,
             ::TemplateRecipe
         )
 
-        //val SERIALIZER = Recipe
+        @Deprecated("Prefer using field", ReplaceWith("TemplateRecipe.CODEC", "io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe"))
+        override fun codec(): MapCodec<TemplateRecipe> = CODEC
+
+        @Deprecated("Prefer using field", ReplaceWith("TemplateRecipe.PACKET_CODEC", "io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe"))
+        override fun packetCodec(): PacketCodec<RegistryByteBuf, TemplateRecipe> = PACKET_CODEC
+
+        override fun toString() = "bobsmobgear:template"
     }
 }
