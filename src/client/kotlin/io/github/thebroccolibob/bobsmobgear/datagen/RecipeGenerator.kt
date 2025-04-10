@@ -68,12 +68,12 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                     criterion(hasItem(recipe.template.asItem()), conditionsFromItem(recipe.template.asItem()))
                     rewards(AdvancementRewards.Builder.recipe(recipeId))
                     criteriaMerger(AdvancementRequirements.CriterionMerger.OR)
-                }.build(recipeId.withPrefixedPath("recipes/template/"))
+                }.build(recipeId.withPrefixedPath("recipes/"))
             )
         }
 
-        private fun acceptTemplateRecipe(path: String, recipe: TemplateRecipe, exporter: RecipeExporter) {
-            acceptTemplateRecipe(BobsMobGear.id(path), recipe, exporter)
+        private fun acceptTemplateRecipe(name: String, recipe: TemplateRecipe, exporter: RecipeExporter) {
+            acceptTemplateRecipe(BobsMobGear.id(name).withPrefixedPath("template/"), recipe, exporter)
         }
     }
 }

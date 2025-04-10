@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "bobsmobgear:test2"
+        "recipe": "bobsmobgear:template/test2"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "bobsmobgear:test2"
+      "bobsmobgear:template/test2"
     ]
   }
 }
