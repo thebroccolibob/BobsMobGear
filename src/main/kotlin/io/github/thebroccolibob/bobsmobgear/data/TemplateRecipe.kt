@@ -3,8 +3,10 @@ package io.github.thebroccolibob.bobsmobgear.data
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.util.defaultedList
 import io.github.thebroccolibob.bobsmobgear.util.packetCodecTuple
+import io.github.thebroccolibob.bobsmobgear.util.tagKeyPacketCodec
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
@@ -92,7 +94,7 @@ class TemplateRecipe(
 
         val PACKET_CODEC: PacketCodec<RegistryByteBuf, TemplateRecipe> = packetCodecTuple(
             PacketCodecs.registryValue(RegistryKeys.BLOCK), TemplateRecipe::template,
-            PacketCodecs.optional(PacketCodecs.codec(TagKey.codec(RegistryKeys.BLOCK))), TemplateRecipe::blockBelow,
+            PacketCodecs.optional(tagKeyPacketCodec(RegistryKeys.BLOCK)), TemplateRecipe::blockBelow,
             Ingredient.PACKET_CODEC, TemplateRecipe::base,
             Ingredient.PACKET_CODEC.defaultedList(Ingredient.EMPTY), TemplateRecipe::ingredients,
             FluidVariant.PACKET_CODEC, TemplateRecipe::fluid,
@@ -108,6 +110,6 @@ class TemplateRecipe(
         @Deprecated("Prefer using field", ReplaceWith("TemplateRecipe.PACKET_CODEC", "io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe"))
         override fun packetCodec(): PacketCodec<RegistryByteBuf, TemplateRecipe> = PACKET_CODEC
 
-        override fun toString() = "bobsmobgear:template"
+        override fun toString() = "${BobsMobGear.MOD_ID}:template"
     }
 }

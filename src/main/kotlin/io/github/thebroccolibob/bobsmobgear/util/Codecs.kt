@@ -4,6 +4,10 @@ import com.mojang.datafixers.util.Function8
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
 import java.util.function.Function
 
@@ -75,3 +79,7 @@ class DefaultedListPacketCodec<B : ByteBuf, V>(private val elementCodec: PacketC
             elementCodec.encode(buf, item)
     }
 }
+
+fun <T> tagKeyPacketCodec(registry: RegistryKey<out Registry<T>>): PacketCodec<ByteBuf, TagKey<T>> =
+    Identifier.PACKET_CODEC.xmap({ TagKey.of(registry, it) }, { it.id })
+
