@@ -6,6 +6,9 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.UseItemCallback
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -31,6 +34,9 @@ object BobsMobGear : ModInitializer {
 
 		BobsMobGearBlocks.register()
 		BobsMobGearItems.register()
+
+		ResourceManagerHelper.registerBuiltinResourcePack(id("vanilla_recipe_disable"), FabricLoader.getInstance().getModContainer(
+			MOD_ID).get(), Text.literal("Vanilla Recipe Disable"), ResourcePackActivationType.ALWAYS_ENABLED)
 
 		// Temporary debug code
 		// TODO remove

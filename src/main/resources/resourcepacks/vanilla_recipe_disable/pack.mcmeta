@@ -1,0 +1,14 @@
+{
+  "pack": {
+    "description": "Removes some vanilla tool recipes for Bob's Mob Gear",
+    "pack_format": 48
+  },
+  "filter": {
+    "block": [
+      {
+        "namespace": "minecraft",
+        "path": "(recipe|advancement/recipes/combat|advancement/recipes/tools)/(stone|golden|iron|diamond|netherite)_(sword|pickaxe|axe|shovel|hoe).json"
+      }
+    ]
+  }
+}
