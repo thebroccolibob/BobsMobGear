@@ -9,6 +9,7 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 		fabricDataGenerator.createPack().apply {
 			addProvider(::RecipeGenerator)
 			addProvider(::BlockTagGenerator)
+			addProvider(::ItemTagGenerator)
 		}
 	}
 }

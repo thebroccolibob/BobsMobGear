@@ -6,5 +6,5 @@
   "result": {
     "id": "minecraft:diamond_sword"
   },
-  "template": "minecraft:iron_block"
+  "template": "bobsmobgear:sword_template"
 }

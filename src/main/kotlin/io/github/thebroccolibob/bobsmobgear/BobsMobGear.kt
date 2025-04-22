@@ -2,6 +2,8 @@ package io.github.thebroccolibob.bobsmobgear
 
 import com.mojang.serialization.JsonOps
 import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.item.Items
@@ -26,6 +28,9 @@ object BobsMobGear : ModInitializer {
 		// Proceed with mild caution.
 		Registry.register(Registries.RECIPE_SERIALIZER, id("template"), TemplateRecipe)
 		Registry.register(Registries.RECIPE_TYPE, id("template"), TemplateRecipe)
+
+		BobsMobGearBlocks.register()
+		BobsMobGearItems.register()
 
 		// Temporary debug code
 		// TODO remove

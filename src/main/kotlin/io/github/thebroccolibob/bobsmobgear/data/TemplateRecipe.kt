@@ -32,7 +32,7 @@ class TemplateRecipe(
     @get:JvmName("ingredients")
     val ingredients: DefaultedList<Ingredient>,
     val fluid: FluidVariant,
-    val fluidAmount: Int,
+    val fluidAmount: Long,
     val requiresHammer: Boolean,
     val result: ItemStack,
 ) : Recipe<TemplateRecipeInput> {
@@ -43,7 +43,7 @@ class TemplateRecipe(
         base: Ingredient,
         ingredients: DefaultedList<Ingredient>,
         fluid: FluidVariant,
-        fluidAmount: Int,
+        fluidAmount: Long,
         requiresHammer: Boolean,
         result: ItemStack,
     ) : this(template, Optional.ofNullable(blockBelow), base, ingredients, fluid, fluidAmount, requiresHammer, result)
@@ -52,13 +52,10 @@ class TemplateRecipe(
         return template == input.template
             && blockBelow.map { input.blockBelow.isIn(it) }.orElse(true)
             && base.test(input.base)
-            && fluid == input.fluid
-            && input.fluidAmount >= fluidAmount
-            && input.ingredients.size != ingredients.size
-            && if (input.ingredients.size == 1)
-                ingredients.first().test(input.getStackInSlot(0))
-            else
-                input.ingredientMatcher.match(this, null)
+            && (input.fluid == null || fluid == input.fluid)
+            && (input.fluidAmount == null || input.fluidAmount >= fluidAmount)
+            && (input.ingredients == null || ((input.ingredientsPartial || input.ingredients.size == ingredients.size)
+                && (ingredients zip input.ingredients).all { (ingredient, stack) -> ingredient.test(stack) }))
     }
 
     override fun getIngredients(): DefaultedList<Ingredient> = ingredients
@@ -86,7 +83,7 @@ class TemplateRecipe(
                 Ingredient.DISALLOW_EMPTY_CODEC.listOf().xmap({ DefaultedList.copyOf(Ingredient.EMPTY, *it.toTypedArray()) }, { it })
                     .optionalFieldOf("ingredients", DefaultedList.of()).forGetter(TemplateRecipe::ingredients),
                 FluidVariant.CODEC.optionalFieldOf("fluid", FluidVariant.blank()).forGetter(TemplateRecipe::fluid),
-                Codec.INT.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),
+                Codec.LONG.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),
                 Codec.BOOL.optionalFieldOf("requires_hammer", false).forGetter(TemplateRecipe::requiresHammer),
                 ItemStack.VALIDATED_UNCOUNTED_CODEC.fieldOf("result").forGetter(TemplateRecipe::result)
             ).apply(instance, ::TemplateRecipe)
@@ -98,7 +95,7 @@ class TemplateRecipe(
             Ingredient.PACKET_CODEC, TemplateRecipe::base,
             Ingredient.PACKET_CODEC.defaultedList(Ingredient.EMPTY), TemplateRecipe::ingredients,
             FluidVariant.PACKET_CODEC, TemplateRecipe::fluid,
-            PacketCodecs.INTEGER, TemplateRecipe::fluidAmount,
+            PacketCodecs.VAR_LONG, TemplateRecipe::fluidAmount,
             PacketCodecs.BOOL, TemplateRecipe::requiresHammer,
             ItemStack.PACKET_CODEC, TemplateRecipe::result,
             ::TemplateRecipe
