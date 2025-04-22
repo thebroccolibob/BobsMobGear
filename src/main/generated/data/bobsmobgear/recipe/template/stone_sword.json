@@ -1,0 +1,21 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:wooden_sword"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "item": "minecraft:string"
+    }
+  ],
+  "result": {
+    "id": "minecraft:stone_sword"
+  },
+  "template": "bobsmobgear:sword_template"
+}

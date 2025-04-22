@@ -10,17 +10,15 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.advancement.AdvancementRequirements
 import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.FoodComponent
 import net.minecraft.data.server.recipe.RecipeExporter
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
-import java.util.*
 import java.util.concurrent.CompletableFuture
 
 class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
@@ -28,37 +26,69 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
 
     override fun generate(exporter: RecipeExporter) {
         acceptTemplateRecipe(
-            "test",
             TemplateRecipe(
                 BobsMobGearBlocks.SWORD_TEMPLATE,
-                BobsMobGearBlocks.SMITHING_SURFACE,
-                Ingredient.ofItems(Items.STONE_SWORD),
-                DefaultedList.copyOf(
-                    Ingredient.EMPTY,
+                null,
+                Ingredient.ofItems(Items.WOODEN_SWORD),
+                DefaultedList.copyOf(Ingredient.EMPTY,
+                    Ingredient.ofItems(Items.COBBLESTONE),
                     Ingredient.ofItems(Items.COBBLESTONE),
                     Ingredient.ofItems(Items.STRING)
                 ),
-                FluidVariant.of(Fluids.LAVA),
-                FluidConstants.BUCKET,
-                true,
-                ItemStack(Items.IRON_SWORD).also {
-                    it[DataComponentTypes.FOOD] = FoodComponent(10, 10F, true, 10F, Optional.empty(), listOf())
-                }
+                FluidVariant.blank(),
+                0,
+                false,
+                ItemStack(Items.STONE_SWORD)//.also {
+                    // TODO heated component
+                //}
             ),
             exporter
         )
 
         acceptTemplateRecipe(
-            "test2",
             TemplateRecipe(
                 BobsMobGearBlocks.SWORD_TEMPLATE,
-                null,
-                Ingredient.ofItems(Items.STICK),
+                BobsMobGearBlocks.SMITHING_SURFACE,
+                Ingredient.ofItems(Items.STONE_SWORD),
                 DefaultedList.of(),
-                FluidVariant.blank(),
-                0,
-                false,
-                Items.DIAMOND_SWORD.defaultStack
+                FluidVariant.of(Fluids.LAVA), // TODO liquid iron
+                FluidConstants.BUCKET,
+                true,
+                ItemStack(Items.IRON_SWORD)//.also {
+                // TODO heated component
+                //}
+            ),
+            exporter
+        )
+
+        acceptTemplateRecipe(
+            TemplateRecipe(
+                BobsMobGearBlocks.SWORD_TEMPLATE,
+                BobsMobGearBlocks.SMITHING_SURFACE,
+                Ingredient.ofItems(Items.IRON_SWORD),
+                DefaultedList.of(),
+                FluidVariant.of(Fluids.LAVA), // TODO liquid diamond
+                FluidConstants.BUCKET,
+                true,
+                ItemStack(Items.DIAMOND_SWORD)//.also {
+                // TODO heated component
+                //}
+            ),
+            exporter
+        )
+
+        acceptTemplateRecipe(
+            TemplateRecipe(
+                BobsMobGearBlocks.SWORD_TEMPLATE,
+                BobsMobGearBlocks.SMITHING_SURFACE,
+                Ingredient.ofItems(Items.DIAMOND_SWORD),
+                DefaultedList.of(),
+                FluidVariant.of(Fluids.LAVA), // TODO liquid netherite
+                FluidConstants.BUCKET,
+                true,
+                ItemStack(Items.NETHERITE_SWORD)//.also {
+                // TODO heated component
+                //}
             ),
             exporter
         )
@@ -80,6 +110,10 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
 
         private fun acceptTemplateRecipe(name: String, recipe: TemplateRecipe, exporter: RecipeExporter) {
             acceptTemplateRecipe(BobsMobGear.id(name).withPrefixedPath("template/"), recipe, exporter)
+        }
+
+        private fun acceptTemplateRecipe(recipe: TemplateRecipe, exporter: RecipeExporter) {
+            acceptTemplateRecipe(Registries.ITEM.getId(recipe.result.item).path, recipe, exporter)
         }
     }
 }

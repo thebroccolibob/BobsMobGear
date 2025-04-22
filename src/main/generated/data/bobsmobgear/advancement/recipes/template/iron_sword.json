@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "bobsmobgear:template/test2"
+        "recipe": "bobsmobgear:template/iron_sword"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "bobsmobgear:template/test2"
+      "bobsmobgear:template/iron_sword"
     ]
   }
 }

@@ -1,0 +1,16 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:diamond_sword"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "minecraft:lava"
+  },
+  "fluid_amount": 81000,
+  "requires_hammer": true,
+  "result": {
+    "id": "minecraft:netherite_sword"
+  },
+  "template": "bobsmobgear:sword_template"
+}

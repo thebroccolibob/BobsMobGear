@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_sword_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bobsmobgear:sword_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bobsmobgear:template/netherite_sword"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sword_template"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bobsmobgear:template/netherite_sword"
+    ]
+  }
+}

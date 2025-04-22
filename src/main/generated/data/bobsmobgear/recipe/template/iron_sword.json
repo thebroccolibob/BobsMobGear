@@ -8,24 +8,8 @@
     "fluid": "minecraft:lava"
   },
   "fluid_amount": 81000,
-  "ingredients": [
-    {
-      "item": "minecraft:cobblestone"
-    },
-    {
-      "item": "minecraft:string"
-    }
-  ],
   "requires_hammer": true,
   "result": {
-    "components": {
-      "minecraft:food": {
-        "can_always_eat": true,
-        "eat_seconds": 10.0,
-        "nutrition": 10,
-        "saturation": 10.0
-      }
-    },
     "id": "minecraft:iron_sword"
   },
   "template": "bobsmobgear:sword_template"
