@@ -4,16 +4,21 @@ import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
+import net.minecraft.block.ShapeContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 class TemplateBlock(settings: Settings) : Block(settings), BlockEntityProvider {
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = TemplateBlockEntity(pos, state)
+
+    override fun getOutlineShape(state: BlockState?, world: BlockView?, pos: BlockPos?, context: ShapeContext?): VoxelShape = SHAPE
 
     override fun onUseWithItem(
         stack: ItemStack,
@@ -27,5 +32,9 @@ class TemplateBlock(settings: Settings) : Block(settings), BlockEntityProvider {
         if ((world.getBlockEntity(pos) as? TemplateBlockEntity)?.onUseItem(stack, player, hand) == true)
             return ItemActionResult.SUCCESS
         return ItemActionResult.CONSUME_PARTIAL
+    }
+
+    companion object {
+        private val SHAPE: VoxelShape = createCuboidShape(1.0, 0.0, 1.0, 15.0, 2.0, 15.0)
     }
 }

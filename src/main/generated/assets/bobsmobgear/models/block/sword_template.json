@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:block/template",
+  "textures": {
+    "top": "bobsmobgear:block/sword_template"
+  }
+}

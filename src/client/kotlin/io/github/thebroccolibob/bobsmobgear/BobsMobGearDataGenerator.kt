@@ -11,6 +11,7 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::BlockTagGenerator)
 			addProvider(::ItemTagGenerator)
 			addProvider(::LootTableGenerator)
+			addProvider(::ModelGenerator)
 		}
 	}
 }

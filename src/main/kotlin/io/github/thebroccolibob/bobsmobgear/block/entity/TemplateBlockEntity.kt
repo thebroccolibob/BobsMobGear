@@ -94,8 +94,6 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
                     stack.damage(1, player, hand.toEquipmentSlot())
                 // TODO sound
                 hammerHits++
-                if (hammerHits < 3)
-                    return true
             }
             getMatch(getRecipeInput(skipFluid = true)) != null -> {
                 if (!FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand))
@@ -134,6 +132,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         clear()
         world.playSound(null, pos, SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS)
         // TODO remove block
+        // TODO particles
     }
 
     private fun getMatch(input: TemplateRecipeInput): RecipeEntry<TemplateRecipe>? =
