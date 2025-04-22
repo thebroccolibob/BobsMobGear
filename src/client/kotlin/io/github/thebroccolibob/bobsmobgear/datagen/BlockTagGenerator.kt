@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.block.Blocks
 import net.minecraft.registry.RegistryWrapper
+import net.minecraft.registry.tag.BlockTags
 import java.util.concurrent.CompletableFuture
 
 class BlockTagGenerator(
@@ -14,6 +15,9 @@ class BlockTagGenerator(
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(BobsMobGearBlocks.SMITHING_SURFACE).add(
             Blocks.SMITHING_TABLE
+        )
+        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
+            BobsMobGearBlocks.SWORD_TEMPLATE
         )
     }
 }

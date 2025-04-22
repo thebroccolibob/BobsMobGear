@@ -6,11 +6,13 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.extend
 import io.github.thebroccolibob.bobsmobgear.util.getList
+import io.github.thebroccolibob.bobsmobgear.util.toEquipmentSlot
 import io.github.thebroccolibob.bobsmobgear.util.toNbtList
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
@@ -22,6 +24,9 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.recipe.RecipeEntry
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.sound.SoundCategory
@@ -30,6 +35,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.event.GameEvent
 import kotlin.jvm.optionals.getOrNull
 
 class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: BlockPos, state: BlockState) :
@@ -84,6 +90,9 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         when {
             getMatch(getRecipeInput()) != null -> {
                 if (!stack.isIn(BobsMobGearItems.SMITHING_HAMMER_TAG)) return false
+                if (stack.isDamageable)
+                    stack.damage(1, player, hand.toEquipmentSlot())
+                // TODO sound
                 hammerHits++
                 if (hammerHits < 3)
                     return true
@@ -96,10 +105,14 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
                 if (!(0..<ingredientsInventory.size).any { ingredientsInventory[it].isEmpty } || getMatch(getRecipeInput(withIngredient = stack, skipFluid = true, ingredientsPartial = true)) == null) return false
 
                 ingredientsInventory[ingredientsInventory.indexOf(ItemStack.EMPTY)] = stack.splitUnlessCreative(1, player)
+
+                // TODO sound
             }
             else -> {
                 if (getMatch(getRecipeInput(withBase = stack, skipIngredients = true, skipFluid = true)) == null) return false
                 baseStack = stack.splitUnlessCreative(1, player)
+
+                // TODO sound
             }
         }
 
@@ -108,6 +121,9 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
                 if (!it.value.requiresHammer || hammerHits >= 3) // TODO unhardcode?
                     craft(world, it, input)
             } }
+
+        world.emitGameEvent(GameEvent.BLOCK_CHANGE, getPos(), GameEvent.Emitter.of(player, cachedState))
+        this.updateListeners()
 
         return true
     }
@@ -122,6 +138,11 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
     private fun getMatch(input: TemplateRecipeInput): RecipeEntry<TemplateRecipe>? =
         world?.recipeManager?.getFirstMatch(TemplateRecipe, input, world)?.getOrNull()
+
+    private fun updateListeners() {
+        markDirty()
+        world?.updateListeners(getPos(), cachedState, cachedState, Block.NOTIFY_ALL)
+    }
 
     override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         nbt.putInt(HAMMER_HITS, hammerHits)
@@ -139,6 +160,10 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
     override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound =
         createNbt(registryLookup)
+
+    override fun toUpdatePacket(): Packet<ClientPlayPacketListener> {
+        return BlockEntityUpdateS2CPacket.create(this)
+    }
 
     override fun clear() {
         baseStack = ItemStack.EMPTY

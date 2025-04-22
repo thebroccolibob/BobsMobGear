@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_air": {
+    "has_sword_template": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:air"
+            "items": "bobsmobgear:sword_template"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_air"
+      "has_sword_template"
     ]
   ],
   "rewards": {
