@@ -174,7 +174,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
     override fun size(): Int = 1 + ingredientsInventory.size
 
-    override fun isEmpty(): Boolean = baseStack.isEmpty && ingredientsInventory.all { isEmpty }
+    override fun isEmpty(): Boolean = baseStack.isEmpty && ingredientsInventory.all { it.isEmpty }
 
     override fun getStack(slot: Int): ItemStack = when (slot) {
         0 -> baseStack
