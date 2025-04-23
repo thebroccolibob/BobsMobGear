@@ -44,9 +44,11 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     constructor(pos: BlockPos, state: BlockState) : this(BobsMobGearBlocks.TEMPLATE_BLOCK_ENTITY, pos, state)
 
     private var hammerHits = 0;
-    private var baseStack: ItemStack = ItemStack.EMPTY
-    private var ingredientsInventory: DefaultedList<ItemStack> = DefaultedList.ofSize(9, ItemStack.EMPTY)
-    private val fluidStorage: SingleVariantStorage<FluidVariant> = object : SingleVariantStorage<FluidVariant>() {
+    var baseStack: ItemStack = ItemStack.EMPTY
+        private set
+    var ingredientsInventory: DefaultedList<ItemStack> = DefaultedList.ofSize(9, ItemStack.EMPTY)
+        private set
+    val fluidStorage: SingleVariantStorage<FluidVariant> = object : SingleVariantStorage<FluidVariant>() {
         override fun getCapacity(variant: FluidVariant): Long = FluidConstants.BUCKET
 
         override fun getBlankVariant(): FluidVariant = FluidVariant.blank()
