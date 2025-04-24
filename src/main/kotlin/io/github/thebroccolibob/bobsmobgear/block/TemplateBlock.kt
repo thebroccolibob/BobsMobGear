@@ -33,12 +33,6 @@ class TemplateBlock(settings: Settings) : Block(settings), BlockEntityProvider {
     ): ItemActionResult {
         val templateBlockEntity = world.getBlockEntity(pos) as? TemplateBlockEntity ?: return super.onUseWithItem(stack, state, world, pos, player, hand, hit)
 
-        if (stack.isEmpty) {
-            ItemScatterer.spawn(world, pos, templateBlockEntity.getItems())
-            templateBlockEntity.clearItems()
-            return ItemActionResult.SUCCESS
-        }
-
         if (templateBlockEntity.onUseItem(stack, player, hand))
             return ItemActionResult.SUCCESS
 

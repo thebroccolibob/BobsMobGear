@@ -12,6 +12,7 @@ fun List<NbtElement>.toNbtList() = NbtList().apply {
     this@toNbtList.forEach(::add)
 }
 
+fun <T: Any> T?.toOptional() = Optional.ofNullable(this)
 fun Optional<ItemStack>.orElseEmpty(): ItemStack = orElse(ItemStack.EMPTY)
 
 fun NbtCompound.getList(key: String, type: Byte): NbtList = getList(key, type.toInt())

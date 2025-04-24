@@ -4,6 +4,7 @@ import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipeInput
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.extend
 import io.github.thebroccolibob.bobsmobgear.util.getList
 import io.github.thebroccolibob.bobsmobgear.util.toEquipmentSlot
@@ -25,14 +26,15 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.recipe.RecipeEntry
 import net.minecraft.registry.RegistryWrapper
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
+import net.minecraft.util.ItemScatterer
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import kotlin.jvm.optionals.getOrNull
 
@@ -87,6 +89,15 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     fun onUseItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
         val world = world ?: return false
 
+        if (stack.isEmpty) {
+            if (baseStack.isEmpty && ingredientsInventory.all { it.isEmpty }) return false
+
+            ItemScatterer.spawn(world, pos, getItems())
+            clearItems()
+            world.playSound(null, pos, BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, SoundCategory.BLOCKS)
+            return true
+        }
+
         if (!tryAddNextItem(stack, player, hand)) {
             if (!FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand))
                 return false
@@ -94,8 +105,8 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
         if (!world.isClient)
             getRecipeInput().let { input -> getMatch(input)?.let {
-                if (!it.value.requiresHammer || hammerHits >= 3) // TODO unhardcode?
-                    craft(world, it, input)
+                if (!it.value.requiresHammer || hammerHits >= REQUIRED_HAMMERS)
+                    craft(world as ServerWorld, it, input)
             } }
 
         world.emitGameEvent(GameEvent.BLOCK_CHANGE, getPos(), GameEvent.Emitter.of(player, cachedState))
@@ -107,10 +118,11 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     private fun tryAddNextItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
         when {
             getMatch(getRecipeInput()) != null -> {
-                if (!stack.isIn(BobsMobGearItems.SMITHING_HAMMER_TAG)) return false
+                if (!stack.isIn(BobsMobGearItems.SMITHING_HAMMER_TAG) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
                 if (stack.isDamageable)
                     stack.damage(1, player, hand.toEquipmentSlot())
-                // TODO sound
+                player.itemCooldownManager.set(stack.item, 10)
+                world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_HAMMER, SoundCategory.BLOCKS)
                 hammerHits++
             }
             !baseStack.isEmpty -> {
@@ -120,28 +132,28 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
                 ingredientsInventory[ingredientsInventory.indexOf(ItemStack.EMPTY)] = stack.splitUnlessCreative(1, player)
 
-                // TODO sound
+                world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_ADD_ITEM, SoundCategory.BLOCKS)
             }
             else -> {
                 if (getMatch(getRecipeInput(withBase = stack, skipIngredients = true, skipFluid = true)) == null) return false
 
                 baseStack = stack.splitUnlessCreative(1, player)
 
-                // TODO sound
+                world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_ADD_ITEM, SoundCategory.BLOCKS)
             }
         }
 
         return true
     }
 
-    private fun craft(world: World, recipe: RecipeEntry<TemplateRecipe>, input: TemplateRecipeInput) {
-        val itemPos = pos.toBottomCenterPos()
-        world.spawnEntity(ItemEntity(world, itemPos.x, itemPos.y, itemPos.z, recipe.value.craft(input, world.registryManager)))
+    private fun craft(world: ServerWorld, recipe: RecipeEntry<TemplateRecipe>, input: TemplateRecipeInput) {
+        val itemPos = pos.toCenterPos()
+        world.spawnEntity(ItemEntity(world, itemPos.x, itemPos.y - 0.125, itemPos.z, recipe.value.craft(input, world.registryManager), 0.0, 0.0, 0.0))
         clearItems()
         clearFluid()
-        world.playSound(null, pos, SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS)
-        // TODO remove block
-        // TODO particles
+        world.setBlockState(pos, cachedState.fluidState.blockState)
+        world.playSound(null, pos, BobsMobGearSounds.TEMPLATE_CRAFT, SoundCategory.BLOCKS)
+        world.spawnParticles(ParticleTypes.CRIT, itemPos.x, itemPos.y, itemPos.z, 6, 0.0, 0.0, 0.0, 0.2)
     }
 
     private fun getMatch(input: TemplateRecipeInput): RecipeEntry<TemplateRecipe>? =
@@ -191,5 +203,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         const val BASE_STACK = "base_stack"
         const val INGREDIENTS = "ingredients"
         const val FLUID_STORAGE = "fluid_storage"
+
+        private const val REQUIRED_HAMMERS = 3
     }
 }

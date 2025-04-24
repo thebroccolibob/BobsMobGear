@@ -5,6 +5,7 @@ import io.github.thebroccolibob.bobsmobgear.client.util.invoke
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
+import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
@@ -69,13 +70,14 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         val vertexConsumer = vertexConsumers.getBuffer(RenderLayers.getFluidLayer(fluid.defaultState))
         val matrix = matrices.peek()
         val fluidColor = renderer.getFluidColor(entity.world, entity.pos, fluid.defaultState)
+        val fluidLight = LightmapTextureManager.pack(fluid.defaultState.blockState.luminance, LightmapTextureManager.getSkyLightCoordinates(light))
 
         fun vertex(x: Float, y: Float, u: Float, v: Float) {
             vertexConsumer
                 .vertex(matrix, x, y, 0f)
                 .color(fluidColor)
                 .texture(u, v)
-                .light(light)
+                .light(fluidLight)
                 .normal(matrix, 0f, 0f, -1f)
         }
 

@@ -4,6 +4,7 @@ import com.mojang.serialization.JsonOps
 import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -34,6 +35,8 @@ object BobsMobGear : ModInitializer {
 
 		BobsMobGearBlocks.register()
 		BobsMobGearItems.register()
+
+		BobsMobGearSounds.register()
 
 		ResourceManagerHelper.registerBuiltinResourcePack(id("vanilla_recipe_disable"), FabricLoader.getInstance().getModContainer(
 			MOD_ID).get(), Text.literal("Vanilla Recipe Disable"), ResourcePackActivationType.ALWAYS_ENABLED)
