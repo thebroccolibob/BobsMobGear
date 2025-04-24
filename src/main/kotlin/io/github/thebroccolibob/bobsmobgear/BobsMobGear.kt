@@ -9,8 +9,8 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.isOf
-import io.github.thebroccolibob.bobsmobgear.util.isWhole
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
@@ -62,7 +62,7 @@ object BobsMobGear : ModInitializer {
 			val state = world[hitResult.blockPos]
 			if (BobsMobGearItems.HEATED !in stack
 				|| !(state isOf Blocks.WATER_CAULDRON)
-				|| (hitResult.side != Direction.UP && (hitResult.pos.x.isWhole() || hitResult.pos.z.isWhole())))
+				|| (hitResult.side != Direction.UP))
 				return@register ActionResult.PASS
 
 			stack.remove(BobsMobGearItems.HEATED)
@@ -76,7 +76,7 @@ object BobsMobGear : ModInitializer {
 			ActionResult.SUCCESS
 		}
 
-		ItemTickCallback.EVENT.register { entity, stack, ->
+		ItemTickCallback.EVENT.register { entity, stack ->
 			if (BobsMobGearItems.HEATED !in stack) return@register
 
 			val state = entity.blockStateAtPos
@@ -103,5 +103,12 @@ object BobsMobGear : ModInitializer {
 				} else
 					entity.setOnFireForTicks(20)
 		}
+
+		ServerLivingEntityEvents.AFTER_DAMAGE.register { entity, source, _, _, blocked ->
+			if (!blocked && source.attacker?.weaponStack?.contains(BobsMobGearItems.HEATED) == true) {
+				entity.setOnFireFor(4f)
+			}
+		}
+
 	}
 }
