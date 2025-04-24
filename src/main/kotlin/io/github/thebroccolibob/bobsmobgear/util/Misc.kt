@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.util.Hand
 import java.util.*
+import kotlin.math.roundToInt
 
 fun List<NbtElement>.toNbtList() = NbtList().apply {
     this@toNbtList.forEach(::add)
@@ -23,4 +24,11 @@ fun <T> List<T>.extend(length: Int, defaultValue: () -> T) = this + List(length 
 fun Hand.toEquipmentSlot(): EquipmentSlot = when(this) {
     Hand.OFF_HAND -> EquipmentSlot.OFFHAND
     Hand.MAIN_HAND -> EquipmentSlot.MAINHAND
+}
+
+fun Number.isWhole(): Boolean = when (this) {
+    is Byte, is Short, is Int, is Long -> true
+    is Float -> this == roundToInt().toFloat()
+    is Double -> this == roundToInt().toDouble()
+    else -> toDouble().isWhole()
 }

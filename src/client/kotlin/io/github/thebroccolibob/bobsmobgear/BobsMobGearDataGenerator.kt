@@ -13,6 +13,7 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::LootTableGenerator)
 			addProvider(::ModelGenerator)
 			addProvider(::SoundsGenerator)
+			addProvider(::LangGenerator)
 		}
 	}
 }

@@ -1,0 +1,7 @@
+{
+  "block.bobsmobgear.template.add_item": "Template fills",
+  "block.bobsmobgear.template.craft": "Tool crafts",
+  "block.bobsmobgear.template.hammer": "Tool hammers",
+  "block.bobsmobgear.template.remove_item": "Template empties",
+  "item.bobsmobgear.heated": "Heated"
+}

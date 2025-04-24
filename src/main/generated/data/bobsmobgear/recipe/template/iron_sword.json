@@ -10,6 +10,9 @@
   "fluid_amount": 81000,
   "requires_hammer": true,
   "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
     "id": "minecraft:iron_sword"
   },
   "template": "bobsmobgear:sword_template"

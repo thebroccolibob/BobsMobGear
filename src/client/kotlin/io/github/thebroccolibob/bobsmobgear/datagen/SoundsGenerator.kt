@@ -29,26 +29,33 @@ class SoundsGenerator(
     private val pathResolver = dataOutput.getResolver(DataOutput.OutputType.RESOURCE_PACK, "")
 
     private fun generateSounds(addSound: (SoundEvent, SoundEntry) -> Unit) {
-        addSound(BobsMobGearSounds.TEMPLATE_HAMMER, SoundEntry(
+        fun addSoundSubtitle(soundEvent: SoundEvent, vararg sounds: Sound) {
+            addSound(soundEvent, SoundEntry(*sounds, subtitle = subtitleOf(soundEvent)))
+        }
+        fun addSoundSubtitle(soundEvent: SoundEvent, vararg sounds: Identifier) {
+            addSound(soundEvent, SoundEntry(*sounds, subtitle = subtitleOf(soundEvent)))
+        }
+
+        addSoundSubtitle(BobsMobGearSounds.TEMPLATE_HAMMER,
             BobsMobGear.id("hammer1"),
             BobsMobGear.id("hammer2"),
             BobsMobGear.id("hammer3"),
-        ))
-        addSound(BobsMobGearSounds.TEMPLATE_ADD_ITEM, SoundEntry(
+        )
+        addSoundSubtitle(BobsMobGearSounds.TEMPLATE_ADD_ITEM,
             Identifier.ofVanilla("entity/itemframe/add_item1"),
             Identifier.ofVanilla("entity/itemframe/add_item2"),
             Identifier.ofVanilla("entity/itemframe/add_item3"),
             Identifier.ofVanilla("entity/itemframe/add_item4"),
-        ))
-        addSound(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, SoundEntry(
+        )
+        addSoundSubtitle(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM,
             Identifier.ofVanilla("entity/itemframe/remove_item1"),
             Identifier.ofVanilla("entity/itemframe/remove_item2"),
             Identifier.ofVanilla("entity/itemframe/remove_item3"),
             Identifier.ofVanilla("entity/itemframe/remove_item4"),
-        ))
-        addSound(BobsMobGearSounds.TEMPLATE_CRAFT, SoundEntry(
+        )
+        addSoundSubtitle(BobsMobGearSounds.TEMPLATE_CRAFT,
             Identifier.ofVanilla("random/break"),
-        ))
+        )
     }
 
     override fun run(writer: DataWriter): CompletableFuture<*> {
@@ -63,6 +70,11 @@ class SoundsGenerator(
     override fun getName(): String = "sounds.json"
 
     companion object {
+        fun subtitleOf(soundEvent: SoundEvent) = soundEvent.id.let {
+            val split = it.path.indexOf('.')
+            "${it.path.substring(0, split)}.${it.namespace}${it.path.substring(split)}"
+        }
+
         val FLOAT_SUPPLIER_CODEC: Codec<FloatSupplier> = ConstantFloatProvider.VALUE_CODEC.flatComapMap(
             { it as FloatSupplier },
             { (it as? ConstantFloatProvider)?.let { value -> DataResult.success(value) } ?: DataResult.error { "FloatSupplier was not a ConstantFloatProvider" } }

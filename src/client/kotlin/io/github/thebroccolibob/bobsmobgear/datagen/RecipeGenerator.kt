@@ -3,6 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.datagen
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
@@ -20,6 +21,7 @@ import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
 import java.util.concurrent.CompletableFuture
+import net.minecraft.util.Unit as MCUnit
 
 class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricRecipeProvider(output, registriesFuture) {
@@ -38,9 +40,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 FluidVariant.blank(),
                 0,
                 false,
-                ItemStack(Items.STONE_SWORD)//.also {
-                    // TODO heated component
-                //}
+                ItemStack(Items.STONE_SWORD)
             ),
             exporter
         )
@@ -54,9 +54,9 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 FluidVariant.of(Fluids.LAVA), // TODO liquid iron
                 FluidConstants.BUCKET,
                 true,
-                ItemStack(Items.IRON_SWORD)//.also {
-                // TODO heated component
-                //}
+                ItemStack(Items.IRON_SWORD, 1).also {
+                    it[BobsMobGearItems.HEATED] = MCUnit.INSTANCE
+                }
             ),
             exporter
         )
@@ -70,9 +70,9 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 FluidVariant.of(Fluids.LAVA), // TODO liquid diamond
                 FluidConstants.BUCKET,
                 true,
-                ItemStack(Items.DIAMOND_SWORD)//.also {
-                // TODO heated component
-                //}
+                ItemStack(Items.DIAMOND_SWORD).also {
+                    it[BobsMobGearItems.HEATED] = MCUnit.INSTANCE
+                }
             ),
             exporter
         )
@@ -86,9 +86,9 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 FluidVariant.of(Fluids.LAVA), // TODO liquid netherite
                 FluidConstants.BUCKET,
                 true,
-                ItemStack(Items.NETHERITE_SWORD)//.also {
-                // TODO heated component
-                //}
+                ItemStack(Items.NETHERITE_SWORD).also {
+                    it[BobsMobGearItems.HEATED] = MCUnit.INSTANCE
+                }
             ),
             exporter
         )

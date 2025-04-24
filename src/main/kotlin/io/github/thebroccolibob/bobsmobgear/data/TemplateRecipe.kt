@@ -60,7 +60,10 @@ class TemplateRecipe(
 
     override fun getIngredients(): DefaultedList<Ingredient> = ingredients
 
-    override fun craft(input: TemplateRecipeInput, lookup: WrapperLookup): ItemStack = result
+    override fun craft(input: TemplateRecipeInput, lookup: WrapperLookup): ItemStack =
+        input.base.copyComponentsToNewStack(result.item, result.count).apply {
+            applyChanges(result.componentChanges)
+        }
 
     override fun fits(width: Int, height: Int): Boolean = height >= 1 && width >= ingredients.size + 1
 

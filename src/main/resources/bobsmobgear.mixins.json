@@ -3,7 +3,10 @@
 	"package": "io.github.thebroccolibob.bobsmobgear.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"AbstractCauldronBlockInvoker",
+		"ItemEntityMixin",
+		"ItemStackMixin",
+		"LeveledCauldronBlockInvoker"
 	],
 	"injectors": {
 		"defaultRequire": 1
