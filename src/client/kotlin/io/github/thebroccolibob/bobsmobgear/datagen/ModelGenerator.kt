@@ -10,7 +10,7 @@ import java.util.*
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
-        blockStateModelGenerator.registerSingleton(BobsMobGearBlocks.SWORD_TEMPLATE, TEMPLATE_FACTORY)
+        blockStateModelGenerator.registerNorthDefaultHorizontalRotated(BobsMobGearBlocks.SWORD_TEMPLATE, TEMPLATE_FACTORY)
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {

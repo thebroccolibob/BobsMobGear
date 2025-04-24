@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.blockentity
 
+import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
 import io.github.thebroccolibob.bobsmobgear.client.util.invoke
 import net.fabricmc.api.EnvType
@@ -29,6 +30,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
     ) {
         matrices {
             translate(0.5f, TEMPLATE_WIDTH, 0.5f)
+            multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(entity.cachedState.get(TemplateBlock.FACING).asRotation()))
             multiply(RotationAxis.POSITIVE_X.rotationDegrees(90f))
 
             matrices {

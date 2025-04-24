@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=east": {
+      "model": "bobsmobgear:block/sword_template",
+      "y": 90
+    },
+    "facing=north": {
       "model": "bobsmobgear:block/sword_template"
+    },
+    "facing=south": {
+      "model": "bobsmobgear:block/sword_template",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "bobsmobgear:block/sword_template",
+      "y": 270
     }
   }
 }
