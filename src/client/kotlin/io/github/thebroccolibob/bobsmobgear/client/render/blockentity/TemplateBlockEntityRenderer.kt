@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.blockentity
 
 import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
-import io.github.thebroccolibob.bobsmobgear.client.util.layer
+import io.github.thebroccolibob.bobsmobgear.client.util.invoke
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
@@ -26,24 +26,24 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         light: Int,
         overlay: Int
     ) {
-        matrices.layer {
-            matrices.translate(0.5f, TEMPLATE_WIDTH, 0.5f)
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90f))
+        matrices {
+            translate(0.5f, TEMPLATE_WIDTH, 0.5f)
+            multiply(RotationAxis.POSITIVE_X.rotationDegrees(90f))
 
-            matrices.layer {
-                matrices.scale(BASE_SCALE, BASE_SCALE, BASE_SCALE)
+            matrices {
+                scale(BASE_SCALE, BASE_SCALE, BASE_SCALE)
 
-                matrices.layer {
-                    matrices.translate(0f, 0f, -0.5f / 16)
+                matrices {
+                    translate(0f, 0f, -0.5f / 16)
                     itemRenderer.renderItem(entity.baseStack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, entity.world, 0)
                 }
 
                 entity.ingredientsInventory.filter { !it.isEmpty }.run {
                     forEachIndexed { index, stack ->
-                        matrices.layer {
+                        matrices {
                             val xz = (1 - INGREDIENT_MARGIN) * (index + 1f) / (size + 1) + INGREDIENT_MARGIN - 0.5f
-                            matrices.translate(-xz, xz, -index * OFFSET)
-                            matrices.scale(INGREDIENT_SCALE, INGREDIENT_SCALE, INGREDIENT_SCALE)
+                            translate(-xz, xz, -index * OFFSET)
+                            scale(INGREDIENT_SCALE, INGREDIENT_SCALE, INGREDIENT_SCALE)
                             itemRenderer.renderItem(stack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, entity.world, 0)
                         }
                     }
