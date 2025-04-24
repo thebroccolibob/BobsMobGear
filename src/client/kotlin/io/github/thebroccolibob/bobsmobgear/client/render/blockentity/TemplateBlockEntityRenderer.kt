@@ -1,19 +1,22 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.blockentity
 
 import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
+import io.github.thebroccolibob.bobsmobgear.client.util.layer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.MathHelper.lerp
 import net.minecraft.util.math.RotationAxis
 
 @Environment(EnvType.CLIENT)
 class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<TemplateBlockEntity> {
     private val itemRenderer = ctx.itemRenderer
-    private val renderManager = ctx.renderManager
 
     override fun render(
         entity: TemplateBlockEntity,
@@ -23,39 +26,76 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         light: Int,
         overlay: Int
     ) {
-        matrices.push()
-        matrices.translate(0.5f, TEMPLATE_HEIGHT, 0.5f)
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90f))
-        matrices.scale(BASE_SCALE, BASE_SCALE, BASE_SCALE)
+        matrices.layer {
+            matrices.translate(0.5f, TEMPLATE_WIDTH, 0.5f)
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90f))
 
-        matrices.push()
-        matrices.translate(0f, 0f, -0.5f / 16)
-        itemRenderer.renderItem(entity.baseStack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, entity.world, 0)
-        matrices.pop()
+            matrices.layer {
+                matrices.scale(BASE_SCALE, BASE_SCALE, BASE_SCALE)
 
-        entity.ingredientsInventory.filter { !it.isEmpty }.run {
-            forEachIndexed { index, stack ->
-                matrices.push()
-                val xz = (1 - INGREDIENT_MARGIN) * (index + 1f) / (size + 1) + INGREDIENT_MARGIN - 0.5f
-                matrices.translate(-xz, xz, -index * INGREDIENT_OFFSET)
-                matrices.scale(INGREDIENT_SCALE, INGREDIENT_SCALE, INGREDIENT_SCALE)
-                itemRenderer.renderItem(stack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, entity.world, 0)
-                matrices.pop()
+                matrices.layer {
+                    matrices.translate(0f, 0f, -0.5f / 16)
+                    itemRenderer.renderItem(entity.baseStack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, entity.world, 0)
+                }
+
+                entity.ingredientsInventory.filter { !it.isEmpty }.run {
+                    forEachIndexed { index, stack ->
+                        matrices.layer {
+                            val xz = (1 - INGREDIENT_MARGIN) * (index + 1f) / (size + 1) + INGREDIENT_MARGIN - 0.5f
+                            matrices.translate(-xz, xz, -index * OFFSET)
+                            matrices.scale(INGREDIENT_SCALE, INGREDIENT_SCALE, INGREDIENT_SCALE)
+                            itemRenderer.renderItem(stack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, entity.world, 0)
+                        }
+                    }
+                }
             }
+
+            renderFluid(entity, matrices, vertexConsumers, light)
+        }
+    }
+
+    private fun renderFluid(
+        entity: TemplateBlockEntity,
+        matrices: MatrixStack,
+        vertexConsumers: VertexConsumerProvider,
+        light: Int,
+    ) {
+        val fluid = entity.fluidStorage.variant.takeUnless { it.isBlank }?.fluid ?: return
+        val renderer = FluidRenderHandlerRegistry.INSTANCE.get(fluid) ?: return
+        val sprite = renderer.getFluidSprites(entity.world, entity.pos, fluid.defaultState)?.get(0) ?: return
+
+        matrices.translate(0f, 0f, -OFFSET)
+
+        val vertexConsumer = vertexConsumers.getBuffer(RenderLayers.getFluidLayer(fluid.defaultState))
+        val matrix = matrices.peek()
+        val fluidColor = renderer.getFluidColor(entity.world, entity.pos, fluid.defaultState)
+
+        fun vertex(x: Float, y: Float, u: Float, v: Float) {
+            vertexConsumer
+                .vertex(matrix, x, y, 0f)
+                .color(fluidColor)
+                .texture(u, v)
+                .light(light)
+                .normal(matrix, 0f, 0f, -1f)
         }
 
-        entity.fluidStorage.variant.takeUnless { it.isBlank }?.let {
-//            TODO()
-        }
+        val minU = lerp(MARGIN, sprite.minU, sprite.maxU)
+        val maxU = lerp(1 - MARGIN, sprite.minU, sprite.maxU)
+        val minV = lerp(MARGIN, sprite.minV, sprite.maxV)
+        val maxV = lerp(1 - MARGIN, sprite.minV, sprite.maxV)
 
-        matrices.pop()
+        vertex(-0.5f + MARGIN, -0.5f + MARGIN, maxU, maxV)
+        vertex(-0.5f + MARGIN, 0.5f - MARGIN, maxU, minV)
+        vertex(0.5f - MARGIN, 0.5f - MARGIN, minU, minV)
+        vertex(0.5f - MARGIN, -0.5f + MARGIN, minU, maxV)
     }
 
     companion object {
-        const val BASE_SCALE = 12 / 16f
-        const val TEMPLATE_HEIGHT = 2 / 16f
+        const val MARGIN = 2 / 16f
+        const val OFFSET = 1 / 256f
+        const val BASE_SCALE = 1 - 2 * MARGIN
+        const val TEMPLATE_WIDTH = 2 / 16f
         const val INGREDIENT_SCALE = 0.75f
-        const val INGREDIENT_OFFSET = 0.01f;
-        const val INGREDIENT_MARGIN = 0.3f;
+        const val INGREDIENT_MARGIN = 0.3f
     }
 }

@@ -19,8 +19,6 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.Inventories
-import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -39,7 +37,7 @@ import net.minecraft.world.event.GameEvent
 import kotlin.jvm.optionals.getOrNull
 
 class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: BlockPos, state: BlockState) :
-    BlockEntity(type, pos, state), Inventory {
+    BlockEntity(type, pos, state) {
 
     constructor(pos: BlockPos, state: BlockState) : this(BobsMobGearBlocks.TEMPLATE_BLOCK_ENTITY, pos, state)
 
@@ -89,31 +87,9 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     fun onUseItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
         val world = world ?: return false
 
-        when {
-            getMatch(getRecipeInput()) != null -> {
-                if (!stack.isIn(BobsMobGearItems.SMITHING_HAMMER_TAG)) return false
-                if (stack.isDamageable)
-                    stack.damage(1, player, hand.toEquipmentSlot())
-                // TODO sound
-                hammerHits++
-            }
-            getMatch(getRecipeInput(skipFluid = true)) != null -> {
-                if (!FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand))
-                    return false
-            }
-            !baseStack.isEmpty -> {
-                if (!(0..<ingredientsInventory.size).any { ingredientsInventory[it].isEmpty } || getMatch(getRecipeInput(withIngredient = stack, skipFluid = true, ingredientsPartial = true)) == null) return false
-
-                ingredientsInventory[ingredientsInventory.indexOf(ItemStack.EMPTY)] = stack.splitUnlessCreative(1, player)
-
-                // TODO sound
-            }
-            else -> {
-                if (getMatch(getRecipeInput(withBase = stack, skipIngredients = true, skipFluid = true)) == null) return false
-                baseStack = stack.splitUnlessCreative(1, player)
-
-                // TODO sound
-            }
+        if (!tryAddNextItem(stack, player, hand)) {
+            if (!FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand))
+                return false
         }
 
         if (!world.isClient)
@@ -128,10 +104,41 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         return true
     }
 
+    private fun tryAddNextItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
+        when {
+            getMatch(getRecipeInput()) != null -> {
+                if (!stack.isIn(BobsMobGearItems.SMITHING_HAMMER_TAG)) return false
+                if (stack.isDamageable)
+                    stack.damage(1, player, hand.toEquipmentSlot())
+                // TODO sound
+                hammerHits++
+            }
+            !baseStack.isEmpty -> {
+                // any ingredient slot is open
+                if (!(0..<ingredientsInventory.size).any { ingredientsInventory[it].isEmpty }
+                    || getMatch(getRecipeInput(withIngredient = stack, skipFluid = true, ingredientsPartial = true)) == null) return false
+
+                ingredientsInventory[ingredientsInventory.indexOf(ItemStack.EMPTY)] = stack.splitUnlessCreative(1, player)
+
+                // TODO sound
+            }
+            else -> {
+                if (getMatch(getRecipeInput(withBase = stack, skipIngredients = true, skipFluid = true)) == null) return false
+
+                baseStack = stack.splitUnlessCreative(1, player)
+
+                // TODO sound
+            }
+        }
+
+        return true
+    }
+
     private fun craft(world: World, recipe: RecipeEntry<TemplateRecipe>, input: TemplateRecipeInput) {
         val itemPos = pos.toBottomCenterPos()
         world.spawnEntity(ItemEntity(world, itemPos.x, itemPos.y, itemPos.z, recipe.value.craft(input, world.registryManager)))
-        clear()
+        clearItems()
+        clearFluid()
         world.playSound(null, pos, SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS)
         // TODO remove block
         // TODO particles
@@ -166,48 +173,18 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         return BlockEntityUpdateS2CPacket.create(this)
     }
 
-    override fun clear() {
+    fun clearItems() {
         baseStack = ItemStack.EMPTY
         ingredientsInventory.clear()
-        fluidStorage.amount = 0
-        fluidStorage.variant = FluidVariant.blank()
         hammerHits = 0
     }
 
-    override fun size(): Int = 1 + ingredientsInventory.size
-
-    override fun isEmpty(): Boolean = baseStack.isEmpty && ingredientsInventory.all { it.isEmpty }
-
-    override fun getStack(slot: Int): ItemStack = when (slot) {
-        0 -> baseStack
-        else -> ingredientsInventory[slot - 1]
+    fun clearFluid() {
+        fluidStorage.amount = 0
+        fluidStorage.variant = FluidVariant.blank()
     }
 
-    override fun removeStack(slot: Int, amount: Int): ItemStack = when (slot) {
-        0 -> baseStack.split(amount)
-        else -> Inventories.splitStack(ingredientsInventory, slot - 1, amount)
-    }.also {
-        if (!isEmpty) markDirty()
-    }
-
-    override fun removeStack(slot: Int): ItemStack = when (slot) {
-        0 -> baseStack.also { baseStack = ItemStack.EMPTY }
-        else -> Inventories.removeStack(ingredientsInventory, slot - 1)
-    }.also {
-        if (!isEmpty) markDirty()
-    }
-
-    override fun setStack(slot: Int, stack: ItemStack) {
-        when (slot) {
-            0 -> baseStack = stack
-            else -> ingredientsInventory[slot - 1] = stack
-        }
-        stack.capCount(getMaxCount(stack))
-        markDirty()
-    }
-
-    override fun canPlayerUse(player: PlayerEntity): Boolean =
-        Inventory.canPlayerUse(this, player)
+    fun getItems(): DefaultedList<ItemStack> = DefaultedList.copyOf(ItemStack.EMPTY, baseStack, *ingredientsInventory.toTypedArray())
 
     companion object {
         const val HAMMER_HITS = "hammer_hits"

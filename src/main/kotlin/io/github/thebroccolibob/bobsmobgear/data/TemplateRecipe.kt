@@ -54,7 +54,7 @@ class TemplateRecipe(
             && base.test(input.base)
             && (input.fluid == null || fluid == input.fluid)
             && (input.fluidAmount == null || input.fluidAmount >= fluidAmount)
-            && (input.ingredients == null || ((input.ingredientsPartial || input.ingredients.size == ingredients.size)
+            && (input.ingredients == null || ((if (input.ingredientsPartial) input.ingredients.size <= ingredients.size else input.ingredients.size == ingredients.size)
                 && (ingredients zip input.ingredients).all { (ingredient, stack) -> ingredient.test(stack) }))
     }
 
