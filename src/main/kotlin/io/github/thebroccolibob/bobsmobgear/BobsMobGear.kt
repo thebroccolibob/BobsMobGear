@@ -48,10 +48,16 @@ object BobsMobGear : ModInitializer {
 
 		BobsMobGearSounds.register()
 
-		ResourceManagerHelper.registerBuiltinResourcePack(id("vanilla_recipe_disable"), FabricLoader.getInstance().getModContainer(
-			MOD_ID).get(), Text.literal("Vanilla Recipe Disable"), ResourcePackActivationType.ALWAYS_ENABLED)
+		ResourceManagerHelper.registerBuiltinResourcePack(
+			id("vanilla_recipe_disable"),
+			FabricLoader.getInstance().getModContainer(MOD_ID).get(),
+			Text.literal("Vanilla Recipe Disable"),
+			ResourcePackActivationType.ALWAYS_ENABLED
+		)
 
 		UseBlockCallback.EVENT.register { player, world, hand, hitResult ->
+			if (player.isSpectator) return@register ActionResult.PASS
+
 			val stack = player[hand]
 			val state = world[hitResult.blockPos]
 			if (BobsMobGearItems.HEATED !in stack
@@ -89,6 +95,7 @@ object BobsMobGear : ModInitializer {
 
 				return@register
 			}
+
 			if (entity is LivingEntity)
 				if (entity.isWet) {
 					if (entity.age.mod(20) == 0)

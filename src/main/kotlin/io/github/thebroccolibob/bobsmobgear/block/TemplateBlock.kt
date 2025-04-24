@@ -64,12 +64,15 @@ class TemplateBlock(settings: Settings) : Block(settings), BlockEntityProvider {
 
     override fun onStateReplaced(
         state: BlockState,
-        world: World?,
-        pos: BlockPos?,
+        world: World,
+        pos: BlockPos,
         newState: BlockState,
         moved: Boolean
     ) {
-        ItemScatterer.onStateReplaced(state, newState, world, pos)
+        if (!state.isOf(newState.block))
+            (world.getBlockEntity(pos) as? TemplateBlockEntity)?.let {
+                ItemScatterer.spawn(world, pos, it.getItems())
+            }
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 

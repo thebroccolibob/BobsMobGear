@@ -6,7 +6,8 @@
 		"AbstractCauldronBlockInvoker",
 		"ItemEntityMixin",
 		"ItemStackMixin",
-		"LeveledCauldronBlockInvoker"
+		"LeveledCauldronBlockInvoker",
+		"AbstractBlockStateMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

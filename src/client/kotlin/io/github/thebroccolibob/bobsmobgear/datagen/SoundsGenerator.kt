@@ -72,7 +72,7 @@ class SoundsGenerator(
     companion object {
         fun subtitleOf(soundEvent: SoundEvent) = soundEvent.id.let {
             val split = it.path.indexOf('.')
-            "${it.path.substring(0, split)}.${it.namespace}${it.path.substring(split)}"
+            "subtitles.${it.path.substring(0, split)}.${it.namespace}${it.path.substring(split)}"
         }
 
         val FLOAT_SUPPLIER_CODEC: Codec<FloatSupplier> = ConstantFloatProvider.VALUE_CODEC.flatComapMap(

@@ -1,6 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.add
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -16,6 +18,9 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         registryLookup: RegistryWrapper.WrapperLookup,
         translationBuilder: TranslationBuilder
     ) {
+        translationBuilder.add(BobsMobGearBlocks.SWORD_TEMPLATE, "Sword Template")
+        translationBuilder.add(BobsMobGearItems.SMITHING_HAMMER_TAG, "Smithing Hammers")
+
         translationBuilder.add(BobsMobGearClient.HEATED_TOOLTIP, "Heated")
 
         translationBuilder.add(BobsMobGearSounds.TEMPLATE_CRAFT, "Tool crafts")

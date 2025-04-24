@@ -6,13 +6,13 @@
       "minecraft:entity/itemframe/add_item3",
       "minecraft:entity/itemframe/add_item4"
     ],
-    "subtitle": "block.bobsmobgear.template.add_item"
+    "subtitle": "subtitles.block.bobsmobgear.template.add_item"
   },
   "block.template.craft": {
     "sounds": [
       "minecraft:random/break"
     ],
-    "subtitle": "block.bobsmobgear.template.craft"
+    "subtitle": "subtitles.block.bobsmobgear.template.craft"
   },
   "block.template.hammer": {
     "sounds": [
@@ -20,7 +20,7 @@
       "bobsmobgear:hammer2",
       "bobsmobgear:hammer3"
     ],
-    "subtitle": "block.bobsmobgear.template.hammer"
+    "subtitle": "subtitles.block.bobsmobgear.template.hammer"
   },
   "block.template.remove_item": {
     "sounds": [
@@ -29,6 +29,6 @@
       "minecraft:entity/itemframe/remove_item3",
       "minecraft:entity/itemframe/remove_item4"
     ],
-    "subtitle": "block.bobsmobgear.template.remove_item"
+    "subtitle": "subtitles.block.bobsmobgear.template.remove_item"
   }
 }
