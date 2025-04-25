@@ -5,7 +5,7 @@ import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.client.util.AlternateCodec
+import io.github.thebroccolibob.bobsmobgear.util.AlternateCodec
 import io.github.thebroccolibob.bobsmobgear.client.util.Sound
 import io.github.thebroccolibob.bobsmobgear.client.util.SoundEntry
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds

@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:block/template",
+  "textures": {
+    "side": "bobsmobgear:block/template_side_metal"
+  }
+}

@@ -15,6 +15,7 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.MathHelper.lerp
 import net.minecraft.util.math.RotationAxis
+import kotlin.math.max
 
 @Environment(EnvType.CLIENT)
 class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<TemplateBlockEntity> {
@@ -72,7 +73,10 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         val vertexConsumer = vertexConsumers.getBuffer(RenderLayers.getFluidLayer(fluid.defaultState))
         val matrix = matrices.peek()
         val fluidColor = renderer.getFluidColor(entity.world, entity.pos, fluid.defaultState)
-        val fluidLight = LightmapTextureManager.pack(fluid.defaultState.blockState.luminance, LightmapTextureManager.getSkyLightCoordinates(light))
+        val fluidLight = LightmapTextureManager.pack(
+            max(LightmapTextureManager.getBlockLightCoordinates(light), fluid.defaultState.blockState.luminance),
+            LightmapTextureManager.getSkyLightCoordinates(light)
+        )
 
         fun vertex(x: Float, y: Float, u: Float, v: Float) {
             vertexConsumer

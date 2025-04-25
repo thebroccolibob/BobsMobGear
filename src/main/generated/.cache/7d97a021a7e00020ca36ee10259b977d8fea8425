@@ -1,4 +1,5 @@
-// 1.21.1	2025-04-24T00:36:57.304969795	Bob's Mob Gear/Model Definitions
-dba12d96367b02b11f45be00a948765f67f64b06 assets/bobsmobgear/blockstates/sword_template.json
-8252cb58cc1b2cdb502d56508228fbcc2b7d78e4 assets/bobsmobgear/models/item/sword_template.json
-f6ec4b71fdf247dccb30a57bff42ed3b7e8e3163 assets/bobsmobgear/models/block/sword_template.json
+// 1.21.1	2025-04-24T23:24:47.611966327	Bob's Mob Gear/Model Definitions
+964fd2f5b86dd516da5e92fe23a72e4d6655bd74 assets/bobsmobgear/blockstates/sword_template.json
+93ff09368420da0e71035252ac544be0e8611c69 assets/bobsmobgear/models/block/sword_template_metal.json
+ce052d58cc23f1204286aa0e429aaa8d2bcf98fa assets/bobsmobgear/models/item/sword_template.json
+14d8703c68dcf7a6ca0a4c9ca977f85314c0062e assets/bobsmobgear/models/block/sword_template_wood.json

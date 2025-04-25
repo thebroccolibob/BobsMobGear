@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "bobsmobgear:block/sword_template"
+    "layer0": "bobsmobgear:block/sword_template_wood"
   }
 }

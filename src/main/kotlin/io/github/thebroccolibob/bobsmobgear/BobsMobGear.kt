@@ -83,7 +83,7 @@ object BobsMobGear : ModInitializer {
 			val inCauldron = (state isOf Blocks.WATER_CAULDRON || state isOf Blocks.POWDER_SNOW_CAULDRON)
 					&& (Blocks.WATER_CAULDRON as AbstractCauldronBlockInvoker).invokeIsEntityTouchingFluid(state, entity.blockPos, entity)
 
-			if (entity.isInsideWaterOrBubbleColumn || inCauldron || entity.inPowderSnow) {
+			if (entity.isInsideWaterOrBubbleColumn || inCauldron || entity.wasInPowderSnow) {
 				stack.remove(BobsMobGearItems.HEATED)
 				entity.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1f, 1f)
 				(entity.world as? ServerWorld)?.run {

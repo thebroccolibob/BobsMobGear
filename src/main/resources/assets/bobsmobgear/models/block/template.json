@@ -1,7 +1,6 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "side": "bobsmobgear:block/template_side",
     "particle": "#top"
   },
   "elements": [

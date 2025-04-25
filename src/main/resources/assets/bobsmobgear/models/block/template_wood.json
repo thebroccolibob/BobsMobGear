@@ -1,6 +1,6 @@
 {
   "parent": "bobsmobgear:block/template",
   "textures": {
-    "top": "bobsmobgear:block/sword_template"
+    "side": "bobsmobgear:block/template_side_wood"
   }
 }

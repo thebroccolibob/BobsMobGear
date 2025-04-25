@@ -1,6 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
 import com.mojang.datafixers.util.Function8
+import com.mojang.datafixers.util.Pair
+import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
+import com.mojang.serialization.DynamicOps
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
@@ -9,6 +13,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
+import java.util.*
 import java.util.function.Function
 
 /**
@@ -83,3 +88,36 @@ class DefaultedListPacketCodec<B : ByteBuf, V>(private val elementCodec: PacketC
 fun <T> tagKeyPacketCodec(registry: RegistryKey<out Registry<T>>): PacketCodec<ByteBuf, TagKey<T>> =
     Identifier.PACKET_CODEC.xmap({ TagKey.of(registry, it) }, { it.id })
 
+/**
+ * A codec that has two codecs that deserialize to the same type
+ */
+class AlternateCodec<A>(
+    private val first: Codec<A>,
+    private val second: Codec<A>,
+    private val useSecond: (A) -> Boolean,
+) : Codec<A> {
+    override fun <T : Any> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<A, T>> {
+        first.decode(ops, input).let {
+            return if (it.result().isPresent) it else second.decode(ops, input)
+        }
+    }
+
+    override fun <T : Any> encode(input: A, ops: DynamicOps<T>, prefix: T): DataResult<T> {
+        return (if (useSecond(input)) second else first).encode(input, ops, prefix)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+        return (other as AlternateCodec<*>).let {
+            first == it.first && second == it.second && useSecond == it.useSecond
+        }
+    }
+
+    override fun hashCode() = Objects.hash(first, second, useSecond)
+
+    override fun toString(): String = "AlternateCodec[$first, $second]"
+}
+
+fun <A> Codec<A>.singleOrList(): Codec<List<A>> =
+    AlternateCodec(this.listOf(), this.xmap({ listOf(it) }, { it[0] })) { it.size == 1 }
