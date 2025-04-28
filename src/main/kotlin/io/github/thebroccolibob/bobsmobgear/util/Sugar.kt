@@ -9,6 +9,8 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.ToolMaterial
+import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -19,6 +21,22 @@ inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock
 
 fun <T: BlockEntity> BlockEntityType(factory: BlockEntityType.BlockEntityFactory<T>, vararg blocks: Block): BlockEntityType<T> =
     BlockEntityType.Builder.create(factory, *blocks).build()
+
+fun ToolMaterial(
+    attackDamage: Float,
+    durability: Int,
+    enchantability: Int,
+    inverseTag: TagKey<Block>,
+    miningSpeedMultiplier: Float,
+    repairIngredient: Ingredient,
+) = object : ToolMaterial {
+    override fun getAttackDamage(): Float = attackDamage
+    override fun getDurability(): Int = durability
+    override fun getEnchantability(): Int = enchantability
+    override fun getInverseTag(): TagKey<Block> = inverseTag
+    override fun getMiningSpeedMultiplier(): Float = miningSpeedMultiplier
+    override fun getRepairIngredient(): Ingredient = repairIngredient
+}
 
 operator fun LivingEntity.get(hand: Hand): ItemStack = getStackInHand(hand)
 operator fun LivingEntity.get(slot: EquipmentSlot): ItemStack = getEquippedStack(slot)

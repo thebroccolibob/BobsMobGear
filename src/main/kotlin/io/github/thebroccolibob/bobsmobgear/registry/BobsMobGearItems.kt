@@ -1,6 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.item.FLESH_GLOVE_MATERIAL
+import io.github.thebroccolibob.bobsmobgear.item.FleshGloveItem
 import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.Items
@@ -9,6 +11,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.util.Rarity
 import net.minecraft.util.Unit as MCUnit
 
 object BobsMobGearItems {
@@ -22,6 +25,16 @@ object BobsMobGearItems {
 
     val SWORD_TEMPLATE = Items.register(BobsMobGearBlocks.SWORD_TEMPLATE)
 
+    val FLESH_GLOVE = register("flesh_glove",
+        FleshGloveItem(
+            FLESH_GLOVE_MATERIAL,
+            2,
+            Item.Settings()
+                .maxCount(1)
+                .rarity(Rarity.COMMON)
+        )
+    )
+
     // COMPONENTS
 
     val HEATED = register<MCUnit>("heated") {
@@ -33,3 +46,5 @@ object BobsMobGearItems {
 
     fun register() {}
 }
+
+
