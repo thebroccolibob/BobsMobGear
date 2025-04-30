@@ -1,5 +1,9 @@
-// 1.21.1	2025-04-30T01:14:03.88373988	Bob's Mob Gear/Model Definitions
+// 1.21.1	2025-04-30T01:39:37.433218664	Bob's Mob Gear/Model Definitions
 964fd2f5b86dd516da5e92fe23a72e4d6655bd74 assets/bobsmobgear/blockstates/sword_template.json
 93ff09368420da0e71035252ac544be0e8611c69 assets/bobsmobgear/models/block/sword_template_metal.json
+d28755e9f46e6794896ebc267609b18813094918 assets/bobsmobgear/models/item/empty_pot.json
+ebfe20d58f5e35558aec49ea33a1f0cae2a3e914 assets/bobsmobgear/models/item/diamond_pot.json
 ce052d58cc23f1204286aa0e429aaa8d2bcf98fa assets/bobsmobgear/models/item/sword_template.json
+b631ecc241b5a59127ec5b0aa8e051986137688f assets/bobsmobgear/models/item/iron_pot.json
 14d8703c68dcf7a6ca0a4c9ca977f85314c0062e assets/bobsmobgear/models/block/sword_template_wood.json
+6cb0542680762f6bdc6ad665eb99b92ed251794b assets/bobsmobgear/models/item/netherite_pot.json

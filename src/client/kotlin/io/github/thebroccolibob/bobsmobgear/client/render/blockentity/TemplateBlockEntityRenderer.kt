@@ -67,6 +67,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         val fluid = entity.fluidStorage.variant.takeUnless { it.isBlank }?.fluid ?: return
         val renderer = FluidRenderHandlerRegistry.INSTANCE.get(fluid) ?: return
         val sprite = renderer.getFluidSprites(entity.world, entity.pos, fluid.defaultState)?.get(0) ?: return
+        val fluidProgress = entity.fluidStorage.amount.toFloat() / entity.fluidStorage.capacity
 
         matrices.translate(0f, 0f, -OFFSET)
 
@@ -92,10 +93,16 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         val minV = lerp(MARGIN, sprite.minV, sprite.maxV)
         val maxV = lerp(1 - MARGIN, sprite.minV, sprite.maxV)
 
-        vertex(-0.5f + MARGIN, -0.5f + MARGIN, maxU, maxV)
-        vertex(-0.5f + MARGIN, 0.5f - MARGIN, maxU, minV)
-        vertex(0.5f - MARGIN, 0.5f - MARGIN, minU, minV)
-        vertex(0.5f - MARGIN, -0.5f + MARGIN, minU, maxV)
+        val minY = -0.5f + MARGIN
+        val maxY = 0.5f - MARGIN
+
+        val displayY = lerp(fluidProgress, minY, maxY)
+        val displayV = lerp(fluidProgress, maxV, minV)
+
+        vertex(-0.5f + MARGIN, minY, maxU, maxV)
+        vertex(-0.5f + MARGIN, displayY, maxU, displayV)
+        vertex(0.5f - MARGIN, displayY, minU, displayV)
+        vertex(0.5f - MARGIN, minY, minU, maxV)
     }
 
     companion object {

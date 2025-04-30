@@ -48,26 +48,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         private set
     var ingredientsInventory: DefaultedList<ItemStack> = DefaultedList.ofSize(9, ItemStack.EMPTY)
         private set
-    val fluidStorage: SingleVariantStorage<FluidVariant> = object : SingleVariantStorage<FluidVariant>() {
-        override fun getCapacity(variant: FluidVariant): Long = FluidConstants.BUCKET
-
-        override fun getBlankVariant(): FluidVariant = FluidVariant.blank()
-
-        override fun canInsert(variant: FluidVariant): Boolean {
-            return super.canInsert(variant) && getMatch(getRecipeInput(withFluid = variant)) != null
-        }
-
-        override fun onFinalCommit() {
-            markDirty()
-            // TODO networking?
-//            if (world?.isClient != false) return
-//            val buf = PacketByteBufs.create();
-//            // Write your data here.
-//            PlayerLookup.tracking(this@TemplateBlockEntity).forEach { player ->
-//                ServerPlayNetworking.send(player, YOUR_IDENTIFIER, buf);
-//            }
-        }
-    }
+    val fluidStorage = TemplateFluidStorage()
 
     fun getRecipeInput(
         withBase: ItemStack? = null,
@@ -176,6 +157,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         baseStack = ItemStack.fromNbtOrEmpty(registryLookup, nbt.getCompound(BASE_STACK))
         ingredientsInventory = DefaultedList.copyOf(ItemStack.EMPTY, *nbt.getList(INGREDIENTS, NbtElement.COMPOUND_TYPE).map { ItemStack.fromNbtOrEmpty(registryLookup, it as NbtCompound) }.extend(9, ItemStack.EMPTY).toTypedArray())
         SingleVariantStorage.readNbt(fluidStorage, FluidVariant.CODEC, { FluidVariant.blank() }, nbt.getCompound(FLUID_STORAGE), registryLookup)
+        fluidStorage.updateRecipe()
     }
 
     override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound =
@@ -206,4 +188,34 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
         private const val REQUIRED_HAMMERS = 3
     }
+
+    inner class TemplateFluidStorage : SingleVariantStorage<FluidVariant>() {
+        private var recipe: TemplateRecipe? = null
+
+        override fun getCapacity(variant: FluidVariant): Long = recipe?.fluidAmount ?: FluidConstants.BUCKET
+
+        override fun getBlankVariant(): FluidVariant = FluidVariant.blank()
+
+        override fun canInsert(variant: FluidVariant): Boolean {
+            return super.canInsert(variant) && getMatch(getRecipeInput(withFluid = variant)) != null
+        }
+
+        fun updateRecipe() {
+            getMatch(getRecipeInput(withFluid = variant))?.let { recipe = it.value }
+        }
+
+        override fun onFinalCommit() {
+            updateRecipe()
+            markDirty()
+
+            // TODO networking?
+//            if (world?.isClient != false) return
+//            val buf = PacketByteBufs.create();
+//            // Write your data here.
+//            PlayerLookup.tracking(this@TemplateBlockEntity).forEach { player ->
+//                ServerPlayNetworking.send(player, YOUR_IDENTIFIER, buf);
+//            }
+        }
+    }
+
 }

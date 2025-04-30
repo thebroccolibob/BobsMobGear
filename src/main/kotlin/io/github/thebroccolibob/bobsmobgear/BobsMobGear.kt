@@ -3,7 +3,6 @@ package io.github.thebroccolibob.bobsmobgear
 import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.event.ItemTickCallback
 import io.github.thebroccolibob.bobsmobgear.mixin.AbstractCauldronBlockInvoker
-import io.github.thebroccolibob.bobsmobgear.mixin.LeveledCauldronBlockInvoker
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
@@ -73,7 +72,6 @@ object BobsMobGear : ModInitializer {
 				val particlePos = hitResult.blockPos.toCenterPos().add(0.0, 0.4, 0.0)
 				spawnParticles(ParticleTypes.CLOUD, particlePos.x, particlePos.y, particlePos.z, 4, 0.25, 0.125, 0.25, 0.0)
 			}
-			(state.block as? LeveledCauldronBlockInvoker)?.invokeOnFireCollision(state, world, hitResult.blockPos)
 
 			ActionResult.SUCCESS
 		}
@@ -82,18 +80,19 @@ object BobsMobGear : ModInitializer {
 			if (BobsMobGearItems.HEATED !in stack) return@register
 
 			val state = entity.blockStateAtPos
-			val inCauldron = (state isOf Blocks.WATER_CAULDRON || state isOf Blocks.POWDER_SNOW_CAULDRON)
-					&& (Blocks.WATER_CAULDRON as AbstractCauldronBlockInvoker).invokeIsEntityTouchingFluid(state, entity.blockPos, entity)
 
-			if (entity.isInsideWaterOrBubbleColumn || inCauldron || entity.wasInPowderSnow) {
+			if (entity.isInsideWaterOrBubbleColumn
+				|| (
+						(state isOf Blocks.WATER_CAULDRON || state isOf Blocks.POWDER_SNOW_CAULDRON)
+						&& (Blocks.WATER_CAULDRON as AbstractCauldronBlockInvoker).invokeIsEntityTouchingFluid(state, entity.blockPos, entity))
+				|| entity.wasInPowderSnow) {
+
 				stack.remove(BobsMobGearItems.HEATED)
 				entity.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1f, 1f)
 				(entity.world as? ServerWorld)?.run {
 					val particlePos = Vec3d(entity.x, entity.getBodyY(0.5), entity.z)
 					spawnParticles(ParticleTypes.CLOUD, particlePos.x, particlePos.y, particlePos.z, 4, 0.25, 0.125, 0.25, 0.0)
 				}
-				if (inCauldron)
-					(state.block as? LeveledCauldronBlockInvoker)?.invokeOnFireCollision(state, entity.world, entity.blockPos)
 
 				return@register
 			}

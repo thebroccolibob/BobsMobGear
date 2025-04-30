@@ -1,9 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.item.FluidPotItem
 import io.github.thebroccolibob.bobsmobgear.item.FLESH_GLOVE_MATERIAL
 import io.github.thebroccolibob.bobsmobgear.item.FleshGloveItem
+import io.github.thebroccolibob.bobsmobgear.item.FluidPotItem
 import io.github.thebroccolibob.bobsmobgear.util.itemSettings
 import io.github.thebroccolibob.bobsmobgear.util.plus
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
@@ -67,7 +67,7 @@ object BobsMobGearItems {
     )
 
     val EMPTY_POT = register("empty_pot", FluidPotItem(Fluids.EMPTY, itemSettings {
-        maxCount(1)
+        maxCount(16)
     }))
 
     val IRON_POT = registerPot(BobsMobGearFluids.IRON)

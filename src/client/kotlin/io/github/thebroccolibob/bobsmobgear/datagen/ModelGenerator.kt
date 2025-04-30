@@ -5,10 +5,12 @@ import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.client.util.BlockStateVariant
 import io.github.thebroccolibob.bobsmobgear.client.util.variantYRotation
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.*
+import net.minecraft.item.Item
 import java.util.*
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
@@ -18,6 +20,10 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
         itemModelGenerator.registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
+        itemModelGenerator.registerGenerated(BobsMobGearItems.EMPTY_POT)
+        itemModelGenerator.registerGenerated(BobsMobGearItems.IRON_POT)
+        itemModelGenerator.registerGenerated(BobsMobGearItems.DIAMOND_POT)
+        itemModelGenerator.registerGenerated(BobsMobGearItems.NETHERITE_POT)
     }
 
     companion object {
@@ -29,6 +35,10 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
 
         fun ItemModelGenerator.registerTemplate(template: Block) {
             Models.GENERATED.upload(ModelIds.getItemModelId(template.asItem()), TextureMap.layer0(TextureMap.getSubId(template, "_wood")), writer)
+        }
+
+        fun ItemModelGenerator.registerGenerated(item: Item) {
+            register(item, Models.GENERATED)
         }
 
         fun BlockStateModelGenerator.registerStates(block: Block, variantMap: BlockStateVariantMap) {

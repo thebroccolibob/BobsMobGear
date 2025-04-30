@@ -16,9 +16,9 @@ object BobsMobGearFluids {
     private fun tagOf(id: Identifier): TagKey<Fluid> = TagKey.of(RegistryKeys.FLUID, id)
     private fun tagOf(path: String) = tagOf(BobsMobGear.id(path))
 
-    val IRON = register("iron", MetalFluid(0x00ff00))
-    val DIAMOND = register("diamond", MetalFluid(0x00ffff))
-    val NETHERITE = register("netherite", MetalFluid(0x111111))
+    val IRON = register("iron", MetalFluid(0xD8AF93))
+    val DIAMOND = register("diamond", MetalFluid(0x20C5B5))
+    val NETHERITE = register("netherite", MetalFluid(0x5D342C))
 
     val LIQUID_METALS = listOf(IRON, DIAMOND, NETHERITE)
 

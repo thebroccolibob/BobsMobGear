@@ -17,6 +17,8 @@ object BobsMobGearClient : ClientModInitializer {
 		formatted(Formatting.GOLD)
 	}
 
+	val LIQUID_METAL_TEXTURE = BobsMobGear.id("block/liquid_metal");
+
 	override fun onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 		BlockEntityRendererFactories.register(BobsMobGearBlocks.TEMPLATE_BLOCK_ENTITY, ::TemplateBlockEntityRenderer)
@@ -28,8 +30,8 @@ object BobsMobGearClient : ClientModInitializer {
 
 		for (fluid in BobsMobGearFluids.LIQUID_METALS)
 			FluidRenderHandlerRegistry.INSTANCE.register(fluid, SimpleFluidRenderHandler(
-				SimpleFluidRenderHandler.LAVA_STILL,
-				SimpleFluidRenderHandler.LAVA_FLOWING,
+				LIQUID_METAL_TEXTURE,
+				LIQUID_METAL_TEXTURE,
 				fluid.tint
 			))
 	}
