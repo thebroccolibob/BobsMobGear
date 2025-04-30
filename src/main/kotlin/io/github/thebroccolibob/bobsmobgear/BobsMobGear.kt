@@ -5,6 +5,7 @@ import io.github.thebroccolibob.bobsmobgear.event.ItemTickCallback
 import io.github.thebroccolibob.bobsmobgear.mixin.AbstractCauldronBlockInvoker
 import io.github.thebroccolibob.bobsmobgear.mixin.LeveledCauldronBlockInvoker
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.get
@@ -45,6 +46,7 @@ object BobsMobGear : ModInitializer {
 
 		BobsMobGearBlocks.register()
 		BobsMobGearItems.register()
+		BobsMobGearFluids.register()
 
 		BobsMobGearSounds.register()
 

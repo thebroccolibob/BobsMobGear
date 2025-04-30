@@ -5,9 +5,9 @@
   },
   "block_below": "#bobsmobgear:smithing_surface",
   "fluid": {
-    "fluid": "minecraft:lava"
+    "fluid": "bobsmobgear:netherite"
   },
-  "fluid_amount": 81000,
+  "fluid_amount": 18000,
   "requires_hammer": true,
   "result": {
     "components": {

@@ -13,11 +13,15 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
 
 inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock.Settings =
     AbstractBlock.Settings.create().apply(init)
+
+inline fun itemSettings(init: Item.Settings.() -> Unit): Item.Settings =
+    Item.Settings().apply(init)
 
 fun <T: BlockEntity> BlockEntityType(factory: BlockEntityType.BlockEntityFactory<T>, vararg blocks: Block): BlockEntityType<T> =
     BlockEntityType.Builder.create(factory, *blocks).build()
@@ -46,3 +50,5 @@ infix fun ItemStack.isOf(item: Item) = isOf(item)
 infix fun ItemStack.isIn(tag: TagKey<Item>) = isIn(tag)
 infix fun BlockState.isOf(block: Block) = isOf(block)
 infix fun BlockState.isIn(tag: TagKey<Block>) = isIn(tag)
+
+operator fun Identifier.plus(suffix: String): Identifier = withSuffixedPath(suffix)

@@ -3,7 +3,9 @@ package io.github.thebroccolibob.bobsmobgear.datagen
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.util.set
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
@@ -12,7 +14,6 @@ import net.minecraft.advancement.AdvancementRequirements
 import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion
 import net.minecraft.data.server.recipe.RecipeExporter
-import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
@@ -21,7 +22,6 @@ import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
 import java.util.concurrent.CompletableFuture
-import net.minecraft.util.Unit as MCUnit
 
 class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricRecipeProvider(output, registriesFuture) {
@@ -51,11 +51,11 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 BobsMobGearBlocks.SMITHING_SURFACE,
                 Ingredient.ofItems(Items.STONE_SWORD),
                 DefaultedList.of(),
-                FluidVariant.of(Fluids.LAVA), // TODO liquid iron
-                FluidConstants.BUCKET,
+                FluidVariant.of(BobsMobGearFluids.IRON),
+                2 * FluidConstants.INGOT,
                 true,
-                ItemStack(Items.IRON_SWORD, 1).also {
-                    it[BobsMobGearItems.HEATED] = MCUnit.INSTANCE
+                ItemStack(Items.IRON_SWORD, 1).apply {
+                    set(BobsMobGearItems.HEATED)
                 }
             ),
             exporter
@@ -67,11 +67,11 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 BobsMobGearBlocks.SMITHING_SURFACE,
                 Ingredient.ofItems(Items.IRON_SWORD),
                 DefaultedList.of(),
-                FluidVariant.of(Fluids.LAVA), // TODO liquid diamond
-                FluidConstants.BUCKET,
+                FluidVariant.of(BobsMobGearFluids.DIAMOND),
+                2 * FluidConstants.INGOT,
                 true,
-                ItemStack(Items.DIAMOND_SWORD).also {
-                    it[BobsMobGearItems.HEATED] = MCUnit.INSTANCE
+                ItemStack(Items.DIAMOND_SWORD).apply {
+                    set(BobsMobGearItems.HEATED)
                 }
             ),
             exporter
@@ -83,11 +83,11 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 BobsMobGearBlocks.SMITHING_SURFACE,
                 Ingredient.ofItems(Items.DIAMOND_SWORD),
                 DefaultedList.of(),
-                FluidVariant.of(Fluids.LAVA), // TODO liquid netherite
-                FluidConstants.BUCKET,
+                FluidVariant.of(BobsMobGearFluids.NETHERITE),
+                2 * FluidConstants.INGOT,
                 true,
-                ItemStack(Items.NETHERITE_SWORD).also {
-                    it[BobsMobGearItems.HEATED] = MCUnit.INSTANCE
+                ItemStack(Items.NETHERITE_SWORD).apply {
+                    set(BobsMobGearItems.HEATED)
                 }
             ),
             exporter

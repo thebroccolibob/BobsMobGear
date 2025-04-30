@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
+import net.minecraft.component.ComponentType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -8,6 +9,7 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.util.Hand
 import java.util.*
 import kotlin.math.roundToInt
+import net.minecraft.util.Unit as MCUnit
 
 fun List<NbtElement>.toNbtList() = NbtList().apply {
     this@toNbtList.forEach(::add)
@@ -31,4 +33,8 @@ fun Number.isWhole(): Boolean = when (this) {
     is Float -> this == roundToInt().toFloat()
     is Double -> this == roundToInt().toDouble()
     else -> toDouble().isWhole()
+}
+
+fun ItemStack.set(component: ComponentType<MCUnit>) {
+    this[component] = MCUnit.INSTANCE
 }
