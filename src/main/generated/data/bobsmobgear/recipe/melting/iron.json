@@ -1,0 +1,11 @@
+{
+  "type": "bobsmobgear:forge_melting",
+  "forging_time": 200,
+  "ingredients": {
+    "tag": "c:ores/iron"
+  },
+  "result": {
+    "fluid": "bobsmobgear:iron"
+  },
+  "result_amount": 9000
+}

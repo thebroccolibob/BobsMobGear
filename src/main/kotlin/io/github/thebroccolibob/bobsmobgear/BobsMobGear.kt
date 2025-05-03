@@ -1,16 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear
 
-import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
@@ -26,12 +20,10 @@ object BobsMobGear : ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
-		Registry.register(Registries.RECIPE_SERIALIZER, id("template"), TemplateRecipe)
-		Registry.register(Registries.RECIPE_TYPE, id("template"), TemplateRecipe)
-
 		BobsMobGearBlocks.register()
 		BobsMobGearItems.register()
 		BobsMobGearFluids.register()
+		registerBobsMobGearRecipes()
 
 		BobsMobGearSounds.register()
 

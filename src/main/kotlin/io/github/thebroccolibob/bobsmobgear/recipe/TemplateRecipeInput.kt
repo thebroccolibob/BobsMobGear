@@ -1,4 +1,4 @@
-package io.github.thebroccolibob.bobsmobgear.data
+package io.github.thebroccolibob.bobsmobgear.recipe
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block

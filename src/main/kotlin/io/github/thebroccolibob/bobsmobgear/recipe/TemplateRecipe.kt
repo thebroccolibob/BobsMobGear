@@ -1,4 +1,4 @@
-package io.github.thebroccolibob.bobsmobgear.data
+package io.github.thebroccolibob.bobsmobgear.recipe
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
@@ -69,9 +69,9 @@ class TemplateRecipe(
 
     override fun getResult(registriesLookup: WrapperLookup): ItemStack = result
 
-    override fun getSerializer(): RecipeSerializer<*> = SerializerAndType
+    override fun getSerializer(): RecipeSerializer<TemplateRecipe> = TemplateRecipe
 
-    override fun getType(): RecipeType<TemplateRecipe> = SerializerAndType
+    override fun getType(): RecipeType<TemplateRecipe> = TemplateRecipe
 
     override fun createIcon(): ItemStack = template.asItem().defaultStack
 
@@ -83,8 +83,7 @@ class TemplateRecipe(
                 Registries.BLOCK.codec.fieldOf("template").forGetter(TemplateRecipe::template),
                 TagKey.codec(RegistryKeys.BLOCK).optionalFieldOf("block_below").forGetter(TemplateRecipe::blockBelow),
                 Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("base").forGetter(TemplateRecipe::base),
-                Ingredient.DISALLOW_EMPTY_CODEC.listOf().xmap({ DefaultedList.copyOf(Ingredient.EMPTY, *it.toTypedArray()) }, { it })
-                    .optionalFieldOf("ingredients", DefaultedList.of()).forGetter(TemplateRecipe::ingredients),
+                Ingredient.DISALLOW_EMPTY_CODEC.listOf().defaultedList(Ingredient.EMPTY).optionalFieldOf("ingredients", DefaultedList.of()).forGetter(TemplateRecipe::ingredients),
                 FluidVariant.CODEC.optionalFieldOf("fluid", FluidVariant.blank()).forGetter(TemplateRecipe::fluid),
                 Codec.LONG.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),
                 Codec.BOOL.optionalFieldOf("requires_hammer", false).forGetter(TemplateRecipe::requiresHammer),

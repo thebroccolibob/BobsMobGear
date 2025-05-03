@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
+import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Function8
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Codec
@@ -121,3 +122,25 @@ class AlternateCodec<A>(
 
 fun <A> Codec<A>.singleOrList(): Codec<List<A>> =
     AlternateCodec(this.listOf(), this.xmap({ listOf(it) }, { it[0] })) { it.size == 1 }
+
+inline fun <T, reified T1 : T, reified T2: T> polymorphCodec(first: Codec<T1>, second: Codec<T2>): Codec<T> =
+    Codec.either(first, second).flatComapMap(
+        { either -> either.map({ it }, { it }) },
+        { when (it) {
+            is T1 -> DataResult.success(Either.left(it))
+            is T2 -> DataResult.success(Either.right(it))
+            else -> DataResult.error { "Polymorph codec error: $it was not of type ${T1::class.simpleName} or ${T2::class.simpleName}" }
+        } }
+    )
+
+inline fun <S: ByteBuf, T, reified T1 : T, reified T2: T> polymorphCodec(first: PacketCodec<S, T1>, second: PacketCodec<S, T2>): PacketCodec<S, T> =
+    PacketCodecs.either(first, second).xmap (
+        { either -> either.map({ it }, { it }) },
+        { when (it) {
+            is T1 -> Either.left(it)
+            is T2 -> Either.right(it)
+            else -> throw AssertionError("Polymorph codec error: $it was not of type ${T1::class.simpleName} or ${T2::class.simpleName}")
+        } }
+    )
+
+inline fun <reified T> Codec<List<T>>.defaultedList(defaultValue: T): Codec<DefaultedList<T>> = xmap({ DefaultedList.copyOf(defaultValue, *it.toTypedArray()) }, { it })

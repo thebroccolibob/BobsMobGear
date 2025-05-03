@@ -1,13 +1,17 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.FluidIngredient
+import io.github.thebroccolibob.bobsmobgear.recipe.ForgeAlloyingRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.ForgeMeltingRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.set
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.advancement.AdvancementRequirements
@@ -32,7 +36,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 BobsMobGearBlocks.SWORD_TEMPLATE,
                 null,
                 Ingredient.ofItems(Items.WOODEN_SWORD),
-                DefaultedList.copyOf(Ingredient.EMPTY,
+                ingredientList(
                     Ingredient.ofItems(Items.COBBLESTONE),
                     Ingredient.ofItems(Items.COBBLESTONE),
                     Ingredient.ofItems(Items.STRING)
@@ -92,6 +96,58 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             ),
             exporter
         )
+
+        acceptForgeMeltingRecipe(
+            ForgeMeltingRecipe(
+                ingredientList(Ingredient.fromTag(ConventionalItemTags.IRON_ORES)),
+                FluidVariant.of(BobsMobGearFluids.IRON),
+                FluidConstants.INGOT,
+                200,
+            ),
+            exporter
+        )
+
+        acceptForgeMeltingRecipe(
+            ForgeMeltingRecipe(
+                ingredientList(Ingredient.fromTag(ConventionalItemTags.DIAMOND_ORES)),
+                FluidVariant.of(BobsMobGearFluids.DIAMOND),
+                FluidConstants.INGOT,
+                200,
+            ),
+            exporter
+        )
+
+        acceptForgeMeltingRecipe(
+            ForgeMeltingRecipe(
+                ingredientList(Ingredient.fromTag(ConventionalItemTags.GOLD_ORES)),
+                FluidVariant.of(BobsMobGearFluids.GOLD),
+                FluidConstants.INGOT,
+                200
+            ),
+            exporter
+        )
+
+        acceptForgeMeltingRecipe(
+            ForgeMeltingRecipe(
+                ingredientList(Ingredient.fromTag(ConventionalItemTags.NETHERITE_SCRAP_ORES)),
+                FluidVariant.of(BobsMobGearFluids.NETHERITE_SCRAP),
+                BobsMobGearFluids.SCRAP_AMOUNT,
+                200,
+            ),
+            exporter
+        )
+
+        acceptForgeAlloyingRecipe(
+            ForgeAlloyingRecipe(
+                fluidIngredientList(
+                    FluidIngredient.of(4 * BobsMobGearFluids.SCRAP_AMOUNT, BobsMobGearFluids.NETHERITE_SCRAP),
+                    FluidIngredient.fromTag(4 * FluidConstants.INGOT, BobsMobGearFluids.MOLTEN_GOLD_TAG)
+                ),
+                FluidVariant.of(BobsMobGearFluids.NETHERITE),
+                FluidConstants.INGOT
+            ),
+            exporter
+        )
     }
 
     companion object {
@@ -115,5 +171,27 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
         private fun acceptTemplateRecipe(recipe: TemplateRecipe, exporter: RecipeExporter) {
             acceptTemplateRecipe(Registries.ITEM.getId(recipe.result.item).path, recipe, exporter)
         }
+
+        private fun acceptForgeMeltingRecipe(recipeId: Identifier, recipe: ForgeMeltingRecipe, exporter: RecipeExporter) {
+            exporter.accept(recipeId, recipe, null)
+        }
+
+        private fun acceptForgeMeltingRecipe(recipe: ForgeMeltingRecipe, exporter: RecipeExporter) {
+            acceptForgeMeltingRecipe(Registries.FLUID.getId(recipe.result.fluid).withPrefixedPath("melting/"), recipe, exporter)
+        }
+
+        private fun acceptForgeAlloyingRecipe(recipeId: Identifier, recipe: ForgeAlloyingRecipe, exporter: RecipeExporter) {
+            exporter.accept(recipeId, recipe, null)
+        }
+
+        private fun acceptForgeAlloyingRecipe(recipe: ForgeAlloyingRecipe, exporter: RecipeExporter) {
+            acceptForgeAlloyingRecipe(Registries.FLUID.getId(recipe.result.fluid).withPrefixedPath("alloying/"), recipe, exporter)
+        }
+
+        private fun ingredientList(vararg ingredients: Ingredient): DefaultedList<Ingredient> =
+            DefaultedList.copyOf(Ingredient.EMPTY, *ingredients)
+
+        private fun fluidIngredientList(vararg ingredients: FluidIngredient): DefaultedList<FluidIngredient> =
+            DefaultedList.copyOf(FluidIngredient.EMPTY, *ingredients)
     }
 }

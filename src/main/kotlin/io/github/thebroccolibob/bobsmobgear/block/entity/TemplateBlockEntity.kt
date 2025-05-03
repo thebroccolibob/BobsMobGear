@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
-import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.data.TemplateRecipeInput
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
