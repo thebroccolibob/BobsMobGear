@@ -78,6 +78,7 @@ object BobsMobGearItems {
 
     // COMPONENTS
 
+    @JvmField
     val HEATED = register<MCUnit>("heated") {
         codec(MCUnit.CODEC)
         packetCodec(PacketCodec.unit(MCUnit.INSTANCE))

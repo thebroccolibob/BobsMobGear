@@ -88,21 +88,17 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
                 .normal(matrix, 0f, 0f, -1f)
         }
 
-        val minU = lerp(MARGIN, sprite.minU, sprite.maxU)
-        val maxU = lerp(1 - MARGIN, sprite.minU, sprite.maxU)
-        val minV = lerp(MARGIN, sprite.minV, sprite.maxV)
-        val maxV = lerp(1 - MARGIN, sprite.minV, sprite.maxV)
+        val radius = fluidProgress * (0.5f - MARGIN)
 
-        val minY = -0.5f + MARGIN
-        val maxY = 0.5f - MARGIN
+        val minU = lerp(0.5f - radius, sprite.minU, sprite.maxU)
+        val maxU = lerp(0.5f + radius, sprite.minU, sprite.maxU)
+        val minV = lerp(0.5f - radius, sprite.minV, sprite.maxV)
+        val maxV = lerp(0.5f + radius, sprite.minV, sprite.maxV)
 
-        val displayY = lerp(fluidProgress, minY, maxY)
-        val displayV = lerp(fluidProgress, maxV, minV)
-
-        vertex(-0.5f + MARGIN, minY, maxU, maxV)
-        vertex(-0.5f + MARGIN, displayY, maxU, displayV)
-        vertex(0.5f - MARGIN, displayY, minU, displayV)
-        vertex(0.5f - MARGIN, minY, minU, maxV)
+        vertex(-radius, -radius, maxU, maxV)
+        vertex(-radius, radius, maxU, minV)
+        vertex(radius, radius, minU, minV)
+        vertex(radius, -radius, minU, maxV)
     }
 
     companion object {
