@@ -86,6 +86,12 @@ object BobsMobGearItems {
 
     // TAGS
 
+    val FORGES_IRON_INGOT = tagOf("forges/iron_ingot")
+    val FORGES_DIAMOND = tagOf("forges/diamond")
+    val FORGES_GOLD_INGOT = tagOf("forges/gold_ingot")
+    val FORGES_NETHERITE_SCRAP = tagOf("forges/netherite_scrap")
+    val FORGES_NETHERITE_INGOT = tagOf("forges/netherite_ingot")
+
     val SMITHING_HAMMER_TAG = tagOf("smithing_hammer")
 
     fun register() {

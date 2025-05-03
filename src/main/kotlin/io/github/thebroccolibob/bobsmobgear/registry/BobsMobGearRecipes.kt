@@ -1,8 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.recipe.ForgeAlloyingRecipe
-import io.github.thebroccolibob.bobsmobgear.recipe.ForgeMeltingRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
@@ -16,6 +15,5 @@ private fun <T, S> register(path: String, serializerAndType: S) where S: RecipeS
 
 fun registerBobsMobGearRecipes() {
     register("template", TemplateRecipe)
-    register("forge_melting", ForgeMeltingRecipe)
-    register("forge_alloying", ForgeAlloyingRecipe)
+    register("forge_melting", ForgingRecipe)
 }

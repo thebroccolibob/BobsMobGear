@@ -2,10 +2,10 @@
   "type": "bobsmobgear:forge_melting",
   "forging_time": 200,
   "ingredients": {
-    "tag": "c:ores/diamond"
+    "tag": "bobsmobgear:forges/iron_ingot"
   },
   "result": {
-    "fluid": "bobsmobgear:diamond"
+    "fluid": "bobsmobgear:iron"
   },
   "result_amount": 9000
 }

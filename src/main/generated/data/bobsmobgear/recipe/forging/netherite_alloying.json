@@ -1,0 +1,16 @@
+{
+  "type": "bobsmobgear:forge_melting",
+  "forging_time": 200,
+  "ingredients": [
+    {
+      "tag": "bobsmobgear:forges/gold_ingot"
+    },
+    {
+      "tag": "bobsmobgear:forges/netherite_scrap"
+    }
+  ],
+  "result": {
+    "fluid": "bobsmobgear:netherite"
+  },
+  "result_amount": 2250
+}

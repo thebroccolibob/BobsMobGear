@@ -2,10 +2,10 @@
   "type": "bobsmobgear:forge_melting",
   "forging_time": 200,
   "ingredients": {
-    "tag": "c:ores/gold"
+    "tag": "bobsmobgear:forges/diamond"
   },
   "result": {
-    "fluid": "bobsmobgear:gold"
+    "fluid": "bobsmobgear:diamond"
   },
   "result_amount": 9000
 }
