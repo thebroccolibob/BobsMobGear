@@ -4,14 +4,14 @@ import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.client.util.BlockStateVariant
-import io.github.thebroccolibob.bobsmobgear.client.util.variantYRotation
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.*
-import net.minecraft.data.client.TextureMap.getSubId
+import net.minecraft.data.client.BlockStateModelGenerator.createBooleanModelMap
+import net.minecraft.data.client.BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 import java.util.*
@@ -37,6 +37,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             val bottomBackRight = of("bottom_back_right")
             val inside = of("inside")
             val side = of("side")
+            val frontLit = of("front_lit")
         }
 
         fun cube(
@@ -59,12 +60,10 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         val models = ForgeBlock.Connection.entries.associateWith { connection ->
             listOf(true, false).associateWith { lit ->
                 if (connection == ForgeBlock.Connection.NONE)
-                    Models.ORIENTABLE.upload(block, if (lit) "_lit" else "", if (lit) TextureMap().apply {
-                        put(TextureKey.SIDE, getSubId(block, "_side"))
-                        put(TextureKey.FRONT, getSubId(block, "_front_lit"))
-                        put(TextureKey.TOP, getSubId(block, "_top"))
-                        put(TextureKey.BOTTOM, getSubId(block, "_bottom"));
-                    } else TextureMap.sideFrontTopBottom(block), modelCollector)
+                    Models.ORIENTABLE.upload(block, if (lit) "_lit" else "", TextureMap.sideFrontTopBottom(block).apply {
+                        if (lit)
+                            put(TextureKey.FRONT, textures.frontLit)
+                    }, modelCollector)
                 else
                     Models.CUBE.upload(
                         block, "_${connection.id}${if (lit) "_lit" else ""}", when (connection) {
@@ -102,14 +101,13 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             }
         }
 
-        registerStates(block,
-            BlockStateVariantMap.create(ForgeBlock.CONNECTION, ForgeBlock.FACING, ForgeBlock.LIT).register { connection, facing, lit ->
+        blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
+            .coordinate(BlockStateVariantMap.create(ForgeBlock.CONNECTION, ForgeBlock.LIT).register { connection, lit ->
                 BlockStateVariant(
                     model = models[connection]!![lit]!!,
-                    y = variantYRotation(facing),
                 )
-            }
-        )
+            })
+            .coordinate(createNorthDefaultHorizontalRotationStates()))
     }
 
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
@@ -145,16 +143,13 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         }
 
         fun BlockStateModelGenerator.registerTemplate(template: Block) {
-            val woodModel = WOOD_TEMPLATE_FACTORY.upload(template, "_wood", modelCollector)
-            val metalModel = METAL_TEMPLATE_FACTORY.upload(template, "_metal", modelCollector)
-            registerStates(template,
-                BlockStateVariantMap.create(TemplateBlock.METAL, TemplateBlock.FACING).register { metal, facing ->
-                    BlockStateVariant(
-                        model = if (metal) metalModel else woodModel,
-                        y = variantYRotation(facing),
-                    )
-                }
-            )
+            blockStateCollector.accept(VariantsBlockStateSupplier.create(template).apply {
+                coordinate(createBooleanModelMap(TemplateBlock.METAL,
+                    METAL_TEMPLATE_FACTORY.upload(template, "_metal", modelCollector),
+                    WOOD_TEMPLATE_FACTORY.upload(template, "_wood", modelCollector)
+                ))
+                coordinate(createNorthDefaultHorizontalRotationStates())
+            })
         }
     }
 }
