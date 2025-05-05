@@ -9,16 +9,22 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.Properties
+import net.minecraft.util.Hand
+import net.minecraft.util.ItemActionResult
 import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3i
+import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
 class ForgeBlock(settings: Settings) : Block(settings), BlockEntityProvider {
@@ -33,7 +39,8 @@ class ForgeBlock(settings: Settings) : Block(settings), BlockEntityProvider {
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        val facing = ctx.horizontalPlayerFacing.opposite
+        val placedOn = ctx.world[ctx.blockPos.offset(ctx.side.opposite)]
+        val facing = if (!ctx.shouldCancelInteraction() && placedOn isOf this) placedOn[FACING] else ctx.horizontalPlayerFacing.opposite
 
         for (start in Connection.CONNECTED) {
             if (Connection.CONNECTED.all { check ->
@@ -73,6 +80,20 @@ class ForgeBlock(settings: Settings) : Block(settings), BlockEntityProvider {
                     return state.with(CONNECTION, check)
             return state
         }
+    }
+
+    override fun onUseWithItem(
+        stack: ItemStack,
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hand: Hand,
+        hit: BlockHitResult
+    ): ItemActionResult {
+        if (stack isOf this.asItem())
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+        TODO("Implement block entity interaction")
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = ForgeBlockEntity(pos, state)
