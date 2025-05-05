@@ -15,6 +15,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3i
 import net.minecraft.world.BlockView
 
 inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock.Settings =
@@ -52,3 +53,8 @@ infix fun BlockState.isOf(block: Block) = isOf(block)
 infix fun BlockState.isIn(tag: TagKey<Block>) = isIn(tag)
 
 operator fun Identifier.plus(suffix: String): Identifier = withSuffixedPath(suffix)
+
+operator fun Vec3i.minus(other: Vec3i): Vec3i = subtract(other)
+operator fun BlockPos.minus(other: Vec3i): BlockPos = subtract(other)
+operator fun Vec3i.plus(other: Vec3i): Vec3i = add(other)
+operator fun BlockPos.plus(other: Vec3i): BlockPos = add(other)

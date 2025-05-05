@@ -1,12 +1,15 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
 import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
 import io.github.thebroccolibob.bobsmobgear.util.BlockEntityType
 import io.github.thebroccolibob.bobsmobgear.util.blockSettings
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks.createLightLevelFromLitBlockState
 import net.minecraft.block.FluidBlock
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -39,10 +42,21 @@ object BobsMobGearBlocks {
         nonOpaque()
     }))
 
+    val FORGE = register("forge", ForgeBlock(blockSettings {
+        sounds(BlockSoundGroup.METAL)
+        requiresTool()
+        strength(3.5F)
+        luminance(createLightLevelFromLitBlockState(14))
+    }))
+
     // BLOCK ENTITIES
 
     val TEMPLATE_BLOCK_ENTITY = register("template", BlockEntityType(::TemplateBlockEntity,
         SWORD_TEMPLATE,
+    ))
+
+    val FORGE_BLOCK_ENTITY = register("forge", BlockEntityType(::ForgeBlockEntity,
+        FORGE,
     ))
 
     // TAGS

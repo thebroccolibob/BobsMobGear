@@ -56,6 +56,8 @@ object BobsMobGearItems {
 
     val SWORD_TEMPLATE = Items.register(BobsMobGearBlocks.SWORD_TEMPLATE)
 
+    val FORGE = Items.register(BobsMobGearBlocks.FORGE)
+
     val FLESH_GLOVE = register("flesh_glove",
         FleshGloveItem(
             FLESH_GLOVE_MATERIAL,
