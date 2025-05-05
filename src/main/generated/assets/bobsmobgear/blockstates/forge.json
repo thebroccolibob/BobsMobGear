@@ -1,0 +1,154 @@
+{
+  "variants": {
+    "connection=back_left,facing=east,lit=false": {
+      "model": "bobsmobgear:block/forge_back_left",
+      "y": 90
+    },
+    "connection=back_left,facing=east,lit=true": {
+      "model": "bobsmobgear:block/forge_back_left_lit",
+      "y": 90
+    },
+    "connection=back_left,facing=north,lit=false": {
+      "model": "bobsmobgear:block/forge_back_left"
+    },
+    "connection=back_left,facing=north,lit=true": {
+      "model": "bobsmobgear:block/forge_back_left_lit"
+    },
+    "connection=back_left,facing=south,lit=false": {
+      "model": "bobsmobgear:block/forge_back_left",
+      "y": 180
+    },
+    "connection=back_left,facing=south,lit=true": {
+      "model": "bobsmobgear:block/forge_back_left_lit",
+      "y": 180
+    },
+    "connection=back_left,facing=west,lit=false": {
+      "model": "bobsmobgear:block/forge_back_left",
+      "y": 270
+    },
+    "connection=back_left,facing=west,lit=true": {
+      "model": "bobsmobgear:block/forge_back_left_lit",
+      "y": 270
+    },
+    "connection=back_right,facing=east,lit=false": {
+      "model": "bobsmobgear:block/forge_back_right",
+      "y": 90
+    },
+    "connection=back_right,facing=east,lit=true": {
+      "model": "bobsmobgear:block/forge_back_right_lit",
+      "y": 90
+    },
+    "connection=back_right,facing=north,lit=false": {
+      "model": "bobsmobgear:block/forge_back_right"
+    },
+    "connection=back_right,facing=north,lit=true": {
+      "model": "bobsmobgear:block/forge_back_right_lit"
+    },
+    "connection=back_right,facing=south,lit=false": {
+      "model": "bobsmobgear:block/forge_back_right",
+      "y": 180
+    },
+    "connection=back_right,facing=south,lit=true": {
+      "model": "bobsmobgear:block/forge_back_right_lit",
+      "y": 180
+    },
+    "connection=back_right,facing=west,lit=false": {
+      "model": "bobsmobgear:block/forge_back_right",
+      "y": 270
+    },
+    "connection=back_right,facing=west,lit=true": {
+      "model": "bobsmobgear:block/forge_back_right_lit",
+      "y": 270
+    },
+    "connection=front_left,facing=east,lit=false": {
+      "model": "bobsmobgear:block/forge_front_left",
+      "y": 90
+    },
+    "connection=front_left,facing=east,lit=true": {
+      "model": "bobsmobgear:block/forge_front_left_lit",
+      "y": 90
+    },
+    "connection=front_left,facing=north,lit=false": {
+      "model": "bobsmobgear:block/forge_front_left"
+    },
+    "connection=front_left,facing=north,lit=true": {
+      "model": "bobsmobgear:block/forge_front_left_lit"
+    },
+    "connection=front_left,facing=south,lit=false": {
+      "model": "bobsmobgear:block/forge_front_left",
+      "y": 180
+    },
+    "connection=front_left,facing=south,lit=true": {
+      "model": "bobsmobgear:block/forge_front_left_lit",
+      "y": 180
+    },
+    "connection=front_left,facing=west,lit=false": {
+      "model": "bobsmobgear:block/forge_front_left",
+      "y": 270
+    },
+    "connection=front_left,facing=west,lit=true": {
+      "model": "bobsmobgear:block/forge_front_left_lit",
+      "y": 270
+    },
+    "connection=front_right,facing=east,lit=false": {
+      "model": "bobsmobgear:block/forge_front_right",
+      "y": 90
+    },
+    "connection=front_right,facing=east,lit=true": {
+      "model": "bobsmobgear:block/forge_front_right_lit",
+      "y": 90
+    },
+    "connection=front_right,facing=north,lit=false": {
+      "model": "bobsmobgear:block/forge_front_right"
+    },
+    "connection=front_right,facing=north,lit=true": {
+      "model": "bobsmobgear:block/forge_front_right_lit"
+    },
+    "connection=front_right,facing=south,lit=false": {
+      "model": "bobsmobgear:block/forge_front_right",
+      "y": 180
+    },
+    "connection=front_right,facing=south,lit=true": {
+      "model": "bobsmobgear:block/forge_front_right_lit",
+      "y": 180
+    },
+    "connection=front_right,facing=west,lit=false": {
+      "model": "bobsmobgear:block/forge_front_right",
+      "y": 270
+    },
+    "connection=front_right,facing=west,lit=true": {
+      "model": "bobsmobgear:block/forge_front_right_lit",
+      "y": 270
+    },
+    "connection=none,facing=east,lit=false": {
+      "model": "bobsmobgear:block/forge",
+      "y": 90
+    },
+    "connection=none,facing=east,lit=true": {
+      "model": "bobsmobgear:block/forge_lit",
+      "y": 90
+    },
+    "connection=none,facing=north,lit=false": {
+      "model": "bobsmobgear:block/forge"
+    },
+    "connection=none,facing=north,lit=true": {
+      "model": "bobsmobgear:block/forge_lit"
+    },
+    "connection=none,facing=south,lit=false": {
+      "model": "bobsmobgear:block/forge",
+      "y": 180
+    },
+    "connection=none,facing=south,lit=true": {
+      "model": "bobsmobgear:block/forge_lit",
+      "y": 180
+    },
+    "connection=none,facing=west,lit=false": {
+      "model": "bobsmobgear:block/forge",
+      "y": 270
+    },
+    "connection=none,facing=west,lit=true": {
+      "model": "bobsmobgear:block/forge_lit",
+      "y": 270
+    }
+  }
+}
