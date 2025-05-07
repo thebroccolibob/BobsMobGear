@@ -4,6 +4,8 @@ import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlock
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
 import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
 import io.github.thebroccolibob.bobsmobgear.util.BlockEntityType
 import io.github.thebroccolibob.bobsmobgear.util.blockSettings
@@ -21,6 +23,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.Identifier
 
+@Suppress("MemberVisibilityCanBePrivate")
 object BobsMobGearBlocks {
     private fun register(id: Identifier, block: Block): Block =
         Registry.register(Registries.BLOCK, id, block)
@@ -42,12 +45,14 @@ object BobsMobGearBlocks {
         nonOpaque()
     }))
 
-    val FORGE = register("forge", ForgeBlock(blockSettings {
+    val FORGE_HEATER = register("forge_heater", ForgeHeaterBlock(blockSettings {
         sounds(BlockSoundGroup.METAL)
         requiresTool()
         strength(3.5F)
         luminance(createLightLevelFromLitBlockState(14))
     }))
+
+    val FORGE = register("forge", ForgeBlock(FORGE_HEATER, AbstractBlock.Settings.copy(FORGE_HEATER)))
 
     // BLOCK ENTITIES
 
@@ -57,6 +62,10 @@ object BobsMobGearBlocks {
 
     val FORGE_BLOCK_ENTITY = register("forge", BlockEntityType(::ForgeBlockEntity,
         FORGE,
+    ))
+
+    val FORGE_HEATER_BLOCK_ENTITY = register("forge_heater", BlockEntityType(::ForgeHeaterBlockEntity,
+        FORGE_HEATER,
     ))
 
     // TAGS

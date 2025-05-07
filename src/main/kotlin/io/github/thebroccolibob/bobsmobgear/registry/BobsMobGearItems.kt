@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.EmptyItemFluidStorage
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage
+import net.minecraft.block.Block
 import net.minecraft.component.ComponentType
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.Fluids
@@ -34,6 +35,8 @@ object BobsMobGearItems {
     private fun register(path: String, item: Item) =
         register(BobsMobGear.id(path), item)
 
+    fun register(block: Block): Item = Items.register(block)
+
     private fun <T> register(path: String, init: ComponentType.Builder<T>.() -> Unit): ComponentType<T> =
         Registry.register(Registries.DATA_COMPONENT_TYPE, BobsMobGear.id(path), ComponentType.builder<T>().apply(init).build())
 
@@ -54,9 +57,10 @@ object BobsMobGearItems {
 
     // ITEMS
 
-    val SWORD_TEMPLATE = Items.register(BobsMobGearBlocks.SWORD_TEMPLATE)
+    val SWORD_TEMPLATE = register(BobsMobGearBlocks.SWORD_TEMPLATE)
 
-    val FORGE = Items.register(BobsMobGearBlocks.FORGE)
+    val FORGE = register(BobsMobGearBlocks.FORGE)
+    val FORGE_HEATER = register(BobsMobGearBlocks.FORGE_HEATER)
 
     val FLESH_GLOVE = register("flesh_glove",
         FleshGloveItem(

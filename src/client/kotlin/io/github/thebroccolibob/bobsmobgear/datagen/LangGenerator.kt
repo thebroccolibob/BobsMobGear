@@ -17,16 +17,16 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
     override fun generateTranslations(
         registryLookup: RegistryWrapper.WrapperLookup,
         translationBuilder: TranslationBuilder
-    ) {
-        translationBuilder.add(BobsMobGearBlocks.SWORD_TEMPLATE, "Sword Template")
-        translationBuilder.add(BobsMobGearItems.SMITHING_HAMMER_TAG, "Smithing Hammers")
+    ) = with(translationBuilder) {
+        add(BobsMobGearBlocks.SWORD_TEMPLATE, "Sword Template")
+        add(BobsMobGearItems.SMITHING_HAMMER_TAG, "Smithing Hammers")
 
-        translationBuilder.add(BobsMobGearClient.HEATED_TOOLTIP, "Heated")
+        add(BobsMobGearClient.HEATED_TOOLTIP, "Heated")
 
-        translationBuilder.add(BobsMobGearSounds.TEMPLATE_CRAFT, "Tool crafts")
-        translationBuilder.add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")
-        translationBuilder.add(BobsMobGearSounds.TEMPLATE_ADD_ITEM, "Template fills")
-        translationBuilder.add(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, "Template empties")
+        add(BobsMobGearSounds.TEMPLATE_CRAFT, "Tool crafts")
+        add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")
+        add(BobsMobGearSounds.TEMPLATE_ADD_ITEM, "Template fills")
+        add(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, "Template empties")
     }
 
     companion object {

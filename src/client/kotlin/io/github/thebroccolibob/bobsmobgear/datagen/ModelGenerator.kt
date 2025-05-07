@@ -1,7 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Connection
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.client.util.BlockStateVariant
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
@@ -17,27 +18,35 @@ import net.minecraft.util.Identifier
 import java.util.*
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
-    private fun BlockStateModelGenerator.registerForge(block: Block) {
+    private fun BlockStateModelGenerator.registerForge(block: Block, bottomSides: Block = block) {
         val textures = object {
-            private fun of(suffix: String) = ModelIds.getBlockSubModelId(block, "_$suffix")
+            private fun main(suffix: String) = ModelIds.getBlockSubModelId(block, "_$suffix")
+            private fun bottomSides(suffix: String) = ModelIds.getBlockSubModelId(bottomSides, "_$suffix")
 
-            val frontLeft = of("front_left")
-            val frontRight = of("front_right")
-            val frontLeftLit = of("front_left_lit")
-            val frontRightLit = of("front_right_lit")
-            val sideLeft = of("side_left")
-            val sideRight = of("side_right")
-            val topFrontLeft = of("top_front_left")
-            val topFrontRight = of("top_front_right")
-            val topBackLeft = of("top_back_left")
-            val topBackRight = of("top_back_right")
-            val bottomFrontLeft = of("bottom_front_left")
-            val bottomFrontRight = of("bottom_front_right")
-            val bottomBackLeft = of("bottom_back_left")
-            val bottomBackRight = of("bottom_back_right")
-            val inside = of("inside")
-            val side = of("side")
-            val frontLit = of("front_lit")
+            val front = main("front")
+            val frontLit = main("front_lit")
+            val frontLeft = main("front_left")
+            val frontRight = main("front_right")
+            val frontLeftLit = main("front_left_lit")
+            val frontRightLit = main("front_right_lit")
+
+            val side = bottomSides("side")
+            val sideLeft = bottomSides("side_left")
+            val sideRight = bottomSides("side_right")
+
+            val top = main("top")
+            val topFrontLeft = main("top_front_left")
+            val topFrontRight = main("top_front_right")
+            val topBackLeft = main("top_back_left")
+            val topBackRight = main("top_back_right")
+
+            val bottom = bottomSides("bottom")
+            val bottomFrontLeft = bottomSides("bottom_front_left")
+            val bottomFrontRight = bottomSides("bottom_front_right")
+            val bottomBackLeft = bottomSides("bottom_back_left")
+            val bottomBackRight = bottomSides("bottom_back_right")
+
+            val inside = bottomSides("inside")
         }
 
         fun cube(
@@ -57,38 +66,40 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             put(TextureKey.WEST, west)
         }
 
-        val models = ForgeBlock.Connection.entries.associateWith { connection ->
+        val models = Connection.entries.associateWith { connection ->
             listOf(true, false).associateWith { lit ->
-                if (connection == ForgeBlock.Connection.NONE)
-                    Models.ORIENTABLE.upload(block, if (lit) "_lit" else "", TextureMap.sideFrontTopBottom(block).apply {
-                        if (lit)
-                            put(TextureKey.FRONT, textures.frontLit)
+                if (connection == Connection.NONE)
+                    Models.ORIENTABLE.upload(block, if (lit) "_lit" else "", TextureMap().apply {
+                        put(TextureKey.TOP, textures.top)
+                        put(TextureKey.FRONT, if (lit) textures.frontLit else textures.front)
+                        put(TextureKey.SIDE, textures.side)
+                        put(TextureKey.BOTTOM, textures.bottom)
                     }, modelCollector)
                 else
                     Models.CUBE.upload(
                         block, "_${connection.id}${if (lit) "_lit" else ""}", when (connection) {
-                            ForgeBlock.Connection.FRONT_LEFT -> cube(
+                            Connection.FRONT_LEFT -> cube(
                                 up = textures.topFrontLeft,
                                 down = textures.bottomFrontLeft,
                                 east = textures.sideRight,
                                 north = if (lit) textures.frontLeftLit else textures.frontLeft
                             )
 
-                            ForgeBlock.Connection.FRONT_RIGHT -> cube(
+                            Connection.FRONT_RIGHT -> cube(
                                 up = textures.topFrontRight,
                                 down = textures.bottomFrontRight,
                                 west = textures.sideLeft,
                                 north = if (lit) textures.frontRightLit else textures.frontRight
                             )
 
-                            ForgeBlock.Connection.BACK_LEFT -> cube(
+                            Connection.BACK_LEFT -> cube(
                                 up = textures.topBackLeft,
                                 down = textures.bottomBackLeft,
                                 east = textures.sideLeft,
                                 south = textures.sideRight
                             )
 
-                            ForgeBlock.Connection.BACK_RIGHT -> cube(
+                            Connection.BACK_RIGHT -> cube(
                                 up = textures.topBackRight,
                                 down = textures.bottomBackRight,
                                 west = textures.sideRight,
@@ -102,7 +113,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         }
 
         blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
-            .coordinate(BlockStateVariantMap.create(ForgeBlock.CONNECTION, ForgeBlock.LIT).register { connection, lit ->
+            .coordinate(BlockStateVariantMap.create(AbstractForgeBlock.CONNECTION, AbstractForgeBlock.LIT).register { connection, lit ->
                 BlockStateVariant(
                     model = models[connection]!![lit]!!,
                 )
@@ -110,17 +121,18 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             .coordinate(createNorthDefaultHorizontalRotationStates()))
     }
 
-    override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
-        blockStateModelGenerator.registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
-        blockStateModelGenerator.registerForge(BobsMobGearBlocks.FORGE)
+    override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) = with(blockStateModelGenerator) {
+        registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
+        registerForge(BobsMobGearBlocks.FORGE)
+        registerForge(BobsMobGearBlocks.FORGE_HEATER, BobsMobGearBlocks.FORGE)
     }
 
-    override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
-        itemModelGenerator.registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
-        itemModelGenerator.registerGenerated(BobsMobGearItems.EMPTY_POT)
-        itemModelGenerator.registerGenerated(BobsMobGearItems.IRON_POT)
-        itemModelGenerator.registerGenerated(BobsMobGearItems.DIAMOND_POT)
-        itemModelGenerator.registerGenerated(BobsMobGearItems.NETHERITE_POT)
+    override fun generateItemModels(itemModelGenerator: ItemModelGenerator) = with(itemModelGenerator) {
+        registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
+        registerGenerated(BobsMobGearItems.EMPTY_POT)
+        registerGenerated(BobsMobGearItems.IRON_POT)
+        registerGenerated(BobsMobGearItems.DIAMOND_POT)
+        registerGenerated(BobsMobGearItems.NETHERITE_POT)
     }
 
     companion object {
