@@ -50,6 +50,8 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         private set
     val fluidStorage = TemplateFluidStorage()
 
+    private var capacity = FluidConstants.BUCKET
+
     fun getRecipeInput(
         withBase: ItemStack? = null,
         withIngredient: ItemStack? = null,
@@ -150,6 +152,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         nbt.put(BASE_STACK, baseStack.encodeAllowEmpty(registryLookup))
         nbt.put(INGREDIENTS, ingredientsInventory.map { it.encodeAllowEmpty(registryLookup) }.toNbtList())
         nbt.put(FLUID_STORAGE, NbtCompound().also { SingleVariantStorage.writeNbt(fluidStorage, FluidVariant.CODEC, it, registryLookup) })
+        nbt.putLong(CAPACITY, capacity)
     }
 
     override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
@@ -157,7 +160,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         baseStack = ItemStack.fromNbtOrEmpty(registryLookup, nbt.getCompound(BASE_STACK))
         ingredientsInventory = DefaultedList.copyOf(ItemStack.EMPTY, *nbt.getList(INGREDIENTS, NbtElement.COMPOUND_TYPE).map { ItemStack.fromNbtOrEmpty(registryLookup, it as NbtCompound) }.extend(9, ItemStack.EMPTY).toTypedArray())
         SingleVariantStorage.readNbt(fluidStorage, FluidVariant.CODEC, { FluidVariant.blank() }, nbt.getCompound(FLUID_STORAGE), registryLookup)
-        fluidStorage.updateRecipe()
+        capacity = nbt.getLong(CAPACITY)
     }
 
     override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound =
@@ -185,14 +188,13 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         const val BASE_STACK = "base_stack"
         const val INGREDIENTS = "ingredients"
         const val FLUID_STORAGE = "fluid_storage"
+        const val CAPACITY = "capacity"
 
         private const val REQUIRED_HAMMERS = 3
     }
 
     inner class TemplateFluidStorage : SingleVariantStorage<FluidVariant>() {
-        private var recipe: TemplateRecipe? = null
-
-        override fun getCapacity(variant: FluidVariant): Long = recipe?.fluidAmount ?: FluidConstants.BUCKET
+        override fun getCapacity(variant: FluidVariant): Long = this@TemplateBlockEntity.capacity
 
         override fun getBlankVariant(): FluidVariant = FluidVariant.blank()
 
@@ -200,12 +202,8 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
             return super.canInsert(variant) && getMatch(getRecipeInput(withFluid = variant)) != null
         }
 
-        fun updateRecipe() {
-            getMatch(getRecipeInput(withFluid = variant))?.let { recipe = it.value }
-        }
-
         override fun onFinalCommit() {
-            updateRecipe()
+            this@TemplateBlockEntity.capacity = getMatch(getRecipeInput(withFluid = variant))?.value?.fluidAmount ?: FluidConstants.BUCKET
             markDirty()
 
             // TODO networking?
