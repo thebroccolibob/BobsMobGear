@@ -7,7 +7,7 @@
   "fluid": {
     "fluid": "bobsmobgear:netherite"
   },
-  "fluid_amount": 18000,
+  "fluid_amount": 9000,
   "requires_hammer": true,
   "result": {
     "components": {

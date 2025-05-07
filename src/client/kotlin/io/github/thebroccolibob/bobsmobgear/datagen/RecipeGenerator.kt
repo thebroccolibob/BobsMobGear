@@ -86,7 +86,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                 Ingredient.ofItems(Items.DIAMOND_SWORD),
                 DefaultedList.of(),
                 FluidVariant.of(BobsMobGearFluids.NETHERITE),
-                2 * FluidConstants.INGOT,
+                1 * FluidConstants.INGOT,
                 true,
                 ItemStack(Items.NETHERITE_SWORD).apply {
                     set(BobsMobGearItems.HEATED)

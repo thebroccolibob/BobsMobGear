@@ -16,6 +16,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.MathHelper.lerp
 import net.minecraft.util.math.RotationAxis
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 @Environment(EnvType.CLIENT)
 class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<TemplateBlockEntity> {
@@ -67,7 +68,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         val fluid = entity.fluidStorage.variant.takeUnless { it.isBlank }?.fluid ?: return
         val renderer = FluidRenderHandlerRegistry.INSTANCE.get(fluid) ?: return
         val sprite = renderer.getFluidSprites(entity.world, entity.pos, fluid.defaultState)?.get(0) ?: return
-        val fluidProgress = entity.fluidStorage.amount.toFloat() / entity.fluidStorage.capacity
+        val fluidProgress = (entity.fluidStorage.amount.toFloat() * FLUID_STEPS / entity.fluidStorage.capacity).roundToInt() / FLUID_STEPS.toFloat()
 
         matrices.translate(0f, 0f, -OFFSET)
 
@@ -103,6 +104,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
 
     companion object {
         const val MARGIN = 2 / 16f
+        const val FLUID_STEPS = 12
         const val OFFSET = 1 / 256f
         const val BASE_SCALE = 1 - 2 * MARGIN
         const val TEMPLATE_WIDTH = 2 / 16f
