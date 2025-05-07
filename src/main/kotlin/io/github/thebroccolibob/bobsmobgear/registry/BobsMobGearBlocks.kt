@@ -2,9 +2,9 @@ package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
+import io.github.thebroccolibob.bobsmobgear.block.ForgeHeaterBlock
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
-import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlock
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
 import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
 import io.github.thebroccolibob.bobsmobgear.util.BlockEntityType

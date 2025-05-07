@@ -82,14 +82,21 @@ open class AbstractForgeBlock(settings: Settings) : Block(settings) {
         private val offset = Vec3i(x, 0, z);
         val isConnected get() = this != NONE
 
-        val facingOffsets = Direction.entries.associateWith {
-            when (it) {
-                Direction.NORTH -> offset
-                Direction.EAST -> Vec3i(-offset.z, offset.y, offset.x)
-                Direction.SOUTH -> Vec3i(-offset.x, offset.y, -offset.z)
-                Direction.WEST -> Vec3i(offset.z, offset.y, -offset.x)
-                else -> offset
+        private val facingOffsets by lazy { // For some reason making this not lazy causes an ExceptionInInitializerError
+            Direction.entries.associateWith {
+                when (it) {
+                    Direction.NORTH -> offset
+                    Direction.EAST -> Vec3i(-offset.z, offset.y, offset.x)
+                    Direction.SOUTH -> Vec3i(-offset.x, offset.y, -offset.z)
+                    Direction.WEST -> Vec3i(offset.z, offset.y, -offset.x)
+                    else -> offset
+                }
             }
+        }
+
+        val isFront get() = when (this) {
+            NONE, FRONT_LEFT, FRONT_RIGHT -> true
+            else -> false
         }
 
         fun offset(direction: Direction) = facingOffsets[direction]!!
