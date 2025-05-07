@@ -18,108 +18,6 @@ import net.minecraft.util.Identifier
 import java.util.*
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
-    private fun BlockStateModelGenerator.registerForge(block: Block, bottomSides: Block = block) {
-        val textures = object {
-            private fun main(suffix: String) = ModelIds.getBlockSubModelId(block, "_$suffix")
-            private fun bottomSides(suffix: String) = ModelIds.getBlockSubModelId(bottomSides, "_$suffix")
-
-            val front = main("front")
-            val frontLit = main("front_lit")
-            val frontLeft = main("front_left")
-            val frontRight = main("front_right")
-            val frontLeftLit = main("front_left_lit")
-            val frontRightLit = main("front_right_lit")
-
-            val side = bottomSides("side")
-            val sideLeft = bottomSides("side_left")
-            val sideRight = bottomSides("side_right")
-
-            val top = main("top")
-            val topFrontLeft = main("top_front_left")
-            val topFrontRight = main("top_front_right")
-            val topBackLeft = main("top_back_left")
-            val topBackRight = main("top_back_right")
-
-            val bottom = bottomSides("bottom")
-            val bottomFrontLeft = bottomSides("bottom_front_left")
-            val bottomFrontRight = bottomSides("bottom_front_right")
-            val bottomBackLeft = bottomSides("bottom_back_left")
-            val bottomBackRight = bottomSides("bottom_back_right")
-
-            val inside = bottomSides("inside")
-        }
-
-        fun cube(
-            up: Identifier = textures.inside,
-            down: Identifier = textures.inside,
-            north: Identifier = textures.inside,
-            south: Identifier = textures.inside,
-            east: Identifier = textures.inside,
-            west: Identifier = textures.inside,
-        ) = TextureMap().apply {
-            put(TextureKey.PARTICLE, textures.side)
-            put(TextureKey.UP, up)
-            put(TextureKey.DOWN, down)
-            put(TextureKey.NORTH, north)
-            put(TextureKey.SOUTH, south)
-            put(TextureKey.EAST, east)
-            put(TextureKey.WEST, west)
-        }
-
-        val models = Connection.entries.associateWith { connection ->
-            listOf(true, false).associateWith { lit ->
-                if (connection == Connection.NONE)
-                    Models.ORIENTABLE.upload(block, if (lit) "_lit" else "", TextureMap().apply {
-                        put(TextureKey.TOP, textures.top)
-                        put(TextureKey.FRONT, if (lit) textures.frontLit else textures.front)
-                        put(TextureKey.SIDE, textures.side)
-                        put(TextureKey.BOTTOM, textures.bottom)
-                    }, modelCollector)
-                else
-                    Models.CUBE.upload(
-                        block, "_${connection.id}${if (lit) "_lit" else ""}", when (connection) {
-                            Connection.FRONT_LEFT -> cube(
-                                up = textures.topFrontLeft,
-                                down = textures.bottomFrontLeft,
-                                east = textures.sideRight,
-                                north = if (lit) textures.frontLeftLit else textures.frontLeft
-                            )
-
-                            Connection.FRONT_RIGHT -> cube(
-                                up = textures.topFrontRight,
-                                down = textures.bottomFrontRight,
-                                west = textures.sideLeft,
-                                north = if (lit) textures.frontRightLit else textures.frontRight
-                            )
-
-                            Connection.BACK_LEFT -> cube(
-                                up = textures.topBackLeft,
-                                down = textures.bottomBackLeft,
-                                east = textures.sideLeft,
-                                south = textures.sideRight
-                            )
-
-                            Connection.BACK_RIGHT -> cube(
-                                up = textures.topBackRight,
-                                down = textures.bottomBackRight,
-                                west = textures.sideRight,
-                                south = textures.sideLeft
-                            )
-
-                            else -> throw AssertionError()
-                        }, modelCollector
-                    )
-            }
-        }
-
-        blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
-            .coordinate(BlockStateVariantMap.create(AbstractForgeBlock.CONNECTION, AbstractForgeBlock.LIT).register { connection, lit ->
-                BlockStateVariant(
-                    model = models[connection]!![lit]!!,
-                )
-            })
-            .coordinate(createNorthDefaultHorizontalRotationStates()))
-    }
 
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) = with(blockStateModelGenerator) {
         registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
@@ -162,6 +60,109 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
                 ))
                 coordinate(createNorthDefaultHorizontalRotationStates())
             })
+        }
+
+        fun BlockStateModelGenerator.registerForge(block: Block, bottomSides: Block = block) {
+            val textures = object {
+                private fun main(suffix: String) = ModelIds.getBlockSubModelId(block, "_$suffix")
+                private fun bottomSides(suffix: String) = ModelIds.getBlockSubModelId(bottomSides, "_$suffix")
+
+                val front = main("front")
+                val frontLit = main("front_lit")
+                val frontLeft = main("front_left")
+                val frontRight = main("front_right")
+                val frontLeftLit = main("front_left_lit")
+                val frontRightLit = main("front_right_lit")
+
+                val side = bottomSides("side")
+                val sideLeft = bottomSides("side_left")
+                val sideRight = bottomSides("side_right")
+
+                val top = main("top")
+                val topFrontLeft = main("top_front_left")
+                val topFrontRight = main("top_front_right")
+                val topBackLeft = main("top_back_left")
+                val topBackRight = main("top_back_right")
+
+                val bottom = bottomSides("bottom")
+                val bottomFrontLeft = bottomSides("bottom_front_left")
+                val bottomFrontRight = bottomSides("bottom_front_right")
+                val bottomBackLeft = bottomSides("bottom_back_left")
+                val bottomBackRight = bottomSides("bottom_back_right")
+
+                val inside = bottomSides("inside")
+            }
+
+            fun cube(
+                up: Identifier = textures.inside,
+                down: Identifier = textures.inside,
+                north: Identifier = textures.inside,
+                south: Identifier = textures.inside,
+                east: Identifier = textures.inside,
+                west: Identifier = textures.inside,
+            ) = TextureMap().apply {
+                put(TextureKey.PARTICLE, textures.side)
+                put(TextureKey.UP, up)
+                put(TextureKey.DOWN, down)
+                put(TextureKey.NORTH, north)
+                put(TextureKey.SOUTH, south)
+                put(TextureKey.EAST, east)
+                put(TextureKey.WEST, west)
+            }
+
+            val models = Connection.entries.associateWith { connection ->
+                listOf(true, false).associateWith { lit ->
+                    if (connection == Connection.NONE)
+                        Models.ORIENTABLE.upload(block, if (lit) "_lit" else "", TextureMap().apply {
+                            put(TextureKey.TOP, textures.top)
+                            put(TextureKey.FRONT, if (lit) textures.frontLit else textures.front)
+                            put(TextureKey.SIDE, textures.side)
+                            put(TextureKey.BOTTOM, textures.bottom)
+                        }, modelCollector)
+                    else
+                        Models.CUBE.upload(
+                            block, "_${connection.id}${if (lit) "_lit" else ""}", when (connection) {
+                                Connection.FRONT_LEFT -> cube(
+                                    up = textures.topFrontLeft,
+                                    down = textures.bottomFrontLeft,
+                                    east = textures.sideRight,
+                                    north = if (lit) textures.frontLeftLit else textures.frontLeft
+                                )
+
+                                Connection.FRONT_RIGHT -> cube(
+                                    up = textures.topFrontRight,
+                                    down = textures.bottomFrontRight,
+                                    west = textures.sideLeft,
+                                    north = if (lit) textures.frontRightLit else textures.frontRight
+                                )
+
+                                Connection.BACK_LEFT -> cube(
+                                    up = textures.topBackLeft,
+                                    down = textures.bottomBackLeft,
+                                    east = textures.sideLeft,
+                                    south = textures.sideRight
+                                )
+
+                                Connection.BACK_RIGHT -> cube(
+                                    up = textures.topBackRight,
+                                    down = textures.bottomBackRight,
+                                    west = textures.sideRight,
+                                    south = textures.sideLeft
+                                )
+
+                                else -> throw AssertionError()
+                            }, modelCollector
+                        )
+                }
+            }
+
+            blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
+                .coordinate(BlockStateVariantMap.create(AbstractForgeBlock.CONNECTION, AbstractForgeBlock.LIT).register { connection, lit ->
+                    BlockStateVariant(
+                        model = models[connection]!![lit]!!,
+                    )
+                })
+                .coordinate(createNorthDefaultHorizontalRotationStates()))
         }
     }
 }
