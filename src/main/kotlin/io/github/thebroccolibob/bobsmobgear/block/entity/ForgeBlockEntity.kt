@@ -118,6 +118,7 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
     }
 
     override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+        inventory.heldStacks.clear()
         Inventories.readNbt(nbt, inventory.heldStacks, registryLookup)
         fluidStorage.readNbt(nbt.getCompound(FLUID_NBT), registryLookup)
         progress = nbt.getInt(PROGRESS_NBT)
@@ -126,9 +127,7 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
     override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound =
         createNbt(registryLookup)
 
-    override fun toUpdatePacket(): Packet<ClientPlayPacketListener> {
-        return BlockEntityUpdateS2CPacket.create(this)
-    }
+    override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)
 
     companion object : BlockEntityTicker<ForgeBlockEntity> {
         val PROGRESS_NBT = "progress"

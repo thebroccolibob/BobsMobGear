@@ -75,11 +75,13 @@ class ForgeBlock(private val heaterBlock: Block, settings: Settings) : AbstractF
         val blockEntity = getBlockEntity(world, pos) ?: return ItemActionResult.CONSUME_PARTIAL
 
         if (stack.isEmpty) {
-            player[hand] = blockEntity.tryRemoveStack(world).also {
-                if (!it.isEmpty)
+            blockEntity.tryRemoveStack(world).also {
+                if (!it.isEmpty) {
                     world.playSound(player, pos, SoundEvents.ENTITY_ITEM_PICKUP, player.soundCategory)
+                    player[hand] = it
+                    return ItemActionResult.SUCCESS
+                }
             }
-            return ItemActionResult.SUCCESS
         }
 
         if (blockEntity.tryAddStack(world, stack)) {
