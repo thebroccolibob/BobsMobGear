@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.block
 
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
+import io.github.thebroccolibob.bobsmobgear.mixin.FluidInvoker
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.isOf
@@ -8,6 +9,9 @@ import io.github.thebroccolibob.bobsmobgear.util.set
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
@@ -19,6 +23,7 @@ import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import kotlin.jvm.optionals.getOrNull
@@ -67,33 +72,68 @@ class ForgeBlock(private val heaterBlock: Block, settings: Settings) : AbstractF
     ): ItemActionResult {
         if ((stack.item as? BlockItem)?.block == this) return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
 
-        if (world.isClient) return ItemActionResult.SUCCESS
         val blockEntity = getBlockEntity(world, pos) ?: return ItemActionResult.CONSUME_PARTIAL
 
         if (stack.isEmpty) {
-            player[hand] = blockEntity.tryRemoveStack().also {
+            player[hand] = blockEntity.tryRemoveStack(world).also {
                 if (!it.isEmpty)
-                    world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, player.soundCategory)
+                    world.playSound(player, pos, SoundEvents.ENTITY_ITEM_PICKUP, player.soundCategory)
             }
             return ItemActionResult.SUCCESS
         }
 
-        if (blockEntity.tryAddStack(stack)) {
+        if (blockEntity.tryAddStack(world, stack)) {
             world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, player.soundCategory)
             return ItemActionResult.SUCCESS
         }
 
-        // TODO Liquid interaction
+        if (blockEntity.tryExtractFluid(world, player, hand)) {
+            return ItemActionResult.SUCCESS
+        }
 
         return ItemActionResult.CONSUME_PARTIAL
     }
 
+    override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
+        val xOffset = when (state[CONNECTION]) {
+            Connection.NONE -> 0.5
+            Connection.FRONT_LEFT -> 1.0
+            else -> return
+        }
+        val fluidStorage = getBlockEntity(world, pos)?.fluidStorage?.takeUnless { it.isResourceBlank } ?: return
+
+        val direction = state[FACING]
+        val axis = direction.axis
+        val offset = 0.52
+        val dx = if (axis === Direction.Axis.X) direction.offsetX * offset else if (direction == Direction.NORTH) xOffset else -xOffset
+        val dy = 4 / 16.0
+        val dz = if (axis === Direction.Axis.Z) direction.offsetZ * offset else if (direction == Direction.EAST) xOffset else -xOffset
+        world.addParticle(
+            (fluidStorage.variant.fluid as FluidInvoker).invokeGetParticle(),
+            pos.x + dx,
+            pos.y + dy,
+            pos.z + dz,
+            0.0,
+            0.0,
+            0.0
+        )
+    }
+
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = ForgeBlockEntity(pos, state)
 
-    // TODO particles
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : BlockEntity?> getTicker(
+        world: World,
+        state: BlockState,
+        type: BlockEntityType<T>
+    ): BlockEntityTicker<T>? =
+        if (!world.isClient && type == BobsMobGearBlocks.FORGE_BLOCK_ENTITY)
+            ForgeBlockEntity as BlockEntityTicker<T>
+        else
+            null
 
     companion object {
-        private fun getBlockEntity(
+        private fun getBlockEntity( // TODO abstract this into an interface?
             world: World,
             pos: BlockPos
         ) = world.getBlockEntity(pos, BobsMobGearBlocks.FORGE_BLOCK_ENTITY).getOrNull()

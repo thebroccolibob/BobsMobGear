@@ -22,6 +22,7 @@ object BobsMobGear : ModInitializer {
 		// Proceed with mild caution.
 		BobsMobGearBlocks.register()
 		BobsMobGearItems.register()
+		BobsMobGearParticles.register()
 		BobsMobGearFluids.register()
 		registerBobsMobGearRecipes()
 

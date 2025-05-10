@@ -1,15 +1,16 @@
 {
-	"required": true,
-	"package": "io.github.thebroccolibob.bobsmobgear.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"AbstractCauldronBlockInvoker",
-		"ItemEntityMixin",
-		"ItemStackMixin",
-		"LeveledCauldronBlockInvoker",
-		"AbstractBlockStateMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "io.github.thebroccolibob.bobsmobgear.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AbstractBlockStateMixin",
+    "AbstractCauldronBlockInvoker",
+    "FluidInvoker",
+    "ItemEntityMixin",
+    "ItemStackMixin",
+    "LeveledCauldronBlockInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

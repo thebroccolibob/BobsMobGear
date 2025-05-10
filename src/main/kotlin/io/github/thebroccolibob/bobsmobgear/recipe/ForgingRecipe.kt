@@ -28,12 +28,7 @@ class ForgingRecipe(
     val forgingTime: Int,
 ) : Recipe<ForgingRecipe.Input> {
 
-    override fun matches(input: Input, world: World): Boolean {
-        val stacks = input.stacks.map { it.copy() }
-        for (ingredient in ingredients)
-            stacks.firstOrNull { ingredient.test(it) }?.decrement(1) ?: return false
-        return true
-    }
+    override fun matches(input: Input, world: World): Boolean = subtractItems(input.stacks.map { it.copy() })
 
     override fun craft(input: Input?, lookup: RegistryWrapper.WrapperLookup?): ItemStack = ItemStack.EMPTY
 
@@ -44,6 +39,13 @@ class ForgingRecipe(
     override fun getSerializer(): RecipeSerializer<ForgingRecipe> = ForgingRecipe
 
     override fun getType(): RecipeType<ForgingRecipe> = ForgingRecipe
+
+    /**
+     * @return If all ingredients were satisfied
+     */
+    fun subtractItems(stacks: List<ItemStack>): Boolean = ingredients.all { ingredient ->
+        stacks.firstOrNull { ingredient.test(it) }?.also { it.decrement(1) } != null
+    }
 
     companion object SerializerAndType : RecipeSerializer<ForgingRecipe>, RecipeType<ForgingRecipe> {
         val CODEC = RecordCodecBuilder.mapCodec { it.group(
@@ -72,7 +74,6 @@ class ForgingRecipe(
 
     data class Input(
         val stacks: DefaultedList<ItemStack>,
-        val fluids: Map<FluidVariant, Long>,
     ) : RecipeInput {
         override fun getStackInSlot(slot: Int): ItemStack = stacks[slot]
 

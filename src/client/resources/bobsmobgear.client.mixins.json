@@ -1,11 +1,14 @@
 {
-	"required": true,
-	"package": "io.github.thebroccolibob.bobsmobgear.mixin.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-      "ItemRendererMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "io.github.thebroccolibob.bobsmobgear.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ContinuousFallingBlockLeakParticleInvoker",
+    "DrippingBlockLeakParticleInvoker",
+    "ItemRendererMixin",
+    "LandingBlockLeakParticleInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

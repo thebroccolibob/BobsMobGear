@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
+import io.github.thebroccolibob.bobsmobgear.block.ForgeHeaterBlock
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -36,11 +37,14 @@ class ForgeHeaterBlockEntity(type: BlockEntityType<out ForgeHeaterBlockEntity>, 
     companion object : BlockEntityTicker<ForgeHeaterBlockEntity> {
         const val HEATED_TICKS = "heated_ticks"
 
-        override fun tick(world: World, pos: BlockPos, state: BlockState, blockEntity: ForgeHeaterBlockEntity) = with(blockEntity) {
-            if (heatedTicks > 0) {
-                heatedTicks--
-                if (heatedTicks == 0)
-                    world.setBlockState(pos, cachedState.with(AbstractForgeBlock.LIT, false))
+        /**@see [ForgeHeaterBlock.scheduledTick]*/
+        override fun tick(world: World, pos: BlockPos, state: BlockState, blockEntity: ForgeHeaterBlockEntity) {
+            with(blockEntity) {
+                if (heatedTicks > 0) {
+                    heatedTicks--
+                    if (heatedTicks <= 0)
+                        world.scheduleBlockTick(pos, state.block, 1)
+                }
             }
         }
     }

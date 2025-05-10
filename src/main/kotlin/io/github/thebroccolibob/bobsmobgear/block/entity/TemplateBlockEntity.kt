@@ -12,7 +12,7 @@ import io.github.thebroccolibob.bobsmobgear.util.toNbtList
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -148,19 +148,19 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     }
 
     override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
-        nbt.putInt(HAMMER_HITS, hammerHits)
-        nbt.put(BASE_STACK, baseStack.encodeAllowEmpty(registryLookup))
-        nbt.put(INGREDIENTS, ingredientsInventory.map { it.encodeAllowEmpty(registryLookup) }.toNbtList())
-        nbt.put(FLUID_STORAGE, NbtCompound().also { SingleVariantStorage.writeNbt(fluidStorage, FluidVariant.CODEC, it, registryLookup) })
-        nbt.putLong(CAPACITY, capacity)
+        nbt.putInt(HAMMER_HITS_NBT, hammerHits)
+        nbt.put(BASE_STACK_NBT, baseStack.encodeAllowEmpty(registryLookup))
+        nbt.put(INGREDIENTS_NBT, ingredientsInventory.map { it.encodeAllowEmpty(registryLookup) }.toNbtList())
+        nbt.put(FLUID_NBT, NbtCompound().also { fluidStorage.writeNbt(it, registryLookup)})
+        nbt.putLong(CAPACITY_NBT, capacity)
     }
 
     override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
-        hammerHits = nbt.getInt(HAMMER_HITS)
-        baseStack = ItemStack.fromNbtOrEmpty(registryLookup, nbt.getCompound(BASE_STACK))
-        ingredientsInventory = DefaultedList.copyOf(ItemStack.EMPTY, *nbt.getList(INGREDIENTS, NbtElement.COMPOUND_TYPE).map { ItemStack.fromNbtOrEmpty(registryLookup, it as NbtCompound) }.extend(9, ItemStack.EMPTY).toTypedArray())
-        SingleVariantStorage.readNbt(fluidStorage, FluidVariant.CODEC, { FluidVariant.blank() }, nbt.getCompound(FLUID_STORAGE), registryLookup)
-        capacity = nbt.getLong(CAPACITY)
+        hammerHits = nbt.getInt(HAMMER_HITS_NBT)
+        baseStack = ItemStack.fromNbtOrEmpty(registryLookup, nbt.getCompound(BASE_STACK_NBT))
+        ingredientsInventory = DefaultedList.copyOf(ItemStack.EMPTY, *nbt.getList(INGREDIENTS_NBT, NbtElement.COMPOUND_TYPE).map { ItemStack.fromNbtOrEmpty(registryLookup, it as NbtCompound) }.extend(9, ItemStack.EMPTY).toTypedArray())
+        fluidStorage.readNbt(nbt.getCompound(FLUID_NBT), registryLookup)
+        capacity = nbt.getLong(CAPACITY_NBT)
     }
 
     override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound =
@@ -184,19 +184,17 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     fun getItems(): DefaultedList<ItemStack> = DefaultedList.copyOf(ItemStack.EMPTY, baseStack, *ingredientsInventory.toTypedArray())
 
     companion object {
-        const val HAMMER_HITS = "hammer_hits"
-        const val BASE_STACK = "base_stack"
-        const val INGREDIENTS = "ingredients"
-        const val FLUID_STORAGE = "fluid_storage"
-        const val CAPACITY = "capacity"
+        const val HAMMER_HITS_NBT = "hammer_hits"
+        const val BASE_STACK_NBT = "base_stack"
+        const val INGREDIENTS_NBT = "ingredients"
+        const val CAPACITY_NBT = "capacity"
+        const val FLUID_NBT = "fluid"
 
         private const val REQUIRED_HAMMERS = 3
     }
 
-    inner class TemplateFluidStorage : SingleVariantStorage<FluidVariant>() {
+    inner class TemplateFluidStorage : SingleFluidStorage() {
         override fun getCapacity(variant: FluidVariant): Long = this@TemplateBlockEntity.capacity
-
-        override fun getBlankVariant(): FluidVariant = FluidVariant.blank()
 
         override fun canInsert(variant: FluidVariant): Boolean {
             return super.canInsert(variant) && getMatch(getRecipeInput(withFluid = variant)) != null

@@ -18,6 +18,7 @@ class ItemTagGenerator(
         )
         getOrCreateTagBuilder(BobsMobGearItems.FORGES_IRON_INGOT).apply {
             forceAddTag(ConventionalItemTags.IRON_ORES)
+            forceAddTag(ConventionalItemTags.IRON_RAW_MATERIALS)
             forceAddTag(ConventionalItemTags.IRON_INGOTS)
         }
         getOrCreateTagBuilder(BobsMobGearItems.FORGES_DIAMOND).apply {
@@ -26,6 +27,7 @@ class ItemTagGenerator(
         }
         getOrCreateTagBuilder(BobsMobGearItems.FORGES_GOLD_INGOT).apply {
             forceAddTag(ConventionalItemTags.GOLD_ORES)
+            forceAddTag(ConventionalItemTags.GOLD_RAW_MATERIALS)
             forceAddTag(ConventionalItemTags.GOLD_INGOTS)
         }
         getOrCreateTagBuilder(BobsMobGearItems.FORGES_NETHERITE_SCRAP).apply {

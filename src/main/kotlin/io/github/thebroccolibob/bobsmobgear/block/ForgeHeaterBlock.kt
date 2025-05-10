@@ -2,7 +2,9 @@ package io.github.thebroccolibob.bobsmobgear.block
 
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.util.*
+import io.github.thebroccolibob.bobsmobgear.util.component1
+import io.github.thebroccolibob.bobsmobgear.util.component2
+import io.github.thebroccolibob.bobsmobgear.util.component3
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
@@ -12,6 +14,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
@@ -40,16 +43,9 @@ class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), Block
 
         if (world.isClient) return ItemActionResult.SUCCESS
 
-        val connection = state[CONNECTION]
-        val facing = state[FACING]
-        val heatIncrease = if (connection.isConnected) fuel / 2 else fuel
+        val heatIncrease = if (state[CONNECTION].isConnected) fuel / 2 else fuel
 
-        for (entityPos in run {
-            if (connection.isConnected)
-                Connection.CONNECTED.map { pos - connection.offset(facing) + it.offset(facing) }
-            else
-                listOf(pos)
-        }) {
+        for (entityPos in iterateConnected(pos, state)) {
             world.getBlockEntity(entityPos, BobsMobGearBlocks.FORGE_HEATER_BLOCK_ENTITY).getOrNull()
                 ?.addHeat(heatIncrease)
         }
@@ -57,6 +53,10 @@ class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), Block
         world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, player.soundCategory) // TODO custom sounds
 
         return ItemActionResult.SUCCESS
+    }
+
+    override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+        world.setBlockState(pos, state.with(LIT, false))
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {

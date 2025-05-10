@@ -112,5 +112,15 @@ open class AbstractForgeBlock(settings: Settings) : Block(settings) {
         val CONNECTION: EnumProperty<Connection> = EnumProperty.of("connection", Connection::class.java)
         val FACING: DirectionProperty = Properties.HORIZONTAL_FACING
         val LIT: BooleanProperty = Properties.LIT
+
+        fun iterateConnected(pos: BlockPos, state: BlockState): List<BlockPos> {
+            val connection = state[CONNECTION]
+            if (!connection.isConnected)
+                return listOf(pos)
+            val facing = state[FACING]
+            return Connection.CONNECTED.map {
+                pos - connection.offset(facing) + it.offset(facing)
+            }
+        }
     }
 }

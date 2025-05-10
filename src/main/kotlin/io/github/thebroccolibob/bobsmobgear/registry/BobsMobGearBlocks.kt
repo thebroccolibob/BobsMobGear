@@ -9,6 +9,9 @@ import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
 import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
 import io.github.thebroccolibob.bobsmobgear.util.BlockEntityType
 import io.github.thebroccolibob.bobsmobgear.util.blockSettings
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks.createLightLevelFromLitBlockState
@@ -36,6 +39,10 @@ object BobsMobGearBlocks {
 
     private fun register(fluid: FlowableFluid, settingsBase: Block): Block =
         register(Registries.FLUID.getId(fluid), FluidBlock(fluid, AbstractBlock.Settings.copy(settingsBase)))
+
+    private fun <T: BlockEntity> registerFluidStorage(type: BlockEntityType<T>, getStorage: T.() -> Storage<FluidVariant>?) {
+        FluidStorage.SIDED.registerForBlockEntity({ blockEntity, _ -> blockEntity.getStorage() }, type)
+    }
 
     // BLOCKS
 
@@ -72,5 +79,8 @@ object BobsMobGearBlocks {
 
     val SMITHING_SURFACE: TagKey<Block> = TagKey.of(RegistryKeys.BLOCK, BobsMobGear.id("smithing_surface"))
 
-    fun register() {}
+    fun register() {
+        registerFluidStorage(TEMPLATE_BLOCK_ENTITY) { fluidStorage }
+        registerFluidStorage(FORGE_BLOCK_ENTITY) { fluidStorage }
+    }
 }
