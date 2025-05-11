@@ -81,6 +81,7 @@ open class AbstractForgeBlock(settings: Settings) : Block(settings) {
 
         private val offset = Vec3i(x, 0, z);
         val isConnected get() = this != NONE
+        val isRoot get() = this == NONE || this == FRONT_LEFT
 
         private val facingOffsets by lazy { // For some reason making this not lazy causes an ExceptionInInitializerError
             Direction.entries.associateWith {

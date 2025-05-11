@@ -47,15 +47,26 @@ class ForgingRecipe(
         stacks.firstOrNull { ingredient.test(it) }?.also { it.decrement(1) } != null
     }
 
+    fun <T> selectInventories(containers: Iterable<T>, getInventory: T.() -> List<ItemStack>): Set<T> {
+        val inventories = containers.associateWith { it.getInventory().map(ItemStack::copy) } // copy inventories
+        val selected = mutableSetOf<T>()
+        ingredients.forEach { ingredient ->
+            inventories.firstNotNullOfOrNull { (container, inventory) ->
+                if (inventory.firstOrNull { ingredient.test(it) }?.also { it.decrement(1) } != null) container else null
+            }?.let(selected::add)
+        }
+        return selected
+    }
+
     companion object SerializerAndType : RecipeSerializer<ForgingRecipe>, RecipeType<ForgingRecipe> {
-        val CODEC = RecordCodecBuilder.mapCodec { it.group(
+        val CODEC: MapCodec<ForgingRecipe> = RecordCodecBuilder.mapCodec { it.group(
             Ingredient.DISALLOW_EMPTY_CODEC.singleOrList().defaultedList(Ingredient.EMPTY).fieldOf("ingredients").forGetter(ForgingRecipe::ingredients),
             FluidVariant.CODEC.fieldOf("result").forGetter(ForgingRecipe::result),
             Codec.LONG.fieldOf("result_amount").forGetter(ForgingRecipe::resultAmount),
             Codec.INT.fieldOf("forging_time").forGetter(ForgingRecipe::forgingTime),
         ).apply(it, ::ForgingRecipe) }
 
-        val PACKET_CODEC = PacketCodec.tuple(
+        val PACKET_CODEC: PacketCodec<RegistryByteBuf, ForgingRecipe> = PacketCodec.tuple(
             Ingredient.PACKET_CODEC.defaultedList(Ingredient.EMPTY), ForgingRecipe::ingredients,
             FluidVariant.PACKET_CODEC, ForgingRecipe::result,
             PacketCodecs.VAR_LONG, ForgingRecipe::resultAmount,

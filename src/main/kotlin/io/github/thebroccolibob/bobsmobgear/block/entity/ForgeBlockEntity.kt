@@ -1,9 +1,14 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Companion.CONNECTION
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Companion.FACING
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Companion.LIT
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Companion.iterateConnected
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Connection
 import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.util.minus
+import io.github.thebroccolibob.bobsmobgear.util.plus
 import io.github.thebroccolibob.bobsmobgear.util.toDefaultedList
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
@@ -27,6 +32,7 @@ import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Hand
+import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import kotlin.jvm.optionals.getOrNull
@@ -48,9 +54,18 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
     private var progress = 0
 
     fun getConnected(world: World): List<ForgeBlockEntity> =
-        listOf(this) + iterateConnected(pos, cachedState).mapNotNull {
-            if (it == pos) null else world.getBlockEntity(it, BobsMobGearBlocks.FORGE_BLOCK_ENTITY).getOrNull()
+        iterateConnected(pos, cachedState).mapNotNull {
+            if (it == pos) this else world.getBlockEntity(it, BobsMobGearBlocks.FORGE_BLOCK_ENTITY).getOrNull()
         }
+
+    fun getConnectedThisAndAfter(world: World): List<ForgeBlockEntity> {
+        val connection = cachedState[CONNECTION]
+        val facing = cachedState[FACING]
+        return Connection.CONNECTED
+            .filter { it >= connection }
+            .map { pos - connection.offset(facing) + it.offset(facing) }
+            .mapNotNull { world.getBlockEntity(it, BobsMobGearBlocks.FORGE_BLOCK_ENTITY).getOrNull() }
+    }
 
     fun tryAddStack(world: World, stack: ItemStack): Boolean {
         if (!world.recipeManager.listAllOfType(ForgingRecipe).any { recipe ->
@@ -99,8 +114,6 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
         FluidStorageUtil.interactWithFluidStorage(FilteringStorage.extractOnlyOf(it.fluidStorage), player, hand)
     }
 
-    fun getStacks(world: World) = getConnected(world).flatMap { it.inventory.heldStacks }.toDefaultedList()
-
     private fun updateListeners() {
         markDirty()
         world?.updateListeners(getPos(), cachedState, cachedState, Block.NOTIFY_ALL)
@@ -130,37 +143,67 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)
 
     companion object : BlockEntityTicker<ForgeBlockEntity> {
-        val PROGRESS_NBT = "progress"
-        val FLUID_NBT = "fluid"
+        const val PROGRESS_NBT = "progress"
+        const val FLUID_NBT = "fluid"
 
         override fun tick(world: World, pos: BlockPos, state: BlockState, blockEntity: ForgeBlockEntity) {
-            with (blockEntity) {
-                val stacks = getStacks(world)
-                val recipe = if (inventory.isEmpty || !state[LIT]) null else
-                    world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(stacks), world).getOrNull()?.value
+            if (!state[CONNECTION].isRoot) return
+            val connectedForges = blockEntity.getConnected(world)
 
-                if (recipe == null) {
+            if (!state[LIT]) {
+                tickForgesRecipe(connectedForges, DefaultedList.of(), null)
+                return
+            }
+
+            if (!state[CONNECTION].isConnected) {
+                world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(blockEntity.inventory.heldStacks), world).getOrNull()?.value?.let {
+                    tickForgesRecipe(listOf(blockEntity), blockEntity.inventory.heldStacks, it)
+                }
+                return
+            }
+
+            val remainingForges = connectedForges.toMutableSet()
+            while (remainingForges.isNotEmpty()) {
+                val stacks = remainingForges.flatMap { it.inventory.heldStacks }.toDefaultedList()
+                if (stacks.all { it.isEmpty }) break
+                val recipe = world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(stacks), world).getOrNull()?.value ?: break
+                val used = recipe.selectInventories(remainingForges) { inventory.heldStacks }
+                tickForgesRecipe(used, stacks, recipe)
+                remainingForges.removeAll(used)
+            }
+            tickForgesRecipe(remainingForges, DefaultedList.of(), null)
+        }
+
+        private fun tickForgesRecipe(forges: Iterable<ForgeBlockEntity>, stacks: DefaultedList<ItemStack>, recipe: ForgingRecipe?) {
+            if (recipe == null) {
+                for (blockEntity in forges) with (blockEntity) {
                     if (progress > 0)
                         progress--
+                }
+                return
+            }
+
+            for (blockEntity in forges)
+                blockEntity.progress++
+
+            if (forges.any { it.progress < recipe.forgingTime}) return
+
+            // Craft
+
+            Transaction.openOuter().use {
+                val remaining = forges.fold(recipe.resultAmount) { remaining, forge ->
+                    if (remaining <= 0) remaining else remaining - forge.fluidStorage.insert(recipe.result, remaining, it)
+                }
+                if (remaining > 0) {
+                    it.abort()
                     return
                 }
-
-                progress++
-
-                if (progress < recipe.forgingTime) return
-
-                Transaction.openOuter().use {
-                    val accepted = fluidStorage.insert(recipe.result, recipe.resultAmount, it)
-                    if (accepted < recipe.resultAmount) {
-                        it.abort()
-                        return
-                    }
-                    it.commit()
-                }
-                recipe.subtractItems(stacks)
-                updateListeners()
-
-                progress = 0
+                it.commit()
+            }
+            recipe.subtractItems(stacks)
+            for (forge in forges) {
+                forge.progress = 0
+                forge.updateListeners()
             }
         }
     }
