@@ -112,7 +112,7 @@ class ForgeBlock(private val heaterBlock: Block, settings: Settings) : AbstractF
         val offset = 0.58
         val dx = 0.5 + if (axis === Direction.Axis.X) direction.offsetX * offset
             else (if (direction == Direction.NORTH) xOffset else -xOffset) + 2 / 16.0 * random.nextDouble() - 1 / 16.0
-        val dy = 1 / 16.0 + 5 / 16.0 * random.nextDouble()
+        val dy = 1 / 16.0 + 1 / 16.0 * random.nextDouble()
         val dz = 0.5 + if (axis === Direction.Axis.Z) direction.offsetZ * offset
             else (if (direction == Direction.EAST) xOffset else -xOffset) + 2 / 16.0 * random.nextDouble() - 1 / 16.0
 
