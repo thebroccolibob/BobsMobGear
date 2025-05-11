@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.client
 
 import io.github.thebroccolibob.bobsmobgear.fluid.MetalFluid
 import io.github.thebroccolibob.bobsmobgear.mixin.client.ContinuousFallingBlockLeakParticleInvoker
+import io.github.thebroccolibob.bobsmobgear.mixin.client.DrippingBlockLeakParticleInvoker
 import io.github.thebroccolibob.bobsmobgear.mixin.client.LandingBlockLeakParticleInvoker
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
@@ -15,10 +16,10 @@ import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.util.math.ColorHelper
 
-fun createDripFactory(fluid: MetalFluid, create: (ClientWorld, Double, Double, Double, Fluid) -> SpriteBillboardParticle) =
+fun createDripFactory(fluid: MetalFluid, create: (ClientWorld, Double, Double, Double, Fluid) -> SpriteBillboardParticle?) =
     PendingParticleFactory { spriteProvider ->
         ParticleFactory<SimpleParticleType> { _, world, x, y, z, _, _, _ ->
-            create(world, x, y, z, fluid).apply {
+            create(world, x, y, z, fluid)?.apply {
                 setColor(
                     ColorHelper.Argb.getRed(fluid.tint) / 255f,
                     ColorHelper.Argb.getGreen(fluid.tint) / 255f,
@@ -28,10 +29,10 @@ fun createDripFactory(fluid: MetalFluid, create: (ClientWorld, Double, Double, D
             }
         }
     }
-fun createDripFactory(fluid: MetalFluid, next: ParticleEffect, create: (ClientWorld, Double, Double, Double, Fluid, ParticleEffect) -> SpriteBillboardParticle) =
+fun createDripFactory(fluid: MetalFluid, next: ParticleEffect, create: (ClientWorld, Double, Double, Double, Fluid, ParticleEffect) -> SpriteBillboardParticle?) =
     PendingParticleFactory { spriteProvider ->
         ParticleFactory<SimpleParticleType> { _, world, x, y, z, _, _, _ ->
-            create(world, x, y, z, fluid, next).apply {
+            create(world, x, y, z, fluid, next)?.apply {
                 setColor(
                     ColorHelper.Argb.getRed(fluid.tint) / 255f,
                     ColorHelper.Argb.getGreen(fluid.tint) / 255f,
@@ -44,7 +45,7 @@ fun createDripFactory(fluid: MetalFluid, next: ParticleEffect, create: (ClientWo
 
 private fun registerDrips(dripParticles: BobsMobGearParticles.Drips, fluid: MetalFluid) {
     ParticleFactoryRegistry.getInstance().apply {
-        register(dripParticles.dripping, createDripFactory(fluid, dripParticles.falling, ContinuousFallingBlockLeakParticleInvoker::newContinuousFalling))
+        register(dripParticles.dripping, createDripFactory(fluid, dripParticles.falling, DrippingBlockLeakParticleInvoker::newDripping))
         register(dripParticles.falling, createDripFactory(fluid, dripParticles.landing, ContinuousFallingBlockLeakParticleInvoker::newContinuousFalling))
         register(dripParticles.landing, createDripFactory(fluid, LandingBlockLeakParticleInvoker::newLanding))
     }

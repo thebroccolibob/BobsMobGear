@@ -5,6 +5,7 @@ import io.github.thebroccolibob.bobsmobgear.mixin.FluidInvoker
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.isOf
+import io.github.thebroccolibob.bobsmobgear.util.minus
 import io.github.thebroccolibob.bobsmobgear.util.set
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
@@ -97,24 +98,29 @@ class ForgeBlock(private val heaterBlock: Block, settings: Settings) : AbstractF
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
-        val xOffset = when (state[CONNECTION]) {
-            Connection.NONE -> 0.5
-            Connection.FRONT_LEFT -> 1.0
-            else -> return
-        }
+        if (random.nextFloat() > 0.25f) return
+
         val fluidStorage = getBlockEntity(world, pos)?.fluidStorage?.takeUnless { it.isResourceBlank } ?: return
 
+        val connection = state[CONNECTION]
         val direction = state[FACING]
         val axis = direction.axis
-        val offset = 0.52
-        val dx = if (axis === Direction.Axis.X) direction.offsetX * offset else if (direction == Direction.NORTH) xOffset else -xOffset
-        val dy = 4 / 16.0
-        val dz = if (axis === Direction.Axis.Z) direction.offsetZ * offset else if (direction == Direction.EAST) xOffset else -xOffset
+        val rootPos = pos - connection.offset(direction)
+
+        val xOffset = if (connection == Connection.NONE) 0.0 else 0.5
+
+        val offset = 0.58
+        val dx = 0.5 + if (axis === Direction.Axis.X) direction.offsetX * offset
+            else (if (direction == Direction.NORTH) xOffset else -xOffset) + 2 / 16.0 * random.nextDouble() - 1 / 16.0
+        val dy = 1 / 16.0 + 5 / 16.0 * random.nextDouble()
+        val dz = 0.5 + if (axis === Direction.Axis.Z) direction.offsetZ * offset
+            else (if (direction == Direction.EAST) xOffset else -xOffset) + 2 / 16.0 * random.nextDouble() - 1 / 16.0
+
         world.addParticle(
             (fluidStorage.variant.fluid as FluidInvoker).invokeGetParticle(),
-            pos.x + dx,
-            pos.y + dy,
-            pos.z + dz,
+            rootPos.x + dx,
+            rootPos.y + dy,
+            rootPos.z + dz,
             0.0,
             0.0,
             0.0

@@ -15,7 +15,7 @@ import java.util.function.BiConsumer
 class ParticleDataGenerator(
     dataOutput: FabricDataOutput,
     registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>,
-) : FabricCodecDataProvider<List<Identifier>>(dataOutput, registriesFuture, DataOutput.OutputType.RESOURCE_PACK, "textures/particle", CODEC) {
+) : FabricCodecDataProvider<List<Identifier>>(dataOutput, registriesFuture, DataOutput.OutputType.RESOURCE_PACK, "particles", CODEC) {
     override fun configure(
         provider: BiConsumer<Identifier, List<Identifier>>,
         lookup: RegistryWrapper.WrapperLookup
