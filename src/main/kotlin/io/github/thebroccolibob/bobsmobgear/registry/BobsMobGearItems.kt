@@ -1,10 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.item.AbstractFleshGlove
-import io.github.thebroccolibob.bobsmobgear.item.FLESH_GLOVE_MATERIAL
-import io.github.thebroccolibob.bobsmobgear.item.FleshGloveItem
-import io.github.thebroccolibob.bobsmobgear.item.FluidPotItem
+import io.github.thebroccolibob.bobsmobgear.item.*
 import io.github.thebroccolibob.bobsmobgear.util.itemSettings
 import io.github.thebroccolibob.bobsmobgear.util.plus
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
@@ -16,10 +13,7 @@ import net.minecraft.block.Block
 import net.minecraft.component.ComponentType
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.Fluids
-import net.minecraft.item.BucketItem
-import net.minecraft.item.Item
-import net.minecraft.item.Items
-import net.minecraft.item.ToolMaterials
+import net.minecraft.item.*
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -74,6 +68,10 @@ object BobsMobGearItems {
 
     val POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT)
 
+    val SMITHING_TONGS = register("smithing_tongs", TongsItem(itemSettings {
+        maxCount(1)
+    }))
+
     val FLESH_GLOVE = register("flesh_glove",
         AbstractFleshGlove(
             FLESH_GLOVE_MATERIAL,
@@ -99,6 +97,11 @@ object BobsMobGearItems {
     val HEATED = register<MCUnit>("heated") {
         codec(MCUnit.CODEC)
         packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
+    }
+
+    val TONGS_HELD_ITEM = register<ItemStack>("tongs_held_item") {
+        codec(ItemStack.CODEC)
+        packetCodec(ItemStack.PACKET_CODEC)
     }
 
     // TAGS

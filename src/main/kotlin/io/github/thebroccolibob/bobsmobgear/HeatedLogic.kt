@@ -8,13 +8,19 @@ import io.github.thebroccolibob.bobsmobgear.util.isOf
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.minecraft.block.Blocks
+import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import org.joml.Matrix3f
 
 @JvmField
@@ -23,6 +29,30 @@ val HEATED_COLOR_MATRIX = Matrix3f(
     1f, 0.2f, 0f,
     1f, 0.2f, 0f
 )
+
+fun extinguishHeatedStack(stack: ItemStack, world: World, entity: Entity?, pos: Vec3d, soundCategory: SoundCategory) {
+    stack.remove(BobsMobGearItems.HEATED)
+
+    world.playSound(entity as? PlayerEntity, pos.x, pos.y, pos.z, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, soundCategory)
+
+    (world as? ServerWorld)?.run {
+        spawnParticles(ParticleTypes.CLOUD, pos.x, pos.y, pos.z, 4, 0.25, 0.125, 0.25, 0.0)
+    }
+}
+
+fun extinguishHeatedStack(stack: ItemStack, world: World, entity: Entity) {
+    extinguishHeatedStack(stack, world, entity, Vec3d(entity.x, entity.getBodyY(0.5), entity.z), entity.soundCategory)
+}
+
+fun extinguishHeatedStack(stack: ItemStack, world: World, entity: Entity?, cauldronPos: BlockPos) {
+    extinguishHeatedStack(
+        stack,
+        world,
+        entity,
+        Vec3d(cauldronPos.x + 0.5, cauldronPos.y + 0.9, cauldronPos.z + 0.5),
+        entity?.soundCategory ?: SoundCategory.NEUTRAL
+    )
+}
 
 fun registerHeatedLogic() {
     UseBlockCallback.EVENT.register { player, world, hand, hitResult ->
@@ -35,13 +65,7 @@ fun registerHeatedLogic() {
             || (hitResult.side != Direction.UP))
             return@register ActionResult.PASS
 
-        stack.remove(BobsMobGearItems.HEATED)
-        world.playSound(player, hitResult.blockPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, player.soundCategory)
-        (world as? ServerWorld)?.run {
-            val particlePos = hitResult.blockPos.toCenterPos().add(0.0, 0.4, 0.0)
-            spawnParticles(ParticleTypes.CLOUD, particlePos.x, particlePos.y, particlePos.z, 4, 0.25, 0.125, 0.25, 0.0)
-        }
-
+        extinguishHeatedStack(stack, world, player, hitResult.blockPos)
         ActionResult.SUCCESS
     }
 
@@ -56,12 +80,7 @@ fun registerHeatedLogic() {
                             && (Blocks.WATER_CAULDRON as AbstractCauldronBlockInvoker).invokeIsEntityTouchingFluid(state, entity.blockPos, entity))
             || entity.wasInPowderSnow) {
 
-            stack.remove(BobsMobGearItems.HEATED)
-            entity.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1f, 1f)
-            (entity.world as? ServerWorld)?.run {
-                val particlePos = Vec3d(entity.x, entity.getBodyY(0.5), entity.z)
-                spawnParticles(ParticleTypes.CLOUD, particlePos.x, particlePos.y, particlePos.z, 4, 0.25, 0.125, 0.25, 0.0)
-            }
+            extinguishHeatedStack(stack, entity.world, entity)
 
             return@register
         }

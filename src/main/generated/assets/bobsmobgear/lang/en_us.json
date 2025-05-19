@@ -1,6 +1,7 @@
 {
   "block.bobsmobgear.sword_template": "Sword Template",
   "item.bobsmobgear.heated": "Heated",
+  "item.bobsmobgear.smithing_tongs.held_item": "Held Item:",
   "subtitles.block.bobsmobgear.template.add_item": "Template fills",
   "subtitles.block.bobsmobgear.template.craft": "Tool crafts",
   "subtitles.block.bobsmobgear.template.hammer": "Tool hammers",
