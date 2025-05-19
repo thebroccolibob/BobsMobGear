@@ -64,15 +64,6 @@ object BobsMobGearItems {
     val FORGE = register(BobsMobGearBlocks.FORGE)
     val FORGE_HEATER = register(BobsMobGearBlocks.FORGE_HEATER)
 
-    val FLESH_GLOVE = register("flesh_glove",
-        AbstractFleshGlove(
-            FLESH_GLOVE_MATERIAL,
-            Item.Settings()
-                .maxCount(1)
-                .rarity(Rarity.COMMON)
-        )
-    )
-
     val EMPTY_POT = register("empty_pot", FluidPotItem(Fluids.EMPTY, itemSettings {
         maxCount(16)
     }))
@@ -82,6 +73,15 @@ object BobsMobGearItems {
     val NETHERITE_POT = registerPot(BobsMobGearFluids.NETHERITE)
 
     val POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT)
+
+    val FLESH_GLOVE = register("flesh_glove",
+        AbstractFleshGlove(
+            FLESH_GLOVE_MATERIAL,
+            Item.Settings()
+                .maxCount(1)
+                .rarity(Rarity.COMMON)
+        )
+    )
 
     val IRON_FLESH_GLOVE = register("iron_flesh_glove",
         FleshGloveItem(
