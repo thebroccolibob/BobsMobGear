@@ -1,0 +1,14 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "bobsmobgear:item/iron_flesh_glove_held",
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [85, 15, 0],
+			"translation": [-4, 1.75, 10]
+		},
+		"firstperson_lefthand": {
+			"rotation": [85, 15, 0],
+			"translation": [-4, 1.75, 10]
+		}
+	}
+}

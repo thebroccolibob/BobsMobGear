@@ -4,6 +4,13 @@
     "layer0": "bobsmobgear:item/iron_flesh_glove_gui"
   },
   "overrides": [
-    { "predicate": { "pommel:is_held": 1.0 }, "model": "bobsmobgear:item/iron_flesh_glove_held" }
+    { "predicate": { "pommel:is_held": 1.0 }, "model": "bobsmobgear:item/iron_flesh_glove_held" },
+    {
+      "predicate": {
+        "pommel:is_held": 1.0,
+        "bobsmobgear:blocking": 1.0
+      },
+      "model": "bobsmobgear:item/iron_flesh_glove_blocking"
+    }
   ]
 }

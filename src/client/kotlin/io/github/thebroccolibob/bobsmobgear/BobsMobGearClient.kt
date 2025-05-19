@@ -10,6 +10,7 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler
+import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.util.Formatting
 
@@ -22,6 +23,10 @@ object BobsMobGearClient : ClientModInitializer {
 
 	override fun onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+		ModelPredicateProviderRegistry.register(BobsMobGear.id("blocking")) { stack, _, entity, _ ->
+			if (entity?.activeItem == stack) 1f else 0f
+		}
+
 		BlockEntityRendererFactories.register(BobsMobGearBlocks.TEMPLATE_BLOCK_ENTITY, ::TemplateBlockEntityRenderer)
 
 		ItemTooltipCallback.EVENT.register { stack, _, _, lines ->
