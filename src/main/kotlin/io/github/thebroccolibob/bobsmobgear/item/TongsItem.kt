@@ -6,6 +6,7 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems.TONGS_HELD_ITEM
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.Blocks
+import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileUtil
@@ -17,6 +18,8 @@ import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.screen.slot.Slot
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.ClickType
@@ -24,24 +27,27 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.Util.createTranslationKey
 import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
 class TongsItem(settings: Settings) : Item(settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val stack = user[hand]
-        if (TONGS_HELD_ITEM in stack) return TypedActionResult.fail(stack)
+        if (stack[TONGS_HELD_ITEM]?.isEmpty != true) return TypedActionResult.fail(stack)
 
-        val itemEntity = (ProjectileUtil.getCollision(user, { it is ItemEntity }, user.entityInteractionRange) as? EntityHitResult)?.entity as? ItemEntity
+        val itemEntity = (ProjectileUtil.getCollision(user, { it is ItemEntity }, user.blockInteractionRange) as? EntityHitResult)?.entity as? ItemEntity
             ?: return TypedActionResult.fail(stack)
 
-        if (!world.isClient) // Safety
+        if (!world.isClient) {// Safety
             stack[TONGS_HELD_ITEM] = itemEntity.stack.split(1)
+            playAddSound(world, itemEntity.pos)
+        }
 
         return TypedActionResult.success(stack)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        val heldItem = context.stack[TONGS_HELD_ITEM] ?: return ActionResult.PASS
+        val heldItem = context.stack[TONGS_HELD_ITEM]?.takeUnless { it.isEmpty } ?: return ActionResult.PASS
 
         val state = context.world[context.blockPos]
 
@@ -61,23 +67,27 @@ class TongsItem(settings: Settings) : Item(settings) {
                 it.offset(context.side)
         }.toBottomCenterPos()
 
-        if (context.world.spawnEntity(ItemEntity(context.world, placePos.x, placePos.y, placePos.z, heldItem, 0.0, 0.0, 0.0)))
-            context.stack.remove(TONGS_HELD_ITEM)
+        if (context.world.spawnEntity(ItemEntity(context.world, placePos.x, placePos.y, placePos.z, heldItem, 0.0, 0.0, 0.0))) {
+            context.stack.removeHeld()
+            playRemoveSound(context.world, context.hitPos)
+        }
 
         return ActionResult.CONSUME
     }
 
-    override fun onClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot?, clickType: ClickType, player: PlayerEntity?, cursorStackReference: StackReference): Boolean {
+    override fun onClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot?, clickType: ClickType, player: PlayerEntity, cursorStackReference: StackReference): Boolean {
         if (clickType != ClickType.RIGHT) return false
 
         if (otherStack.isEmpty) {
-            if (TONGS_HELD_ITEM !in stack) return false
+            if (stack[TONGS_HELD_ITEM]?.isEmpty != false) return false
 
-            cursorStackReference.set(stack.remove(TONGS_HELD_ITEM))
+            cursorStackReference.set(stack.removeHeld())
+            playRemoveSound(player)
         } else {
-            if (TONGS_HELD_ITEM in stack) return false
+            if (stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
 
             stack[TONGS_HELD_ITEM] = otherStack.split(1)
+            playAddSound(player)
         }
 
         return true
@@ -89,16 +99,29 @@ class TongsItem(settings: Settings) : Item(settings) {
         val otherStack = slot.stack
 
         if (otherStack.isEmpty) {
-            if (TONGS_HELD_ITEM !in stack) return false
+            if (stack[TONGS_HELD_ITEM]?.isEmpty != false) return false
 
-            slot.stack = stack.remove(TONGS_HELD_ITEM)
+            slot.stack = stack.removeHeld()
+            playRemoveSound(player)
         } else {
-            if (TONGS_HELD_ITEM in stack) return false
+            if (stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
 
             stack[TONGS_HELD_ITEM] = otherStack.split(1)
+            playAddSound(player)
         }
 
         return true
+    }
+
+    override fun onItemEntityDestroyed(entity: ItemEntity) {
+        entity.world.takeUnless { it.isClient }?.spawnEntity(
+            ItemEntity(
+                entity.world,
+                entity.x,
+                entity.y,
+                entity.z,
+                entity.stack.removeHeld()
+            ))
     }
 
     override fun appendTooltip(
@@ -107,12 +130,29 @@ class TongsItem(settings: Settings) : Item(settings) {
         tooltip: MutableList<Text>,
         type: TooltipType?
     ) {
-        stack[TONGS_HELD_ITEM]?.let {
+        stack[TONGS_HELD_ITEM]?.takeUnless { it.isEmpty }?.let {
             tooltip.add(HELD_ITEM_TOOLTIP.text() + ScreenTexts.SPACE + it.toHoverableText())
         }
     }
 
     companion object {
         val HELD_ITEM_TOOLTIP = Translation.unit(createTranslationKey("item", BobsMobGear.id("smithing_tongs.held_item")))
+
+        private fun ItemStack.removeHeld(): ItemStack = set(TONGS_HELD_ITEM, ItemStack.EMPTY)!!
+
+        private fun playRemoveSound(entity: Entity) {
+            entity.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 1f, 0.8f) // TODO custom sound
+        }
+        private fun playRemoveSound(world: World, pos: Vec3d) {
+            world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1f, 0.8f) // TODO custom sound
+        }
+
+        private fun playAddSound(entity: Entity) {
+            entity.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 1f, 1f) // TODO custom sound
+        }
+        private fun playAddSound(world: World, pos: Vec3d) {
+            world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1f, 1f) // TODO custom sound
+        }
+
     }
 }

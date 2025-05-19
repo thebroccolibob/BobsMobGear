@@ -51,6 +51,19 @@ object BobsMobGearItems {
     private fun tagOf(id: Identifier): TagKey<Item> = TagKey.of(RegistryKeys.ITEM, id)
     private fun tagOf(path: String) = tagOf(BobsMobGear.id(path))
 
+    // COMPONENTS
+
+    @JvmField
+    val HEATED = register<MCUnit>("heated") {
+        codec(MCUnit.CODEC)
+        packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
+    }
+
+    val TONGS_HELD_ITEM = register<ItemStack>("tongs_held_item") {
+        codec(ItemStack.CODEC)
+        packetCodec(ItemStack.PACKET_CODEC)
+    }
+
     // ITEMS
 
     val SWORD_TEMPLATE = register(BobsMobGearBlocks.SWORD_TEMPLATE)
@@ -70,6 +83,7 @@ object BobsMobGearItems {
 
     val SMITHING_TONGS = register("smithing_tongs", TongsItem(itemSettings {
         maxCount(1)
+        component(TONGS_HELD_ITEM, ItemStack.EMPTY)
     }))
 
     val FLESH_GLOVE = register("flesh_glove",
@@ -90,19 +104,6 @@ object BobsMobGearItems {
             0.3f
         )
     )
-
-    // COMPONENTS
-
-    @JvmField
-    val HEATED = register<MCUnit>("heated") {
-        codec(MCUnit.CODEC)
-        packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
-    }
-
-    val TONGS_HELD_ITEM = register<ItemStack>("tongs_held_item") {
-        codec(ItemStack.CODEC)
-        packetCodec(ItemStack.PACKET_CODEC)
-    }
 
     // TAGS
 
