@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear
 
 import io.github.thebroccolibob.bobsmobgear.client.registerBobsMobGearParticleFactories
 import io.github.thebroccolibob.bobsmobgear.client.render.blockentity.TemplateBlockEntityRenderer
+import io.github.thebroccolibob.bobsmobgear.client.render.item.TongsItemRenderer
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
@@ -42,5 +43,6 @@ object BobsMobGearClient : ClientModInitializer {
 			))
 
 		registerBobsMobGearParticleFactories()
+		TongsItemRenderer.register()
 	}
 }

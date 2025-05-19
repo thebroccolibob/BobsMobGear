@@ -46,8 +46,9 @@ class TongsItem(settings: Settings) : Item(settings) {
         val state = context.world[context.blockPos]
 
         if (BobsMobGearItems.HEATED in heldItem && (state.fluidState isIn FluidTags.WATER || state isOf Blocks.WATER_CAULDRON)) {
-            extinguishHeatedStack(heldItem, context.world, context.player, context.blockPos)
-            context.stack[TONGS_HELD_ITEM] = heldItem
+            context.stack[TONGS_HELD_ITEM] = heldItem.copy().also {
+                extinguishHeatedStack(it, context.world, context.player, context.blockPos)
+            }
             return ActionResult.SUCCESS
         }
 

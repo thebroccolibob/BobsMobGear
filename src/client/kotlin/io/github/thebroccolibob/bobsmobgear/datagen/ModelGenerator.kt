@@ -19,18 +19,19 @@ import java.util.*
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
 
-    override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) = with(blockStateModelGenerator) {
+    override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator): Unit = with(blockStateModelGenerator) {
         registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
         registerForge(BobsMobGearBlocks.FORGE)
         registerForge(BobsMobGearBlocks.FORGE_HEATER, BobsMobGearBlocks.FORGE)
     }
 
-    override fun generateItemModels(itemModelGenerator: ItemModelGenerator) = with(itemModelGenerator) {
+    override fun generateItemModels(itemModelGenerator: ItemModelGenerator): Unit = with(itemModelGenerator) {
         registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
         registerGenerated(BobsMobGearItems.EMPTY_POT)
         registerGenerated(BobsMobGearItems.IRON_POT)
         registerGenerated(BobsMobGearItems.DIAMOND_POT)
         registerGenerated(BobsMobGearItems.NETHERITE_POT)
+        Models.GENERATED.upload(ModelIds.getItemSubModelId(BobsMobGearItems.SMITHING_TONGS, "_model"), TextureMap.layer0(BobsMobGearItems.SMITHING_TONGS), writer)
     }
 
     companion object {
@@ -39,6 +40,8 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
 
         val WOOD_TEMPLATE_FACTORY: TexturedModel.Factory = TexturedModel.makeFactory({ TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_wood")) }, WOOD_TEMPLATE_MODEL)
         val METAL_TEMPLATE_FACTORY: TexturedModel.Factory = TexturedModel.makeFactory({ TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_metal")) }, METAL_TEMPLATE_MODEL)
+
+        val BUILTIN_ENTITY_MODEL = Model(Optional.of(Identifier.ofVanilla("builtin/entity")), Optional.empty())
 
         fun ItemModelGenerator.registerTemplate(template: Block) {
             Models.GENERATED.upload(ModelIds.getItemModelId(template.asItem()), TextureMap.layer0(TextureMap.getSubId(template, "_wood")), writer)
