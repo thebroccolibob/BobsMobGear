@@ -1,0 +1,11 @@
+{
+  "type": "bobsmobgear:forging",
+  "forging_time": 200,
+  "ingredients": {
+    "tag": "bobsmobgear:forges/netherite_ingot"
+  },
+  "result": {
+    "fluid": "bobsmobgear:netherite"
+  },
+  "result_amount": 9000
+}

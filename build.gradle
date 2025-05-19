@@ -47,6 +47,7 @@ loom {
 		}
 	}
 
+	accessWidenerPath = file("src/main/resources/bobsmobgear.accesswidener")
 }
 
 fabricApi {

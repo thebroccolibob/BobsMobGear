@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "bobsmobgear:block/forge_bottom_front_left",
+    "east": "bobsmobgear:block/forge_side_right",
+    "north": "bobsmobgear:block/forge_heater_front_left_lit",
+    "particle": "bobsmobgear:block/forge_side",
+    "south": "bobsmobgear:block/forge_inside",
+    "up": "bobsmobgear:block/forge_heater_top_front_left",
+    "west": "bobsmobgear:block/forge_inside"
+  }
+}

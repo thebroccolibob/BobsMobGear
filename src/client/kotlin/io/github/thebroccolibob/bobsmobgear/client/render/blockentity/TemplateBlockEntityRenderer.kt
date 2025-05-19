@@ -16,6 +16,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.MathHelper.lerp
 import net.minecraft.util.math.RotationAxis
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 @Environment(EnvType.CLIENT)
 class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<TemplateBlockEntity> {
@@ -67,6 +68,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         val fluid = entity.fluidStorage.variant.takeUnless { it.isBlank }?.fluid ?: return
         val renderer = FluidRenderHandlerRegistry.INSTANCE.get(fluid) ?: return
         val sprite = renderer.getFluidSprites(entity.world, entity.pos, fluid.defaultState)?.get(0) ?: return
+        val fluidProgress = (entity.fluidStorage.amount.toFloat() * FLUID_STEPS / entity.fluidStorage.capacity).roundToInt() / FLUID_STEPS.toFloat()
 
         matrices.translate(0f, 0f, -OFFSET)
 
@@ -87,19 +89,22 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
                 .normal(matrix, 0f, 0f, -1f)
         }
 
-        val minU = lerp(MARGIN, sprite.minU, sprite.maxU)
-        val maxU = lerp(1 - MARGIN, sprite.minU, sprite.maxU)
-        val minV = lerp(MARGIN, sprite.minV, sprite.maxV)
-        val maxV = lerp(1 - MARGIN, sprite.minV, sprite.maxV)
+        val radius = fluidProgress * (0.5f - MARGIN)
 
-        vertex(-0.5f + MARGIN, -0.5f + MARGIN, maxU, maxV)
-        vertex(-0.5f + MARGIN, 0.5f - MARGIN, maxU, minV)
-        vertex(0.5f - MARGIN, 0.5f - MARGIN, minU, minV)
-        vertex(0.5f - MARGIN, -0.5f + MARGIN, minU, maxV)
+        val minU = lerp(0.5f - radius, sprite.minU, sprite.maxU)
+        val maxU = lerp(0.5f + radius, sprite.minU, sprite.maxU)
+        val minV = lerp(0.5f - radius, sprite.minV, sprite.maxV)
+        val maxV = lerp(0.5f + radius, sprite.minV, sprite.maxV)
+
+        vertex(-radius, -radius, maxU, maxV)
+        vertex(-radius, radius, maxU, minV)
+        vertex(radius, radius, minU, minV)
+        vertex(radius, -radius, minU, maxV)
     }
 
     companion object {
         const val MARGIN = 2 / 16f
+        const val FLUID_STEPS = 12
         const val OFFSET = 1 / 256f
         const val BASE_SCALE = 1 - 2 * MARGIN
         const val TEMPLATE_WIDTH = 2 / 16f

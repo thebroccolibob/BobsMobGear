@@ -1,0 +1,11 @@
+{
+  "type": "bobsmobgear:forging",
+  "forging_time": 200,
+  "ingredients": {
+    "tag": "bobsmobgear:forges/diamond"
+  },
+  "result": {
+    "fluid": "bobsmobgear:diamond"
+  },
+  "result_amount": 9000
+}

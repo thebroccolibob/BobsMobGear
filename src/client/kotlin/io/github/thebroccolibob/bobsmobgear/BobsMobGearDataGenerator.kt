@@ -10,10 +10,13 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::RecipeGenerator)
 			addProvider(::BlockTagGenerator)
 			addProvider(::ItemTagGenerator)
+			addProvider(::FluidTagGenerator)
 			addProvider(::LootTableGenerator)
+
 			addProvider(::ModelGenerator)
 			addProvider(::SoundsGenerator)
 			addProvider(::LangGenerator)
+			addProvider(::ParticleDataGenerator)
 		}
 	}
 }

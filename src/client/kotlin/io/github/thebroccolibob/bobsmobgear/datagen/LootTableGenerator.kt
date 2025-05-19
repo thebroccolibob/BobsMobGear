@@ -12,5 +12,7 @@ class LootTableGenerator(
 ) : FabricBlockLootTableProvider(dataOutput, registryLookup) {
     override fun generate() {
         addDrop(BobsMobGearBlocks.SWORD_TEMPLATE)
+        addDrop(BobsMobGearBlocks.FORGE)
+        addDrop(BobsMobGearBlocks.FORGE_HEATER)
     }
 }

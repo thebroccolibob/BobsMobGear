@@ -1,0 +1,11 @@
+{
+  "type": "bobsmobgear:forging",
+  "forging_time": 200,
+  "ingredients": {
+    "tag": "bobsmobgear:forges/iron_ingot"
+  },
+  "result": {
+    "fluid": "bobsmobgear:iron"
+  },
+  "result_amount": 9000
+}
