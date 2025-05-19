@@ -1,11 +1,13 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.item.AbstractFleshGlove
 import io.github.thebroccolibob.bobsmobgear.item.FLESH_GLOVE_MATERIAL
 import io.github.thebroccolibob.bobsmobgear.item.FleshGloveItem
 import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.Items
+import net.minecraft.item.ToolMaterials
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -26,12 +28,21 @@ object BobsMobGearItems {
     val SWORD_TEMPLATE = Items.register(BobsMobGearBlocks.SWORD_TEMPLATE)
 
     val FLESH_GLOVE = register("flesh_glove",
-        FleshGloveItem(
+        AbstractFleshGlove(
             FLESH_GLOVE_MATERIAL,
-            2,
             Item.Settings()
                 .maxCount(1)
                 .rarity(Rarity.COMMON)
+        )
+    )
+
+    val IRON_FLESH_GLOVE = register("iron_flesh_glove",
+        FleshGloveItem(
+            ToolMaterials.IRON,
+            Item.Settings()
+                .maxCount(1)
+                .rarity(Rarity.COMMON),
+            0.3f
         )
     )
 
