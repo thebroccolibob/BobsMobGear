@@ -38,6 +38,8 @@ class TongsItem(settings: Settings) : Item(settings) {
         val itemEntity = (ProjectileUtil.getCollision(user, { it is ItemEntity }, user.blockInteractionRange) as? EntityHitResult)?.entity as? ItemEntity
             ?: return TypedActionResult.fail(stack)
 
+        if (!(itemEntity.stack isIn BobsMobGearItems.TONG_HOLDABLE)) return TypedActionResult.fail(stack)
+
         if (!world.isClient) {// Safety
             stack[TONGS_HELD_ITEM] = itemEntity.stack.split(1)
             playAddSound(world, itemEntity.pos)
@@ -84,7 +86,7 @@ class TongsItem(settings: Settings) : Item(settings) {
             cursorStackReference.set(stack.removeHeld())
             playRemoveSound(player)
         } else {
-            if (stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
+            if (!(otherStack isIn BobsMobGearItems.TONG_HOLDABLE) || stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
 
             stack[TONGS_HELD_ITEM] = otherStack.split(1)
             playAddSound(player)
@@ -104,7 +106,7 @@ class TongsItem(settings: Settings) : Item(settings) {
             slot.stack = stack.removeHeld()
             playRemoveSound(player)
         } else {
-            if (stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
+            if (!(otherStack isIn BobsMobGearItems.TONG_HOLDABLE) || stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
 
             stack[TONGS_HELD_ITEM] = otherStack.split(1)
             playAddSound(player)

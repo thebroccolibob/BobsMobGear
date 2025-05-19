@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#c:tools/mining_tool",
+    "#c:tools/melee_weapon",
+    "#minecraft:swords",
+    "#minecraft:pickaxes",
+    "#minecraft:axes",
+    "#minecraft:shovels",
+    "#minecraft:hoes"
+  ]
+}

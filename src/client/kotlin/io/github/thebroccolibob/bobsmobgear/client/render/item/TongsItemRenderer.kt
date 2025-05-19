@@ -72,7 +72,7 @@ object TongsItemRenderer : DynamicItemRenderer {
                 itemRenderer.renderItem(
                     it,
 //                    if (gui) ModelTransformationMode.NONE else ModelTransformationMode.THIRD_PERSON_RIGHT_HAND,
-                    if (gui) ModelTransformationMode.NONE else ModelTransformationMode.FIXED,
+                    if (gui) ModelTransformationMode.GUI else ModelTransformationMode.FIXED,
                     light,
                     overlay,
                     matrices,

@@ -114,6 +114,7 @@ object BobsMobGearItems {
     val FORGES_NETHERITE_INGOT = tagOf("forges/netherite_ingot")
 
     val SMITHING_HAMMER_TAG = tagOf("smithing_hammer")
+    val TONG_HOLDABLE = tagOf("tong_holdable")
 
     fun register() {
         FluidStorage.ITEM.registerForItems({ stack, context ->

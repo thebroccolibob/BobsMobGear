@@ -1,7 +1,9 @@
-// 1.21.1	2025-05-18T22:58:15.360628414	Bob's Mob Gear/Tags for minecraft:item
+// 1.21.1	2025-05-19T02:02:16.591796948	Bob's Mob Gear/Tags for minecraft:item
 a0a1b732456476d51c16543d1641924a64eb6d59 data/bobsmobgear/tags/item/forges/diamond.json
 b7d2e5e4023b35695e0430da049e46af2e476f4b data/bobsmobgear/tags/item/forges/gold_ingot.json
 3288643c22dbbd7db31583684c3e70f7f13e998e data/bobsmobgear/tags/item/forges/netherite_scrap.json
+7c12f935c7c253d030352aa2830bcddf21fa57c9 data/c/tags/item/tools/melee_weapon.json
+c269e0e12540d5d810d1b7d8770d82602d26e878 data/bobsmobgear/tags/item/tong_holdable.json
 3e0e3d602aad13b57f2f4916d93396739c8cb7e9 data/bobsmobgear/tags/item/forges/netherite_ingot.json
 4a46a02d18b0d3fd1242f2a9aefa2c23e8efe68e data/bobsmobgear/tags/item/forges/iron_ingot.json
 ab2da1a92f65e3431c440aba7b1caee3eb04646d data/bobsmobgear/tags/item/smithing_hammer.json
