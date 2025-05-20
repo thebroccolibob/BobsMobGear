@@ -42,7 +42,7 @@ class TongsItem(settings: Settings) : Item(settings) {
         if (!(itemEntity.stack isIn BobsMobGearItemTags.TONG_HOLDABLE)) return TypedActionResult.fail(stack)
 
         if (!world.isClient) {// Safety
-            stack[TONGS_HELD_ITEM] = itemEntity.stack.split(1)
+            stack[TONGS_HELD_ITEM] = ComparableItemStack(itemEntity.stack.split(1))
             playAddSound(world, itemEntity.pos)
         }
 
@@ -50,7 +50,7 @@ class TongsItem(settings: Settings) : Item(settings) {
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        val heldItem = context.stack[TONGS_HELD_ITEM]?.takeUnless { it.isEmpty } ?: return ActionResult.PASS
+        val heldItem = context.stack[TONGS_HELD_ITEM]?.takeUnless { it.isEmpty }?.stack ?: return ActionResult.PASS
 
         val state = context.world[context.blockPos]
 
@@ -134,14 +134,14 @@ class TongsItem(settings: Settings) : Item(settings) {
         type: TooltipType?
     ) {
         stack[TONGS_HELD_ITEM]?.takeUnless { it.isEmpty }?.let {
-            tooltip.add(HELD_ITEM_TOOLTIP.text() + ScreenTexts.SPACE + it.toHoverableText())
+            tooltip.add(HELD_ITEM_TOOLTIP.text() + ScreenTexts.SPACE + it.stack.toHoverableText())
         }
     }
 
     companion object {
         val HELD_ITEM_TOOLTIP = Translation.unit(createTranslationKey("item", BobsMobGear.id("smithing_tongs.held_item")))
 
-        private fun ItemStack.removeHeld(): ItemStack = set(TONGS_HELD_ITEM, ItemStack.EMPTY)!!
+        private fun ItemStack.removeHeld(): ItemStack = set(TONGS_HELD_ITEM, ComparableItemStack.EMPTY)!!.stack
 
         private fun playRemoveSound(entity: Entity) {
             entity.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 1f, 0.8f) // TODO custom sound

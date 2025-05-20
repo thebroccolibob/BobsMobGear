@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.item.*
+import io.github.thebroccolibob.bobsmobgear.util.ComparableItemStack
 import io.github.thebroccolibob.bobsmobgear.util.itemSettings
 import io.github.thebroccolibob.bobsmobgear.util.plus
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
@@ -59,9 +60,9 @@ object BobsMobGearItems {
         packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
     }
 
-    val TONGS_HELD_ITEM = register<ItemStack>("tongs_held_item") {
-        codec(ItemStack.CODEC)
-        packetCodec(ItemStack.PACKET_CODEC)
+    val TONGS_HELD_ITEM = register<ComparableItemStack>("tongs_held_item") {
+        codec(ComparableItemStack.CODEC)
+        packetCodec(ComparableItemStack.PACKET_CODEC)
     }
 
     // ITEMS
@@ -95,7 +96,7 @@ object BobsMobGearItems {
     @JvmField
     val SMITHING_TONGS = register("smithing_tongs", TongsItem(itemSettings {
         maxCount(1)
-        component(TONGS_HELD_ITEM, ItemStack.EMPTY)
+        component(TONGS_HELD_ITEM, ComparableItemStack.EMPTY)
     }))
 
     val FLESH_GLOVE = register("flesh_glove",

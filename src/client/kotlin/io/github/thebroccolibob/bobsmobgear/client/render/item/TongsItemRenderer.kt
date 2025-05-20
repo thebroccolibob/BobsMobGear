@@ -52,7 +52,7 @@ object TongsItemRenderer : DynamicItemRenderer {
                 itemRenderer.models.modelManager.getModel(TONGS_MODEL)
             )
 
-            stack[TONGS_HELD_ITEM]?.takeIf { !it.isEmpty }?.let {
+            stack[TONGS_HELD_ITEM]?.takeUnless { it.isEmpty }?.stack?.let {
 
                 if (gui) {
                     translate(-0.25, 0.25, 1 / 16.0)
