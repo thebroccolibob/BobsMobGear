@@ -8,6 +8,9 @@
   "fluid_amount": 9000,
   "requires_hammer": true,
   "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
     "id": "minecraft:diamond"
   },
   "template": "bobsmobgear:empty_template"

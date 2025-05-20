@@ -26,6 +26,7 @@ class ItemTagGenerator(
             forceAddTag(ItemTags.AXES)
             forceAddTag(ItemTags.SHOVELS)
             forceAddTag(ItemTags.HOES)
+            add(Items.IRON_INGOT, Items.DIAMOND, Items.NETHERITE_INGOT)
         }
         getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_IRON_INGOT).apply {
             forceAddTag(ConventionalItemTags.IRON_ORES)

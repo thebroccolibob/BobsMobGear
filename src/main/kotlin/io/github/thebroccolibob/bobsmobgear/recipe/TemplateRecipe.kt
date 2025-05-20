@@ -51,7 +51,7 @@ class TemplateRecipe(
     override fun matches(input: TemplateRecipeInput, world: World): Boolean {
         return template == input.template
             && blockBelow.map { input.blockBelow.isIn(it) }.orElse(true)
-            && base.test(input.base)
+            && (if (base.isEmpty) input.base.isEmpty else base.test(input.base))
             && (input.fluid == null || fluid == input.fluid)
             && (input.fluidAmount == null || input.fluidAmount >= fluidAmount)
             && (input.ingredients == null || ((if (input.ingredientsPartial) input.ingredients.size <= ingredients.size else input.ingredients.size == ingredients.size)
@@ -61,9 +61,12 @@ class TemplateRecipe(
     override fun getIngredients(): DefaultedList<Ingredient> = ingredients
 
     override fun craft(input: TemplateRecipeInput, lookup: WrapperLookup): ItemStack =
-        input.base.copyComponentsToNewStack(result.item, result.count).apply {
-            applyChanges(result.componentChanges)
-        }
+        if (input.base.isEmpty)
+            result.copy()
+        else
+            input.base.copyComponentsToNewStack(result.item, result.count).apply {
+                applyChanges(result.componentChanges)
+            }
 
     override fun fits(width: Int, height: Int): Boolean = height >= 1 && width >= ingredients.size + 1
 

@@ -6,6 +6,9 @@
     "#minecraft:pickaxes",
     "#minecraft:axes",
     "#minecraft:shovels",
-    "#minecraft:hoes"
+    "#minecraft:hoes",
+    "minecraft:iron_ingot",
+    "minecraft:diamond",
+    "minecraft:netherite_ingot"
   ]
 }

@@ -239,7 +239,9 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
                     FluidVariant.of(fluid),
                     FluidConstants.INGOT,
                     true,
-                    ingot.defaultStack
+                    ItemStack(ingot).apply {
+                        set(BobsMobGearItems.HEATED)
+                    }
                 ),
                 exporter
             )
