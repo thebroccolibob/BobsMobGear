@@ -48,6 +48,10 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_NETHERITE_INGOT).apply {
             forceAddTag(ConventionalItemTags.NETHERITE_INGOTS)
         }
+        getOrCreateTagBuilder(BobsMobGearItemTags.PREVENT_SMITHING_TABLE_SCREEN).apply {
+            add(BobsMobGearItems.SMITHING_TONGS)
+            forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
+        }
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
