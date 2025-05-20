@@ -1,6 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.fluid
 
-import net.minecraft.fluid.Fluids
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
@@ -10,9 +9,7 @@ open class MetalFluid(
     val tint: Int,
     private val particle: ParticleEffect,
 ) : VirtualFluid() {
-    init {
-        defaultState = Fluids.LAVA.defaultState // for light level, temporary fix
-    }
+    override val lightLevel get() = 15
 
     override fun getParticle(): ParticleEffect = particle
 

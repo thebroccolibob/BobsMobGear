@@ -1,9 +1,12 @@
 {
   "block.bobsmobgear.axe_template": "Axe Template",
+  "block.bobsmobgear.diamond": "Molten Diamond",
   "block.bobsmobgear.empty_template": "Empty Template",
   "block.bobsmobgear.forge": "Forge",
   "block.bobsmobgear.forge_heater": "Forge Heater",
   "block.bobsmobgear.hoe_template": "Hoe Template",
+  "block.bobsmobgear.iron": "Molten Iron",
+  "block.bobsmobgear.netherite": "Molten Netherite",
   "block.bobsmobgear.pickaxe_template": "Pickaxe Template",
   "block.bobsmobgear.shovel_template": "Shovel Template",
   "block.bobsmobgear.sword_template": "Sword Template",
