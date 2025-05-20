@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.mixin;
 
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock;
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems;
 import net.minecraft.block.AbstractBlock.AbstractBlockState;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -28,9 +29,8 @@ public abstract class AbstractBlockStateMixin {
             cancellable = true)
     private void allowPlacingTemplate(ItemStack stack, World world, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ItemActionResult> cir) {
         if (!this.isOf(Blocks.SMITHING_TABLE)
-                || !(stack.getItem() instanceof BlockItem blockItem)
-                || !(blockItem.getBlock() instanceof TemplateBlock)
-                || hit.getSide() != Direction.UP)
+                || hit.getSide() != Direction.UP
+                || !(stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TemplateBlock || stack.isOf(BobsMobGearItems.SMITHING_TONGS)))
             return;
 
         cir.setReturnValue(ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION);

@@ -86,6 +86,7 @@ object BobsMobGearItems {
 
     val POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT)
 
+    @JvmField
     val SMITHING_TONGS = register("smithing_tongs", TongsItem(itemSettings {
         maxCount(1)
         component(TONGS_HELD_ITEM, ItemStack.EMPTY)
