@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.extinguishHeatedStack
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems.TONGS_HELD_ITEM
 import io.github.thebroccolibob.bobsmobgear.util.*
@@ -38,7 +39,7 @@ class TongsItem(settings: Settings) : Item(settings) {
         val itemEntity = (ProjectileUtil.getCollision(user, { it is ItemEntity }, user.blockInteractionRange) as? EntityHitResult)?.entity as? ItemEntity
             ?: return TypedActionResult.fail(stack)
 
-        if (!(itemEntity.stack isIn BobsMobGearItems.TONG_HOLDABLE)) return TypedActionResult.fail(stack)
+        if (!(itemEntity.stack isIn BobsMobGearItemTags.TONG_HOLDABLE)) return TypedActionResult.fail(stack)
 
         if (!world.isClient) {// Safety
             stack[TONGS_HELD_ITEM] = itemEntity.stack.split(1)
@@ -86,7 +87,7 @@ class TongsItem(settings: Settings) : Item(settings) {
             cursorStackReference.set(stack.removeHeld())
             playRemoveSound(player)
         } else {
-            if (!(otherStack isIn BobsMobGearItems.TONG_HOLDABLE) || stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
+            if (!(otherStack isIn BobsMobGearItemTags.TONG_HOLDABLE) || stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
 
             stack[TONGS_HELD_ITEM] = otherStack.split(1)
             playAddSound(player)
@@ -106,7 +107,7 @@ class TongsItem(settings: Settings) : Item(settings) {
             slot.stack = stack.removeHeld()
             playRemoveSound(player)
         } else {
-            if (!(otherStack isIn BobsMobGearItems.TONG_HOLDABLE) || stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
+            if (!(otherStack isIn BobsMobGearItemTags.TONG_HOLDABLE) || stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
 
             stack[TONGS_HELD_ITEM] = otherStack.split(1)
             playAddSound(player)

@@ -5,10 +5,12 @@ import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.set
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.advancement.AdvancementRequirements
@@ -84,6 +86,17 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
     )
 
     override fun generate(exporter: RecipeExporter) {
+        exporter.shapedRecipe(RecipeCategory.TOOLS, BobsMobGearItems.SMITHING_HAMMER) {
+            pattern("#")
+            pattern("%")
+            input('#', ConventionalItemTags.IRON_INGOTS)
+            input('%', Items.STICK)
+
+            itemCriterion(Items.IRON_INGOT)
+        }
+
+        // TODO Tongs recipe
+
         exporter.shapedRecipe(RecipeCategory.TOOLS, BobsMobGearItems.EMPTY_TEMPLATE) {
             pattern("###")
             pattern("# #")
@@ -170,7 +183,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
 
         acceptForgingRecipe(
             ForgingRecipe(
-                ingredientList(Ingredient.fromTag(BobsMobGearItems.FORGES_IRON_INGOT)),
+                ingredientList(Ingredient.fromTag(BobsMobGearItemTags.FORGES_IRON_INGOT)),
                 FluidVariant.of(BobsMobGearFluids.IRON),
                 FluidConstants.INGOT,
                 200,
@@ -180,7 +193,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
 
         acceptForgingRecipe(
             ForgingRecipe(
-                ingredientList(Ingredient.fromTag(BobsMobGearItems.FORGES_DIAMOND)),
+                ingredientList(Ingredient.fromTag(BobsMobGearItemTags.FORGES_DIAMOND)),
                 FluidVariant.of(BobsMobGearFluids.DIAMOND),
                 FluidConstants.INGOT,
                 200,
@@ -192,8 +205,8 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             BobsMobGear.id("forging/netherite_alloying"),
             ForgingRecipe(
                 ingredientList(
-                    Ingredient.fromTag(BobsMobGearItems.FORGES_GOLD_INGOT),
-                    Ingredient.fromTag(BobsMobGearItems.FORGES_NETHERITE_SCRAP)
+                    Ingredient.fromTag(BobsMobGearItemTags.FORGES_GOLD_INGOT),
+                    Ingredient.fromTag(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP)
                 ),
                 FluidVariant.of(BobsMobGearFluids.NETHERITE),
                 FluidConstants.INGOT / 4,
@@ -204,7 +217,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
 
         acceptForgingRecipe(
             ForgingRecipe(
-                ingredientList(Ingredient.fromTag(BobsMobGearItems.FORGES_NETHERITE_INGOT)),
+                ingredientList(Ingredient.fromTag(BobsMobGearItemTags.FORGES_NETHERITE_INGOT)),
                 FluidVariant.of(BobsMobGearFluids.NETHERITE),
                 FluidConstants.INGOT,
                 200,

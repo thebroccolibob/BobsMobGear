@@ -2,10 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.registry.*
 import io.github.thebroccolibob.bobsmobgear.util.add
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
@@ -33,14 +30,21 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearBlocks.FORGE, "Forge")
         add(BobsMobGearBlocks.FORGE_HEATER, "Forge Heater")
 
+        add(BobsMobGearItems.SMITHING_HAMMER, "Smithing Hammer")
         add(BobsMobGearItems.SMITHING_TONGS, "Smithing Tongs")
+
         add(BobsMobGearItems.EMPTY_POT, "Empty Pot")
         add(BobsMobGearItems.IRON_POT, "Pot of Molten Iron")
         add(BobsMobGearItems.DIAMOND_POT, "Pot of Molten Diamond")
         add(BobsMobGearItems.NETHERITE_POT, "Pot of Molten Netherite")
 
-        add(BobsMobGearItems.SMITHING_HAMMER_TAG, "Smithing Hammers")
-        add(BobsMobGearItems.TONG_HOLDABLE, "Holdable by Tongs")
+        add(BobsMobGearItemTags.SMITHING_HAMMERS, "Smithing Hammers")
+        add(BobsMobGearItemTags.TONG_HOLDABLE, "Holdable by Tongs")
+        add(BobsMobGearItemTags.FORGES_IRON_INGOT, "Forges Iron Ingot")
+        add(BobsMobGearItemTags.FORGES_DIAMOND, "Forges Diamond")
+        add(BobsMobGearItemTags.FORGES_GOLD_INGOT, "Forges Gold Ingot")
+        add(BobsMobGearItemTags.FORGES_NETHERITE_INGOT, "Forges Netherite Ingot")
+        add(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP, "Forges Netherite Scrap")
 
         add(BobsMobGearFluids.IRON, "Molten Iron")
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")

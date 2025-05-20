@@ -1,4 +1,4 @@
-// 1.21.1	2025-05-20T01:34:05.800133528	Bob's Mob Gear/Recipes
+// 1.21.1	2025-05-20T02:35:54.873889985	Bob's Mob Gear/Recipes
 f67cb6ab9125321c2e9a8a4d4699237f0f7cfd53 data/bobsmobgear/advancement/recipes/template/netherite_pickaxe.json
 49c3ec2463895a37a11c665e35158966cdca9e5b data/bobsmobgear/advancement/recipes/template/stone_sword.json
 a592acd5238eb148994aa8337e93faca17fbb82d data/bobsmobgear/advancement/recipes/template/stone_hoe.json
@@ -27,6 +27,7 @@ ad015548e41c3bab0501d9d785002f04ee611650 data/bobsmobgear/advancement/recipes/to
 76bf021612a39ee728531cbccf3dd6b507f73490 data/bobsmobgear/advancement/recipes/template/diamond_shovel.json
 5dcc8c01a7d2b77d669443aa8fa4f849399535b8 data/bobsmobgear/advancement/recipes/template/diamond.json
 fdee22bc5f14dda0691695e619366667c0378412 data/bobsmobgear/recipe/template/netherite_shovel.json
+a944a1a764cb35df8e80f83129e8d2d3911a49dc data/bobsmobgear/recipe/smithing_hammer.json
 4834db1d2bb4508dcfc2f37ab1513e3071711b87 data/bobsmobgear/advancement/recipes/template/netherite_shovel.json
 50a08f5dd23db0a25ffc3c40d16c4445b94137b9 data/bobsmobgear/recipe/forging/iron.json
 11d1ff52f869aac115150fe5ce69f7f7f36a121d data/bobsmobgear/recipe/template/netherite_axe.json
@@ -35,6 +36,7 @@ fdee22bc5f14dda0691695e619366667c0378412 data/bobsmobgear/recipe/template/nether
 92bde1bdab934467e7ed64218e2ebb64f499a0eb data/bobsmobgear/advancement/recipes/template/iron_hoe.json
 b2cee95a8f33218bb3c8c71d91c71a03eb02e4ab data/bobsmobgear/recipe/template/diamond.json
 6bc3e197795c949786e57a6f06602328750405e8 data/bobsmobgear/recipe/template/diamond_pickaxe.json
+60c77e7e115c5e626a1a4ae470424afa32fa643c data/bobsmobgear/advancement/recipes/tools/smithing_hammer.json
 f9dd4327b3a649c3253578cc1e96d7497ce1bac2 data/bobsmobgear/recipe/template/iron_sword.json
 1c473226530f5c87e7315e6e0df709a4052f3e62 data/bobsmobgear/advancement/recipes/template/netherite_ingot.json
 a882fd3f84239e592ead74d76f670f65ef31982f data/bobsmobgear/recipe/empty_template.json
