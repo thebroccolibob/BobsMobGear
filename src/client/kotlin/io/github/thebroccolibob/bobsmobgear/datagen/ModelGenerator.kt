@@ -117,7 +117,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             val models = Connection.entries.associateWith { connection ->
                 listOf(true, false).associateWith { lit ->
                     if (connection == Connection.NONE)
-                        Models.ORIENTABLE.upload(block, if (lit) "_lit" else "", TextureMap().apply {
+                        Models.ORIENTABLE_WITH_BOTTOM.upload(block, if (lit) "_lit" else "", TextureMap().apply {
                             put(TextureKey.TOP, textures.top)
                             put(TextureKey.FRONT, if (lit) textures.frontLit else textures.front)
                             put(TextureKey.SIDE, textures.side)
