@@ -1,0 +1,18 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:wooden_shovel"
+  },
+  "ingredients": [
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "item": "minecraft:string"
+    }
+  ],
+  "result": {
+    "id": "minecraft:stone_shovel"
+  },
+  "template": "bobsmobgear:shovel_template"
+}

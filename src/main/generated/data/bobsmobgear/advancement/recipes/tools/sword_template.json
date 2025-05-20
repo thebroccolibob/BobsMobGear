@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_empty_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bobsmobgear:empty_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bobsmobgear:sword_template"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_empty_template"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bobsmobgear:sword_template"
+    ]
+  }
+}

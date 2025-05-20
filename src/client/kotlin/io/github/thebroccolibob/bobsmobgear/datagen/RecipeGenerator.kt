@@ -14,10 +14,17 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.advancement.AdvancementRequirements
 import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion
+import net.minecraft.block.Block
+import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.RecipeExporter
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
+import net.minecraft.item.Item
+import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.ItemTags
@@ -28,72 +35,138 @@ import java.util.concurrent.CompletableFuture
 class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricRecipeProvider(output, registriesFuture) {
 
+    private val TOOL_TYPES = listOf(
+        ToolType(
+            2,
+            Items.WOODEN_SWORD,
+            Items.STONE_SWORD,
+            Items.IRON_SWORD,
+            Items.DIAMOND_SWORD,
+            Items.NETHERITE_SWORD,
+            BobsMobGearBlocks.SWORD_TEMPLATE
+        ),
+        ToolType(
+            3,
+            Items.WOODEN_PICKAXE,
+            Items.STONE_PICKAXE,
+            Items.IRON_PICKAXE,
+            Items.DIAMOND_PICKAXE,
+            Items.NETHERITE_PICKAXE,
+            BobsMobGearBlocks.PICKAXE_TEMPLATE
+        ),
+        ToolType(
+            3,
+            Items.WOODEN_AXE,
+            Items.STONE_AXE,
+            Items.IRON_AXE,
+            Items.DIAMOND_AXE,
+            Items.NETHERITE_AXE,
+            BobsMobGearBlocks.AXE_TEMPLATE
+        ),
+        ToolType(
+            1,
+            Items.WOODEN_SHOVEL,
+            Items.STONE_SHOVEL,
+            Items.IRON_SHOVEL,
+            Items.DIAMOND_SHOVEL,
+            Items.NETHERITE_SHOVEL,
+            BobsMobGearBlocks.SHOVEL_TEMPLATE
+        ),
+        ToolType(
+            2,
+            Items.WOODEN_HOE,
+            Items.STONE_HOE,
+            Items.IRON_HOE,
+            Items.DIAMOND_HOE,
+            Items.NETHERITE_HOE,
+            BobsMobGearBlocks.HOE_TEMPLATE
+        ),
+    )
+
     override fun generate(exporter: RecipeExporter) {
-        acceptTemplateRecipe(
-            TemplateRecipe(
-                BobsMobGearBlocks.SWORD_TEMPLATE,
-                null,
-                Ingredient.ofItems(Items.WOODEN_SWORD),
-                ingredientList(
-                    Ingredient.fromTag(ItemTags.STONE_TOOL_MATERIALS),
-                    Ingredient.fromTag(ItemTags.STONE_TOOL_MATERIALS),
-                    Ingredient.ofItems(Items.STRING)
+        exporter.shapedRecipe(RecipeCategory.TOOLS, BobsMobGearItems.EMPTY_TEMPLATE) {
+            pattern("###")
+            pattern("# #")
+            pattern("###")
+            input('#', Items.STICK)
+
+            itemCriterion(Items.STICK)
+        }
+
+        for ((material, wood, stone, iron, diamond, netherite, template) in TOOL_TYPES) {
+
+            exporter.shapelessRecipe(RecipeCategory.TOOLS, template.asItem()) {
+                input(BobsMobGearItems.EMPTY_TEMPLATE)
+                input(wood)
+
+                itemCriterion(BobsMobGearItems.EMPTY_TEMPLATE)
+            }
+
+            acceptTemplateRecipe(
+                TemplateRecipe(
+                    template,
+                    null,
+                    Ingredient.ofItems(wood),
+                    ingredientList(*(
+                        List(material) { Ingredient.fromTag(ItemTags.STONE_TOOL_MATERIALS) }
+                            + Ingredient.ofItems(Items.STRING)
+                    ).toTypedArray()),
+                    FluidVariant.blank(),
+                    0,
+                    false,
+                    ItemStack(stone)
                 ),
-                FluidVariant.blank(),
-                0,
-                false,
-                ItemStack(Items.STONE_SWORD)
-            ),
-            exporter
-        )
+                exporter
+            )
 
-        acceptTemplateRecipe(
-            TemplateRecipe(
-                BobsMobGearBlocks.SWORD_TEMPLATE,
-                BobsMobGearBlocks.SMITHING_SURFACE,
-                Ingredient.ofItems(Items.STONE_SWORD),
-                DefaultedList.of(),
-                FluidVariant.of(BobsMobGearFluids.IRON),
-                2 * FluidConstants.INGOT,
-                true,
-                ItemStack(Items.IRON_SWORD, 1).apply {
-                    set(BobsMobGearItems.HEATED)
-                }
-            ),
-            exporter
-        )
+            acceptTemplateRecipe(
+                TemplateRecipe(
+                    template,
+                    BobsMobGearBlocks.SMITHING_SURFACE,
+                    Ingredient.ofItems(stone),
+                    DefaultedList.of(),
+                    FluidVariant.of(BobsMobGearFluids.IRON),
+                    material * FluidConstants.INGOT,
+                    true,
+                    ItemStack(iron, 1).apply {
+                        set(BobsMobGearItems.HEATED)
+                    }
+                ),
+                exporter
+            )
 
-        acceptTemplateRecipe(
-            TemplateRecipe(
-                BobsMobGearBlocks.SWORD_TEMPLATE,
-                BobsMobGearBlocks.SMITHING_SURFACE,
-                Ingredient.ofItems(Items.IRON_SWORD),
-                DefaultedList.of(),
-                FluidVariant.of(BobsMobGearFluids.DIAMOND),
-                2 * FluidConstants.INGOT,
-                true,
-                ItemStack(Items.DIAMOND_SWORD).apply {
-                    set(BobsMobGearItems.HEATED)
-                }
-            ),
-            exporter
-        )
+            acceptTemplateRecipe(
+                TemplateRecipe(
+                    template,
+                    BobsMobGearBlocks.SMITHING_SURFACE,
+                    Ingredient.ofItems(iron),
+                    DefaultedList.of(),
+                    FluidVariant.of(BobsMobGearFluids.DIAMOND),
+                    material * FluidConstants.INGOT,
+                    true,
+                    ItemStack(diamond).apply {
+                        set(BobsMobGearItems.HEATED)
+                    }
+                ),
+                exporter
+            )
 
-        acceptTemplateRecipe(
-            TemplateRecipe(
-                BobsMobGearBlocks.SWORD_TEMPLATE,
-                BobsMobGearBlocks.SMITHING_SURFACE,
-                Ingredient.ofItems(Items.DIAMOND_SWORD),
-                DefaultedList.of(),
-                FluidVariant.of(BobsMobGearFluids.NETHERITE),
-                1 * FluidConstants.INGOT,
-                true,
-                ItemStack(Items.NETHERITE_SWORD).apply {
-                    set(BobsMobGearItems.HEATED)
-                }
-            ),
-            exporter
-        )
+            acceptTemplateRecipe(
+                TemplateRecipe(
+                    template,
+                    BobsMobGearBlocks.SMITHING_SURFACE,
+                    Ingredient.ofItems(diamond),
+                    DefaultedList.of(),
+                    FluidVariant.of(BobsMobGearFluids.NETHERITE),
+                    1 * FluidConstants.INGOT,
+                    true,
+                    ItemStack(netherite).apply {
+                        set(BobsMobGearItems.HEATED)
+                    }
+                ),
+                exporter
+            )
+        }
 
         acceptForgingRecipe(
             ForgingRecipe(
@@ -138,7 +211,36 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             ),
             exporter
         )
+
+        for ((fluid, ingot) in listOf(
+            BobsMobGearFluids.IRON to Items.IRON_INGOT,
+            BobsMobGearFluids.DIAMOND to Items.DIAMOND,
+            BobsMobGearFluids.NETHERITE to Items.NETHERITE_INGOT,
+        ))
+            acceptTemplateRecipe(
+                TemplateRecipe(
+                    BobsMobGearBlocks.EMPTY_TEMPLATE,
+                    BobsMobGearBlocks.SMITHING_SURFACE,
+                    Ingredient.EMPTY,
+                    ingredientList(),
+                    FluidVariant.of(fluid),
+                    FluidConstants.INGOT,
+                    true,
+                    ingot.defaultStack
+                ),
+                exporter
+            )
     }
+
+    data class ToolType(
+        val material: Int,
+        val wood: Item,
+        val stone: Item,
+        val iron: Item,
+        val diamond: Item,
+        val netherite: Item,
+        val template: Block,
+    )
 
     companion object {
         private fun acceptTemplateRecipe(recipeId: Identifier, recipe: TemplateRecipe, exporter: RecipeExporter) {
@@ -172,5 +274,27 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
 
         private fun ingredientList(vararg ingredients: Ingredient): DefaultedList<Ingredient> =
             DefaultedList.copyOf(Ingredient.EMPTY, *ingredients)
+
+        private fun RecipeExporter.shapedRecipe(category: RecipeCategory, output: ItemConvertible, count: Int = 1, name: String? = null, init: ShapedRecipeJsonBuilder.() -> Unit) {
+            ShapedRecipeJsonBuilder(category, output, count).apply(init).run {
+                if (name == null)
+                    offerTo(this@shapedRecipe)
+                else
+                    offerTo(this@shapedRecipe, name)
+            }
+        }
+
+        private fun RecipeExporter.shapelessRecipe(category: RecipeCategory, output: ItemConvertible, count: Int = 1, name: String? = null, init: ShapelessRecipeJsonBuilder.() -> Unit) {
+            ShapelessRecipeJsonBuilder(category, output, count).apply(init).run {
+                if (name == null)
+                    offerTo(this@shapelessRecipe)
+                else
+                    offerTo(this@shapelessRecipe, name)
+            }
+        }
+
+        private fun CraftingRecipeJsonBuilder.itemCriterion(item: ItemConvertible) {
+            criterion(hasItem(item), conditionsFromItem(item))
+        }
     }
 }

@@ -1,0 +1,14 @@
+{
+  "type": "bobsmobgear:template",
+  "base": [],
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:iron"
+  },
+  "fluid_amount": 9000,
+  "requires_hammer": true,
+  "result": {
+    "id": "minecraft:iron_ingot"
+  },
+  "template": "bobsmobgear:empty_template"
+}

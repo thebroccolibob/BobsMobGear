@@ -82,7 +82,7 @@ class TemplateRecipe(
             instance.group(
                 Registries.BLOCK.codec.fieldOf("template").forGetter(TemplateRecipe::template),
                 TagKey.codec(RegistryKeys.BLOCK).optionalFieldOf("block_below").forGetter(TemplateRecipe::blockBelow),
-                Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("base").forGetter(TemplateRecipe::base),
+                Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter(TemplateRecipe::base),
                 Ingredient.DISALLOW_EMPTY_CODEC.listOf().defaultedList(Ingredient.EMPTY).optionalFieldOf("ingredients", DefaultedList.of()).forGetter(TemplateRecipe::ingredients),
                 FluidVariant.CODEC.optionalFieldOf("fluid", FluidVariant.blank()).forGetter(TemplateRecipe::fluid),
                 Codec.LONG.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),

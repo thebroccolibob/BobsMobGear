@@ -1,0 +1,19 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:stone_hoe"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:iron"
+  },
+  "fluid_amount": 18000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "minecraft:iron_hoe"
+  },
+  "template": "bobsmobgear:hoe_template"
+}

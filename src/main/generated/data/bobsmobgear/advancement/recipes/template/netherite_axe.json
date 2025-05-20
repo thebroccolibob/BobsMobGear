@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_axe_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bobsmobgear:axe_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bobsmobgear:template/netherite_axe"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_axe_template"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bobsmobgear:template/netherite_axe"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:iron_axe"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:diamond"
+  },
+  "fluid_amount": 27000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "minecraft:diamond_axe"
+  },
+  "template": "bobsmobgear:axe_template"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "bobsmobgear:empty_template"
+    },
+    {
+      "item": "minecraft:wooden_sword"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "bobsmobgear:sword_template"
+  }
+}

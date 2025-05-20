@@ -20,13 +20,17 @@ import java.util.*
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
 
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator): Unit = with(blockStateModelGenerator) {
+        registerTemplate(BobsMobGearBlocks.EMPTY_TEMPLATE)
         registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
+        registerTemplate(BobsMobGearBlocks.PICKAXE_TEMPLATE)
+        registerTemplate(BobsMobGearBlocks.AXE_TEMPLATE)
+        registerTemplate(BobsMobGearBlocks.SHOVEL_TEMPLATE)
+        registerTemplate(BobsMobGearBlocks.HOE_TEMPLATE)
         registerForge(BobsMobGearBlocks.FORGE)
         registerForge(BobsMobGearBlocks.FORGE_HEATER, BobsMobGearBlocks.FORGE)
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator): Unit = with(itemModelGenerator) {
-        registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
         registerGenerated(BobsMobGearItems.EMPTY_POT)
         registerGenerated(BobsMobGearItems.IRON_POT)
         registerGenerated(BobsMobGearItems.DIAMOND_POT)
@@ -42,10 +46,6 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         val METAL_TEMPLATE_FACTORY: TexturedModel.Factory = TexturedModel.makeFactory({ TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_metal")) }, METAL_TEMPLATE_MODEL)
 
         val BUILTIN_ENTITY_MODEL = Model(Optional.of(Identifier.ofVanilla("builtin/entity")), Optional.empty())
-
-        fun ItemModelGenerator.registerTemplate(template: Block) {
-            Models.GENERATED.upload(ModelIds.getItemModelId(template.asItem()), TextureMap.layer0(TextureMap.getSubId(template, "_wood")), writer)
-        }
 
         fun ItemModelGenerator.registerGenerated(item: Item) {
             register(item, Models.GENERATED)
@@ -63,6 +63,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
                 ))
                 coordinate(createNorthDefaultHorizontalRotationStates())
             })
+            Models.GENERATED.upload(ModelIds.getItemModelId(template.asItem()), TextureMap.layer0(TextureMap.getSubId(template, "_wood")), modelCollector)
         }
 
         fun BlockStateModelGenerator.registerForge(block: Block, bottomSides: Block = block) {
