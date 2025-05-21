@@ -7,6 +7,7 @@ import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.util.defaultedList
 import io.github.thebroccolibob.bobsmobgear.util.isIn
 import io.github.thebroccolibob.bobsmobgear.util.packetCodecTuple
+import io.github.thebroccolibob.bobsmobgear.util.toDefaultedList
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
@@ -59,7 +60,7 @@ class TemplateRecipe(
                 && (ingredients zip input.ingredients).all { (ingredient, stack) -> ingredient.test(stack) }))
     }
 
-    override fun getIngredients(): DefaultedList<Ingredient> = ingredients
+    override fun getIngredients(): DefaultedList<Ingredient> = (ingredients + base).toDefaultedList(Ingredient.EMPTY)
 
     override fun craft(input: TemplateRecipeInput, lookup: WrapperLookup): ItemStack =
         if (input.base.isEmpty)
@@ -79,7 +80,7 @@ class TemplateRecipe(
 
     override fun createIcon(): ItemStack = template.asItem().defaultStack
 
-    override fun isEmpty(): Boolean = false
+    override fun isEmpty(): Boolean = true // Hide recipe book warnings
 
     companion object SerializerAndType : RecipeSerializer<TemplateRecipe>, RecipeType<TemplateRecipe> {
         val CODEC: MapCodec<TemplateRecipe> = RecordCodecBuilder.mapCodec { instance ->
