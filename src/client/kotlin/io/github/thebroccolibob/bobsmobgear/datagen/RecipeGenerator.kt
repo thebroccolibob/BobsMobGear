@@ -29,6 +29,7 @@ import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
+import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
@@ -106,6 +107,9 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             itemCriterion(Items.STICK)
         }
 
+        @Suppress("DEPRECATION")
+        val smithingSurface = RegistryEntryList.of(Registries.BLOCK.entryOwner, BobsMobGearBlocks.SMITHING_SURFACE)
+
         for ((material, wood, stone, iron, diamond, netherite, template) in TOOL_TYPES) {
 
             exporter.shapelessRecipe(RecipeCategory.TOOLS, template.asItem()) {
@@ -135,7 +139,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             acceptTemplateRecipe(
                 TemplateRecipe(
                     template,
-                    BobsMobGearBlocks.SMITHING_SURFACE,
+                    smithingSurface,
                     Ingredient.ofItems(stone),
                     DefaultedList.of(),
                     FluidVariant.of(BobsMobGearFluids.IRON),
@@ -151,7 +155,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             acceptTemplateRecipe(
                 TemplateRecipe(
                     template,
-                    BobsMobGearBlocks.SMITHING_SURFACE,
+                    smithingSurface,
                     Ingredient.ofItems(iron),
                     DefaultedList.of(),
                     FluidVariant.of(BobsMobGearFluids.DIAMOND),
@@ -167,7 +171,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             acceptTemplateRecipe(
                 TemplateRecipe(
                     template,
-                    BobsMobGearBlocks.SMITHING_SURFACE,
+                    smithingSurface,
                     Ingredient.ofItems(diamond),
                     DefaultedList.of(),
                     FluidVariant.of(BobsMobGearFluids.NETHERITE),
@@ -233,7 +237,7 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             acceptTemplateRecipe(
                 TemplateRecipe(
                     BobsMobGearBlocks.EMPTY_TEMPLATE,
-                    BobsMobGearBlocks.SMITHING_SURFACE,
+                    smithingSurface,
                     Ingredient.EMPTY,
                     ingredientList(),
                     FluidVariant.of(fluid),

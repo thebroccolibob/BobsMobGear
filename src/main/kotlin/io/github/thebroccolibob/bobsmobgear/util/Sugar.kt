@@ -13,6 +13,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
 import net.minecraft.recipe.Ingredient
+import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -63,6 +64,7 @@ infix fun ItemStack.isOf(item: Item) = isOf(item)
 infix fun ItemStack.isIn(tag: TagKey<Item>) = isIn(tag)
 infix fun BlockState.isOf(block: Block) = isOf(block)
 infix fun BlockState.isIn(tag: TagKey<Block>) = isIn(tag)
+infix fun BlockState.isIn(entryList: RegistryEntryList<Block>) = isIn(entryList)
 infix fun FluidState.isIn(tag: TagKey<Fluid>) = isIn(tag)
 
 operator fun Identifier.plus(suffix: String): Identifier = withSuffixedPath(suffix)
