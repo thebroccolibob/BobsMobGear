@@ -8,7 +8,8 @@
     "FluidInvoker",
     "ItemEntityMixin",
     "ItemStackMixin",
-    "LeveledCauldronBlockInvoker"
+    "LeveledCauldronBlockInvoker",
+    "LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

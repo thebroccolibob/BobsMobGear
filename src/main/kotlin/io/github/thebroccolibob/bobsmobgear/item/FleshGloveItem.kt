@@ -23,4 +23,16 @@ class FleshGloveItem(
         user.setCurrentHand(hand)
         return TypedActionResult.consume(user[hand])
     }
+
+    companion object {
+        @JvmStatic
+        fun onGloveBlock(entity: LivingEntity, damage: Float): Float {
+            val mainhandSuccess = (entity.mainHandStack.item as? FleshGloveItem)?.blockSuccessChance ?: 0f
+            val offhandSuccess = (entity.offHandStack.item as? FleshGloveItem)?.blockSuccessChance ?: 0f
+            val successChance = (mainhandSuccess + offhandSuccess) -
+                    if (mainhandSuccess != 0f && offhandSuccess != 0f) 0.15f else 0f
+
+            return if (entity.random.nextFloat() < successChance) 0f else damage * 0.5f
+        }
+    }
 }
