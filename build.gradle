@@ -68,6 +68,7 @@ dependencies {
 
 	modImplementation "maven.modrinth:better-combat:${project.better_combat_version}-fabric"
 	modImplementation("maven.modrinth:pommel-held-item-models:${project.pommel_version}")
+	modImplementation("maven.modrinth:flexible-arms-1.21:${project.flexible_arms_version}")
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
