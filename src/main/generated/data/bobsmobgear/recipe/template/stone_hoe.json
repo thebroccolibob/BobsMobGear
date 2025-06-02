@@ -1,0 +1,21 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:wooden_hoe"
+  },
+  "ingredients": [
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "item": "minecraft:string"
+    }
+  ],
+  "result": {
+    "id": "minecraft:stone_hoe"
+  },
+  "template": "bobsmobgear:hoe_template"
+}

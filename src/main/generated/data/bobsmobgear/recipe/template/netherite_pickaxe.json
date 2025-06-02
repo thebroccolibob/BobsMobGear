@@ -1,0 +1,19 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:diamond_pickaxe"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:netherite"
+  },
+  "fluid_amount": 9000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "minecraft:netherite_pickaxe"
+  },
+  "template": "bobsmobgear:pickaxe_template"
+}

@@ -1,0 +1,19 @@
+{
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:iron_shovel"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:diamond"
+  },
+  "fluid_amount": 9000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "minecraft:diamond_shovel"
+  },
+  "template": "bobsmobgear:shovel_template"
+}

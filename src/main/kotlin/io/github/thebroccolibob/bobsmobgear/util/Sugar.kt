@@ -7,11 +7,16 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
+import net.minecraft.fluid.Fluid
+import net.minecraft.fluid.FluidState
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
 import net.minecraft.recipe.Ingredient
+import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -59,6 +64,8 @@ infix fun ItemStack.isOf(item: Item) = isOf(item)
 infix fun ItemStack.isIn(tag: TagKey<Item>) = isIn(tag)
 infix fun BlockState.isOf(block: Block) = isOf(block)
 infix fun BlockState.isIn(tag: TagKey<Block>) = isIn(tag)
+infix fun BlockState.isIn(entryList: RegistryEntryList<Block>) = isIn(entryList)
+infix fun FluidState.isIn(tag: TagKey<Fluid>) = isIn(tag)
 
 operator fun Identifier.plus(suffix: String): Identifier = withSuffixedPath(suffix)
 
@@ -67,6 +74,12 @@ operator fun BlockPos.minus(other: Vec3i): BlockPos = subtract(other)
 operator fun Vec3i.plus(other: Vec3i): Vec3i = add(other)
 operator fun BlockPos.plus(other: Vec3i): BlockPos = add(other)
 
+operator fun Vec3d.plus(other: Vec3d): Vec3d = add(other)
+operator fun Vec3d.minus(other: Vec3d): Vec3d = subtract(other)
+operator fun Vec3d.times(scalar: Double): Vec3d = multiply(scalar)
+
 operator fun Vec3d.component1(): Double = x
 operator fun Vec3d.component2(): Double = y
 operator fun Vec3d.component3(): Double = z
+
+operator fun MutableText.plus(other: Text): MutableText = append(other)

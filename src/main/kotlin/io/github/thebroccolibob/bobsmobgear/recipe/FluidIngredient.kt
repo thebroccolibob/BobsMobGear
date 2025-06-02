@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.recipe
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.github.thebroccolibob.bobsmobgear.util.isIn
 import io.github.thebroccolibob.bobsmobgear.util.polymorphCodec
 import io.github.thebroccolibob.bobsmobgear.util.singleOrList
 import io.github.thebroccolibob.bobsmobgear.util.tagKeyPacketCodec
@@ -25,8 +26,7 @@ sealed class FluidIngredient(protected val amount: Long, protected val component
     fun test(input: FluidVariant, amount: Long) = test(input) && amount >= this.amount
 
     class Tag(private val tag: TagKey<Fluid>, amount: Long, components: ComponentChanges) : FluidIngredient(amount, components) {
-        @Suppress("DEPRECATION")
-        override fun test(input: FluidVariant): Boolean = input.fluid.isIn(tag)
+        override fun test(input: FluidVariant): Boolean = input.fluid.defaultState isIn tag
 
         companion object {
             val CODEC: Codec<Tag> = RecordCodecBuilder.create { it.group(

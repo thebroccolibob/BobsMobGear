@@ -34,6 +34,13 @@ object BobsMobGearBlocks {
     private fun register(path: String, block: Block): Block =
         register(BobsMobGear.id(path), block)
 
+    private fun registerTemplate(type: String): Block =
+        register("${type}_template", TemplateBlock(blockSettings {
+            sounds(BlockSoundGroup.WOOD)
+            strength(0.5f)
+            nonOpaque()
+        }))
+
     private fun <T: BlockEntity> register(path: String, blockEntity: BlockEntityType<T>): BlockEntityType<T> =
         Registry.register(Registries.BLOCK_ENTITY_TYPE, BobsMobGear.id(path), blockEntity)
 
@@ -46,11 +53,12 @@ object BobsMobGearBlocks {
 
     // BLOCKS
 
-    val SWORD_TEMPLATE = register("sword_template", TemplateBlock(blockSettings {
-        sounds(BlockSoundGroup.WOOD)
-        strength(0.5f)
-        nonOpaque()
-    }))
+    val EMPTY_TEMPLATE = registerTemplate("empty")
+    val SWORD_TEMPLATE = registerTemplate("sword")
+    val PICKAXE_TEMPLATE = registerTemplate("pickaxe")
+    val AXE_TEMPLATE = registerTemplate("axe")
+    val SHOVEL_TEMPLATE = registerTemplate("shovel")
+    val HOE_TEMPLATE = registerTemplate("hoe")
 
     val FORGE_HEATER = register("forge_heater", ForgeHeaterBlock(blockSettings {
         sounds(BlockSoundGroup.METAL)
@@ -64,7 +72,12 @@ object BobsMobGearBlocks {
     // BLOCK ENTITIES
 
     val TEMPLATE_BLOCK_ENTITY = register("template", BlockEntityType(::TemplateBlockEntity,
+        EMPTY_TEMPLATE,
         SWORD_TEMPLATE,
+        PICKAXE_TEMPLATE,
+        AXE_TEMPLATE,
+        SHOVEL_TEMPLATE,
+        HOE_TEMPLATE,
     ))
 
     val FORGE_BLOCK_ENTITY = register("forge", BlockEntityType(::ForgeBlockEntity,

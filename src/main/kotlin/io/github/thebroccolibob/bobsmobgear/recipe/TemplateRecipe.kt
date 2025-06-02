@@ -5,8 +5,9 @@ import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.util.defaultedList
+import io.github.thebroccolibob.bobsmobgear.util.isIn
 import io.github.thebroccolibob.bobsmobgear.util.packetCodecTuple
-import io.github.thebroccolibob.bobsmobgear.util.tagKeyPacketCodec
+import io.github.thebroccolibob.bobsmobgear.util.toDefaultedList
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
@@ -18,16 +19,17 @@ import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryCodecs
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
 import java.util.*
 
 class TemplateRecipe(
     val template: Block,
-    val blockBelow: Optional<TagKey<Block>>,
+    val blockBelow: Optional<RegistryEntryList<Block>>,
     val base: Ingredient,
     @get:JvmName("ingredients")
     val ingredients: DefaultedList<Ingredient>,
@@ -39,7 +41,7 @@ class TemplateRecipe(
 
     constructor(
         template: Block,
-        blockBelow: TagKey<Block>?,
+        blockBelow: RegistryEntryList<Block>?,
         base: Ingredient,
         ingredients: DefaultedList<Ingredient>,
         fluid: FluidVariant,
@@ -50,20 +52,23 @@ class TemplateRecipe(
 
     override fun matches(input: TemplateRecipeInput, world: World): Boolean {
         return template == input.template
-            && blockBelow.map { input.blockBelow.isIn(it) }.orElse(true)
-            && base.test(input.base)
+            && blockBelow.map { input.blockBelow isIn it }.orElse(true)
+            && (if (base.isEmpty) input.base.isEmpty else base.test(input.base))
             && (input.fluid == null || fluid == input.fluid)
             && (input.fluidAmount == null || input.fluidAmount >= fluidAmount)
             && (input.ingredients == null || ((if (input.ingredientsPartial) input.ingredients.size <= ingredients.size else input.ingredients.size == ingredients.size)
                 && (ingredients zip input.ingredients).all { (ingredient, stack) -> ingredient.test(stack) }))
     }
 
-    override fun getIngredients(): DefaultedList<Ingredient> = ingredients
+    override fun getIngredients(): DefaultedList<Ingredient> = (ingredients + base).toDefaultedList(Ingredient.EMPTY)
 
     override fun craft(input: TemplateRecipeInput, lookup: WrapperLookup): ItemStack =
-        input.base.copyComponentsToNewStack(result.item, result.count).apply {
-            applyChanges(result.componentChanges)
-        }
+        if (input.base.isEmpty)
+            result.copy()
+        else
+            input.base.copyComponentsToNewStack(result.item, result.count).apply {
+                applyChanges(result.componentChanges)
+            }
 
     override fun fits(width: Int, height: Int): Boolean = height >= 1 && width >= ingredients.size + 1
 
@@ -75,14 +80,14 @@ class TemplateRecipe(
 
     override fun createIcon(): ItemStack = template.asItem().defaultStack
 
-    override fun isEmpty(): Boolean = false
+    override fun isEmpty(): Boolean = true // Hide recipe book warnings
 
     companion object SerializerAndType : RecipeSerializer<TemplateRecipe>, RecipeType<TemplateRecipe> {
         val CODEC: MapCodec<TemplateRecipe> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
                 Registries.BLOCK.codec.fieldOf("template").forGetter(TemplateRecipe::template),
-                TagKey.codec(RegistryKeys.BLOCK).optionalFieldOf("block_below").forGetter(TemplateRecipe::blockBelow),
-                Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("base").forGetter(TemplateRecipe::base),
+                RegistryCodecs.entryList(RegistryKeys.BLOCK).optionalFieldOf("block_below").forGetter(TemplateRecipe::blockBelow),
+                Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter(TemplateRecipe::base),
                 Ingredient.DISALLOW_EMPTY_CODEC.listOf().defaultedList(Ingredient.EMPTY).optionalFieldOf("ingredients", DefaultedList.of()).forGetter(TemplateRecipe::ingredients),
                 FluidVariant.CODEC.optionalFieldOf("fluid", FluidVariant.blank()).forGetter(TemplateRecipe::fluid),
                 Codec.LONG.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),
@@ -93,7 +98,7 @@ class TemplateRecipe(
 
         val PACKET_CODEC: PacketCodec<RegistryByteBuf, TemplateRecipe> = packetCodecTuple(
             PacketCodecs.registryValue(RegistryKeys.BLOCK), TemplateRecipe::template,
-            PacketCodecs.optional(tagKeyPacketCodec(RegistryKeys.BLOCK)), TemplateRecipe::blockBelow,
+            PacketCodecs.optional(PacketCodecs.registryEntryList(RegistryKeys.BLOCK)), TemplateRecipe::blockBelow,
             Ingredient.PACKET_CODEC, TemplateRecipe::base,
             Ingredient.PACKET_CODEC.defaultedList(Ingredient.EMPTY), TemplateRecipe::ingredients,
             FluidVariant.PACKET_CODEC, TemplateRecipe::fluid,

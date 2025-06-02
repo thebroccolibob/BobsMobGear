@@ -22,4 +22,6 @@ data class TemplateRecipeInput(
     }
 
     override fun getSize(): Int = (ingredients?.size ?: 0) + 1
+
+    override fun isEmpty(): Boolean = super.isEmpty() && fluid?.isBlank == true
 }

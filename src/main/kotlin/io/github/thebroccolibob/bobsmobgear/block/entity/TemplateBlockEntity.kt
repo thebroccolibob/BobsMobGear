@@ -3,12 +3,9 @@ package io.github.thebroccolibob.bobsmobgear.block.entity
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
-import io.github.thebroccolibob.bobsmobgear.util.extend
-import io.github.thebroccolibob.bobsmobgear.util.getList
-import io.github.thebroccolibob.bobsmobgear.util.toEquipmentSlot
-import io.github.thebroccolibob.bobsmobgear.util.toNbtList
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
@@ -101,7 +98,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     private fun tryAddNextItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
         when {
             getMatch(getRecipeInput()) != null -> {
-                if (!stack.isIn(BobsMobGearItems.SMITHING_HAMMER_TAG) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
+                if (!(stack isIn BobsMobGearItemTags.SMITHING_HAMMERS) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
                 if (stack.isDamageable)
                     stack.damage(1, player, hand.toEquipmentSlot())
                 player.itemCooldownManager.set(stack.item, 10)

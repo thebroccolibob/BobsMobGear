@@ -3,6 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.client.render.blockentity
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
 import io.github.thebroccolibob.bobsmobgear.client.util.invoke
+import io.github.thebroccolibob.bobsmobgear.fluid.VirtualFluid
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
@@ -76,7 +77,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
         val matrix = matrices.peek()
         val fluidColor = renderer.getFluidColor(entity.world, entity.pos, fluid.defaultState)
         val fluidLight = LightmapTextureManager.pack(
-            max(LightmapTextureManager.getBlockLightCoordinates(light), fluid.defaultState.blockState.luminance),
+            max(LightmapTextureManager.getBlockLightCoordinates(light), (fluid as? VirtualFluid)?.lightLevel ?: fluid.defaultState.blockState.luminance),
             LightmapTextureManager.getSkyLightCoordinates(light)
         )
 

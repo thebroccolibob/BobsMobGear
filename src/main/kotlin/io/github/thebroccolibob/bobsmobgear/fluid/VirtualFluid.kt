@@ -15,6 +15,8 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldView
 
 open class VirtualFluid : Fluid() {
+    open val lightLevel get() = defaultState.blockState.luminance
+
     override fun getBucketItem(): Item = Items.AIR
 
     override fun canBeReplacedWith(

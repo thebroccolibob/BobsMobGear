@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:block/template_wood",
+  "textures": {
+    "top": "bobsmobgear:block/shovel_template_wood"
+  }
+}

@@ -4,6 +4,7 @@ import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.isIn
+import io.github.thebroccolibob.bobsmobgear.util.isOf
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
@@ -87,7 +88,7 @@ class TemplateBlock(settings: Settings) : Block(settings), BlockEntityProvider {
         newState: BlockState,
         moved: Boolean
     ) {
-        if (!state.isOf(newState.block))
+        if (!(state isOf newState.block))
             (world.getBlockEntity(pos) as? TemplateBlockEntity)?.let {
                 ItemScatterer.spawn(world, pos, it.getItems())
             }

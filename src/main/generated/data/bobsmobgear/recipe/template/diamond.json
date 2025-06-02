@@ -1,0 +1,17 @@
+{
+  "type": "bobsmobgear:template",
+  "base": [],
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:diamond"
+  },
+  "fluid_amount": 9000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "minecraft:diamond"
+  },
+  "template": "bobsmobgear:empty_template"
+}
