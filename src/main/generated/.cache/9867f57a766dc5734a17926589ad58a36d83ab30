@@ -1,6 +1,6 @@
-// 1.21.1	2025-06-02T02:16:03.10562513	Bob's Mob Gear/Tags for minecraft:item
-7c12f935c7c253d030352aa2830bcddf21fa57c9 data/c/tags/item/tools/melee_weapon.json
+// 1.21.1	2025-06-03T05:42:18.678902627	Bob's Mob Gear/Tags for minecraft:item
 6ac4046fefd95f5bc8e67a54630921a92989210f data/c/tags/item/tools.json
+7c12f935c7c253d030352aa2830bcddf21fa57c9 data/c/tags/item/tools/melee_weapon.json
 2c8e67964358aa183d1170eb333ce7af66b67551 data/bobsmobgear/tags/item/smithing_hammers.json
 3e0e3d602aad13b57f2f4916d93396739c8cb7e9 data/bobsmobgear/tags/item/forges/netherite_ingot.json
 4a46a02d18b0d3fd1242f2a9aefa2c23e8efe68e data/bobsmobgear/tags/item/forges/iron_ingot.json

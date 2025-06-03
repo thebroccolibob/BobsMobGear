@@ -1,10 +1,9 @@
-// 1.21.1	2025-06-02T02:16:03.107917318	Bob's Mob Gear/Model Definitions
+// 1.21.1	2025-06-03T05:42:18.681526477	Bob's Mob Gear/Model Definitions
 f9a3f3dfa5d3b59108204687ae1c5540060dac79 assets/bobsmobgear/models/item/forge.json
 cefe6e9c80a54f83a2b9785d95f4a1a2e95a7fa5 assets/bobsmobgear/models/block/hoe_template_wood.json
 543f75a6ecbdd6892acdeb196481e462ef6ce42d assets/bobsmobgear/models/block/forge_front_left.json
 711f0138b64da2b61684cdef9e7fbfaa3c63c68f assets/bobsmobgear/blockstates/pickaxe_template.json
 19f0a214e018ed6cb5d56f47b10693c3a1d1f8e8 assets/bobsmobgear/models/block/forge_heater_front_right_lit.json
-245eac068653c8bac5e887ac094fc0c95b80c225 assets/bobsmobgear/models/item/smithing_hammer.json
 9e1284bbe781c2ff1fb414f34074bf425279ca25 assets/bobsmobgear/models/block/pickaxe_template_metal.json
 867e4d22bec0a47f0c105184d876cfd4bff610ac assets/bobsmobgear/models/item/empty_template.json
 ce052d58cc23f1204286aa0e429aaa8d2bcf98fa assets/bobsmobgear/models/item/sword_template.json
@@ -51,5 +50,5 @@ f4f13dd9dc870ab8dd7bbcd68dee5779ebda46d6 assets/bobsmobgear/models/block/empty_t
 0372f779474940d674799e087ead7e6f517d0698 assets/bobsmobgear/models/item/forge_heater.json
 f1354630e1b7e2e0edaeeeca44b3e50789eb1687 assets/bobsmobgear/models/block/forge.json
 4645b0cfe593cb508db2f040a8a15cd79f032881 assets/bobsmobgear/models/block/forge_back_left.json
-2852c232c8863603bcb31eaaa63b7a62779e1b1b assets/bobsmobgear/models/block/hoe_template_metal.json
 eb37054f5a7b98f10986622adc39d43fc9f3b4a5 assets/bobsmobgear/models/block/forge_heater_lit.json
+2852c232c8863603bcb31eaaa63b7a62779e1b1b assets/bobsmobgear/models/block/hoe_template_metal.json

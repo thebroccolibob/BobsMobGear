@@ -15,6 +15,7 @@ class BlockTagGenerator(
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(BobsMobGearBlocks.SMITHING_SURFACE).add(
             Blocks.SMITHING_TABLE,
+            Blocks.ANVIL,
         )
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
             BobsMobGearBlocks.SWORD_TEMPLATE,
