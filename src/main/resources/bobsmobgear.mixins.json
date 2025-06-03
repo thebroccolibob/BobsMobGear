@@ -10,8 +10,7 @@
     "ItemEntityMixin",
     "ItemStackMixin",
     "LeveledCauldronBlockInvoker",
-    "LivingEntityMixin",
-    "bettercombat.PlayerAttackHelperMixin"
+    "LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
