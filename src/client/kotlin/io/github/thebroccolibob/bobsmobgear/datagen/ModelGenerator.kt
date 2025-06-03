@@ -114,59 +114,61 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
                 put(TextureKey.WEST, west)
             }
 
-            val models = Connection.entries.associateWith { connection ->
-                listOf(true, false).associateWith { lit ->
-                    if (connection == Connection.NONE)
-                        Models.ORIENTABLE_WITH_BOTTOM.upload(block, if (lit) "_lit" else "", TextureMap().apply {
-                            put(TextureKey.TOP, textures.top)
-                            put(TextureKey.FRONT, if (lit) textures.frontLit else textures.front)
-                            put(TextureKey.SIDE, textures.side)
-                            put(TextureKey.BOTTOM, textures.bottom)
-                        }, modelCollector)
-                    else
-                        Models.CUBE.upload(
-                            block, "_${connection.id}${if (lit) "_lit" else ""}", when (connection) {
-                                Connection.FRONT_LEFT -> cube(
-                                    up = textures.topFrontLeft,
-                                    down = textures.bottomFrontLeft,
-                                    east = textures.sideRight,
-                                    north = if (lit) textures.frontLeftLit else textures.frontLeft
-                                )
+            blockStateCollector.accept(VariantsBlockStateSupplier.create(block).apply {
+                coordinate(BlockStateVariantMap.create(AbstractForgeBlock.CONNECTION, AbstractForgeBlock.LIT).register { connection, lit ->
+                    BlockStateVariant(model =
+                        if (connection == Connection.NONE)
+                            Models.ORIENTABLE_WITH_BOTTOM.upload(
+                                block,
+                                if (lit) "_lit" else "",
+                                TextureMap().apply {
+                                    put(TextureKey.TOP, textures.top)
+                                    put(TextureKey.FRONT, if (lit) textures.frontLit else textures.front)
+                                    put(TextureKey.SIDE, textures.side)
+                                    put(TextureKey.BOTTOM, textures.bottom)
+                                },
+                                modelCollector
+                            )
+                        else
+                            Models.CUBE.upload(
+                                block,
+                                "_${connection.id}${if (lit) "_lit" else ""}",
+                                when (connection) {
+                                    Connection.FRONT_LEFT -> cube(
+                                        up = textures.topFrontLeft,
+                                        down = textures.bottomFrontLeft,
+                                        east = textures.sideRight,
+                                        north = if (lit) textures.frontLeftLit else textures.frontLeft
+                                    )
 
-                                Connection.FRONT_RIGHT -> cube(
-                                    up = textures.topFrontRight,
-                                    down = textures.bottomFrontRight,
-                                    west = textures.sideLeft,
-                                    north = if (lit) textures.frontRightLit else textures.frontRight
-                                )
+                                    Connection.FRONT_RIGHT -> cube(
+                                        up = textures.topFrontRight,
+                                        down = textures.bottomFrontRight,
+                                        west = textures.sideLeft,
+                                        north = if (lit) textures.frontRightLit else textures.frontRight
+                                    )
 
-                                Connection.BACK_LEFT -> cube(
-                                    up = textures.topBackLeft,
-                                    down = textures.bottomBackLeft,
-                                    east = textures.sideLeft,
-                                    south = textures.sideRight
-                                )
+                                    Connection.BACK_LEFT -> cube(
+                                        up = textures.topBackLeft,
+                                        down = textures.bottomBackLeft,
+                                        east = textures.sideLeft,
+                                        south = textures.sideRight
+                                    )
 
-                                Connection.BACK_RIGHT -> cube(
-                                    up = textures.topBackRight,
-                                    down = textures.bottomBackRight,
-                                    west = textures.sideRight,
-                                    south = textures.sideLeft
-                                )
+                                    Connection.BACK_RIGHT -> cube(
+                                        up = textures.topBackRight,
+                                        down = textures.bottomBackRight,
+                                        west = textures.sideRight,
+                                        south = textures.sideLeft
+                                    )
 
-                                else -> throw AssertionError()
-                            }, modelCollector
-                        )
-                }
-            }
-
-            blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
-                .coordinate(BlockStateVariantMap.create(AbstractForgeBlock.CONNECTION, AbstractForgeBlock.LIT).register { connection, lit ->
-                    BlockStateVariant(
-                        model = models[connection]!![lit]!!,
+                                    else -> throw AssertionError()
+                                }, modelCollector
+                            )
                     )
                 })
-                .coordinate(createNorthDefaultHorizontalRotationStates()))
+                coordinate(createNorthDefaultHorizontalRotationStates())
+            })
         }
     }
 }

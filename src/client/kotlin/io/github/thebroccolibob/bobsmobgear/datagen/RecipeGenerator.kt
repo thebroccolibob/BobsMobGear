@@ -28,14 +28,14 @@ import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
-import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
 import java.util.concurrent.CompletableFuture
 
-class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
+class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricRecipeProvider(output, registriesFuture) {
 
     private val TOOL_TYPES = listOf(
@@ -107,8 +107,8 @@ class RecipeGenerator(output: FabricDataOutput, registriesFuture: CompletableFut
             itemCriterion(Items.STICK)
         }
 
-        @Suppress("DEPRECATION")
-        val smithingSurface = RegistryEntryList.of(Registries.BLOCK.entryOwner, BobsMobGearBlocks.SMITHING_SURFACE)
+        // the recipe generator only runs once registriesFuture is resolved
+        val smithingSurface = registriesFuture.get().getWrapperOrThrow(RegistryKeys.BLOCK).getOrThrow(BobsMobGearBlocks.SMITHING_SURFACE)
 
         for ((material, wood, stone, iron, diamond, netherite, template) in TOOL_TYPES) {
 

@@ -22,7 +22,11 @@ class EnchantmentGenerator(
 
     override fun configure(provider: BiConsumer<Identifier, Enchantment>, lookup: RegistryWrapper.WrapperLookup) {
         val enchantments = lookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
-        provider.accept(BobsMobGearEnchantments.MENDER.value, enchantments.getOrThrow(BobsMobGearEnchantments.MENDER).value())
+        fun provide(key: RegistryKey<Enchantment>) {
+            provider.accept(key.value, enchantments.getOrThrow(key).value())
+        }
+
+        provide(BobsMobGearEnchantments.MENDER)
     }
 
     companion object : RegistryBuilder.BootstrapFunction<Enchantment> {
