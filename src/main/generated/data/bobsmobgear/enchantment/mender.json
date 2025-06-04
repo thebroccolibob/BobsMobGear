@@ -27,10 +27,11 @@
     "base": 25,
     "per_level_above_first": 0
   },
+  "primary_items": "bobsmobgear:smithing_hammer",
   "slots": [
     "mainhand",
     "offhand"
   ],
   "supported_items": "#bobsmobgear:enchantable/mender",
-  "weight": 10
+  "weight": 5
 }

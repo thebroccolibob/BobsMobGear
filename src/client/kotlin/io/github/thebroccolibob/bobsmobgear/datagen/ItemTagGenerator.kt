@@ -16,7 +16,8 @@ class ItemTagGenerator(
 ) : FabricTagProvider.ItemTagProvider(output, registriesFuture) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_HAMMERS).add(
-            BobsMobGearItems.SMITHING_HAMMER
+            BobsMobGearItems.SMITHING_HAMMER,
+            Items.MACE,
         )
         getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE).apply {
             forceAddTag(ConventionalItemTags.MINING_TOOL_TOOLS)
