@@ -118,6 +118,13 @@ object BobsMobGearItems {
         )
     )
 
+    val WARDEN_FIST = register("warden_fist", WardenFistItem(itemSettings {
+        maxCount(1)
+        rarity(Rarity.RARE)
+        fireproof()
+        attributeModifiers(WardenFistItem.createAttributeModifiers())
+    }))
+
     // ITEM GROUPS
 
     val ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), FabricItemGroup.builder().apply {
