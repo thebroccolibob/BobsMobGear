@@ -24,6 +24,10 @@ object BobsMobGearParticles {
     val DIAMOND_DRIPS = registerDrips("diamond")
     val NETHERITE_DRIPS = registerDrips("netherite")
 
+    val SONIC_SHOCKWAVE = register("sonic_shockwave")
+    val SONIC_LAUNCH = register("sonic_launch")
+    val SONIC_LAUNCH_EMITTER = register("sonic_launch_emitter")
+
     fun register() {}
 
     class Drips(

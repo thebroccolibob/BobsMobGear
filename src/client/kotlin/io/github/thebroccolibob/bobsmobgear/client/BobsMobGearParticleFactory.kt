@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.client
 
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicShockwaveParticle
 import io.github.thebroccolibob.bobsmobgear.fluid.MetalFluid
 import io.github.thebroccolibob.bobsmobgear.mixin.client.ContinuousFallingBlockLeakParticleInvoker
 import io.github.thebroccolibob.bobsmobgear.mixin.client.DrippingBlockLeakParticleInvoker
@@ -55,4 +56,7 @@ fun registerBobsMobGearParticleFactories() {
     registerDrips(BobsMobGearParticles.IRON_DRIPS, BobsMobGearFluids.IRON)
     registerDrips(BobsMobGearParticles.DIAMOND_DRIPS, BobsMobGearFluids.DIAMOND)
     registerDrips(BobsMobGearParticles.NETHERITE_DRIPS, BobsMobGearFluids.NETHERITE)
+    ParticleFactoryRegistry.getInstance().apply {
+        register(BobsMobGearParticles.SONIC_SHOCKWAVE, SonicShockwaveParticle)
+    }
 }

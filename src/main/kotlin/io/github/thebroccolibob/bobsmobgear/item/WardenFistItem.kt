@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.minus
 import io.github.thebroccolibob.bobsmobgear.util.times
@@ -16,7 +17,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
@@ -39,7 +39,7 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
        if (world.isClient || user.itemUseTime < USE_TIME || (user as? PlayerEntity)?.itemCooldownManager?.isCoolingDown(this) == true) return
         world.playSoundFromEntity(null, user, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, user.soundCategory, 1f, 1f)
-        (world as? ServerWorld)?.spawnParticles(ParticleTypes.SONIC_BOOM, user.x, user.getBodyY(0.5), user.z, 0, 0.0, 0.0, 0.0, 0.0)
+        (world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_SHOCKWAVE, user.x, user.getBodyY(0.33), user.z, 0, 0.0, 0.0, 0.0, 0.0)
         for (entity in world.getOtherEntities(user, Box.of(user.pos, 2 * BLAST_RANGE, 2 * BLAST_RANGE, 2 * BLAST_RANGE))) {
             if (user.squaredDistanceTo(entity) > BLAST_RANGE * BLAST_RANGE) continue
             entity.damage(world.damageSources.sonicBoom(user), 5f)
@@ -63,8 +63,9 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
         if (attacker.activeItem != stack) return
         attacker.world.playSoundFromEntity(null, attacker, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, attacker.soundCategory, 1f, 1f)
-        target.addVelocity(((target.pos - attacker.pos).multiply(1.0, 0.0, 1.0).normalize() * 2.5).add(0.0, 0.5, 0.0))
-        (target.world as? ServerWorld)?.spawnParticles(ParticleTypes.SONIC_BOOM, target.x, target.getBodyY(0.5), target.z, 0, 0.0, 0.0, 0.0, 0.0)
+        val velocity = ((target.pos - attacker.pos).multiply(1.0, 0.0, 1.0).normalize() * 2.5).add(0.0, 0.5, 0.0)
+        target.addVelocity(velocity)
+        (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, target.x, target.getBodyY(0.5), target.z, 0, velocity.x / 4, velocity.y / 4, velocity.z / 4, 0.0)
         (attacker as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 

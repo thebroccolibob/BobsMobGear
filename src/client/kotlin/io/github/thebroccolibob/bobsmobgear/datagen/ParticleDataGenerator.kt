@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import com.mojang.serialization.Codec
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
@@ -20,8 +21,12 @@ class ParticleDataGenerator(
         provider: BiConsumer<Identifier, List<Identifier>>,
         lookup: RegistryWrapper.WrapperLookup
     ) {
+        fun register(particle: ParticleType<*>, textures: List<Identifier>) {
+            provider.accept(Registries.PARTICLE_TYPE.getId(particle)!!, textures)
+        }
+
         fun register(particle: ParticleType<*>, vararg textures: Identifier) {
-            provider.accept(Registries.PARTICLE_TYPE.getId(particle)!!, textures.toList())
+            register(particle, textures.toList())
         }
 
         fun registerDrips(drips: BobsMobGearParticles.Drips) {
@@ -33,6 +38,9 @@ class ParticleDataGenerator(
         registerDrips(BobsMobGearParticles.IRON_DRIPS)
         registerDrips(BobsMobGearParticles.DIAMOND_DRIPS)
         registerDrips(BobsMobGearParticles.NETHERITE_DRIPS)
+
+        register(BobsMobGearParticles.SONIC_SHOCKWAVE, BobsMobGear.id("sonic_boom"))
+        register(BobsMobGearParticles.SONIC_LAUNCH, (8..15).map { Identifier.ofVanilla("sonic_boom_$it") })
     }
 
     override fun getName(): String = "Particle Texture Data"
