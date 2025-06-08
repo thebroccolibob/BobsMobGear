@@ -1,0 +1,15 @@
+{
+  "parent": "bobsmobgear:item/warden_fist_base",
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [110, 0, 0],
+      "translation": [4.75, 2.75, -3.25],
+      "scale": [0.8, 0.8, 0.8]
+    },
+    "firstperson_lefthand": {
+      "rotation": [110, 180, 0],
+      "translation": [4.75, 2.75, -3.25],
+      "scale": [0.8, 0.8, 0.8]
+    }
+  }
+}
