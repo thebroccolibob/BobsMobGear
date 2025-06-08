@@ -1,5 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.client
 
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicLaunchEmitter
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicLaunchParticle
 import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicShockwaveParticle
 import io.github.thebroccolibob.bobsmobgear.fluid.MetalFluid
 import io.github.thebroccolibob.bobsmobgear.mixin.client.ContinuousFallingBlockLeakParticleInvoker
@@ -58,5 +60,7 @@ fun registerBobsMobGearParticleFactories() {
     registerDrips(BobsMobGearParticles.NETHERITE_DRIPS, BobsMobGearFluids.NETHERITE)
     ParticleFactoryRegistry.getInstance().apply {
         register(BobsMobGearParticles.SONIC_SHOCKWAVE, SonicShockwaveParticle)
+        register(BobsMobGearParticles.SONIC_LAUNCH, SonicLaunchParticle)
+        register(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, SonicLaunchEmitter)
     }
 }

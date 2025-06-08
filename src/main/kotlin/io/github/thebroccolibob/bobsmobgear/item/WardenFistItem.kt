@@ -65,7 +65,7 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
         attacker.world.playSoundFromEntity(null, attacker, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, attacker.soundCategory, 1f, 1f)
         val velocity = ((target.pos - attacker.pos).multiply(1.0, 0.0, 1.0).normalize() * 2.5).add(0.0, 0.5, 0.0)
         target.addVelocity(velocity)
-        (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, target.x, target.getBodyY(0.5), target.z, 0, velocity.x / 4, velocity.y / 4, velocity.z / 4, 0.0)
+        (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, target.x, target.getBodyY(0.5), target.z, 0, velocity.x / 4, velocity.y / 4, velocity.z / 4, 1.0)
         (attacker as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 
