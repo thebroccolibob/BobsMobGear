@@ -17,9 +17,8 @@ class SonicLaunchEmitter(world: ClientWorld, x: Double, y: Double, z: Double, ve
         }
 
     override fun tick() {
-        repeat(4) {
-            val multiplier = 0.2 * it + 0.2
-            world.addParticle(BobsMobGearParticles.SONIC_LAUNCH, x, y, z, multiplier * velocityX, multiplier * velocityY, multiplier * velocityZ)
+        repeat(8) {
+            world.addParticle(BobsMobGearParticles.SONIC_LAUNCH, x + 2 * it * velocityX, y + 2 * it * velocityY, z + 2 * it * velocityZ, velocityX, velocityY, velocityZ)
         }
         markDead()
     }

@@ -40,7 +40,7 @@ class ParticleDataGenerator(
         registerDrips(BobsMobGearParticles.NETHERITE_DRIPS)
 
         register(BobsMobGearParticles.SONIC_SHOCKWAVE, BobsMobGear.id("sonic_boom"))
-        register(BobsMobGearParticles.SONIC_LAUNCH, (8..15).map { Identifier.ofVanilla("sonic_boom_$it") })
+        register(BobsMobGearParticles.SONIC_LAUNCH, (7..15).map { Identifier.ofVanilla("sonic_boom_$it") })
     }
 
     override fun getName(): String = "Particle Texture Data"

@@ -16,13 +16,10 @@ import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
-class SonicLaunchParticle(world: ClientWorld, x: Double, y: Double, z: Double, velocityX: Double, velocityY: Double, velocityZ: Double, private val spriteProvider: SpriteProvider) :
+class SonicLaunchParticle(world: ClientWorld, x: Double, y: Double, z: Double, private val rotationX: Float, private val rotationY: Float, private val spriteProvider: SpriteProvider) :
     SpriteBillboardParticle(world, x, y, z) {
     init {
-        this.velocityX = velocityX
-        this.velocityY = velocityY
-        this.velocityZ = velocityZ
-        maxAge = 15
+        maxAge = 8
         val f = random.nextFloat() * 0.6f + 0.4f
         red = f
         green = f
@@ -31,8 +28,9 @@ class SonicLaunchParticle(world: ClientWorld, x: Double, y: Double, z: Double, v
         setSpriteForAge(spriteProvider)
     }
 
-    private val rotationY = atan2(velocityX, velocityZ).toFloat()
-    private val rotationX = atan2(velocityY, sqrt(velocityX * velocityX + velocityZ * velocityZ)).toFloat()
+    constructor(world: ClientWorld, x: Double, y: Double, z: Double, directionX: Double, directionY: Double, directionZ: Double, spriteProvider: SpriteProvider) : this(
+        world, x, y, z, -atan2(directionY, sqrt(directionX * directionX + directionZ * directionZ)).toFloat(), atan2(directionX, directionZ).toFloat(), spriteProvider
+    )
 
     override fun getType(): ParticleTextureSheet = ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT
 
@@ -45,7 +43,7 @@ class SonicLaunchParticle(world: ClientWorld, x: Double, y: Double, z: Double, v
 //        this.alpha = 0.5f * if (dAge > 20) (30 - dAge).coerceAtLeast(0f) / 10f else 1f
         val quaternionf = Quaternionf()
         quaternionf.rotateY(rotationY)
-        quaternionf.rotateX(-rotationX)
+        quaternionf.rotateX(rotationX)
         method_60373(vertexConsumer, camera, quaternionf, tickDelta)
         quaternionf.rotateX(-PI.toFloat())
         method_60373(vertexConsumer, camera, quaternionf, tickDelta)
