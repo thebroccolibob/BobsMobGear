@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.client.render.item
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.client.util.invoke
+import io.github.thebroccolibob.bobsmobgear.item.WardenFistItem
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
@@ -37,10 +38,12 @@ object WardenFistItemRenderer : DynamicItemRenderer {
                 itemRenderer.renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, itemRenderer.models.modelManager.getModel(GUI_MODEL))
                 return pop()
             }
-            val age = client.player!!.age + client.renderTickCounter.getTickDelta(false)
-            val brightness = (12 * (0.5 * sin(age * PI / 50) + 0.5)).toInt()
             val baseModel = itemRenderer.models.modelManager.getModel(if (client.player?.activeItem == stack) BASE_CHARGING_MODEL else BASE_MODEL)
             if (baseModel == null) return pop()
+
+            val age = client.player!!.age + client.renderTickCounter.getTickDelta(false)
+            val charge = stack.getOrDefault(BobsMobGearItems.SONIC_CHARGE, 0)
+            val brightness = (16 * (charge / WardenFistItem.MAX_SONIC_CHARGE.toDouble()) * (0.5 * sin(age * PI / 50 * if (charge == WardenFistItem.MAX_SONIC_CHARGE) 2 else 1) + 0.5)).toInt().coerceAtMost(15)
 
             val leftHanded = mode == ModelTransformationMode.FIRST_PERSON_LEFT_HAND || mode == ModelTransformationMode.THIRD_PERSON_LEFT_HAND
             baseModel.transformation.getTransformation(mode).apply(leftHanded, matrices)

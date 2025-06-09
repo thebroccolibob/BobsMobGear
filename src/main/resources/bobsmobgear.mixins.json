@@ -6,11 +6,12 @@
     "AbstractBlockStateMixin",
     "AbstractCauldronBlockInvoker",
     "EnchantmentHelperInvoker",
+    "EntityMixin",
     "FluidInvoker",
     "ItemEntityMixin",
     "ItemStackMixin",
-    "LeveledCauldronBlockInvoker",
     "LivingEntityMixin",
+    "ServerPlayerEntityMixin",
     "bettercombat.ServerNetworkHandlerMixin"
   ],
   "injectors": {

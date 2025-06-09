@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
+import com.mojang.serialization.Codec
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.item.*
 import io.github.thebroccolibob.bobsmobgear.util.ComparableItemStack
@@ -20,6 +21,7 @@ import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.*
 import net.minecraft.network.codec.PacketCodec
+import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.text.Text
@@ -63,6 +65,11 @@ object BobsMobGearItems {
     val TONGS_HELD_ITEM = register<ComparableItemStack>("tongs_held_item") {
         codec(ComparableItemStack.CODEC)
         packetCodec(ComparableItemStack.PACKET_CODEC)
+    }
+
+    val SONIC_CHARGE = register<Int>("sonic_charge") {
+        codec(Codec.intRange(0, WardenFistItem.MAX_SONIC_CHARGE))
+        packetCodec(PacketCodecs.INTEGER)
     }
 
     // ITEMS
@@ -123,6 +130,7 @@ object BobsMobGearItems {
         rarity(Rarity.RARE)
         fireproof()
         attributeModifiers(WardenFistItem.createAttributeModifiers())
+        component(SONIC_CHARGE, 0)
     }))
 
     // ITEM GROUPS
@@ -149,6 +157,11 @@ object BobsMobGearItems {
                 FLESH_GLOVE,
                 IRON_FLESH_GLOVE,
             ).map { it.defaultStack })
+            entries.addAll(listOf(
+                WARDEN_FIST.defaultStack.also {
+                    it[SONIC_CHARGE] = WardenFistItem.MAX_SONIC_CHARGE
+                },
+            ))
         }
     }.build())
 

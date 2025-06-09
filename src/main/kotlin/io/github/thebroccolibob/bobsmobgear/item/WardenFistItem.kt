@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.minus
@@ -30,8 +31,8 @@ import net.minecraft.world.World
 class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        // TODO sonic charge check
         val stack = user[hand]
+        if (stack[BobsMobGearItems.SONIC_CHARGE]?.let { it < MAX_SONIC_CHARGE } != false) return TypedActionResult.pass(stack)
         user.setCurrentHand(hand)
         user.playSound(SoundEvents.ENTITY_WARDEN_SONIC_CHARGE)
         return TypedActionResult.consume(stack)
@@ -58,6 +59,7 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
                 entity.velocityModified = true
             }
         }
+        stack[BobsMobGearItems.SONIC_CHARGE] = 0
         (user as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 
@@ -77,15 +79,28 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
         }
         target.addVelocity(velocity)
         (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, target.x, target.getBodyY(0.5), target.z, 0, velocity.x, velocity.y, velocity.z, 1.0)
+        stack[BobsMobGearItems.SONIC_CHARGE] = 0
         (attacker as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 
     override fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean = user.itemUseTime >= USE_TIME
 
+    override fun isItemBarVisible(stack: ItemStack): Boolean = BobsMobGearItems.SONIC_CHARGE in stack
+
+    override fun getItemBarColor(stack: ItemStack?): Int = 0x2CE3EB
+
+    override fun getItemBarStep(stack: ItemStack): Int = when (val charge = stack.getOrDefault(BobsMobGearItems.SONIC_CHARGE, 0)) {
+        0 -> 0
+        MAX_SONIC_CHARGE -> 13
+        else -> (11 * charge / (MAX_SONIC_CHARGE - 1).toFloat()).toInt() + 1
+    }
+
     companion object {
         const val USE_TIME = 30
         const val BLAST_RANGE = 5.0
         const val COOLDOWN = 100
+
+        const val MAX_SONIC_CHARGE = 20
 
         fun createAttributeModifiers() = AttributeModifiersComponent(listOf(
             Entry(EntityAttributes.GENERIC_ATTACK_DAMAGE, EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 9.0, Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND),
