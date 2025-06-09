@@ -20,7 +20,12 @@ public class ServerNetworkHandlerMixin {
             at = @At("TAIL")
     )
     private static void stopUsingWardenFist(ServerPlayerEntity player, Packets.C2S_AttackRequest request, AttackHand hand, WeaponAttributes attributes, WeaponAttributes.Attack attack, ServerWorld world, boolean useVanillaPacket, ServerPlayNetworkHandler handler, CallbackInfo ci) {
-        if (hand.itemStack().getItem() instanceof WardenFistItem)
+        if (!player.isUsingItem()) return;
+        var weapon = hand.itemStack().getItem();
+        if (weapon instanceof WardenFistItem) {
+            if (request.entityIds().length == 0)
+                player.getItemCooldownManager().set(weapon, 20);
             player.stopUsingItem();
+        }
     }
 }

@@ -8,7 +8,6 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.Translation
-import net.bettercombat.api.client.BetterCombatClientEvents
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
@@ -47,8 +46,5 @@ object BobsMobGearClient : ClientModInitializer {
 		registerBobsMobGearParticleFactories()
 		TongsItemRenderer.register()
 		WardenFistItemRenderer.register()
-
-		BetterCombatClientEvents.ATTACK_HIT.register { player, hand, _, _ ->
-		}
 	}
 }

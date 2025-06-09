@@ -17,7 +17,6 @@ import kotlin.math.sqrt
 class SonicShockwaveParticle(world: ClientWorld, x: Double, y: Double, z: Double) : SpriteBillboardParticle(world, x, y, z) {
     init {
         maxAge = 60
-        alpha = 0.5f
     }
 
     override fun getType(): ParticleTextureSheet = ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT
@@ -28,7 +27,7 @@ class SonicShockwaveParticle(world: ClientWorld, x: Double, y: Double, z: Double
 
     override fun buildGeometry(vertexConsumer: VertexConsumer, camera: Camera, tickDelta: Float) {
         val dAge = age + tickDelta
-        this.alpha = 0.5f * if (dAge > 30) (60 - dAge).coerceAtLeast(0f) / 30f else 1f
+        alpha = ((60 - dAge) / 40f).coerceIn(0f, 1f)
         val quaternionf = Quaternionf()
         quaternionf.rotateX(PI.toFloat() / 2)
         method_60373(vertexConsumer, camera, quaternionf, tickDelta)

@@ -24,6 +24,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
 class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
@@ -42,13 +43,17 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
         (world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_SHOCKWAVE, user.x, user.getBodyY(0.33), user.z, 0, 0.0, 0.0, 0.0, 0.0)
         for (entity in world.getOtherEntities(user, Box.of(user.pos, 2 * BLAST_RANGE, 2 * BLAST_RANGE, 2 * BLAST_RANGE))) {
             if (user.squaredDistanceTo(entity) > BLAST_RANGE * BLAST_RANGE) continue
-            entity.damage(world.damageSources.sonicBoom(user), 5f)
+
+            val difference = entity.pos - user.pos
+            val strength = 1 - difference.length() / BLAST_RANGE
+
+            if (entity is LivingEntity)
+                entity.damage(world.damageSources.sonicBoom(user), (10 * strength.toFloat()).coerceAtMost(5f))
+
             if (entity is ProjectileEntity) {
-                entity.setVelocity((entity.pos - user.pos).normalize() * entity.velocity.length().coerceAtLeast(1.2))
+                entity.setVelocity(difference.normalize() * entity.velocity.length().coerceAtLeast(1.2))
                 entity.velocityDirty = true
             } else {
-                val difference = entity.pos - user.pos
-                val strength = 1 - difference.length() / BLAST_RANGE
                 entity.addVelocity((difference.multiply(1.0, 0.0, 1.0).normalize() * 2.0 * strength).add(0.0, strength, 0.0))
                 entity.velocityModified = true
             }
@@ -67,7 +72,9 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
         if (attacker.activeItem != stack) return
         attacker.world.playSoundFromEntity(null, attacker, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, attacker.soundCategory, 1f, 1f)
-        val velocity = (attacker.rotationVector.multiply(1.0, 0.0, 1.0).normalize() * 2.5).add(0.0, 0.5, 0.0)
+        val velocity = (attacker.rotationVector.normalize() * 2.5).let {
+            if (target.isOnGround && it.y < 0.5) it.withAxis(Direction.Axis.Y, 0.5) else it
+        }
         target.addVelocity(velocity)
         (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, target.x, target.getBodyY(0.5), target.z, 0, velocity.x, velocity.y, velocity.z, 1.0)
         (attacker as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)

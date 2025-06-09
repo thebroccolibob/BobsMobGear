@@ -12,6 +12,8 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import kotlin.math.PI
+import kotlin.math.sin
 
 object WardenFistItemRenderer : DynamicItemRenderer {
     val BASE_MODEL = BobsMobGear.id("item/warden_fist_base")
@@ -35,14 +37,15 @@ object WardenFistItemRenderer : DynamicItemRenderer {
                 itemRenderer.renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, itemRenderer.models.modelManager.getModel(GUI_MODEL))
                 return pop()
             }
-//        val brightness = MinecraftClient.getInstance().renderTickCounter.getTickDelta(false)
+            val age = client.player!!.age + client.renderTickCounter.getTickDelta(false)
+            val brightness = (12 * (0.5 * sin(age * PI / 50) + 0.5)).toInt()
             val baseModel = itemRenderer.models.modelManager.getModel(if (client.player?.activeItem == stack) BASE_CHARGING_MODEL else BASE_MODEL)
             if (baseModel == null) return pop()
 
             val leftHanded = mode == ModelTransformationMode.FIRST_PERSON_LEFT_HAND || mode == ModelTransformationMode.THIRD_PERSON_LEFT_HAND
             baseModel.transformation.getTransformation(mode).apply(leftHanded, matrices)
             itemRenderer.renderItem(stack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, baseModel)
-            itemRenderer.renderItem(stack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, LightmapTextureManager.MAX_LIGHT_COORDINATE, overlay, itemRenderer.models.modelManager.getModel(GLOW_MODEL))
+            itemRenderer.renderItem(stack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, LightmapTextureManager.pack(brightness, 0), overlay, itemRenderer.models.modelManager.getModel(GLOW_MODEL))
         }
     }
 
