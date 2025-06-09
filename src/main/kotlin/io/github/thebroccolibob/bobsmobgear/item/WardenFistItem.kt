@@ -59,7 +59,8 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
                 entity.velocityModified = true
             }
         }
-        stack[BobsMobGearItems.SONIC_CHARGE] = 0
+        if (!user.isInCreativeMode)
+            stack[BobsMobGearItems.SONIC_CHARGE] = 0
         (user as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 
@@ -79,11 +80,12 @@ class WardenFistItem(settings: Settings) : Item(settings), UsingAttackable {
         }
         target.addVelocity(velocity)
         (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, target.x, target.getBodyY(0.5), target.z, 0, velocity.x, velocity.y, velocity.z, 1.0)
-        stack[BobsMobGearItems.SONIC_CHARGE] = 0
+        if (!attacker.isInCreativeMode)
+            stack[BobsMobGearItems.SONIC_CHARGE] = 0
         (attacker as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 
-    override fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean = user.itemUseTime >= USE_TIME
+    override fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean = user.weaponStack == stack && user.itemUseTime >= USE_TIME
 
     override fun isItemBarVisible(stack: ItemStack): Boolean = BobsMobGearItems.SONIC_CHARGE in stack
 
