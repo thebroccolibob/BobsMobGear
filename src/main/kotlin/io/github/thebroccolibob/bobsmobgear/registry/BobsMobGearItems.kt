@@ -86,6 +86,15 @@ object BobsMobGearItems {
     val SHOVEL_TEMPLATE = register(BobsMobGearBlocks.SHOVEL_TEMPLATE)
     val HOE_TEMPLATE = register(BobsMobGearBlocks.HOE_TEMPLATE)
 
+    val TEMPLATES = listOf(
+        EMPTY_TEMPLATE,
+        SWORD_TEMPLATE,
+        PICKAXE_TEMPLATE,
+        AXE_TEMPLATE,
+        SHOVEL_TEMPLATE,
+        HOE_TEMPLATE,
+    )
+
     val FORGE = register(BobsMobGearBlocks.FORGE)
     val FORGE_HEATER = register(BobsMobGearBlocks.FORGE_HEATER)
 

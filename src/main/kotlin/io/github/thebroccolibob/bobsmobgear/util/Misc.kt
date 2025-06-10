@@ -53,3 +53,12 @@ fun getBarProgress(value: Int, max: Int, barWidth: Int) = when(value) {
     max -> barWidth
     else -> (value - 1) * (barWidth - 2) / (max - 2) + 1
 }
+
+fun <T> Iterable<T>.countUnique(): Map<T, Int> {
+    val counts = mutableMapOf<T, Int>()
+    for (element in this) {
+        val key = counts.keys.firstOrNull { it == element } ?: element
+        counts[key] = counts.getOrDefault(key, 0) + 1
+    }
+    return counts
+}
