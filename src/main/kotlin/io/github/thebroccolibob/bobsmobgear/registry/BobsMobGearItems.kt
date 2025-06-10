@@ -67,8 +67,13 @@ object BobsMobGearItems {
         packetCodec(ComparableItemStack.PACKET_CODEC)
     }
 
+    val MAX_SONIC_CHARGE = register<Int>("max_sonic_charge") {
+        codec(Codec.INT)
+        packetCodec(PacketCodecs.INTEGER)
+    }
+
     val SONIC_CHARGE = register<Int>("sonic_charge") {
-        codec(Codec.intRange(0, WardenFistItem.MAX_SONIC_CHARGE))
+        codec(Codec.INT)
         packetCodec(PacketCodecs.INTEGER)
     }
 
@@ -130,7 +135,7 @@ object BobsMobGearItems {
         rarity(Rarity.RARE)
         fireproof()
         attributeModifiers(WardenFistItem.createAttributeModifiers())
-        component(SONIC_CHARGE, 0)
+        component(MAX_SONIC_CHARGE, 16)
     }))
 
     // ITEM GROUPS
@@ -159,7 +164,7 @@ object BobsMobGearItems {
             ).map { it.defaultStack })
             entries.addAll(listOf(
                 WARDEN_FIST.defaultStack.also {
-                    it[SONIC_CHARGE] = WardenFistItem.MAX_SONIC_CHARGE
+                    it[SONIC_CHARGE] = 16
                 },
             ))
         }
