@@ -30,6 +30,7 @@ object SonicChargeHudRenderer : HudRenderCallback, ClientTickEvents.EndTick {
 
     override fun onHudRender(context: DrawContext, tickCounter: RenderTickCounter) {
         val player = MinecraftClient.getInstance().player!!
+        if (player.isSpectator) return
         val leftStack = getSonicStack(player, Arm.LEFT)
         val rightStack = getSonicStack(player, Arm.RIGHT)
         if (leftStack != lastLeftStack) {
