@@ -27,17 +27,16 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearBlocks.AXE_TEMPLATE, "Axe Template")
         add(BobsMobGearBlocks.SHOVEL_TEMPLATE, "Shovel Template")
         add(BobsMobGearBlocks.HOE_TEMPLATE, "Hoe Template")
-
         add(BobsMobGearBlocks.FORGE, "Forge")
         add(BobsMobGearBlocks.FORGE_HEATER, "Forge Heater")
 
         add(BobsMobGearItems.SMITHING_HAMMER, "Smithing Hammer")
         add(BobsMobGearItems.SMITHING_TONGS, "Smithing Tongs")
-
         add(BobsMobGearItems.EMPTY_POT, "Empty Pot")
         add(BobsMobGearItems.IRON_POT, "Pot of Molten Iron")
         add(BobsMobGearItems.DIAMOND_POT, "Pot of Molten Diamond")
         add(BobsMobGearItems.NETHERITE_POT, "Pot of Molten Netherite")
+        add(BobsMobGearItems.WARDEN_FIST, "Warden Fist")
 
         add(BobsMobGearItemTags.SMITHING_HAMMERS, "Smithing Hammers")
         add(BobsMobGearItemTags.TONG_HOLDABLE, "Holdable by Tongs")

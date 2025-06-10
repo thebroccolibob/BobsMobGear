@@ -46,3 +46,10 @@ val Hand.opposite get() = when (this) {
     Hand.MAIN_HAND -> Hand.OFF_HAND
     Hand.OFF_HAND -> Hand.MAIN_HAND
 }
+
+// Makes it so 0 -> 0, 1 -> 1, max - 1 -> barWidth - 1, max -> barWidth
+fun getBarProgress(value: Int, max: Int, barWidth: Int) = when(value) {
+    0 -> 0
+    max -> barWidth
+    else -> (value - 1) * (barWidth - 2) / (max - 2) + 1
+}

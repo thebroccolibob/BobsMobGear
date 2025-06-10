@@ -136,6 +136,7 @@ object BobsMobGearItems {
         fireproof()
         attributeModifiers(WardenFistItem.createAttributeModifiers())
         component(MAX_SONIC_CHARGE, 16)
+        component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
     }))
 
     // ITEM GROUPS
