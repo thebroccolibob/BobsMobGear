@@ -62,3 +62,20 @@ fun <T> Iterable<T>.countUnique(): Map<T, Int> {
     }
     return counts
 }
+
+fun <T: Any, R> Iterable<T>.groupConsecutive(create: (Int, T) -> R): List<R> = buildList {
+    var current: T? = null
+    var currentCount = 0
+    for (element in this@groupConsecutive) {
+        if (current == element) {
+            currentCount++
+        } else {
+            if (current != null)
+                add(create(currentCount, current))
+            current = element
+            currentCount = 1
+        }
+    }
+    if (current != null)
+        add(create(currentCount, current))
+}

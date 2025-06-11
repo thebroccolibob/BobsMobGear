@@ -23,7 +23,6 @@ object BobsMobGearEmiPlugin : EmiPlugin {
     private fun emiStack(item: Item): EmiStack = EmiStack.of(item)
 
     val SWORD_TEMPLATE = emiStack(BobsMobGearItems.SWORD_TEMPLATE)
-    val TEMPLATES = BobsMobGearItems.TEMPLATES.map { emiStack(it) }
 
     val TEMPLATE_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
         BobsMobGear.id("template"), SWORD_TEMPLATE, EmiTexture(
@@ -36,8 +35,6 @@ object BobsMobGearEmiPlugin : EmiPlugin {
 
     override fun register(registry: EmiRegistry) {
         registry.addCategory(TEMPLATE_CATEGORY)
-        for (template in TEMPLATES)
-            registry.addWorkstation(TEMPLATE_CATEGORY, template)
 
         registry.registerRecipeType(TemplateRecipe, ::TemplateEmiRecipe)
     }

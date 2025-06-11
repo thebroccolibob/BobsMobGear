@@ -10,6 +10,7 @@
   "block.bobsmobgear.pickaxe_template": "Pickaxe Template",
   "block.bobsmobgear.shovel_template": "Shovel Template",
   "block.bobsmobgear.sword_template": "Sword Template",
+  "emi.category.bobsmobgear.template": "Template Smithing",
   "enchantment.bobsmobgear.mender": "Mender",
   "item.bobsmobgear.diamond_pot": "Pot of Molten Diamond",
   "item.bobsmobgear.empty_pot": "Empty Pot",
@@ -25,11 +26,13 @@
   "subtitles.block.bobsmobgear.template.craft": "Tool crafts",
   "subtitles.block.bobsmobgear.template.hammer": "Tool hammers",
   "subtitles.block.bobsmobgear.template.remove_item": "Template empties",
+  "tag.item.bobsmobgear.enchantable.mender": "Mender Enchantable",
   "tag.item.bobsmobgear.forges.diamond": "Forges Diamond",
   "tag.item.bobsmobgear.forges.gold_ingot": "Forges Gold Ingot",
   "tag.item.bobsmobgear.forges.iron_ingot": "Forges Iron Ingot",
   "tag.item.bobsmobgear.forges.netherite_ingot": "Forges Netherite Ingot",
   "tag.item.bobsmobgear.forges.netherite_scrap": "Forges Netherite Scrap",
   "tag.item.bobsmobgear.smithing_hammers": "Smithing Hammers",
+  "tag.item.bobsmobgear.smithing_surface": "Smithing Surfaces",
   "tag.item.bobsmobgear.tong_holdable": "Holdable by Tongs"
 }
