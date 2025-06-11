@@ -97,7 +97,7 @@ object BobsMobGearItems {
     val DIAMOND_POT = registerPot(BobsMobGearFluids.DIAMOND)
     val NETHERITE_POT = registerPot(BobsMobGearFluids.NETHERITE)
 
-    val POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT)
+    val FILLED_POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT)
 
     val SMITHING_HAMMER = register("smithing_hammer", SmithingHammerItem(itemSettings {
         maxDamage(128) // TODO decide max damage
@@ -177,7 +177,7 @@ object BobsMobGearItems {
         }, IRON_POT, DIAMOND_POT, NETHERITE_POT)
 
         FluidStorage.combinedItemApiProvider(EMPTY_POT).run {
-            POTS.forEach {
+            FILLED_POTS.forEach {
                 register { context ->
                     EmptyItemFluidStorage(context, it, (it as FluidPotItem).fluid, FluidConstants.INGOT)
                 }

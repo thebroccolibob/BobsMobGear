@@ -14,7 +14,7 @@ import java.text.DecimalFormatSymbols
 import java.util.*
 
 class ForgingEmiRecipe(id: Identifier, private val recipe: ForgingRecipe)
-    : BasicEmiRecipe(BobsMobGearEmiPlugin.FORGING_CATEGORY, id, 92, 18 * ((recipe.ingredients.size + 1) / 2) + 18) {
+    : BasicEmiRecipe(BobsMobGearEmiPlugin.FORGING_CATEGORY, id, 100, 18 * ((recipe.ingredients.size + 1) / 2) + 23) {
 
     private val output: EmiStack = EmiStack.of(recipe.result.fluid, recipe.resultAmount)
 
@@ -24,17 +24,17 @@ class ForgingEmiRecipe(id: Identifier, private val recipe: ForgingRecipe)
     }
 
     override fun addWidgets(widgets: WidgetHolder) {
-        widgets.addFillingArrow(43, 1, recipe.forgingTime * 1000 / 20).tooltipText(listOf(
+        widgets.addFillingArrow(47, 5, recipe.forgingTime * 1000 / 20).tooltipText(listOf(
             FORGING_TIME.text(DECIMAL_FORMAT.format(recipe.forgingTime / 20.0))
         ))
         inputs.forEachIndexed { index, ingredient ->
-            widgets.addSlot(ingredient, if (inputs.size % 2 != 0 && index == inputs.size - 1) 9 else 18 * (index % 2), 18 * (index / 2))
+            widgets.addSlot(ingredient, (if (inputs.size % 2 != 0 && index == inputs.size - 1) 9 else 18 * (index % 2)) + 4, 18 * (index / 2) + 4)
         }
 
-        widgets.addTexture(EmiTexture.EMPTY_FLAME, 11, 20)
-        widgets.addAnimatedTexture(EmiTexture.FULL_FLAME, 11, 20, 4000, false, true, true)
+        widgets.addTexture(EmiTexture.EMPTY_FLAME, 15, 24)
+        widgets.addAnimatedTexture(EmiTexture.FULL_FLAME, 15, 24, 4000, false, true, true)
 
-        widgets.addSlot(output, 74, 0).recipeContext(this)
+        widgets.addSlot(output, 78, 4).recipeContext(this)
     }
 
     companion object {

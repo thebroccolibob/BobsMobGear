@@ -67,6 +67,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         add(BobsMobGearEmiPlugin.TEMPLATE_CATEGORY, "Template Smithing")
         add(BobsMobGearEmiPlugin.FORGING_CATEGORY, "Forging")
+        add(BobsMobGearEmiPlugin.FORGE_FILLING_CATEGORY, "Forge Filling")
     }
 
     companion object {
