@@ -13,10 +13,10 @@ class BlockTagGenerator(
     registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
 ) : FabricTagProvider.BlockTagProvider(output, registriesFuture) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
-        getOrCreateTagBuilder(BobsMobGearBlocks.SMITHING_SURFACE).add(
-            Blocks.SMITHING_TABLE,
-            Blocks.ANVIL,
-        )
+        getOrCreateTagBuilder(BobsMobGearBlocks.SMITHING_SURFACE).apply {
+            add(Blocks.SMITHING_TABLE)
+            forceAddTag(BlockTags.ANVIL)
+        }
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
             BobsMobGearBlocks.SWORD_TEMPLATE,
         )

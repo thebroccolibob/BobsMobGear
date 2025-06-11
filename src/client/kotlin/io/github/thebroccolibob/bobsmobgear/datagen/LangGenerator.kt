@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
+import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
 import io.github.thebroccolibob.bobsmobgear.util.add
@@ -45,6 +46,8 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItemTags.FORGES_GOLD_INGOT, "Forges Gold Ingot")
         add(BobsMobGearItemTags.FORGES_NETHERITE_INGOT, "Forges Netherite Ingot")
         add(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP, "Forges Netherite Scrap")
+        add(BobsMobGearItemTags.SMITHING_SURFACE, "Smithing Surfaces")
+        add(BobsMobGearItemTags.MENDER_ENCHANTABLE, "Mender Enchantable")
 
         add(BobsMobGearFluids.IRON, "Molten Iron")
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")
@@ -60,6 +63,8 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, "Template empties")
 
         add(BobsMobGearEnchantments.MENDER_NAME, "Mender")
+
+        add(createTranslationKey("emi.category", BobsMobGearEmiPlugin.TEMPLATE_CATEGORY.getId()), "Template Smithing")
     }
 
     companion object {

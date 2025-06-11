@@ -19,6 +19,7 @@ object BobsMobGearItemTags {
     val SMITHING_HAMMERS = of("smithing_hammers")
     val TONG_HOLDABLE = of("tong_holdable")
     val MENDER_ENCHANTABLE = of("enchantable/mender")
+    val SMITHING_SURFACE = of(BobsMobGearBlocks.SMITHING_SURFACE.id)
 
     @JvmField
     val PREVENT_SMITHING_TABLE_SCREEN = of("prevent_smithing_table_screen")

@@ -57,6 +57,10 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(BobsMobGearItemTags.MENDER_ENCHANTABLE).apply {
             forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
         }
+        getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_SURFACE).apply {
+            add(Items.SMITHING_TABLE)
+            forceAddTag(ItemTags.ANVIL)
+        }
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,

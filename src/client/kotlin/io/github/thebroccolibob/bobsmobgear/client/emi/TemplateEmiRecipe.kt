@@ -11,13 +11,22 @@ import io.github.thebroccolibob.bobsmobgear.client.util.region
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.util.groupConsecutive
+import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import kotlin.jvm.optionals.getOrNull
 
 class TemplateEmiRecipe(private val id: Identifier, private val recipe: TemplateRecipe) : EmiRecipe {
     private val hasRow1 get() = !recipe.fluid.isBlank || recipe.requiresHammer
 
-    private val blockBelow = recipe.blockBelow.getOrNull()?.let { EmiIngredient.of(it.map { entry -> EmiStack.of(entry.value()) }) }
+    private val blockBelow = recipe.blockBelow.getOrNull()?.let { blockTag ->
+        blockTag.tagKey.getOrNull()
+            ?.let { TagKey.of(RegistryKeys.ITEM, it.id) }
+            ?.takeIf { Registries.ITEM.tagCreatingWrapper.getOptional(it).isPresent }
+            ?.let { EmiIngredient.of(it) }
+            ?: EmiIngredient.of(blockTag.map { entry -> EmiStack.of(entry.value()) })
+    }
 
     private val ingredients = recipe.ingredients.takeUnless { it.isEmpty() }?.groupConsecutive { count, ingredient ->
         EmiIngredient.of(ingredient, count.toLong())
