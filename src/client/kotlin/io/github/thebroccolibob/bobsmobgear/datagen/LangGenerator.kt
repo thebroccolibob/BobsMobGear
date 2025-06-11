@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
+import dev.emi.emi.api.recipe.EmiRecipeCategory
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
 import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
@@ -64,7 +65,8 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         add(BobsMobGearEnchantments.MENDER_NAME, "Mender")
 
-        add(createTranslationKey("emi.category", BobsMobGearEmiPlugin.TEMPLATE_CATEGORY.getId()), "Template Smithing")
+        add(BobsMobGearEmiPlugin.TEMPLATE_CATEGORY, "Template Smithing")
+        add(BobsMobGearEmiPlugin.FORGING_CATEGORY, "Forging")
     }
 
     companion object {
@@ -74,6 +76,10 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         fun TranslationBuilder.add(fluid: Fluid, value: String) {
             add(createTranslationKey("block", Registries.FLUID.getId(fluid)), value)
+        }
+
+        fun TranslationBuilder.add(category: EmiRecipeCategory, value: String) {
+            add(createTranslationKey("emi.category", category.getId()), value)
         }
     }
 }

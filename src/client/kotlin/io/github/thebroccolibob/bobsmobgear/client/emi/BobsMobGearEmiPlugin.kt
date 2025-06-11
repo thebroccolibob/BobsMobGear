@@ -8,6 +8,7 @@ import dev.emi.emi.api.stack.EmiStack
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.client.util.SizedTexture
 import io.github.thebroccolibob.bobsmobgear.client.util.region
+import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.minecraft.recipe.Recipe
@@ -24,8 +25,8 @@ object BobsMobGearEmiPlugin : EmiPlugin {
         BobsMobGear.id("template"), EmiStack.of(BobsMobGearItems.SWORD_TEMPLATE), TEXTURE.region(0, 0, 16, 16)
     )
 
-    val FORGE_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
-        BobsMobGear.id("template"), EmiStack.of(BobsMobGearItems.FORGE), TEXTURE.region(16, 0, 16, 16)
+    val FORGING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
+        BobsMobGear.id("forging"), EmiStack.of(BobsMobGearItems.FORGE), TEXTURE.region(16, 0, 16, 16)
     )
 
     private fun <I: RecipeInput, R: Recipe<I>> EmiRegistry.registerRecipeType(type: RecipeType<R>, createEmiRecipe: (Identifier, R) -> EmiRecipe) {
@@ -36,10 +37,11 @@ object BobsMobGearEmiPlugin : EmiPlugin {
     override fun register(registry: EmiRegistry) {
         registry.addCategory(TEMPLATE_CATEGORY)
 
-        registry.addCategory(FORGE_CATEGORY)
-        registry.addWorkstation(FORGE_CATEGORY, EmiStack.of(BobsMobGearItems.FORGE))
-        registry.addWorkstation(FORGE_CATEGORY, EmiStack.of(BobsMobGearItems.FORGE_HEATER))
+        registry.addCategory(FORGING_CATEGORY)
+        registry.addWorkstation(FORGING_CATEGORY, EmiStack.of(BobsMobGearItems.FORGE))
+        registry.addWorkstation(FORGING_CATEGORY, EmiStack.of(BobsMobGearItems.FORGE_HEATER))
 
         registry.registerRecipeType(TemplateRecipe, ::TemplateEmiRecipe)
+        registry.registerRecipeType(ForgingRecipe, ::ForgingEmiRecipe)
     }
 }
