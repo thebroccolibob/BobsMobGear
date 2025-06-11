@@ -51,7 +51,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
             val strength = 1 - difference.length() / BLAST_RANGE
 
             if (entity is LivingEntity)
-                entity.damage(world.damageSources.sonicBoom(user), (10 * strength.toFloat()).coerceAtMost(5f))
+                entity.damage(world.damageSources.sonicBoom(user), (10 * strength.toFloat()).coerceAtMost(5f)) // TODO custom damage source
 
             if (entity is ProjectileEntity) {
                 entity.setVelocity(difference.normalize() * entity.velocity.length().coerceAtLeast(1.2))
