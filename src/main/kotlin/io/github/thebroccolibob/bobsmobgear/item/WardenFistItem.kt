@@ -20,6 +20,7 @@ import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterials
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
@@ -89,6 +90,12 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
     }
 
     override fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean = user.weaponStack == stack && user.itemUseTime >= USE_TIME
+
+    override fun onAttackEnd(player: ServerPlayerEntity, targetCount: Int, stack: ItemStack) {
+        if (player.isUsingItem && targetCount == 0)
+            player.itemCooldownManager.set(stack.item, 20)
+        super.onAttackEnd(player, targetCount, stack)
+    }
 
     companion object {
         const val USE_TIME = 30

@@ -37,10 +37,15 @@ object BobsMobGearItems {
     private fun register(path: String, item: Item) =
         register(BobsMobGear.id(path), item)
 
-    fun register(block: Block): Item = Items.register(block)
+    private fun register(block: Block): Item = Items.register(block)
 
     private fun <T> register(path: String, init: ComponentType.Builder<T>.() -> Unit): ComponentType<T> =
         Registry.register(Registries.DATA_COMPONENT_TYPE, BobsMobGear.id(path), ComponentType.builder<T>().apply(init).build())
+
+    private fun registerUnit(path: String): ComponentType<MCUnit> = register(path) {
+        codec(MCUnit.CODEC)
+        packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
+    }
 
     private fun registerBucket(fluid: Fluid) =
         register(Registries.FLUID.getId(fluid) + "_bucket", BucketItem(fluid, itemSettings {
@@ -57,10 +62,7 @@ object BobsMobGearItems {
     // COMPONENTS
 
     @JvmField
-    val HEATED = register<MCUnit>("heated") {
-        codec(MCUnit.CODEC)
-        packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
-    }
+    val HEATED = registerUnit("heated")
 
     val TONGS_HELD_ITEM = register<ComparableItemStack>("tongs_held_item") {
         codec(ComparableItemStack.CODEC)
@@ -76,6 +78,9 @@ object BobsMobGearItems {
         codec(Codec.INT)
         packetCodec(PacketCodecs.INTEGER)
     }
+
+    @JvmField
+    val USING_SPECIAL_ATTACK = registerUnit("using_special_attack")
 
     // ITEMS
 
@@ -137,6 +142,10 @@ object BobsMobGearItems {
         attributeModifiers(WardenFistItem.createAttributeModifiers())
         component(MAX_SONIC_CHARGE, 16)
         component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
+    }))
+
+    val BONE_HAMMER = register("bone_hammer", BoneHammerItem(ToolMaterials.STONE, itemSettings {
+
     }))
 
     // ITEM GROUPS

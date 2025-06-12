@@ -5,7 +5,9 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.component.Component
 import net.minecraft.component.ComponentMap
+import net.minecraft.component.ComponentType
 import net.minecraft.enchantment.effect.EnchantmentEffectEntry
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -94,3 +96,6 @@ fun <T> EnchantmentEffectEntry(
 ) = EnchantmentEffectEntry(`object`, Optional.ofNullable(condition))
 
 fun ComponentMap(init: ComponentMap.Builder.() -> Unit): ComponentMap = ComponentMap.builder().apply(init).build()
+
+operator fun <T> Component<T>.component1(): ComponentType<T> = type
+operator fun <T> Component<T>.component2(): T = value

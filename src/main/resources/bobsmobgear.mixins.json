@@ -13,7 +13,8 @@
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
-    "bettercombat.ServerNetworkHandlerMixin"
+    "bettercombat.ServerNetworkHandlerMixin",
+    "bettercombat.WeaponRegistryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

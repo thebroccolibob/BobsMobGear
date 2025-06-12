@@ -8,12 +8,10 @@
     "ItemRendererMixin",
     "LandingBlockLeakParticleInvoker",
     "MinecraftClientMixin",
-    "bettercombat.MinecraftClientInjectMixin"
+    "bettercombat.MinecraftClientInjectMixin",
+    "ItemStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "mixins": [
-    "ItemStackMixin"
-  ]
+  }
 }

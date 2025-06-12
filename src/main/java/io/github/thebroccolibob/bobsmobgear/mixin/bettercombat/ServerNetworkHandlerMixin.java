@@ -1,6 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.mixin.bettercombat;
 
-import io.github.thebroccolibob.bobsmobgear.item.WardenFistItem;
+import io.github.thebroccolibob.bobsmobgear.item.AttackEndBehavior;
 import net.bettercombat.api.AttackHand;
 import net.bettercombat.api.WeaponAttributes;
 import net.bettercombat.network.Packets;
@@ -20,12 +20,9 @@ public class ServerNetworkHandlerMixin {
             at = @At("TAIL")
     )
     private static void stopUsingWardenFist(ServerPlayerEntity player, Packets.C2S_AttackRequest request, AttackHand hand, WeaponAttributes attributes, WeaponAttributes.Attack attack, ServerWorld world, boolean useVanillaPacket, ServerPlayNetworkHandler handler, CallbackInfo ci) {
-        if (!player.isUsingItem()) return;
         var weapon = hand.itemStack().getItem();
-        if (weapon instanceof WardenFistItem) {
-            if (request.entityIds().length == 0)
-                player.getItemCooldownManager().set(weapon, 20);
-            player.stopUsingItem();
+        if (weapon instanceof AttackEndBehavior attackEndBehavior) {
+            attackEndBehavior.onAttackEnd(player, request.entityIds().length, hand.itemStack());
         }
     }
 }
