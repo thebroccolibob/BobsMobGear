@@ -2,9 +2,8 @@ package io.github.thebroccolibob.bobsmobgear.block
 
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.util.component1
-import io.github.thebroccolibob.bobsmobgear.util.component2
-import io.github.thebroccolibob.bobsmobgear.util.component3
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
@@ -13,6 +12,7 @@ import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.ItemUsage
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -38,6 +38,7 @@ class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), Block
         hand: Hand,
         hit: BlockHitResult
     ): ItemActionResult {
+        if (stack isIn BobsMobGearItemTags.NON_FORGE_FUEL) return ItemActionResult.FAIL
         val fuel = FuelRegistry.INSTANCE[stack.item]
         if (fuel == null || fuel <= 0) return ItemActionResult.FAIL
 
@@ -49,7 +50,7 @@ class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), Block
             world.getBlockEntity(entityPos, BobsMobGearBlocks.FORGE_HEATER_BLOCK_ENTITY).getOrNull()
                 ?.addHeat(heatIncrease)
         }
-        stack.decrementUnlessCreative(1, player)
+        player[hand] = ItemUsage.exchangeStack(stack, player, stack.recipeRemainder)
         world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, player.soundCategory) // TODO custom sounds
 
         return ItemActionResult.SUCCESS

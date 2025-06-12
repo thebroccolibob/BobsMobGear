@@ -61,6 +61,9 @@ class ItemTagGenerator(
             add(Items.SMITHING_TABLE)
             forceAddTag(ItemTags.ANVIL)
         }
+        getOrCreateTagBuilder(BobsMobGearItemTags.NON_FORGE_FUEL).apply {
+            forceAddTag(ConventionalItemTags.TOOLS)
+        }
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
