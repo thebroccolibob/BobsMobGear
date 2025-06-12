@@ -148,6 +148,10 @@ object BobsMobGearItems {
 
     }))
 
+    val SPIDER_DAGGER = register("spider_dagger", SpiderDaggerItem(ToolMaterials.STONE, itemSettings {
+
+    }))
+
     // ITEM GROUPS
 
     val ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), FabricItemGroup.builder().apply {

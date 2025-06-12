@@ -54,7 +54,7 @@ private fun registerDrips(dripParticles: BobsMobGearParticles.Drips, fluid: Meta
     }
 }
 
-fun registerBobsMobGearParticleFactories() {
+internal fun registerParticleFactories() {
     registerDrips(BobsMobGearParticles.IRON_DRIPS, BobsMobGearFluids.IRON)
     registerDrips(BobsMobGearParticles.DIAMOND_DRIPS, BobsMobGearFluids.DIAMOND)
     registerDrips(BobsMobGearParticles.NETHERITE_DRIPS, BobsMobGearFluids.NETHERITE)

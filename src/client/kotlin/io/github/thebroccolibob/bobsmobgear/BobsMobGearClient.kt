@@ -2,7 +2,8 @@ package io.github.thebroccolibob.bobsmobgear
 
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
 import io.github.thebroccolibob.bobsmobgear.client.SpecialAttacks
-import io.github.thebroccolibob.bobsmobgear.client.registerBobsMobGearParticleFactories
+import io.github.thebroccolibob.bobsmobgear.client.registerEntityRenderers
+import io.github.thebroccolibob.bobsmobgear.client.registerParticleFactories
 import io.github.thebroccolibob.bobsmobgear.client.render.blockentity.TemplateBlockEntityRenderer
 import io.github.thebroccolibob.bobsmobgear.client.render.gui.SonicChargeHudRenderer
 import io.github.thebroccolibob.bobsmobgear.client.render.item.TongsItemRenderer
@@ -46,7 +47,8 @@ object BobsMobGearClient : ClientModInitializer {
 				fluid.tint
 			))
 
-		registerBobsMobGearParticleFactories()
+		registerParticleFactories()
+		registerEntityRenderers()
 		TongsItemRenderer.register()
 		WardenFistItemRenderer.register()
 		SonicChargeTooltip.register()

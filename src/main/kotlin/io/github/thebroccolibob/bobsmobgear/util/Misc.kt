@@ -1,6 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
 import net.minecraft.component.ComponentType
+import net.minecraft.entity.Entity
+import net.minecraft.entity.data.TrackedData
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -10,6 +12,7 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.reflect.KProperty
 import net.minecraft.util.Unit as MCUnit
 
 fun List<NbtElement>.toNbtList() = NbtList().apply {
@@ -78,4 +81,14 @@ fun <T: Any, R> Iterable<T>.groupConsecutive(create: (Int, T) -> R): List<R> = b
     }
     if (current != null)
         add(create(currentCount, current))
+}
+
+operator fun <T> TrackedData<T>.getValue(thisRef: Entity, property: KProperty<*>): T = thisRef.dataTracker.get(this)
+operator fun <T> TrackedData<T>.setValue(thisRef: Entity, property: KProperty<*>, value: T) {
+    thisRef.dataTracker.set(this, value)
+}
+
+operator fun TrackedData<OptionalInt>.getValue(thisRef: Entity, property: KProperty<*>): Int? = thisRef.dataTracker.get(this).let { if (it.isPresent) it.asInt else null }
+operator fun TrackedData<OptionalInt>.setValue(thisRef: Entity, property: KProperty<*>, value: Int?) {
+    thisRef.dataTracker.set(this, if (value == null) OptionalInt.empty() else OptionalInt.of(value))
 }
