@@ -1,15 +1,19 @@
 package io.github.thebroccolibob.bobsmobgear.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
+import io.github.thebroccolibob.bobsmobgear.duck.WebShotUser;
 import io.github.thebroccolibob.bobsmobgear.item.FleshGloveItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
+@Debug(export = true)
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
     @Shadow public abstract ItemStack getActiveItem();
@@ -28,5 +32,27 @@ public abstract class LivingEntityMixin {
         amount.set(amount.get() + damageTaken);
         damageBlocked.set(damageBlocked.get() - damageTaken);
         return false;
+    }
+
+    @ModifyExpressionValue(
+            method = "travel",
+            at = @At(value = "CONSTANT", args = "floatValue=0.91", ordinal = 1)
+    )
+    private float noDrag(float original) {
+        if (!(this instanceof WebShotUser webShotUser)) return original;
+        var webShot = webShotUser.bobsmobgear$getWebShot();
+        if (webShot == null || !webShot.isHookedOnBlock()) return original;
+        return 1;
+    }
+
+    @ModifyExpressionValue(
+            method = "travel",
+            at = @At(value = "CONSTANT", args = "doubleValue=0.9800000190734863", ordinal = 1)
+    )
+    private double noDrag(double original) {
+        if (!(this instanceof WebShotUser webShotUser)) return original;
+        var webShot = webShotUser.bobsmobgear$getWebShot();
+        if (webShot == null || !webShot.isHookedOnBlock()) return original;
+        return 1;
     }
 }

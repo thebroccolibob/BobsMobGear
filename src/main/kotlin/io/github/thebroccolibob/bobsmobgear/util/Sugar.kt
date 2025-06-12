@@ -83,6 +83,7 @@ operator fun BlockPos.plus(other: Vec3i): BlockPos = add(other)
 operator fun Vec3d.plus(other: Vec3d): Vec3d = add(other)
 operator fun Vec3d.minus(other: Vec3d): Vec3d = subtract(other)
 operator fun Vec3d.times(scalar: Double): Vec3d = multiply(scalar)
+operator fun Vec3d.div(scalar: Double): Vec3d = multiply(1 / scalar)
 
 operator fun Vec3d.component1(): Double = x
 operator fun Vec3d.component2(): Double = y

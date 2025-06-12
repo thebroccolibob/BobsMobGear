@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-12T02:43:10.125880115	Bob's Mob Gear/Model Definitions
+// 1.21.1	2025-06-12T11:12:21.00701423	Bob's Mob Gear/Model Definitions
 f9a3f3dfa5d3b59108204687ae1c5540060dac79 assets/bobsmobgear/models/item/forge.json
 cefe6e9c80a54f83a2b9785d95f4a1a2e95a7fa5 assets/bobsmobgear/models/block/hoe_template_wood.json
 543f75a6ecbdd6892acdeb196481e462ef6ce42d assets/bobsmobgear/models/block/forge_front_left.json
@@ -25,8 +25,8 @@ ab407f6f2099c75634359c276a0add18d876cfb7 assets/bobsmobgear/models/item/smithing
 ef0ca8ee019c626acc75a47373bf64efea0a520c assets/bobsmobgear/models/block/forge_heater_back_right.json
 30748a6ae7ae44c2424e4b6d4f5be11aecfd4370 assets/bobsmobgear/models/block/axe_template_wood.json
 80d3280accee6decb32d405ac22cca5fcb3a88e4 assets/bobsmobgear/models/block/forge_front_right_lit.json
-ef0ca8ee019c626acc75a47373bf64efea0a520c assets/bobsmobgear/models/block/forge_heater_back_right_lit.json
 f89b6e36755630125d870fca3c2a8a6147f0aa5a assets/bobsmobgear/models/block/forge_back_right.json
+ef0ca8ee019c626acc75a47373bf64efea0a520c assets/bobsmobgear/models/block/forge_heater_back_right_lit.json
 e96efd23625afedb9d4fa51c5375b69dd4fa2e31 assets/bobsmobgear/models/block/shovel_template_wood.json
 373221e913949eb01505efd861cb716c9ea83fe3 assets/bobsmobgear/models/block/forge_front_left_lit.json
 c8035d5eed1fcfac87ad7322b2fab82f1e20c4da assets/bobsmobgear/models/block/forge_front_right.json
@@ -42,13 +42,15 @@ de41bc3f02badbf893d7b75dcc0ce309dd4540bb assets/bobsmobgear/models/block/axe_tem
 31ac47f3667dada7687109b0ba42757b33007fac assets/bobsmobgear/blockstates/forge.json
 4645b0cfe593cb508db2f040a8a15cd79f032881 assets/bobsmobgear/models/block/forge_back_left_lit.json
 f4f13dd9dc870ab8dd7bbcd68dee5779ebda46d6 assets/bobsmobgear/models/block/empty_template_wood.json
+71cc6f0284abaa09d4a86bd8ea7b269784f27948 assets/bobsmobgear/models/item/spider_dagger.json
 964fd2f5b86dd516da5e92fe23a72e4d6655bd74 assets/bobsmobgear/blockstates/sword_template.json
 93ff09368420da0e71035252ac544be0e8611c69 assets/bobsmobgear/models/block/sword_template_metal.json
 8c8b1beb34cb55f82102335289f3238cc38398c7 assets/bobsmobgear/models/block/forge_heater_back_left.json
-6fc0b9850de9ab181992c35c41f204818e8432c0 assets/bobsmobgear/models/item/shovel_template.json
 14d8703c68dcf7a6ca0a4c9ca977f85314c0062e assets/bobsmobgear/models/block/sword_template_wood.json
+6fc0b9850de9ab181992c35c41f204818e8432c0 assets/bobsmobgear/models/item/shovel_template.json
 25dffc36b20bce5ec226f38f053302346f46eab0 assets/bobsmobgear/models/block/forge_heater_front_right.json
 0372f779474940d674799e087ead7e6f517d0698 assets/bobsmobgear/models/item/forge_heater.json
+2ba06489a7ec23d00f89f197466e2ef05c98e214 assets/bobsmobgear/models/item/bone_hammer.json
 f1354630e1b7e2e0edaeeeca44b3e50789eb1687 assets/bobsmobgear/models/block/forge.json
 4645b0cfe593cb508db2f040a8a15cd79f032881 assets/bobsmobgear/models/block/forge_back_left.json
 eb37054f5a7b98f10986622adc39d43fc9f3b4a5 assets/bobsmobgear/models/block/forge_heater_lit.json

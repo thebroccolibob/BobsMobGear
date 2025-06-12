@@ -4,9 +4,7 @@ import io.github.thebroccolibob.bobsmobgear.duck.WebShotUser
 import io.github.thebroccolibob.bobsmobgear.duck.webShot
 import io.github.thebroccolibob.bobsmobgear.item.SpiderDaggerItem
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEntities
-import io.github.thebroccolibob.bobsmobgear.util.getValue
-import io.github.thebroccolibob.bobsmobgear.util.minus
-import io.github.thebroccolibob.bobsmobgear.util.setValue
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
@@ -21,7 +19,6 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.MathHelper.square
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
@@ -35,7 +32,7 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
 
     private var hookedEntityId by HOOKED_ENTITY_ID
 
-    private var hookedEntity: Entity? = null
+    var hookedEntity: Entity? = null
         private set(value: Entity?) {
             field = value
             hookedEntityId = value?.id
@@ -44,6 +41,8 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
     var isHookedOnBlock by HOOKED_ON_BLOCK
         private set
     var hookedBlockSide by HOOKED_BLOCK_SIDE
+        private set
+    var hookedBlockDistance by HOOKED_BLOCK_DISTANCE
         private set
 
     private var state = State.FLYING
@@ -54,10 +53,14 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
         setNoGravity(true)
     }
 
+    val Entity.movementPos: Vec3d get() =
+        if (hookedBlockSide == Direction.UP) pos else eyePos
+
     override fun initDataTracker(builder: DataTracker.Builder) {
         builder.add(HOOKED_ENTITY_ID, OptionalInt.empty())
         builder.add(HOOKED_ON_BLOCK, false)
         builder.add(HOOKED_BLOCK_SIDE, Direction.UP)
+        builder.add(HOOKED_BLOCK_DISTANCE, 0f)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -65,11 +68,6 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
             hookedEntity = hookedEntityId?.let(world::getEntityById)
         }
         super.onTrackedDataSet(data)
-    }
-
-    private fun setHookedOnBlock(side: Direction?) {
-        isHookedOnBlock = true
-        hookedBlockSide = side ?: Direction.UP
     }
 
     val isHooked get() = state != State.FLYING
@@ -83,7 +81,9 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
         super.onBlockHit(blockHitResult)
         if (!world.isClient) {
             setPosition(blockHitResult.pos)
-            setHookedOnBlock(blockHitResult.side)
+            isHookedOnBlock = true
+            hookedBlockSide = blockHitResult.side ?: Direction.UP
+            hookedBlockDistance = owner?.let { (pos - it.movementPos).length().toFloat() } ?: 0f
         }
     }
 
@@ -138,32 +138,6 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
             return
         }
 
-        val hookedEntity = hookedEntity
-        if (hookedEntity != null) {
-            hookedEntity.dismountVehicle()
-            val offset =
-                owner.eyePos - if (state == State.HOOKED_IN_BLOCK && hookedBlockSide === Direction.UP) hookedEntity.pos else hookedEntity.eyePos
-            if (offset.lengthSquared() < square(MIN_DISTANCE)) {
-                if (world.isClient) return
-
-                if (state == State.HOOKED_IN_BLOCK && hookedBlockSide.axis.isHorizontal && offset.y <= 1f) {
-                    val ownerVelocity = owner.velocity
-                    if (ownerVelocity.y < 0.8) {
-                        owner.setVelocity(ownerVelocity.x, 0.8, ownerVelocity.z)
-                        owner.velocityModified = true
-                    }
-                }
-
-                discard()
-                return
-            }
-            val direction = offset.normalize()
-            val directionVelocity = hookedEntity.velocity.dotProduct(direction)
-            if (hookedEntity.isLogicalSideForUpdatingMovement && directionVelocity < MAX_VELOCITY) hookedEntity.addVelocity(
-                direction.multiply((MAX_VELOCITY - directionVelocity) * 0.5)
-            )
-        }
-
         if (state == State.HOOKED_IN_BLOCK) {
             if (!world.isClient && world.raycast(
                     RaycastContext(
@@ -174,9 +148,18 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
                         this
                     )
                 ).type === HitResult.Type.MISS
-            ) discard()
+            ) {
+                discard()
+                return
+            }
+
+            val difference = pos - owner.movementPos
+            val length = difference.length()
+            if (length <= hookedBlockDistance)
+                return
+            owner.addVelocity(difference * (length - hookedBlockDistance.toDouble()) / length * 0.05)
         } else { // if (state == State.HOOKED_IN_ENTITY) {
-            if (hookedEntity == null) return
+            val hookedEntity = hookedEntity ?: return
 
             if (hookedEntity.isAlive && hookedEntity.world.registryKey === world.registryKey) {
                 setPosition(hookedEntity.x, hookedEntity.getBodyY(0.8), hookedEntity.z)
@@ -205,6 +188,8 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
             DataTracker.registerData(WebShotEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val HOOKED_BLOCK_SIDE: TrackedData<Direction> =
             DataTracker.registerData(WebShotEntity::class.java, TrackedDataHandlerRegistry.FACING)
+        val HOOKED_BLOCK_DISTANCE: TrackedData<Float> =
+            DataTracker.registerData(WebShotEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
 
         const val MAX_VELOCITY: Double = 1.0
         const val MIN_DISTANCE: Double = 1.5
