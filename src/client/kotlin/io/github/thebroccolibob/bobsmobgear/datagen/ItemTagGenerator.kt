@@ -64,6 +64,11 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(BobsMobGearItemTags.NON_FORGE_FUEL).apply {
             forceAddTag(ConventionalItemTags.TOOLS)
         }
+        getOrCreateTagBuilder(BobsMobGearItemTags.OFFHAND_PRIORITIZED).add(
+            BobsMobGearItems.IRON_FLESH_GLOVE,
+            BobsMobGearItems.WARDEN_FIST,
+            BobsMobGearItems.SPIDER_DAGGER,
+        )
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,

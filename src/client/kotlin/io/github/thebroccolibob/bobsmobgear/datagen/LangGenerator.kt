@@ -49,6 +49,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP, "Forges Netherite Scrap")
         add(BobsMobGearItemTags.SMITHING_SURFACE, "Smithing Surfaces")
         add(BobsMobGearItemTags.MENDER_ENCHANTABLE, "Mender Enchantable")
+        add(BobsMobGearItemTags.OFFHAND_PRIORITIZED, "Offhand Prioritized")
 
         add(BobsMobGearFluids.IRON, "Molten Iron")
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")
