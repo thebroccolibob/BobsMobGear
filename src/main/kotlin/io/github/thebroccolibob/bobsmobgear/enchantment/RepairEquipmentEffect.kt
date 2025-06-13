@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.github.thebroccolibob.bobsmobgear.mixin.EnchantmentHelperInvoker
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEnchantments.REPAIR_ENTITY_EQUIPMENT
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEnchantments.REPAIR_HAND_EQUIPMENT
+import io.github.thebroccolibob.bobsmobgear.util.damage
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.opposite
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
@@ -76,7 +77,7 @@ data class RepairEquipmentEffect(
                 equipment.damage -= repairedAmount
                 when (effectEntry.effect.source) {
                     RepairEquipmentEffect.Source.XP -> player.addExperience(-cost)
-                    RepairEquipmentEffect.Source.DURABIILITY -> stack.damage(cost, player, LivingEntity.getSlotForHand(hand))
+                    RepairEquipmentEffect.Source.DURABIILITY -> stack.damage(cost, player, hand)
                 }
 
                 holder.world.playSoundFromEntity(null, holder, SoundEvents.BLOCK_SMITHING_TABLE_USE, player.soundCategory, 1f, 1f) // TODO custom sound event

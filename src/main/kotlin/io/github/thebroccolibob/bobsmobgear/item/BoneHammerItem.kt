@@ -12,7 +12,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 
 class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(material, settings.apply {
-    attributeModifiers(SwordItem.createAttributeModifiers(material, 3, -2.4f))
+    attributeModifiers(SwordItem.createAttributeModifiers(material, 3, -3f))
 }), HasSpecialAttack {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         return runSpecialAttack(user, hand, world)

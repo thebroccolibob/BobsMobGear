@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.util
 
 import net.minecraft.component.ComponentType
 import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -91,4 +92,8 @@ operator fun <T> TrackedData<T>.setValue(thisRef: Entity, property: KProperty<*>
 operator fun TrackedData<OptionalInt>.getValue(thisRef: Entity, property: KProperty<*>): Int? = thisRef.dataTracker.get(this).let { if (it.isPresent) it.asInt else null }
 operator fun TrackedData<OptionalInt>.setValue(thisRef: Entity, property: KProperty<*>, value: Int?) {
     thisRef.dataTracker.set(this, if (value == null) OptionalInt.empty() else OptionalInt.of(value))
+}
+
+fun ItemStack.damage(amount: Int, entity: LivingEntity, hand: Hand) {
+    damage(amount, entity, LivingEntity.getSlotForHand(hand))
 }

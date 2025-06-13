@@ -28,6 +28,7 @@ import java.util.*
 class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : ProjectileEntity(type, world) {
     init {
         ignoreCameraFrustum = true
+        setNoGravity(true)
     }
 
     private var hookedEntityId by HOOKED_ENTITY_ID
@@ -49,8 +50,7 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
 
     constructor(world: World, owner: LivingEntity) : this(BobsMobGearEntities.WEB_SHOT, world) {
         setOwner(owner)
-        setPos(owner.x, owner.eyeY - 0.1, owner.z)
-        setNoGravity(true)
+        setPosition(owner.x, owner.eyeY - 0.1, owner.z)
     }
 
     val Entity.movementPos: Vec3d get() =
@@ -170,7 +170,7 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
     private fun removeIfInvalid(owner: LivingEntity): Boolean {
         if (!owner.isRemoved && owner.isAlive
             && squaredDistanceTo(owner) <= MAX_DISTANCE * MAX_DISTANCE &&
-            (owner.mainHandStack.item !is SpiderDaggerItem || owner.offHandStack.item !is SpiderDaggerItem)
+            (owner.mainHandStack.item is SpiderDaggerItem || owner.offHandStack.item is SpiderDaggerItem)
         ) return false
 
         discard()
@@ -191,8 +191,6 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
         val HOOKED_BLOCK_DISTANCE: TrackedData<Float> =
             DataTracker.registerData(WebShotEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
 
-        const val MAX_VELOCITY: Double = 1.0
-        const val MIN_DISTANCE: Double = 1.5
         const val MAX_DISTANCE: Double = 64.0
     }
 }

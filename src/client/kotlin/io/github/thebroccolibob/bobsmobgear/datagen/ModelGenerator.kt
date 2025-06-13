@@ -37,8 +37,8 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerGenerated(BobsMobGearItems.NETHERITE_POT)
         register(BobsMobGearItems.WARDEN_FIST, "_gui", Models.GENERATED)
         Models.GENERATED.upload(ModelIds.getItemSubModelId(BobsMobGearItems.SMITHING_TONGS, "_model"), TextureMap.layer0(BobsMobGearItems.SMITHING_TONGS), writer)
-        registerGenerated(BobsMobGearItems.BONE_HAMMER)
-        registerGenerated(BobsMobGearItems.SPIDER_DAGGER)
+        register(BobsMobGearItems.BONE_HAMMER, Models.HANDHELD)
+        register(BobsMobGearItems.SPIDER_DAGGER, Models.HANDHELD)
     }
 
     companion object {
