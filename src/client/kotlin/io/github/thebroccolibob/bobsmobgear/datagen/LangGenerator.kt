@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.datagen
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
+import io.github.thebroccolibob.bobsmobgear.client.OffhandPriorityTooltip
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
 import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
@@ -58,6 +59,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearClient.HEATED_TOOLTIP, "Heated")
         add(TongsItem.HELD_ITEM_TOOLTIP, "Held Item:")
         add(SonicChargeTooltip.TOOLTIP, "Sonic Charge: %s/%s")
+        add(OffhandPriorityTooltip.TOOLTIP, "Offhand Prioritized")
 
         add(BobsMobGearSounds.TEMPLATE_CRAFT, "Tool crafts")
         add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")

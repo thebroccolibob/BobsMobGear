@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import io.github.thebroccolibob.bobsmobgear.client.EarlyItemTooltipCallback;
+import io.github.thebroccolibob.bobsmobgear.client.EarlyItemTooltipCallbackKt;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,6 +22,6 @@ public class ItemStackMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;appendTooltip(Lnet/minecraft/component/ComponentType;Lnet/minecraft/item/Item$TooltipContext;Ljava/util/function/Consumer;Lnet/minecraft/item/tooltip/TooltipType;)V", ordinal = 0)
     )
     private void appendEarlyTooltips(Item.TooltipContext context, @Nullable PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir, @Local List<Text> lines) {
-        EarlyItemTooltipCallback.EVENT.invoker().getTooltip((ItemStack) (Object) this, context, type, lines);
+        EarlyItemTooltipCallbackKt.earlyItemTooltipCallback.invoker().getTooltip((ItemStack) (Object) this, context, type, lines);
     }
 }

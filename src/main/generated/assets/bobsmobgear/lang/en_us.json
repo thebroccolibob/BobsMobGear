@@ -23,6 +23,7 @@
   "item.bobsmobgear.smithing_tongs": "Smithing Tongs",
   "item.bobsmobgear.smithing_tongs.held_item": "Held Item:",
   "item.bobsmobgear.warden_fist": "Warden Fist",
+  "item.tooltip.bobsmobgear.offhand_priority": "Offhand Prioritized",
   "item.tooltip.bobsmobgear.sonic_charge": "Sonic Charge: %s/%s",
   "subtitles.block.bobsmobgear.template.add_item": "Template fills",
   "subtitles.block.bobsmobgear.template.craft": "Tool crafts",
