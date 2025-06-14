@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.client
 
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.CartoonParticle
 import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicLaunchEmitter
 import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicLaunchParticle
 import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicShockwaveParticle
@@ -62,5 +63,6 @@ internal fun registerParticleFactories() {
         register(BobsMobGearParticles.SONIC_SHOCKWAVE, SonicShockwaveParticle)
         register(BobsMobGearParticles.SONIC_LAUNCH, SonicLaunchParticle)
         register(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, SonicLaunchEmitter)
+        register(BobsMobGearParticles.BONEK, CartoonParticle)
     }
 }

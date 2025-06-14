@@ -28,6 +28,8 @@ object BobsMobGearParticles {
     val SONIC_LAUNCH = register("sonic_launch")
     val SONIC_LAUNCH_EMITTER = register("sonic_launch_emitter")
 
+    val BONEK = register("bonek")
+
     fun register() {}
 
     class Drips(
