@@ -53,8 +53,9 @@ class SpiderDaggerItem(material: ToolMaterial, settings: Settings) : ToolItem(ma
 
         if (world.isClient) return TypedActionResult.success(stack)
 
+        val direction = user.rotationVector
         world.spawnEntity(WebShotEntity(world, user).apply {
-            setVelocity(user, user.pitch, user.yaw, 0f, 4f, 0.1f)
+            setVelocity(direction.x, direction.y, direction.z, 4f, 1f)
         })
 
         return TypedActionResult.success(stack)

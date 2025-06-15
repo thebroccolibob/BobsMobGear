@@ -158,6 +158,8 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
             if (length <= hookedBlockDistance)
                 return
             owner.addVelocity(difference * (length - hookedBlockDistance.toDouble()) / length * 0.05)
+            if (difference.y > 0)
+                owner.onLanding() // Prevent fall damage
         } else { // if (state == State.HOOKED_IN_ENTITY) {
             val hookedEntity = hookedEntity ?: return
 

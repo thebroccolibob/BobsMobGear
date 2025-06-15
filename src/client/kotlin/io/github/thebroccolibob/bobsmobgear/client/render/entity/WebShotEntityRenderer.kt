@@ -1,13 +1,11 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.entity
 
-import io.github.thebroccolibob.bobsmobgear.client.util.invoke
 import io.github.thebroccolibob.bobsmobgear.entity.WebShotEntity
 import io.github.thebroccolibob.bobsmobgear.item.SpiderDaggerItem
 import io.github.thebroccolibob.bobsmobgear.util.minus
 import io.github.thebroccolibob.bobsmobgear.util.plus
 import io.github.thebroccolibob.bobsmobgear.util.times
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -16,8 +14,8 @@ import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Arm
+import net.minecraft.util.Colors
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.ColorHelper
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import kotlin.math.sin
@@ -32,24 +30,19 @@ class WebShotEntityRenderer(ctx: EntityRendererFactory.Context) : EntityRenderer
         vertexConsumers: VertexConsumerProvider,
         light: Int
     ) {
-        matrices {
-            val owner = entity.owner as? LivingEntity
-            if (owner != null) {
-                val handAngle =
-                    sin(sqrt(owner.getHandSwingProgress(tickDelta)) * Math.PI.toFloat())
-                val start = entity.getLerpedPos(tickDelta).add(0.0, 0.25, 0.0)
-                val end = getHandPos(owner, handAngle, tickDelta)
-                val difference = end - start
-                val normal = difference.normalize()
+        val owner = entity.owner as? LivingEntity
+        if (owner != null) {
+            val handAngle =
+                sin(sqrt(owner.getHandSwingProgress(tickDelta)) * Math.PI.toFloat())
+            val start = entity.getLerpedPos(tickDelta).add(0.0, 0.25, 0.0)
+            val end = getHandPos(owner, handAngle, tickDelta)
+            val difference = end - start
+            val normal = difference.normalize()
 
-                val brightness = LightmapTextureManager.getBrightness(entity.world.dimension, entity.world.getLightLevel(owner.blockPos))
-                val color = ColorHelper.Argb.fromFloats(1f, brightness, brightness, brightness)
-
-                with (vertexConsumers.getBuffer(RenderLayer.getLines())) {
-                    val entry = matrices.peek()
-                    vertex(entry, Vec3d.ZERO, color, normal)
-                    vertex(entry, difference, color, normal)
-                }
+            val entry = matrices.peek()
+            with (vertexConsumers.getBuffer(RenderLayer.LINE_STRIP)) {
+                vertex(entry, Vec3d.ZERO, Colors.WHITE, normal)
+                vertex(entry, difference, Colors.WHITE, normal)
             }
         }
 
