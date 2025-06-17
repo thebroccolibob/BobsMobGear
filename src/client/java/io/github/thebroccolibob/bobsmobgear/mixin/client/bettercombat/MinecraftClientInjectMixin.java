@@ -34,7 +34,6 @@ public class MinecraftClientInjectMixin implements TriggersAttack {
     )
     @ModifyExpressionValue(
             method = "@MixinSquared:Handler",
-            remap = false,
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z")
     )
     private boolean attackWhileUsing(boolean original) {
