@@ -19,6 +19,7 @@ object BobsMobGearEntities {
     private inline fun <T: Entity> register(path: String, factory: EntityType.EntityFactory<T>, spawnGroup: SpawnGroup = SpawnGroup.MISC, init: EntityType.Builder<T>.() -> Unit = {}) =
         register(path, EntityType.Builder.create(factory, spawnGroup).apply(init).build())
 
+    @JvmField
     val WEB_SHOT = register("web_shot", ::WebShotEntity) {
         dimensions(0.25f, 0.25f);
         disableSaving()

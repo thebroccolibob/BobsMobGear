@@ -3,6 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.item
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
+import io.github.thebroccolibob.bobsmobgear.util.damage
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.minus
 import io.github.thebroccolibob.bobsmobgear.util.times
@@ -64,6 +65,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
         }
         if (!user.isInCreativeMode)
             stack[BobsMobGearItems.SONIC_CHARGE] = 0
+        stack.damage(1, user, user.activeHand)
         (user as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 

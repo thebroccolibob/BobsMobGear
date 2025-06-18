@@ -1,7 +1,6 @@
 {
+  "parent": "bobsmobgear:bone_hammer",
   "attributes": {
-    "range_bonus": -0.25,
-    "category": "mace",
     "attacks": [
       {
         "hitbox": "FORWARD_BOX",
