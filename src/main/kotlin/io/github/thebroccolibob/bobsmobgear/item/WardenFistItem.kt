@@ -85,6 +85,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
             if (target.isOnGround && it.y < 0.5) it.withAxis(Direction.Axis.Y, 0.5) else it
         }
         target.addVelocity(velocity)
+        target.velocityModified = true
         (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, target.x, target.getBodyY(0.5), target.z, 0, velocity.x, velocity.y, velocity.z, 1.0)
         if (!attacker.isInCreativeMode)
             stack[BobsMobGearItems.SONIC_CHARGE] = 0

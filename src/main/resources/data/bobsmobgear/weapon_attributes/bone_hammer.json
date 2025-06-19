@@ -7,7 +7,6 @@
     "two_handed": true,
     "attacks": [
       {
-
         "hitbox": "HORIZONTAL_PLANE",
         "damage_multiplier": 1,
         "angle": 180,
