@@ -1,11 +1,14 @@
 package io.github.thebroccolibob.bobsmobgear
 
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearGameEvents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.get
+import io.github.thebroccolibob.bobsmobgear.util.isIn
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
@@ -34,6 +37,8 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
         !player.itemCooldownManager.isCoolingDown(stack.item) &&
         stack[BobsMobGearItems.MAX_SONIC_CHARGE]?.let { (stack[BobsMobGearItems.SONIC_CHARGE] ?: 0) < it } == true
 
+    override fun getTag(): TagKey<GameEvent> = BobsMobGearGameEvents.CHARGES_WARDEN_FIST
+
     override fun accepts(
         world: ServerWorld,
         pos: BlockPos,
@@ -41,13 +46,13 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
         emitter: GameEvent.Emitter
     ): Boolean =
         !player.isDead &&
-        emitter.sourceEntity?.let { it.isLiving && it != player } == true &&
+        (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST || emitter.sourceEntity?.let { it.isLiving && it != player } == true) &&
         Hand.entries.any { hand -> canAcceptCharge(player[hand]) }
 
     override fun accept(
         world: ServerWorld,
         pos: BlockPos?,
-        event: RegistryEntry<GameEvent>?,
+        event: RegistryEntry<GameEvent>,
         sourceEntity: Entity?,
         entity: Entity?,
         distance: Float
@@ -56,7 +61,9 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
             .map { player[it] }
             .firstOrNull(::canAcceptCharge)
             ?.let { stack ->
-                ((stack[BobsMobGearItems.SONIC_CHARGE] ?: 0) + 1).also {
+                ((stack[BobsMobGearItems.SONIC_CHARGE] ?: 0) +
+                        if (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST) SUPER_CHARGE_INCREASE else 1
+                ).also {
                     stack[BobsMobGearItems.SONIC_CHARGE] = it
                 } == stack[BobsMobGearItems.MAX_SONIC_CHARGE]
             } == true
@@ -76,6 +83,8 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
 
     companion object {
         const val MAX_COOLDOWN = 40
+
+        const val SUPER_CHARGE_INCREASE = 4
     }
 
     interface Holder {

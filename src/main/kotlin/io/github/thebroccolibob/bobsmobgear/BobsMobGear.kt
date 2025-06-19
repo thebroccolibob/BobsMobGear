@@ -26,6 +26,7 @@ object BobsMobGear : ModInitializer {
 		BobsMobGearParticles.register()
 		BobsMobGearFluids.register()
 		BobsMobGearEnchantments.register()
+		BobsMobGearGameEvents.register()
 		registerBobsMobGearRecipes()
 
 		BobsMobGearSounds.register()

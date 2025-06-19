@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
 import net.minecraft.loot.condition.LootCondition
 import net.minecraft.recipe.Ingredient
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.text.MutableText
@@ -29,6 +30,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.event.GameEvent
 import java.util.*
 
 inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock.Settings =
@@ -72,6 +74,7 @@ infix fun BlockState.isOf(block: Block) = isOf(block)
 infix fun BlockState.isIn(tag: TagKey<Block>) = isIn(tag)
 infix fun BlockState.isIn(entryList: RegistryEntryList<Block>) = isIn(entryList)
 infix fun FluidState.isIn(tag: TagKey<Fluid>) = isIn(tag)
+infix fun <T> RegistryEntry<T>.isIn(tag: TagKey<T>) = isIn(tag)
 
 operator fun Identifier.plus(suffix: String): Identifier = withSuffixedPath(suffix)
 
