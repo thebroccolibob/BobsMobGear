@@ -16,7 +16,8 @@ class ItemTagGenerator(
 ) : FabricTagProvider.ItemTagProvider(output, registriesFuture) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_HAMMERS).add(
-            BobsMobGearItems.SMITHING_HAMMER
+            BobsMobGearItems.SMITHING_HAMMER,
+            Items.MACE,
         )
         getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE).apply {
             forceAddTag(ConventionalItemTags.MINING_TOOL_TOOLS)
@@ -53,6 +54,9 @@ class ItemTagGenerator(
             add(BobsMobGearItems.SMITHING_TONGS)
             forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
         }
+        getOrCreateTagBuilder(BobsMobGearItemTags.MENDER_ENCHANTABLE).apply {
+            forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
+        }
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
@@ -60,6 +64,9 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(ConventionalItemTags.TOOLS).add(
             BobsMobGearItems.SMITHING_HAMMER,
             BobsMobGearItems.SMITHING_TONGS,
+        )
+        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE).add(
+            BobsMobGearItems.SMITHING_HAMMER
         )
     }
 }

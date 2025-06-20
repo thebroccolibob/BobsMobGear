@@ -1,7 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
 import net.minecraft.component.ComponentType
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -30,11 +29,6 @@ fun NbtCompound.getList(key: String, type: Byte): NbtList = getList(key, type.to
 fun <T> List<T>.extend(length: Int, defaultValue: T) = this + List(length - size) { defaultValue }
 fun <T> List<T>.extend(length: Int, defaultValue: () -> T) = this + List(length - size) { defaultValue() }
 
-fun Hand.toEquipmentSlot(): EquipmentSlot = when(this) {
-    Hand.OFF_HAND -> EquipmentSlot.OFFHAND
-    Hand.MAIN_HAND -> EquipmentSlot.MAINHAND
-}
-
 fun Number.isWhole(): Boolean = when (this) {
     is Byte, is Short, is Int, is Long -> true
     is Float -> this == roundToInt().toFloat()
@@ -47,3 +41,8 @@ fun ItemStack.set(component: ComponentType<MCUnit>) {
 }
 
 inline val Direction.isHorizontal get() = horizontal != -1
+
+val Hand.opposite get() = when (this) {
+    Hand.MAIN_HAND -> Hand.OFF_HAND
+    Hand.OFF_HAND -> Hand.MAIN_HAND
+}

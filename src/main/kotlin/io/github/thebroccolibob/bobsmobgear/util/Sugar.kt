@@ -5,6 +5,8 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.component.ComponentMap
+import net.minecraft.enchantment.effect.EnchantmentEffectEntry
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.fluid.Fluid
@@ -12,6 +14,7 @@ import net.minecraft.fluid.FluidState
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
+import net.minecraft.loot.condition.LootCondition
 import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.TagKey
@@ -24,6 +27,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import java.util.*
 
 inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock.Settings =
     AbstractBlock.Settings.create().apply(init)
@@ -83,3 +87,10 @@ operator fun Vec3d.component2(): Double = y
 operator fun Vec3d.component3(): Double = z
 
 operator fun MutableText.plus(other: Text): MutableText = append(other)
+
+fun <T> EnchantmentEffectEntry(
+    `object`: T,
+    condition: LootCondition? = null
+) = EnchantmentEffectEntry(`object`, Optional.ofNullable(condition))
+
+fun ComponentMap(init: ComponentMap.Builder.() -> Unit): ComponentMap = ComponentMap.builder().apply(init).build()

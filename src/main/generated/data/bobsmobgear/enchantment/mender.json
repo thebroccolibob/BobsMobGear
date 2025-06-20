@@ -1,0 +1,37 @@
+{
+  "anvil_cost": 8,
+  "description": {
+    "translate": "enchantment.bobsmobgear.mender"
+  },
+  "effects": {
+    "bobsmobgear:repair_entity_equipment": {
+      "effect": {
+        "cost_per_durability": 2,
+        "source": "durability"
+      }
+    },
+    "bobsmobgear:repair_hand_equipment": {
+      "effect": {
+        "cost_per_durability": 4,
+        "source": "xp"
+      }
+    }
+  },
+  "exclusive_set": "#bobsmobgear:exclusive_set/mender",
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 25,
+    "per_level_above_first": 0
+  },
+  "primary_items": "bobsmobgear:smithing_hammer",
+  "slots": [
+    "mainhand",
+    "offhand"
+  ],
+  "supported_items": "#bobsmobgear:enchantable/mender",
+  "weight": 5
+}

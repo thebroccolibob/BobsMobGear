@@ -1,5 +1,6 @@
 {
   "values": [
-    "minecraft:smithing_table"
+    "minecraft:smithing_table",
+    "minecraft:anvil"
   ]
 }

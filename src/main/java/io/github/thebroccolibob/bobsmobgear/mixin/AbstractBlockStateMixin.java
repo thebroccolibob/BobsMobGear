@@ -28,7 +28,7 @@ public abstract class AbstractBlockStateMixin {
             at = @At("HEAD"),
             cancellable = true)
     private void allowPlacingTemplate(ItemStack stack, World world, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ItemActionResult> cir) {
-        if (!this.isOf(Blocks.SMITHING_TABLE)
+        if (!this.isOf(Blocks.SMITHING_TABLE) && !this.isOf(Blocks.ANVIL)
                 || hit.getSide() != Direction.UP
                 || !(stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TemplateBlock || stack.isIn(BobsMobGearItemTags.PREVENT_SMITHING_TABLE_SCREEN)))
             return;

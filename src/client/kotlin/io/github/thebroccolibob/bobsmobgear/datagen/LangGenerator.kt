@@ -57,6 +57,8 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")
         add(BobsMobGearSounds.TEMPLATE_ADD_ITEM, "Template fills")
         add(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, "Template empties")
+
+        add(BobsMobGearEnchantments.MENDER_NAME, "Mender")
     }
 
     companion object {

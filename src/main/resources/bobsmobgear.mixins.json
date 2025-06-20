@@ -5,6 +5,7 @@
   "mixins": [
     "AbstractBlockStateMixin",
     "AbstractCauldronBlockInvoker",
+    "EnchantmentHelperInvoker",
     "FluidInvoker",
     "ItemEntityMixin",
     "ItemStackMixin",
