@@ -41,7 +41,6 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerGenerated(BobsMobGearItems.WORN_SPIDER_FANG)
         registerGenerated(BobsMobGearItems.WORN_CREEPER_CORE)
 
-        register(BobsMobGearItems.SMITHING_HAMMER, Models.HANDHELD)
         Models.GENERATED.upload(ModelIds.getItemSubModelId(BobsMobGearItems.SMITHING_TONGS, "_model"), TextureMap.layer0(BobsMobGearItems.SMITHING_TONGS), writer)
     }
 
