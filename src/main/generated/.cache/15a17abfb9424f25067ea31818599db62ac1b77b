@@ -1,9 +1,9 @@
-// 1.21.1	2025-05-21T04:05:52.623897796	Bob's Mob Gear/Block Loot Tables
-8df797911e8138b35165b6d99f5469e329b8cedd data/bobsmobgear/loot_table/blocks/forge_heater.json
-1538744473273ff9193528652f6ae36a72c320eb data/bobsmobgear/loot_table/blocks/pickaxe_template.json
-34ae9255b3c896713a46db167672b10e05784a7d data/bobsmobgear/loot_table/blocks/sword_template.json
-644aef2a21bc80be24bdcb7fd7752b4680488577 data/bobsmobgear/loot_table/blocks/hoe_template.json
-d1018d2f1e4795a252c7d3f070618b5713c7d53f data/bobsmobgear/loot_table/blocks/shovel_template.json
-8a9f648a4323eab2dcce23d52dafebc05b86e33f data/bobsmobgear/loot_table/blocks/axe_template.json
-8c341b0516fcac64f86f7bf8895010966327c5ea data/bobsmobgear/loot_table/blocks/forge.json
-6350ba9ccbca2cb84edc914e8d642b8ef849b3fb data/bobsmobgear/loot_table/blocks/empty_template.json
+// 1.21.1	2025-06-19T21:58:59.3360317	Bob's Mob Gear/Block Loot Tables
+34ae9255b3c896713a46db167672b10e05784a7d data\bobsmobgear\loot_table\blocks\sword_template.json
+d1018d2f1e4795a252c7d3f070618b5713c7d53f data\bobsmobgear\loot_table\blocks\shovel_template.json
+6350ba9ccbca2cb84edc914e8d642b8ef849b3fb data\bobsmobgear\loot_table\blocks\empty_template.json
+8c341b0516fcac64f86f7bf8895010966327c5ea data\bobsmobgear\loot_table\blocks\forge.json
+8df797911e8138b35165b6d99f5469e329b8cedd data\bobsmobgear\loot_table\blocks\forge_heater.json
+644aef2a21bc80be24bdcb7fd7752b4680488577 data\bobsmobgear\loot_table\blocks\hoe_template.json
+1538744473273ff9193528652f6ae36a72c320eb data\bobsmobgear\loot_table\blocks\pickaxe_template.json
+8a9f648a4323eab2dcce23d52dafebc05b86e33f data\bobsmobgear\loot_table\blocks\axe_template.json

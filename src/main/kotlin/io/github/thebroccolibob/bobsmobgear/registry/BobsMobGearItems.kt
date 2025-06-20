@@ -99,21 +99,28 @@ object BobsMobGearItems {
         component(TONGS_HELD_ITEM, ComparableItemStack.EMPTY)
     }))
 
+    val WORN_HARDENED_FLESH = register("worn_hardened_flesh", Item(itemSettings {}))
+    val WORN_STURDY_BONE = register("worn_sturdy_bone", Item(itemSettings {}))
+    val WORN_SPIDER_FANG = register("worn_spider_fang", Item(itemSettings {}))
+    val WORN_CREEPER_CORE = register("worn_creeper_core", Item(itemSettings {}))
+
     val FLESH_GLOVE = register("flesh_glove",
         AbstractFleshGlove(
             FLESH_GLOVE_MATERIAL,
-            Item.Settings()
-                .maxCount(1)
-                .rarity(Rarity.COMMON)
+            itemSettings {
+                maxCount(1)
+                rarity(Rarity.COMMON)
+            }
         )
     )
 
     val IRON_FLESH_GLOVE = register("iron_flesh_glove",
         FleshGloveItem(
             ToolMaterials.IRON,
-            Item.Settings()
-                .maxCount(1)
-                .rarity(Rarity.COMMON),
+            itemSettings {
+                maxCount(1)
+                rarity(Rarity.COMMON)
+            },
             0.3f
         )
     )

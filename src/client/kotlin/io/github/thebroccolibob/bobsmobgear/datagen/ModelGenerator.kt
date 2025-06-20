@@ -35,6 +35,12 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerGenerated(BobsMobGearItems.IRON_POT)
         registerGenerated(BobsMobGearItems.DIAMOND_POT)
         registerGenerated(BobsMobGearItems.NETHERITE_POT)
+
+        registerGenerated(BobsMobGearItems.WORN_HARDENED_FLESH)
+        registerGenerated(BobsMobGearItems.WORN_STURDY_BONE)
+        registerGenerated(BobsMobGearItems.WORN_SPIDER_FANG)
+        registerGenerated(BobsMobGearItems.WORN_CREEPER_CORE)
+
         register(BobsMobGearItems.SMITHING_HAMMER, Models.HANDHELD)
         Models.GENERATED.upload(ModelIds.getItemSubModelId(BobsMobGearItems.SMITHING_TONGS, "_model"), TextureMap.layer0(BobsMobGearItems.SMITHING_TONGS), writer)
     }
