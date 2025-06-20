@@ -16,7 +16,6 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.ItemEntity
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -101,7 +100,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
             getMatch(getRecipeInput()) != null -> {
                 if (!(stack isIn BobsMobGearItemTags.SMITHING_HAMMERS) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
                 if (stack.isDamageable)
-                    stack.damage(1, player, LivingEntity.getSlotForHand(hand))
+                    stack.damage(1, player, hand)
                 player.itemCooldownManager.set(stack.item, 10)
                 world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_HAMMER, SoundCategory.BLOCKS)
                 hammerHits++

@@ -1,5 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.client
 
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.CartoonParticle
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicLaunchEmitter
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicLaunchParticle
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicShockwaveParticle
 import io.github.thebroccolibob.bobsmobgear.fluid.MetalFluid
 import io.github.thebroccolibob.bobsmobgear.mixin.client.ContinuousFallingBlockLeakParticleInvoker
 import io.github.thebroccolibob.bobsmobgear.mixin.client.DrippingBlockLeakParticleInvoker
@@ -51,8 +55,14 @@ private fun registerDrips(dripParticles: BobsMobGearParticles.Drips, fluid: Meta
     }
 }
 
-fun registerBobsMobGearParticleFactories() {
+internal fun registerParticleFactories() {
     registerDrips(BobsMobGearParticles.IRON_DRIPS, BobsMobGearFluids.IRON)
     registerDrips(BobsMobGearParticles.DIAMOND_DRIPS, BobsMobGearFluids.DIAMOND)
     registerDrips(BobsMobGearParticles.NETHERITE_DRIPS, BobsMobGearFluids.NETHERITE)
+    ParticleFactoryRegistry.getInstance().apply {
+        register(BobsMobGearParticles.SONIC_SHOCKWAVE, SonicShockwaveParticle)
+        register(BobsMobGearParticles.SONIC_LAUNCH, SonicLaunchParticle)
+        register(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, SonicLaunchEmitter)
+        register(BobsMobGearParticles.BONEK, CartoonParticle)
+    }
 }

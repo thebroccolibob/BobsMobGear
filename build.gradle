@@ -30,11 +30,15 @@ repositories {
 		}
 	}
 	maven { url "https://maven.shedaniel.me/" }
-	maven { url "https://maven.terraformersmc.com/releases/" }
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
 	maven {
 		name "KosmX's maven"
 		url 'https://maven.kosmx.dev/'
 	}
+	maven { url = "https://maven.bawnorton.com/releases" }
 }
 
 loom {
@@ -66,6 +70,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
+	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${project.mixinsquared_version}")))
 	modImplementation "maven.modrinth:better-combat:${project.better_combat_version}-fabric"
 	modImplementation("maven.modrinth:pommel-held-item-models:${project.pommel_version}")
 	modImplementation("maven.modrinth:flexible-arms-1.21:${project.flexible_arms_version}")
@@ -73,6 +78,8 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	modImplementation "dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim_version}"
+	modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
+	modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
 }
 
 processResources {

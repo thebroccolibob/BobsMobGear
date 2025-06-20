@@ -57,16 +57,32 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(BobsMobGearItemTags.MENDER_ENCHANTABLE).apply {
             forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
         }
+        getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_SURFACE).apply {
+            add(Items.SMITHING_TABLE)
+            forceAddTag(ItemTags.ANVIL)
+        }
+        getOrCreateTagBuilder(BobsMobGearItemTags.NON_FORGE_FUEL).apply {
+            forceAddTag(ConventionalItemTags.TOOLS)
+        }
+        getOrCreateTagBuilder(BobsMobGearItemTags.OFFHAND_PRIORITIZED).add(
+            BobsMobGearItems.IRON_FLESH_GLOVE,
+            BobsMobGearItems.WARDEN_FIST,
+            BobsMobGearItems.SPIDER_DAGGER,
+        )
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
+            BobsMobGearItems.WARDEN_FIST,
         )
         getOrCreateTagBuilder(ConventionalItemTags.TOOLS).add(
             BobsMobGearItems.SMITHING_HAMMER,
             BobsMobGearItems.SMITHING_TONGS,
         )
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE).add(
-            BobsMobGearItems.SMITHING_HAMMER
+            BobsMobGearItems.SMITHING_HAMMER,
+            BobsMobGearItems.FLESH_GLOVE,
+            BobsMobGearItems.IRON_FLESH_GLOVE,
+            BobsMobGearItems.WARDEN_FIST,
         )
     }
 }

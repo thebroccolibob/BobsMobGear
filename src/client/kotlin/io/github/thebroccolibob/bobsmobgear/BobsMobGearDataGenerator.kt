@@ -20,6 +20,7 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::BlockLootTableGenerator)
 			addProvider(::EnchantmentGenerator)
 			addProvider(::EnchantmentTagGenerator)
+			addProvider(::GameEventTagGenerator)
 
 			addProvider(::ModelGenerator)
 			addProvider(::SoundsGenerator)

@@ -40,7 +40,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
                 scale(BASE_SCALE, BASE_SCALE, BASE_SCALE)
 
                 matrices {
-                    translate(0f, 0f, -0.5f / 16)
+                    translate(0f, 0f, -0.5f / 16 + 0.001f) // Prevents some sort of weird z-fighting issue
                     itemRenderer.renderItem(entity.baseStack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, entity.world, 0)
                 }
 

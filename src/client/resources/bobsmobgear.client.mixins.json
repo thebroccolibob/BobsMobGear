@@ -6,9 +6,12 @@
     "ContinuousFallingBlockLeakParticleInvoker",
     "DrippingBlockLeakParticleInvoker",
     "ItemRendererMixin",
-    "LandingBlockLeakParticleInvoker"
+    "LandingBlockLeakParticleInvoker",
+    "MinecraftClientMixin",
+    "bettercombat.MinecraftClientInjectMixin",
+    "ItemStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

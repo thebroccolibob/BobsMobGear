@@ -1,6 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
 import net.minecraft.component.ComponentType
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.data.TrackedData
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -10,6 +13,7 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.reflect.KProperty
 import net.minecraft.util.Unit as MCUnit
 
 fun List<NbtElement>.toNbtList() = NbtList().apply {
@@ -45,4 +49,51 @@ inline val Direction.isHorizontal get() = horizontal != -1
 val Hand.opposite get() = when (this) {
     Hand.MAIN_HAND -> Hand.OFF_HAND
     Hand.OFF_HAND -> Hand.MAIN_HAND
+}
+
+// Makes it so 0 -> 0, 1 -> 1, max - 1 -> barWidth - 1, max -> barWidth
+fun getBarProgress(value: Int, max: Int, barWidth: Int) = when(value) {
+    0 -> 0
+    max -> barWidth
+    else -> (value - 1) * (barWidth - 2) / (max - 2) + 1
+}
+
+fun <T> Iterable<T>.countUnique(): Map<T, Int> {
+    val counts = mutableMapOf<T, Int>()
+    for (element in this) {
+        val key = counts.keys.firstOrNull { it == element } ?: element
+        counts[key] = counts.getOrDefault(key, 0) + 1
+    }
+    return counts
+}
+
+fun <T: Any, R> Iterable<T>.groupConsecutive(create: (Int, T) -> R): List<R> = buildList {
+    var current: T? = null
+    var currentCount = 0
+    for (element in this@groupConsecutive) {
+        if (current == element) {
+            currentCount++
+        } else {
+            if (current != null)
+                add(create(currentCount, current))
+            current = element
+            currentCount = 1
+        }
+    }
+    if (current != null)
+        add(create(currentCount, current))
+}
+
+operator fun <T> TrackedData<T>.getValue(thisRef: Entity, property: KProperty<*>): T = thisRef.dataTracker.get(this)
+operator fun <T> TrackedData<T>.setValue(thisRef: Entity, property: KProperty<*>, value: T) {
+    thisRef.dataTracker.set(this, value)
+}
+
+operator fun TrackedData<OptionalInt>.getValue(thisRef: Entity, property: KProperty<*>): Int? = thisRef.dataTracker.get(this).let { if (it.isPresent) it.asInt else null }
+operator fun TrackedData<OptionalInt>.setValue(thisRef: Entity, property: KProperty<*>, value: Int?) {
+    thisRef.dataTracker.set(this, if (value == null) OptionalInt.empty() else OptionalInt.of(value))
+}
+
+fun ItemStack.damage(amount: Int, entity: LivingEntity, hand: Hand) {
+    damage(amount, entity, LivingEntity.getSlotForHand(hand))
 }

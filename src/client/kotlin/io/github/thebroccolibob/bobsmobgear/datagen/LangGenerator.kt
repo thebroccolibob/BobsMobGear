@@ -1,6 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
+import dev.emi.emi.api.recipe.EmiRecipeCategory
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
+import io.github.thebroccolibob.bobsmobgear.client.OffhandPriorityTooltip
+import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
+import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
 import io.github.thebroccolibob.bobsmobgear.util.add
@@ -26,17 +30,16 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearBlocks.AXE_TEMPLATE, "Axe Template")
         add(BobsMobGearBlocks.SHOVEL_TEMPLATE, "Shovel Template")
         add(BobsMobGearBlocks.HOE_TEMPLATE, "Hoe Template")
-
         add(BobsMobGearBlocks.FORGE, "Forge")
         add(BobsMobGearBlocks.FORGE_HEATER, "Forge Heater")
 
         add(BobsMobGearItems.SMITHING_HAMMER, "Smithing Hammer")
         add(BobsMobGearItems.SMITHING_TONGS, "Smithing Tongs")
-
         add(BobsMobGearItems.EMPTY_POT, "Empty Pot")
         add(BobsMobGearItems.IRON_POT, "Pot of Molten Iron")
         add(BobsMobGearItems.DIAMOND_POT, "Pot of Molten Diamond")
         add(BobsMobGearItems.NETHERITE_POT, "Pot of Molten Netherite")
+        add(BobsMobGearItems.WARDEN_FIST, "Warden Fist")
 
         add(BobsMobGearItemTags.SMITHING_HAMMERS, "Smithing Hammers")
         add(BobsMobGearItemTags.TONG_HOLDABLE, "Holdable by Tongs")
@@ -45,6 +48,9 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItemTags.FORGES_GOLD_INGOT, "Forges Gold Ingot")
         add(BobsMobGearItemTags.FORGES_NETHERITE_INGOT, "Forges Netherite Ingot")
         add(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP, "Forges Netherite Scrap")
+        add(BobsMobGearItemTags.SMITHING_SURFACE, "Smithing Surfaces")
+        add(BobsMobGearItemTags.MENDER_ENCHANTABLE, "Mender Enchantable")
+        add(BobsMobGearItemTags.OFFHAND_PRIORITIZED, "Offhand Prioritized")
 
         add(BobsMobGearFluids.IRON, "Molten Iron")
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")
@@ -52,6 +58,8 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         add(BobsMobGearClient.HEATED_TOOLTIP, "Heated")
         add(TongsItem.HELD_ITEM_TOOLTIP, "Held Item:")
+        add(SonicChargeTooltip.TOOLTIP, "Sonic Charge: %s/%s")
+        add(OffhandPriorityTooltip.TOOLTIP, "Offhand Prioritized")
 
         add(BobsMobGearSounds.TEMPLATE_CRAFT, "Tool crafts")
         add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")
@@ -59,6 +67,10 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, "Template empties")
 
         add(BobsMobGearEnchantments.MENDER_NAME, "Mender")
+
+        add(BobsMobGearEmiPlugin.TEMPLATE_CATEGORY, "Template Smithing")
+        add(BobsMobGearEmiPlugin.FORGING_CATEGORY, "Forging")
+        add(BobsMobGearEmiPlugin.FORGE_FILLING_CATEGORY, "Forge Filling")
     }
 
     companion object {
@@ -68,6 +80,10 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         fun TranslationBuilder.add(fluid: Fluid, value: String) {
             add(createTranslationKey("block", Registries.FLUID.getId(fluid)), value)
+        }
+
+        fun TranslationBuilder.add(category: EmiRecipeCategory, value: String) {
+            add(createTranslationKey("emi.category", category.getId()), value)
         }
     }
 }

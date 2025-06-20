@@ -5,7 +5,9 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.component.Component
 import net.minecraft.component.ComponentMap
+import net.minecraft.component.ComponentType
 import net.minecraft.enchantment.effect.EnchantmentEffectEntry
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -16,6 +18,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
 import net.minecraft.loot.condition.LootCondition
 import net.minecraft.recipe.Ingredient
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.text.MutableText
@@ -27,6 +30,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.event.GameEvent
 import java.util.*
 
 inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock.Settings =
@@ -70,6 +74,7 @@ infix fun BlockState.isOf(block: Block) = isOf(block)
 infix fun BlockState.isIn(tag: TagKey<Block>) = isIn(tag)
 infix fun BlockState.isIn(entryList: RegistryEntryList<Block>) = isIn(entryList)
 infix fun FluidState.isIn(tag: TagKey<Fluid>) = isIn(tag)
+infix fun <T> RegistryEntry<T>.isIn(tag: TagKey<T>) = isIn(tag)
 
 operator fun Identifier.plus(suffix: String): Identifier = withSuffixedPath(suffix)
 
@@ -81,6 +86,8 @@ operator fun BlockPos.plus(other: Vec3i): BlockPos = add(other)
 operator fun Vec3d.plus(other: Vec3d): Vec3d = add(other)
 operator fun Vec3d.minus(other: Vec3d): Vec3d = subtract(other)
 operator fun Vec3d.times(scalar: Double): Vec3d = multiply(scalar)
+operator fun Vec3d.times(other: Vec3d): Vec3d = multiply(other)
+operator fun Vec3d.div(scalar: Double): Vec3d = multiply(1 / scalar)
 
 operator fun Vec3d.component1(): Double = x
 operator fun Vec3d.component2(): Double = y
@@ -94,3 +101,6 @@ fun <T> EnchantmentEffectEntry(
 ) = EnchantmentEffectEntry(`object`, Optional.ofNullable(condition))
 
 fun ComponentMap(init: ComponentMap.Builder.() -> Unit): ComponentMap = ComponentMap.builder().apply(init).build()
+
+operator fun <T> Component<T>.component1(): ComponentType<T> = type
+operator fun <T> Component<T>.component2(): T = value

@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
+import com.mojang.serialization.Codec
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.item.*
 import io.github.thebroccolibob.bobsmobgear.util.ComparableItemStack
@@ -20,6 +21,7 @@ import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.*
 import net.minecraft.network.codec.PacketCodec
+import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.text.Text
@@ -35,10 +37,15 @@ object BobsMobGearItems {
     private fun register(path: String, item: Item) =
         register(BobsMobGear.id(path), item)
 
-    fun register(block: Block): Item = Items.register(block)
+    private fun register(block: Block): Item = Items.register(block)
 
     private fun <T> register(path: String, init: ComponentType.Builder<T>.() -> Unit): ComponentType<T> =
         Registry.register(Registries.DATA_COMPONENT_TYPE, BobsMobGear.id(path), ComponentType.builder<T>().apply(init).build())
+
+    private fun registerUnit(path: String): ComponentType<MCUnit> = register(path) {
+        codec(MCUnit.CODEC)
+        packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
+    }
 
     private fun registerBucket(fluid: Fluid) =
         register(Registries.FLUID.getId(fluid) + "_bucket", BucketItem(fluid, itemSettings {
@@ -55,15 +62,25 @@ object BobsMobGearItems {
     // COMPONENTS
 
     @JvmField
-    val HEATED = register<MCUnit>("heated") {
-        codec(MCUnit.CODEC)
-        packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
-    }
+    val HEATED = registerUnit("heated")
 
     val TONGS_HELD_ITEM = register<ComparableItemStack>("tongs_held_item") {
         codec(ComparableItemStack.CODEC)
         packetCodec(ComparableItemStack.PACKET_CODEC)
     }
+
+    val MAX_SONIC_CHARGE = register<Int>("max_sonic_charge") {
+        codec(Codec.INT)
+        packetCodec(PacketCodecs.INTEGER)
+    }
+
+    val SONIC_CHARGE = register<Int>("sonic_charge") {
+        codec(Codec.INT)
+        packetCodec(PacketCodecs.INTEGER)
+    }
+
+    @JvmField
+    val USING_SPECIAL_ATTACK = registerUnit("using_special_attack")
 
     // ITEMS
 
@@ -85,7 +102,7 @@ object BobsMobGearItems {
     val DIAMOND_POT = registerPot(BobsMobGearFluids.DIAMOND)
     val NETHERITE_POT = registerPot(BobsMobGearFluids.NETHERITE)
 
-    val POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT)
+    val FILLED_POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT)
 
     val SMITHING_HAMMER = register("smithing_hammer", SmithingHammerItem(itemSettings {
         maxDamage(128) // TODO decide max damage
@@ -125,6 +142,23 @@ object BobsMobGearItems {
         )
     )
 
+    val WARDEN_FIST = register("warden_fist", WardenFistItem(itemSettings {
+        maxCount(1)
+        rarity(Rarity.RARE)
+        fireproof()
+        attributeModifiers(WardenFistItem.createAttributeModifiers())
+        component(MAX_SONIC_CHARGE, 16)
+        component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
+    }))
+
+    val BONE_HAMMER = register("bone_hammer", BoneHammerItem(ToolMaterials.STONE, itemSettings {
+
+    }))
+
+    val SPIDER_DAGGER = register("spider_dagger", SpiderDaggerItem(ToolMaterials.STONE, itemSettings {
+
+    }))
+
     // ITEM GROUPS
 
     val ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), FabricItemGroup.builder().apply {
@@ -149,6 +183,11 @@ object BobsMobGearItems {
                 FLESH_GLOVE,
                 IRON_FLESH_GLOVE,
             ).map { it.defaultStack })
+            entries.addAll(listOf(
+                WARDEN_FIST.defaultStack.also {
+                    it[SONIC_CHARGE] = 16
+                },
+            ))
         }
     }.build())
 
@@ -158,7 +197,7 @@ object BobsMobGearItems {
         }, IRON_POT, DIAMOND_POT, NETHERITE_POT)
 
         FluidStorage.combinedItemApiProvider(EMPTY_POT).run {
-            POTS.forEach {
+            FILLED_POTS.forEach {
                 register { context ->
                     EmptyItemFluidStorage(context, it, (it as FluidPotItem).fluid, FluidConstants.INGOT)
                 }

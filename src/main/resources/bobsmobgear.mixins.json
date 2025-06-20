@@ -5,12 +5,17 @@
   "mixins": [
     "AbstractBlockStateMixin",
     "AbstractCauldronBlockInvoker",
+    "BreezeEntityMixin",
     "EnchantmentHelperInvoker",
+    "EntityMixin",
     "FluidInvoker",
     "ItemEntityMixin",
     "ItemStackMixin",
-    "LeveledCauldronBlockInvoker",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "ServerPlayerEntityMixin",
+    "bettercombat.ServerNetworkHandlerMixin",
+    "bettercombat.WeaponRegistryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

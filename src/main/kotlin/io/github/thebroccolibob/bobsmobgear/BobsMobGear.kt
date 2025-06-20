@@ -14,7 +14,7 @@ object BobsMobGear : ModInitializer {
 
 	fun id(path: String): Identifier = Identifier.of(MOD_ID, path)
 
-    private val logger = LoggerFactory.getLogger(MOD_ID)
+    val logger = LoggerFactory.getLogger(MOD_ID)
 
 	override fun onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -22,9 +22,11 @@ object BobsMobGear : ModInitializer {
 		// Proceed with mild caution.
 		BobsMobGearBlocks.register()
 		BobsMobGearItems.register()
+		BobsMobGearEntities.register()
 		BobsMobGearParticles.register()
 		BobsMobGearFluids.register()
 		BobsMobGearEnchantments.register()
+		BobsMobGearGameEvents.register()
 		registerBobsMobGearRecipes()
 
 		BobsMobGearSounds.register()

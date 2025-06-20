@@ -90,6 +90,7 @@ object BobsMobGearBlocks {
 
     // TAGS
 
+    @JvmField
     val SMITHING_SURFACE: TagKey<Block> = TagKey.of(RegistryKeys.BLOCK, BobsMobGear.id("smithing_surface"))
 
     fun register() {
