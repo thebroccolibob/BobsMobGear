@@ -92,7 +92,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
         (attacker as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 
-    override fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean = user.weaponStack == stack && user.itemUseTime >= USE_TIME
+    override fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean = user.itemUseTime >= USE_TIME
 
     override fun onAttackEnd(player: ServerPlayerEntity, targetCount: Int, stack: ItemStack) {
         if (player.isUsingItem && targetCount == 0)
