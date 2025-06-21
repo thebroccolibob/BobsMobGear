@@ -61,6 +61,7 @@ loom {
 
 fabricApi {
 	configureDataGeneration {
+		modId = "bobsmobgear"
 		client = true
 	}
 }

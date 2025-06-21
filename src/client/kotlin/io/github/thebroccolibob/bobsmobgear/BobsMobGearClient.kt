@@ -48,7 +48,7 @@ object BobsMobGearClient : ClientModInitializer {
 		registerEntityRenderers()
 		TongsItemRenderer.register()
 		WardenFistItemRenderer.register()
-		OffhandPriorityTooltip.register()
+		UsePriority.register()
 		SonicChargeTooltip.register()
 		SonicChargeHudRenderer.register()
 		SpecialAttacks.register()

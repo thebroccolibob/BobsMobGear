@@ -22,7 +22,7 @@ object BobsMobGearItemTags {
     val SMITHING_SURFACE = of(BobsMobGearBlocks.SMITHING_SURFACE.id)
     val NON_FORGE_FUEL = of("non_forge_fuel")
     @JvmField
-    val OFFHAND_PRIORITIZED = of("offhand_prioritized")
+    val LOWER_USE_PRIORITY = of("lower_use_priority")
     @JvmField
     val PREVENT_SMITHING_TABLE_SCREEN = of("prevent_smithing_table_screen")
 }

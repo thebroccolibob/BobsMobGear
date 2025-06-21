@@ -23,7 +23,7 @@
   "item.bobsmobgear.smithing_tongs": "Smithing Tongs",
   "item.bobsmobgear.smithing_tongs.held_item": "Held Item:",
   "item.bobsmobgear.warden_fist": "Warden Fist",
-  "item.tooltip.bobsmobgear.offhand_priority": "Offhand Prioritized",
+  "item.tooltip.bobsmobgear.offhand_lower_priority": "Lower use priority",
   "item.tooltip.bobsmobgear.sonic_charge": "Sonic Charge: %s/%s",
   "subtitles.block.bobsmobgear.template.add_item": "Template fills",
   "subtitles.block.bobsmobgear.template.craft": "Tool crafts",
@@ -35,7 +35,7 @@
   "tag.item.bobsmobgear.forges.iron_ingot": "Forges Iron Ingot",
   "tag.item.bobsmobgear.forges.netherite_ingot": "Forges Netherite Ingot",
   "tag.item.bobsmobgear.forges.netherite_scrap": "Forges Netherite Scrap",
-  "tag.item.bobsmobgear.offhand_prioritized": "Offhand Prioritized",
+  "tag.item.bobsmobgear.lower_use_priority": "Lower Use Priority",
   "tag.item.bobsmobgear.smithing_hammers": "Smithing Hammers",
   "tag.item.bobsmobgear.smithing_surface": "Smithing Surfaces",
   "tag.item.bobsmobgear.tong_holdable": "Holdable by Tongs"

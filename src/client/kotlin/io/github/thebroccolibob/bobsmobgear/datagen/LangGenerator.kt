@@ -2,8 +2,8 @@ package io.github.thebroccolibob.bobsmobgear.datagen
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
-import io.github.thebroccolibob.bobsmobgear.client.OffhandPriorityTooltip
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
+import io.github.thebroccolibob.bobsmobgear.client.UsePriority
 import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
@@ -50,7 +50,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP, "Forges Netherite Scrap")
         add(BobsMobGearItemTags.SMITHING_SURFACE, "Smithing Surfaces")
         add(BobsMobGearItemTags.MENDER_ENCHANTABLE, "Mender Enchantable")
-        add(BobsMobGearItemTags.OFFHAND_PRIORITIZED, "Offhand Prioritized")
+        add(BobsMobGearItemTags.LOWER_USE_PRIORITY, "Lower Use Priority")
 
         add(BobsMobGearFluids.IRON, "Molten Iron")
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")
@@ -59,7 +59,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearClient.HEATED_TOOLTIP, "Heated")
         add(TongsItem.HELD_ITEM_TOOLTIP, "Held Item:")
         add(SonicChargeTooltip.TOOLTIP, "Sonic Charge: %s/%s")
-        add(OffhandPriorityTooltip.TOOLTIP, "Offhand Prioritized")
+        add(UsePriority.TOOLTIP, "Lower use priority")
 
         add(BobsMobGearSounds.TEMPLATE_CRAFT, "Tool crafts")
         add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")
