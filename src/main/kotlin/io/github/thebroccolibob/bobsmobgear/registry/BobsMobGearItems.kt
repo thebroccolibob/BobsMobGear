@@ -120,6 +120,9 @@ object BobsMobGearItems {
     val WORN_STURDY_BONE = register("worn_sturdy_bone", Item(itemSettings {}))
     val WORN_SPIDER_FANG = register("worn_spider_fang", Item(itemSettings {}))
     val WORN_CREEPER_CORE = register("worn_creeper_core", Item(itemSettings {}))
+    val WORN_SEETHING_PEARL = register("worn_seething_pearl", Item(itemSettings {}))
+    val WORN_SEETHING_EYE = register("worn_seething_eye", Item(itemSettings {}))
+    val SCULK_SYMBIOTE = register("sculk_symbiote", Item(itemSettings {}))
 
     val FLESH_GLOVE = register("flesh_glove",
         AbstractFleshGlove(

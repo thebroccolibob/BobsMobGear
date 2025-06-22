@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bobsmobgear:item/sculk_symbiote"
+  }
+}

@@ -40,6 +40,9 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerGenerated(BobsMobGearItems.WORN_STURDY_BONE)
         registerGenerated(BobsMobGearItems.WORN_SPIDER_FANG)
         registerGenerated(BobsMobGearItems.WORN_CREEPER_CORE)
+        registerGenerated(BobsMobGearItems.WORN_SEETHING_PEARL)
+        registerGenerated(BobsMobGearItems.WORN_SEETHING_EYE)
+        registerGenerated(BobsMobGearItems.SCULK_SYMBIOTE)
 
         register(BobsMobGearItems.BONE_HAMMER, Models.HANDHELD)
         register(BobsMobGearItems.SPIDER_DAGGER, Models.HANDHELD)
