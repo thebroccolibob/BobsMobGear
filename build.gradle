@@ -84,9 +84,11 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	modImplementation "dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim_version}"
+
 	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
 	modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}"
-	modImplementation "com.github.ThePotatoArchivist:RPGSkills:${project.rpgskills_version}"
+
+	modCompileOnly "com.github.ThePotatoArchivist:RPGSkills:${project.rpgskills_version}"
 }
 
 processResources {

@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
+import com.google.common.collect.HashMultimap
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -30,7 +31,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-import net.minecraft.world.event.GameEvent
 import java.util.*
 
 inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock.Settings =
@@ -104,3 +104,8 @@ fun ComponentMap(init: ComponentMap.Builder.() -> Unit): ComponentMap = Componen
 
 operator fun <T> Component<T>.component1(): ComponentType<T> = type
 operator fun <T> Component<T>.component2(): T = value
+
+fun <K, V> multimapOf(vararg entries: Pair<K, V>): HashMultimap<K, V> = HashMultimap.create<K, V>().apply {
+    for ((key, value) in entries)
+        put(key, value)
+}

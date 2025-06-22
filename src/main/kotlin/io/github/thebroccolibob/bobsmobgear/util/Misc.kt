@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.reflect.KProperty
@@ -97,3 +98,5 @@ operator fun TrackedData<OptionalInt>.setValue(thisRef: Entity, property: KPrope
 fun ItemStack.damage(amount: Int, entity: LivingEntity, hand: Hand) {
     damage(amount, entity, LivingEntity.getSlotForHand(hand))
 }
+
+fun Vec3d.horizontal(): Vec3d = multiply(1.0, 0.0, 1.0)

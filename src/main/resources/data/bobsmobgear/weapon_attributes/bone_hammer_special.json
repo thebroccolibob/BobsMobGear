@@ -3,9 +3,9 @@
   "attributes": {
     "attacks": [
       {
-        "hitbox": "FORWARD_BOX",
+        "hitbox": "HORIZONTAL_PLANE",
         "damage_multiplier": 1,
-        "angle": 0,
+        "angle": 360,
         "upswing": 0.5,
         "animation": "bettercombat:two_handed_slam",
         "swing_sound": {
