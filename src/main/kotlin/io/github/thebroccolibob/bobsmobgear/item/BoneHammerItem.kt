@@ -1,12 +1,13 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
-import com.google.common.collect.HashMultimap
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.duck.EquipmentChanger
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import io.github.thebroccolibob.bobsmobgear.util.*
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation
 import net.minecraft.entity.attribute.EntityAttributes
@@ -15,7 +16,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.SwordItem
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
-import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
@@ -28,7 +28,16 @@ class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(mate
     attributeModifiers(SwordItem.createAttributeModifiers(material, 3, -3.2f))
 }), HasSpecialAttack {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        user.attributes.addTemporaryModifiers(SPECIAL_ATTACK_MODIFIERS)
+        if (user.getAttackCooldownProgress(0.0f) < 1f)
+            return super.use(world, user, hand)
+
+        val stack = user[hand]
+        stack.modify(DataComponentTypes.ATTRIBUTE_MODIFIERS) {
+            it?.withModified {
+                add(EntityAttributes.GENERIC_ATTACK_SPEED, SPECIAL_ATTACK_MODIFIER, AttributeModifierSlot.MAINHAND)
+            }
+        }
+        (user as EquipmentChanger).`bobsmobgear$sidedEquipmentChanges`()
         return runSpecialAttack(user, hand, world)
     }
 
@@ -50,22 +59,22 @@ class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(mate
             val difference = (target.pos - center).horizontal()
             val closeness = 1 - difference.length() / MAX_DISTANCE
             if (closeness < 0) continue
-            target.velocity += (difference * (MAX_HORIZONTAL_VELOCITY * closeness)).add(0.0, closeness * MAX_VERTICAL_VELOCITY, 0.0)
+            target.velocity += (difference.normalize() * (MAX_HORIZONTAL_VELOCITY * closeness)).add(0.0, closeness * MAX_VERTICAL_VELOCITY, 0.0)
         }
         player.itemCooldownManager.set(stack.item, COOLDOWN)
         super.onAttackEnd(player, targetCount, stack)
-        player.attributes.removeModifiers(SPECIAL_ATTACK_MODIFIERS)
+        stack.modify(DataComponentTypes.ATTRIBUTE_MODIFIERS) { attributes ->
+            attributes?.withRemoved { it.modifier == SPECIAL_ATTACK_MODIFIER }
+        }
     }
 
     companion object {
         const val HIT_DISTANCE = 1.0
         const val MAX_DISTANCE = 3.0
         const val MAX_HORIZONTAL_VELOCITY = 2.0
-        const val MAX_VERTICAL_VELOCITY = 1.0
-        const val COOLDOWN = 5 * 20
+        const val MAX_VERTICAL_VELOCITY = 0.5
+        const val COOLDOWN = 3 * 20
 
-        private val SPECIAL_ATTACK_MODIFIERS: HashMultimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> = multimapOf(
-            EntityAttributes.GENERIC_ATTACK_SPEED to EntityAttributeModifier(BobsMobGear.id("bone_hammer_special_speed"), -0.5, Operation.ADD_MULTIPLIED_BASE),
-        )
+        private val SPECIAL_ATTACK_MODIFIER = EntityAttributeModifier(BobsMobGear.id("bone_hammer_special_speed"), -0.5, Operation.ADD_MULTIPLIED_BASE)
     }
 }

@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
 import net.minecraft.component.ComponentType
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.TrackedData
@@ -13,6 +14,7 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import java.util.*
+import kotlin.Unit
 import kotlin.math.roundToInt
 import kotlin.reflect.KProperty
 import net.minecraft.util.Unit as MCUnit
@@ -100,3 +102,19 @@ fun ItemStack.damage(amount: Int, entity: LivingEntity, hand: Hand) {
 }
 
 fun Vec3d.horizontal(): Vec3d = multiply(1.0, 0.0, 1.0)
+
+inline fun AttributeModifiersComponent.withModified(shouldInclude: (AttributeModifiersComponent.Entry) -> Boolean = { true }, block: AttributeModifiersComponent.Builder.() -> Unit): AttributeModifiersComponent =
+    AttributeModifiersComponent.builder().apply {
+        for (entry in modifiers) {
+            if (shouldInclude(entry))
+                add(entry.attribute, entry.modifier, entry.slot)
+        }
+        block()
+    }.build()
+
+inline fun AttributeModifiersComponent.withRemoved(predicate: (AttributeModifiersComponent.Entry) -> Boolean): AttributeModifiersComponent =
+    withModified({ !predicate(it) }) {}
+
+inline fun <T> ItemStack.modify(componentType: ComponentType<T>, block: (T?) -> T?) {
+    this[componentType] = block(this[componentType])
+}
