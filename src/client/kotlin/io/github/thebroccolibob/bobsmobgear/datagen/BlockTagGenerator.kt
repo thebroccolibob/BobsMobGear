@@ -17,9 +17,9 @@ class BlockTagGenerator(
             add(Blocks.SMITHING_TABLE)
             forceAddTag(BlockTags.ANVIL)
         }
-        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
-            BobsMobGearBlocks.SWORD_TEMPLATE,
-        )
+        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).apply {
+            add(*BobsMobGearBlocks.TEMPLATES)
+        }
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(
             BobsMobGearBlocks.FORGE,
             BobsMobGearBlocks.FORGE_HEATER,

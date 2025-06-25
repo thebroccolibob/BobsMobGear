@@ -1,0 +1,27 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "archers"
+      ]
+    }
+  ],
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "archers:diamond_spear"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:netherite"
+  },
+  "fluid_amount": 9000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "archers:netherite_spear"
+  },
+  "template": "bobsmobgear:rpg/spear_template"
+}

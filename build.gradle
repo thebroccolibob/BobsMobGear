@@ -61,8 +61,8 @@ loom {
 
 fabricApi {
 	configureDataGeneration {
-		modId = "bobsmobgear"
 		client = true
+		modId = "bobsmobgear"
 	}
 }
 
@@ -89,6 +89,20 @@ dependencies {
 	modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}"
 
 	modCompileOnly "com.github.ThePotatoArchivist:RPGSkills:${project.rpgskills_version}"
+
+	modLocalRuntime "maven.modrinth:bundle-api:${project.bundle_api_version}"
+	modLocalRuntime "maven.modrinth:runes:${project.runes_version}"
+	modLocalRuntime "maven.modrinth:ranged-weapon-api:${project.ranged_weapon_api_version}"
+	modLocalRuntime modCompileOnly("maven.modrinth:spell-engine:${project.spell_engine_version}")
+	modLocalRuntime "maven.modrinth:spell-power:${project.spell_power_version}"
+	modLocalRuntime "maven.modrinth:azurelib-armor:${project.azurelib_armor_version}"
+	modLocalRuntime "maven.modrinth:structure-pool-api:${project.structure_pool_api_version}"
+	modLocalRuntime "maven.modrinth:shield-api:${project.shield_api_version}"
+	modLocalRuntime "dev.emi:trinkets:${project.trinkets_version}"
+//	modLocalRuntime modCompileOnly("maven.modrinth:wizards:${project.rpg_wizards_version}")
+	modLocalRuntime modCompileOnly("maven.modrinth:paladins-and-priests:${project.rpg_paladins_priests_version}")
+	modLocalRuntime modCompileOnly("maven.modrinth:archers:${project.rpg_archers_version}")
+	modLocalRuntime modCompileOnly("maven.modrinth:rogues-and-warriors:${project.rpg_rogues_warriors_version}")
 }
 
 processResources {

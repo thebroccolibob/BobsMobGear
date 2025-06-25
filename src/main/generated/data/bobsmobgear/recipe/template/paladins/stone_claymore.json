@@ -1,0 +1,35 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "paladins"
+      ]
+    }
+  ],
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:wooden_sword"
+  },
+  "ingredients": [
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "item": "minecraft:string"
+    }
+  ],
+  "result": {
+    "id": "paladins:stone_claymore"
+  },
+  "template": "bobsmobgear:rpg/claymore_template"
+}

@@ -1,0 +1,27 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "rogues"
+      ]
+    }
+  ],
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:wooden_hoe"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:iron"
+  },
+  "fluid_amount": 18000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "rogues:iron_sickle"
+  },
+  "template": "bobsmobgear:rpg/sickle_template"
+}

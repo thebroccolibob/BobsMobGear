@@ -11,12 +11,8 @@ class BlockLootTableGenerator(
     registryLookup: CompletableFuture<RegistryWrapper.WrapperLookup>
 ) : FabricBlockLootTableProvider(dataOutput, registryLookup) {
     override fun generate() {
-        addDrop(BobsMobGearBlocks.EMPTY_TEMPLATE)
-        addDrop(BobsMobGearBlocks.SWORD_TEMPLATE)
-        addDrop(BobsMobGearBlocks.PICKAXE_TEMPLATE)
-        addDrop(BobsMobGearBlocks.AXE_TEMPLATE)
-        addDrop(BobsMobGearBlocks.SHOVEL_TEMPLATE)
-        addDrop(BobsMobGearBlocks.HOE_TEMPLATE)
+        for (template in BobsMobGearBlocks.TEMPLATES)
+            addDrop(template)
         addDrop(BobsMobGearBlocks.FORGE)
         addDrop(BobsMobGearBlocks.FORGE_HEATER)
     }

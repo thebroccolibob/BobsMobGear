@@ -7,6 +7,7 @@ import net.minecraft.registry.RegistryBuilder
 import net.minecraft.registry.RegistryKeys
 
 object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
+
 	override fun buildRegistry(registryBuilder: RegistryBuilder) {
 		registryBuilder.addRegistry(RegistryKeys.ENCHANTMENT, EnchantmentGenerator)
 	}

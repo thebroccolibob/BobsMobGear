@@ -1,0 +1,24 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "paladins"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "bobsmobgear:empty_template"
+    },
+    {
+      "item": "paladins:wooden_great_hammer"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "bobsmobgear:rpg/greathammer_template"
+  }
+}

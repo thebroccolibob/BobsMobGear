@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.registry
 
 import com.mojang.serialization.Codec
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.item.*
 import io.github.thebroccolibob.bobsmobgear.util.ComparableItemStack
 import io.github.thebroccolibob.bobsmobgear.util.itemSettings
@@ -91,6 +92,16 @@ object BobsMobGearItems {
     val SHOVEL_TEMPLATE = register(BobsMobGearBlocks.SHOVEL_TEMPLATE)
     val HOE_TEMPLATE = register(BobsMobGearBlocks.HOE_TEMPLATE)
 
+    val GREATHAMMER_TEMPLATE = register(BobsMobGearBlocks.GREATHAMMER_TEMPLATE)
+    val MACE_TEMPLATE = register(BobsMobGearBlocks.MACE_TEMPLATE)
+    val CLAYMORE_TEMPLATE = register(BobsMobGearBlocks.CLAYMORE_TEMPLATE)
+    val KITE_SHIELD_TEMPLATE = register(BobsMobGearBlocks.KITE_SHIELD_TEMPLATE)
+    val DAGGER_TEMPLATE = register(BobsMobGearBlocks.DAGGER_TEMPLATE)
+    val GLAIVE_TEMPLATE = register(BobsMobGearBlocks.GLAIVE_TEMPLATE)
+    val SICKLE_TEMPLATE = register(BobsMobGearBlocks.SICKLE_TEMPLATE)
+    val DOUBLE_AXE_TEMPLATE = register(BobsMobGearBlocks.DOUBLE_AXE_TEMPLATE)
+    val SPEAR_TEMPLATE = register(BobsMobGearBlocks.SPEAR_TEMPLATE)
+
     val FORGE = register(BobsMobGearBlocks.FORGE)
     val FORGE_HEATER = register(BobsMobGearBlocks.FORGE_HEATER)
 
@@ -161,17 +172,41 @@ object BobsMobGearItems {
 
     // ITEM GROUPS
 
+    private fun ItemGroup.Entries.addAll(vararg items: Item) {
+        addAll(items.map { it.defaultStack })
+    }
+
     val ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), FabricItemGroup.builder().apply {
         icon { SMITHING_HAMMER.defaultStack }
         displayName(Text.of(FabricLoader.getInstance().getModContainer(BobsMobGear.MOD_ID).orElseThrow().metadata.name))
         entries { _, entries ->
-            entries.addAll(listOf(
+            entries.addAll(
                 EMPTY_TEMPLATE,
                 SWORD_TEMPLATE,
                 PICKAXE_TEMPLATE,
                 AXE_TEMPLATE,
                 SHOVEL_TEMPLATE,
                 HOE_TEMPLATE,
+            )
+            if (BobsMobGearCompat.PALADINS_INSTALLED)
+                entries.addAll(
+                    GREATHAMMER_TEMPLATE,
+                    MACE_TEMPLATE,
+                    CLAYMORE_TEMPLATE,
+                    KITE_SHIELD_TEMPLATE,
+                )
+            if (BobsMobGearCompat.ROGUES_INSTALLED)
+                entries.addAll(
+                    DAGGER_TEMPLATE,
+                    GLAIVE_TEMPLATE,
+                    SICKLE_TEMPLATE,
+                    DOUBLE_AXE_TEMPLATE,
+                )
+            if (BobsMobGearCompat.ARCHERS_INSTALLED)
+                entries.addAll(
+                    SPEAR_TEMPLATE,
+                )
+            entries.addAll(
                 FORGE,
                 FORGE_HEATER,
                 EMPTY_POT,
@@ -182,7 +217,9 @@ object BobsMobGearItems {
                 SMITHING_TONGS,
                 FLESH_GLOVE,
                 IRON_FLESH_GLOVE,
-            ).map { it.defaultStack })
+                SPIDER_DAGGER,
+                BONE_HAMMER,
+            )
             entries.addAll(listOf(
                 WARDEN_FIST.defaultStack.also {
                     it[SONIC_CHARGE] = 16

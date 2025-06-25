@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,metal=false": {
+      "model": "bobsmobgear:block/rpg/double_axe_template_wood",
+      "y": 90
+    },
+    "facing=east,metal=true": {
+      "model": "bobsmobgear:block/rpg/double_axe_template_metal",
+      "y": 90
+    },
+    "facing=north,metal=false": {
+      "model": "bobsmobgear:block/rpg/double_axe_template_wood"
+    },
+    "facing=north,metal=true": {
+      "model": "bobsmobgear:block/rpg/double_axe_template_metal"
+    },
+    "facing=south,metal=false": {
+      "model": "bobsmobgear:block/rpg/double_axe_template_wood",
+      "y": 180
+    },
+    "facing=south,metal=true": {
+      "model": "bobsmobgear:block/rpg/double_axe_template_metal",
+      "y": 180
+    },
+    "facing=west,metal=false": {
+      "model": "bobsmobgear:block/rpg/double_axe_template_wood",
+      "y": 270
+    },
+    "facing=west,metal=true": {
+      "model": "bobsmobgear:block/rpg/double_axe_template_metal",
+      "y": 270
+    }
+  }
+}

@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.block.entity
 
 import archives.tater.rpgskills.data.LockGroup
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.RPGSKILLS_INSTALLED
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
@@ -99,7 +100,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
     private fun checkValid(player: PlayerEntity, recipe: RecipeEntry<TemplateRecipe>?): Boolean {
         if (recipe == null) return false
-        if (BobsMobGear.RPGSKILLS_INSTALLED) {
+        if (RPGSKILLS_INSTALLED) {
             val group = LockGroup.findLocked(player, recipe)
             if (group != null) {
                 player.sendMessage(group.recipeMessage(), true)

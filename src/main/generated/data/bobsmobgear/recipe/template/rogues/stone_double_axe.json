@@ -1,0 +1,35 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "rogues"
+      ]
+    }
+  ],
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:wooden_axe"
+  },
+  "ingredients": [
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    {
+      "item": "minecraft:string"
+    }
+  ],
+  "result": {
+    "id": "rogues:stone_double_axe"
+  },
+  "template": "bobsmobgear:rpg/double_axe_template"
+}
