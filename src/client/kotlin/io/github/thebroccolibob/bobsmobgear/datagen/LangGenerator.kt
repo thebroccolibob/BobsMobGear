@@ -33,6 +33,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearBlocks.GREATHAMMER_TEMPLATE, "Great Hammer Template")
         add(BobsMobGearBlocks.MACE_TEMPLATE, "Mace Template")
         add(BobsMobGearBlocks.CLAYMORE_TEMPLATE, "Claymore Template")
+        add(BobsMobGearBlocks.KITE_SHIELD_TEMPLATE, "Kite Shield Template")
         add(BobsMobGearBlocks.DAGGER_TEMPLATE, "Dagger Template")
         add(BobsMobGearBlocks.GLAIVE_TEMPLATE, "Glaive Template")
         add(BobsMobGearBlocks.SICKLE_TEMPLATE, "Sickle Template")

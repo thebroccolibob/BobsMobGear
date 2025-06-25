@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.recipe
 
+import archives.tater.rpgskills.util.value
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -10,6 +11,7 @@ import io.github.thebroccolibob.bobsmobgear.util.packetCodecTuple
 import io.github.thebroccolibob.bobsmobgear.util.toDefaultedList
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks
 import net.minecraft.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
@@ -26,6 +28,7 @@ import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 class TemplateRecipe(
     val template: Block,
@@ -81,6 +84,15 @@ class TemplateRecipe(
     override fun createIcon(): ItemStack = template.asItem().defaultStack
 
     override fun isEmpty(): Boolean = true // Hide recipe book warnings
+
+    fun getTypicalInput() = TemplateRecipeInput(
+        (blockBelow.getOrNull()?.first()?.value ?: Blocks.AIR).defaultState,
+        template,
+        base.matchingStacks.firstOrNull() ?: ItemStack.EMPTY,
+        ingredients.map { it.matchingStacks.first() },
+        fluid,
+        fluidAmount,
+    )
 
     companion object SerializerAndType : RecipeSerializer<TemplateRecipe>, RecipeType<TemplateRecipe> {
         val CODEC: MapCodec<TemplateRecipe> = RecordCodecBuilder.mapCodec { instance ->
