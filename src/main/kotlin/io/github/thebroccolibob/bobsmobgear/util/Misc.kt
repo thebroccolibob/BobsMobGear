@@ -5,6 +5,7 @@ import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -117,4 +118,33 @@ inline fun AttributeModifiersComponent.withRemoved(predicate: (AttributeModifier
 
 inline fun <T> ItemStack.modify(componentType: ComponentType<T>, block: (T?) -> T?) {
     this[componentType] = block(this[componentType])
+}
+
+val PlayerEntity.experienceProgressPoints
+    get() = ((experienceProgress + 0.0001f) * nextLevelExperience).toInt()
+
+fun PlayerEntity.takeExperiencePoints(max: Int): Int {
+    // The player has no way to query the total current xp (totalExperience is not decreased by removing levels) so
+    // this funky loop-based method must be done
+    var consumed = 0
+    while (consumed < max) {
+        if (experienceLevel == 0 && experienceProgressPoints == 0) break
+
+        val amount = (
+            if (experienceProgressPoints == 0) run {
+                experienceProgress = 0f
+                addExperience(-1)
+                nextLevelExperience.also {
+                    addExperience(1)
+                }
+            }
+            else experienceProgressPoints
+        ).coerceAtMost(max - consumed)
+
+        if (amount <= 0) break
+
+        consumed += amount
+        addExperience(-consumed)
+    }
+    return consumed
 }

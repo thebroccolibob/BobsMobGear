@@ -8,6 +8,7 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEnchantments.REP
 import io.github.thebroccolibob.bobsmobgear.util.damage
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.opposite
+import io.github.thebroccolibob.bobsmobgear.util.takeExperiencePoints
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.component.ComponentType
@@ -65,20 +66,20 @@ data class RepairEquipmentEffect(
             EnchantmentHelperInvoker.invokeForEachEnchantment(stack, LivingEntity.getSlotForHand(hand), player) { enchantment, _, _ ->
                 val effectEntry = enchantment.value().effects.get(type) ?: return@invokeForEachEnchantment
 
-                val available = when (effectEntry.effect.source) {
-                    RepairEquipmentEffect.Source.XP -> player.totalExperience
-                    RepairEquipmentEffect.Source.DURABIILITY -> stack.maxDamage - stack.damage
+                val maxConsumed = equipment.damage * effectEntry.effect.costPerDurability
+
+                val consumed = when (effectEntry.effect.source) {
+                    RepairEquipmentEffect.Source.XP -> player.takeExperiencePoints(maxConsumed)
+                    RepairEquipmentEffect.Source.DURABIILITY -> (stack.maxDamage - stack.damage)
+                        .coerceAtMost(maxConsumed).also {
+                            stack.damage(it, player, hand)
+                        }
                 }
 
-                val repairedAmount = (equipment.damage * effectEntry.effect.costPerDurability).coerceAtMost(available) / effectEntry.effect.costPerDurability
-                if (repairedAmount == 0) return@invokeForEachEnchantment
-                val cost = repairedAmount * effectEntry.effect.costPerDurability
+                val repaired = consumed / effectEntry.effect.costPerDurability
+                if (repaired <= 0) return@invokeForEachEnchantment
 
-                equipment.damage -= repairedAmount
-                when (effectEntry.effect.source) {
-                    RepairEquipmentEffect.Source.XP -> player.addExperience(-cost)
-                    RepairEquipmentEffect.Source.DURABIILITY -> stack.damage(cost, player, hand)
-                }
+                equipment.damage -= repaired
 
                 holder.world.playSoundFromEntity(null, holder, SoundEvents.BLOCK_SMITHING_TABLE_USE, player.soundCategory, 1f, 1f) // TODO custom sound event
                 player.addCritParticles(holder)

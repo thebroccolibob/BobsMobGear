@@ -68,10 +68,15 @@ class ItemTagGenerator(
             BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.SPIDER_DAGGER,
         )
+        getOrCreateTagBuilder(BobsMobGearItemTags.NOT_WEAPON).add(
+            BobsMobGearItems.SMITHING_HAMMER,
+        )
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.WARDEN_FIST,
+            BobsMobGearItems.SPIDER_DAGGER,
+            BobsMobGearItems.BONE_HAMMER,
         )
         getOrCreateTagBuilder(ConventionalItemTags.TOOLS).add(
             BobsMobGearItems.SMITHING_HAMMER,
@@ -82,6 +87,8 @@ class ItemTagGenerator(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.WARDEN_FIST,
+            BobsMobGearItems.SPIDER_DAGGER,
+            BobsMobGearItems.BONE_HAMMER,
         )
     }
 }

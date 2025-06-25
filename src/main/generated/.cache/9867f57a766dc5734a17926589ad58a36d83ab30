@@ -1,7 +1,8 @@
-// 1.21.1	2025-06-21T15:38:45.722177183	Bob's Mob Gear/Tags for minecraft:item
+// 1.21.1	2025-06-24T22:21:37.455804574	Bob's Mob Gear/Tags for minecraft:item
 74df2db8045085c10b9f8d20e77f2f22f1e4a31b data/bobsmobgear/tags/item/smithing_surface.json
-88046c697026fc82b7de06b8b09e69a065996056 data/c/tags/item/tools/melee_weapon.json
+2c8e67964358aa183d1170eb333ce7af66b67551 data/bobsmobgear/tags/item/not_weapon.json
 6ac4046fefd95f5bc8e67a54630921a92989210f data/c/tags/item/tools.json
+1ecf20a07efe2515f31d26587c451cdd688bbe80 data/c/tags/item/tools/melee_weapon.json
 9ac93dc1d4dcd0d378a741a3dfabe885f6af2c26 data/bobsmobgear/tags/item/lower_use_priority.json
 b31b48670a082b2c3310f143df876846caf93290 data/bobsmobgear/tags/item/smithing_hammers.json
 3e0e3d602aad13b57f2f4916d93396739c8cb7e9 data/bobsmobgear/tags/item/forges/netherite_ingot.json
@@ -13,4 +14,4 @@ b7d2e5e4023b35695e0430da049e46af2e476f4b data/bobsmobgear/tags/item/forges/gold_
 3288643c22dbbd7db31583684c3e70f7f13e998e data/bobsmobgear/tags/item/forges/netherite_scrap.json
 eddd5a0a37367f5ed2c2e78f32571e6ea5062aa2 data/bobsmobgear/tags/item/tong_holdable.json
 efcb42d31e2831ec1e84fcb8b772621a665ca299 data/bobsmobgear/tags/item/non_forge_fuel.json
-f9aa78f99047afa5b5bf6fb2695b13b77a8c7f1d data/minecraft/tags/item/enchantable/durability.json
+49f0b42eac8254ac4fd07b03ae46e9c4b93ae85f data/minecraft/tags/item/enchantable/durability.json

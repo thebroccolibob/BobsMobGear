@@ -25,4 +25,6 @@ object BobsMobGearItemTags {
     val LOWER_USE_PRIORITY = of("lower_use_priority")
     @JvmField
     val PREVENT_SMITHING_TABLE_SCREEN = of("prevent_smithing_table_screen")
+    @JvmField
+    val NOT_WEAPON = of("not_weapon")
 }
