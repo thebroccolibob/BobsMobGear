@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags
 import net.minecraft.item.Items
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.ItemTags
+import net.spell_engine.api.item.Equipment
+import net.spell_engine.rpg_series.tags.RPGSeriesItemTags
 import java.util.concurrent.CompletableFuture
 
 class ItemTagGenerator(
@@ -15,10 +17,13 @@ class ItemTagGenerator(
     registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
 ) : FabricTagProvider.ItemTagProvider(output, registriesFuture) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
-        getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_HAMMERS).add(
-            BobsMobGearItems.SMITHING_HAMMER,
-            Items.MACE,
-        )
+        getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_HAMMERS).apply {
+            add(
+                BobsMobGearItems.SMITHING_HAMMER,
+                Items.MACE,
+            )
+            addOptionalTag(RPGSeriesItemTags.WeaponType.ALL[Equipment.WeaponType.HAMMER])
+        }
         getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE).apply {
             forceAddTag(ConventionalItemTags.MINING_TOOL_TOOLS)
             forceAddTag(ConventionalItemTags.MELEE_WEAPON_TOOLS)
