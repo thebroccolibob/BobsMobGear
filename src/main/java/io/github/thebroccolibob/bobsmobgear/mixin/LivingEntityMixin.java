@@ -3,7 +3,6 @@ package io.github.thebroccolibob.bobsmobgear.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
-import io.github.thebroccolibob.bobsmobgear.duck.EquipmentChanger;
 import io.github.thebroccolibob.bobsmobgear.duck.WebShotUser;
 import io.github.thebroccolibob.bobsmobgear.item.FleshGloveItem;
 import net.minecraft.entity.Entity;
@@ -23,7 +22,7 @@ import java.util.Map;
 
 @Debug(export = true)
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements EquipmentChanger {
+public abstract class LivingEntityMixin extends Entity {
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -49,14 +48,6 @@ public abstract class LivingEntityMixin extends Entity implements EquipmentChang
         amount.set(amount.get() + damageTaken);
         damageBlocked.set(damageBlocked.get() - damageTaken);
         return false;
-    }
-
-    @Override
-    public void bobsmobgear$sidedEquipmentChanges() {
-        if (getWorld().isClient)
-            getEquipmentChanges();
-        else
-            sendEquipmentChanges();
     }
 
     @ModifyExpressionValue(
