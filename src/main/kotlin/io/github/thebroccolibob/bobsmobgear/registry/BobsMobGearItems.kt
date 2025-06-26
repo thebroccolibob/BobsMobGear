@@ -3,6 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.registry
 import com.mojang.serialization.Codec
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.entity.EnderSpearEntity
 import io.github.thebroccolibob.bobsmobgear.item.*
 import io.github.thebroccolibob.bobsmobgear.util.ComparableItemStack
 import io.github.thebroccolibob.bobsmobgear.util.itemSettings
@@ -162,11 +163,15 @@ object BobsMobGearItems {
         component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
     }))
 
-    val BONE_HAMMER = register("bone_hammer", BoneHammerItem(ToolMaterials.STONE, itemSettings {
+    val BONE_HAMMER = register("bone_hammer", BoneHammerItem(ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 
-    val SPIDER_DAGGER = register("spider_dagger", SpiderDaggerItem(ToolMaterials.STONE, itemSettings {
+    val SPIDER_DAGGER = register("spider_dagger", SpiderDaggerItem(ToolMaterials.STONE, itemSettings { // TODO
+
+    }))
+
+    val ENDER_SPEAR = register("ender_spear", EnderSpearItem(ToolMaterials.STONE, ::EnderSpearEntity, itemSettings { // TODO
 
     }))
 
