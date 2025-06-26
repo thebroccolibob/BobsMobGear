@@ -5,6 +5,7 @@ import io.github.thebroccolibob.bobsmobgear.extinguishHeatedStack
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems.TONGS_HELD_ITEM
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
@@ -20,7 +21,6 @@ import net.minecraft.registry.tag.FluidTags
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.screen.slot.Slot
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.ClickType
@@ -144,17 +144,17 @@ class TongsItem(settings: Settings) : Item(settings) {
         private fun ItemStack.removeHeld(): ItemStack = set(TONGS_HELD_ITEM, ComparableItemStack.EMPTY)!!.stack
 
         private fun playRemoveSound(entity: Entity) {
-            entity.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 1f, 0.8f) // TODO custom sound
+            entity.playSound(BobsMobGearSounds.TONGS_DROP, 1f, 1f)
         }
         private fun playRemoveSound(world: World, pos: Vec3d) {
-            world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1f, 0.8f) // TODO custom sound
+            world.playSound(null, pos.x, pos.y, pos.z, BobsMobGearSounds.TONGS_DROP, SoundCategory.PLAYERS, 1f, 1f)
         }
 
         private fun playAddSound(entity: Entity) {
-            entity.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 1f, 1f) // TODO custom sound
+            entity.playSound(BobsMobGearSounds.TONGS_PICKUP, 1f, 1f)
         }
         private fun playAddSound(world: World, pos: Vec3d) {
-            world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1f, 1f) // TODO custom sound
+            world.playSound(null, pos.x, pos.y, pos.z, BobsMobGearSounds.TONGS_PICKUP, SoundCategory.PLAYERS, 1f, 1f)
         }
 
     }

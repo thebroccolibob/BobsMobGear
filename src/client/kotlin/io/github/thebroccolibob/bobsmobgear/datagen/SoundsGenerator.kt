@@ -5,10 +5,10 @@ import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.util.AlternateCodec
 import io.github.thebroccolibob.bobsmobgear.client.util.Sound
 import io.github.thebroccolibob.bobsmobgear.client.util.SoundEntry
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.util.AlternateCodec
 import io.github.thebroccolibob.bobsmobgear.util.toOptional
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.minecraft.client.sound.Sound
@@ -55,6 +55,23 @@ class SoundsGenerator(
         )
         addSoundSubtitle(BobsMobGearSounds.TEMPLATE_CRAFT,
             Identifier.ofVanilla("random/break"),
+        )
+        addSoundSubtitle(BobsMobGearSounds.FORGE_HEATER_FUEL,
+            Identifier.ofVanilla("mob/ghast/fireball4")
+        )
+        addSoundSubtitle(BobsMobGearSounds.WEAPON_ATTACK_READY,
+            Sound(Identifier.ofVanilla("random/successful_hit"), volume = 0.8f)
+        )
+        addSoundSubtitle(BobsMobGearSounds.EQUIPMENT_REPAIR,
+            Identifier.ofVanilla("block/smithing_table/smithing_table1"),
+            Identifier.ofVanilla("block/smithing_table/smithing_table2"),
+            Identifier.ofVanilla("block/smithing_table/smithing_table3"),
+        )
+        addSoundSubtitle(BobsMobGearSounds.TONGS_PICKUP,
+            Sound(Identifier.ofVanilla("random/pop"), volume = 0.5f)
+        )
+        addSoundSubtitle(BobsMobGearSounds.TONGS_DROP,
+            Sound(Identifier.ofVanilla("random/pop"), volume = 0.5f, pitch = 0.8f)
         )
     }
 

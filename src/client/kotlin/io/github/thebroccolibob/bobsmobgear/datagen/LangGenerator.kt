@@ -75,6 +75,11 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")
         add(BobsMobGearSounds.TEMPLATE_ADD_ITEM, "Template fills")
         add(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, "Template empties")
+        add(BobsMobGearSounds.FORGE_HEATER_FUEL, "Forge heater ignites")
+        add(BobsMobGearSounds.WEAPON_ATTACK_READY, "Weapon readies")
+        add(BobsMobGearSounds.EQUIPMENT_REPAIR, "Hammer mends")
+        add(BobsMobGearSounds.TONGS_PICKUP, "Tongs grab")
+        add(BobsMobGearSounds.TONGS_DROP, "Tongs drop")
 
         add(BobsMobGearEnchantments.MENDER_NAME, "Mender")
 

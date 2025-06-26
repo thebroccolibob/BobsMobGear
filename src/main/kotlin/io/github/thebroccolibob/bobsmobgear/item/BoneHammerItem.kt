@@ -2,6 +2,7 @@ package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -27,15 +28,21 @@ class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(mate
         return TypedActionResult.consume(user[hand])
     }
 
-    override fun getUseAction(stack: ItemStack?): UseAction = UseAction.SPEAR
-
-    override fun getMaxUseTime(stack: ItemStack?, user: LivingEntity?): Int = 72000
+    override fun usageTick(world: World, user: LivingEntity, stack: ItemStack?, remainingUseTicks: Int) {
+        if (world.isClient && user.itemUseTime == USE_TIME)
+            user.playSound(BobsMobGearSounds.WEAPON_ATTACK_READY)
+        super.usageTick(world, user, stack, remainingUseTicks)
+    }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if (user !is PlayerEntity || user.itemUseTime < USE_TIME) return
         user.clearActiveItem()
         runSpecialAttack(user, user.activeHand, world)
     }
+
+    override fun getUseAction(stack: ItemStack?): UseAction = UseAction.SPEAR
+
+    override fun getMaxUseTime(stack: ItemStack?, user: LivingEntity?): Int = 72000
 
     override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean = true
 

@@ -3,6 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.block
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.BlockEntityProvider
@@ -51,7 +52,7 @@ class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), Block
                 ?.addHeat(heatIncrease)
         }
         player[hand] = ItemUsage.exchangeStack(stack, player, stack.recipeRemainder)
-        world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, player.soundCategory) // TODO custom sounds
+        world.playSound(null, pos, BobsMobGearSounds.FORGE_HEATER_FUEL, player.soundCategory)
 
         return ItemActionResult.SUCCESS
     }

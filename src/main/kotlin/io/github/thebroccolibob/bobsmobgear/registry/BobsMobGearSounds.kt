@@ -14,6 +14,11 @@ object BobsMobGearSounds {
     val TEMPLATE_ADD_ITEM = register("block.template.add_item")
     val TEMPLATE_REMOVE_ITEM = register("block.template.remove_item")
     val TEMPLATE_CRAFT = register("block.template.craft")
+    val FORGE_HEATER_FUEL = register("block.forge_heater.fuel")
+    val WEAPON_ATTACK_READY = register("item.weapon.attack_ready")
+    val EQUIPMENT_REPAIR = register("enchantment.equipment_repair")
+    val TONGS_PICKUP = register("item.smithing_tongs.pickup")
+    val TONGS_DROP = register("item.smithing_tongs.drop")
 
     fun register() {}
 }

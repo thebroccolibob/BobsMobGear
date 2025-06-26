@@ -98,7 +98,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
     }
 
     companion object {
-        const val USE_TIME = 30
+        const val USE_TIME = 33
         const val BLAST_RANGE = 5.0
         const val COOLDOWN = 100
 
