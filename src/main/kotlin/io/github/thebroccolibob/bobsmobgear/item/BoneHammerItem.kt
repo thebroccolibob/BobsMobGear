@@ -23,7 +23,7 @@ class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(mate
     attributeModifiers(SwordItem.createAttributeModifiers(material, 3, -3.2f))
 }), HasSpecialAttack {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        user.addCritParticles(user)
+        (world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.ATTACK_SPARK, user.x, user.getBodyY(0.5), user.z, 24, 0.0, 0.0, 0.0, 0.3)
         user.setCurrentHand(hand)
         return TypedActionResult.consume(user[hand])
     }
@@ -55,11 +55,12 @@ class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(mate
         if (BobsMobGearItems.USING_SPECIAL_ATTACK in stack) {
             val center = Vec3d(player.x, player.getBodyY(0.5), player.z) + player.rotationVector.horizontal().normalize() * HIT_DISTANCE
             //            (player.world as? ServerWorld)?.syncWorldEvent(WorldEvents.SMASH_ATTACK, BlockPos(center.x.toInt(), (player.y - 1).toInt(), center.z.toInt()), 250)
-            for (target in player.world.getOtherEntities(player, Box.of(center, 2 * MAX_DISTANCE, player.height.toDouble(), 2 * MAX_DISTANCE))) {
+            for (target in player.world.getOtherEntities(player, Box.of(center, 2 * MAX_DISTANCE, player.height.toDouble() + 2, 2 * MAX_DISTANCE)) { it is LivingEntity }) {
                 val difference = (target.pos - center).horizontal()
                 val closeness = 1 - difference.length() / MAX_DISTANCE
                 if (closeness < 0) continue
                 target.velocity += (difference.normalize() * (MAX_HORIZONTAL_VELOCITY * closeness)).add(0.0, closeness * MAX_VERTICAL_VELOCITY, 0.0)
+                target.velocityModified = true
             }
             player.itemCooldownManager.set(stack.item, COOLDOWN)
         }
@@ -68,7 +69,7 @@ class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(mate
 
     companion object {
         const val HIT_DISTANCE = 1.0
-        const val MAX_DISTANCE = 3.0
+        const val MAX_DISTANCE = 5.0
         const val MAX_HORIZONTAL_VELOCITY = 2.0
         const val MAX_VERTICAL_VELOCITY = 0.5
         const val COOLDOWN = 5 * 20
