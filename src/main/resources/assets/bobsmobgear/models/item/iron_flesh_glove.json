@@ -8,7 +8,7 @@
     {
       "predicate": {
         "pommel:is_held": 1.0,
-        "bobsmobgear:blocking": 1.0
+        "bobsmobgear:using": 1.0
       },
       "model": "bobsmobgear:item/iron_flesh_glove_blocking"
     }

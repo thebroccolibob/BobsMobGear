@@ -1,17 +1,19 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
-import io.github.thebroccolibob.bobsmobgear.client.OffhandPriorityTooltip
+import io.github.thebroccolibob.bobsmobgear.client.HeatedTooltip
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
+import io.github.thebroccolibob.bobsmobgear.client.UsePriorityTooltip
 import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
 import io.github.thebroccolibob.bobsmobgear.util.add
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
+import net.minecraft.entity.damage.DamageType
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Util.createTranslationKey
@@ -30,6 +32,16 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearBlocks.AXE_TEMPLATE, "Axe Template")
         add(BobsMobGearBlocks.SHOVEL_TEMPLATE, "Shovel Template")
         add(BobsMobGearBlocks.HOE_TEMPLATE, "Hoe Template")
+        add(BobsMobGearBlocks.GREATHAMMER_TEMPLATE, "Great Hammer Template")
+        add(BobsMobGearBlocks.MACE_TEMPLATE, "Mace Template")
+        add(BobsMobGearBlocks.CLAYMORE_TEMPLATE, "Claymore Template")
+        add(BobsMobGearBlocks.KITE_SHIELD_TEMPLATE, "Kite Shield Template")
+        add(BobsMobGearBlocks.DAGGER_TEMPLATE, "Dagger Template")
+        add(BobsMobGearBlocks.GLAIVE_TEMPLATE, "Glaive Template")
+        add(BobsMobGearBlocks.SICKLE_TEMPLATE, "Sickle Template")
+        add(BobsMobGearBlocks.DOUBLE_AXE_TEMPLATE, "Double Axe Template")
+        add(BobsMobGearBlocks.SPEAR_TEMPLATE, "Spear Template")
+
         add(BobsMobGearBlocks.FORGE, "Forge")
         add(BobsMobGearBlocks.FORGE_HEATER, "Forge Heater")
 
@@ -50,23 +62,33 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP, "Forges Netherite Scrap")
         add(BobsMobGearItemTags.SMITHING_SURFACE, "Smithing Surfaces")
         add(BobsMobGearItemTags.MENDER_ENCHANTABLE, "Mender Enchantable")
-        add(BobsMobGearItemTags.OFFHAND_PRIORITIZED, "Offhand Prioritized")
+        add(BobsMobGearItemTags.LOWER_USE_PRIORITY, "Lower Use Priority")
 
         add(BobsMobGearFluids.IRON, "Molten Iron")
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")
         add(BobsMobGearFluids.NETHERITE, "Molten Netherite")
 
-        add(BobsMobGearClient.HEATED_TOOLTIP, "Heated")
+        add(HeatedTooltip.TOOLTIP, "Heated")
         add(TongsItem.HELD_ITEM_TOOLTIP, "Held Item:")
         add(SonicChargeTooltip.TOOLTIP, "Sonic Charge: %s/%s")
-        add(OffhandPriorityTooltip.TOOLTIP, "Offhand Prioritized")
+        add(UsePriorityTooltip.TOOLTIP, "Lower use priority")
 
         add(BobsMobGearSounds.TEMPLATE_CRAFT, "Tool crafts")
         add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")
         add(BobsMobGearSounds.TEMPLATE_ADD_ITEM, "Template fills")
         add(BobsMobGearSounds.TEMPLATE_REMOVE_ITEM, "Template empties")
+        add(BobsMobGearSounds.FORGE_HEATER_FUEL, "Forge heater ignites")
+        add(BobsMobGearSounds.WEAPON_ATTACK_READY, "Weapon readies")
+        add(BobsMobGearSounds.EQUIPMENT_REPAIR, "Hammer mends")
+        add(BobsMobGearSounds.TONGS_PICKUP, "Tongs grab")
+        add(BobsMobGearSounds.TONGS_DROP, "Tongs drop")
 
         add(BobsMobGearEnchantments.MENDER_NAME, "Mender")
+
+        add(BobsMobGearDamageTypes.TELEFRAG,
+            base = "%s was telefragged by %s",
+            item = "%s was telefragged by %s using %s",
+        )
 
         add(BobsMobGearEmiPlugin.TEMPLATE_CATEGORY, "Template Smithing")
         add(BobsMobGearEmiPlugin.FORGING_CATEGORY, "Forging")
@@ -84,6 +106,16 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         fun TranslationBuilder.add(category: EmiRecipeCategory, value: String) {
             add(createTranslationKey("emi.category", category.getId()), value)
+        }
+
+        fun TranslationBuilder.add(damageType: RegistryKey<DamageType>, suffix: String? = null, value: String) {
+            add(createTranslationKey("death.attack", damageType.value).let { if (suffix == null) it else "$it.$suffix" }, value)
+        }
+
+        fun TranslationBuilder.add(damageType: RegistryKey<DamageType>, base: String? = null, player: String? = null, item: String? = null) {
+            base?.let { add(damageType, null, it) }
+            player?.let { add(damageType, "player", it) }
+            item?.let { add(damageType, "item", it) }
         }
     }
 }

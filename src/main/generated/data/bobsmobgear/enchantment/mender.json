@@ -12,7 +12,7 @@
     },
     "bobsmobgear:repair_hand_equipment": {
       "effect": {
-        "cost_per_durability": 4,
+        "cost_per_durability": 1,
         "source": "xp"
       }
     }

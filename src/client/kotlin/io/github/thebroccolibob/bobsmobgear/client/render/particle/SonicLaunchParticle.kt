@@ -1,8 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.particle
 
-import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
+import io.github.thebroccolibob.bobsmobgear.client.util.PendingParticleFactory
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry.PendingParticleFactory
-import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.ParticleTextureSheet
 import net.minecraft.client.particle.SpriteBillboardParticle
 import net.minecraft.client.particle.SpriteProvider
@@ -54,9 +53,5 @@ class SonicLaunchParticle(world: ClientWorld, x: Double, y: Double, z: Double, p
         setSpriteForAge(spriteProvider)
     }
 
-    companion object Factory: PendingParticleFactory<SimpleParticleType> {
-        override fun create(provider: FabricSpriteProvider) = ParticleFactory<SimpleParticleType> { _, world, x, y, z, vx, vy, vz ->
-            SonicLaunchParticle(world, x, y, z, vx, vy, vz, provider)
-        }
-    }
+    companion object Factory: PendingParticleFactory<SimpleParticleType> by PendingParticleFactory(::SonicLaunchParticle)
 }

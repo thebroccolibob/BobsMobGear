@@ -25,6 +25,14 @@ class ParticleDataGenerator(
             provider.accept(Registries.PARTICLE_TYPE.getId(particle)!!, textures)
         }
 
+        fun register(particle: ParticleType<*>, min: Int, max: Int, name: Identifier) {
+            register(particle, (min..max).map { name.withSuffixedPath(it.toString()) })
+        }
+
+        fun register(particle: ParticleType<*>, count: Int, name: Identifier) {
+            register(particle, 0, count - 1, name)
+        }
+
         fun register(particle: ParticleType<*>, vararg textures: Identifier) {
             register(particle, textures.toList())
         }
@@ -40,8 +48,9 @@ class ParticleDataGenerator(
         registerDrips(BobsMobGearParticles.NETHERITE_DRIPS)
 
         register(BobsMobGearParticles.SONIC_SHOCKWAVE, BobsMobGear.id("sonic_boom"))
-        register(BobsMobGearParticles.SONIC_LAUNCH, (7..15).map { Identifier.ofVanilla("sonic_boom_$it") })
+        register(BobsMobGearParticles.SONIC_LAUNCH, 7, 15, Identifier.ofVanilla("sonic_boom_"))
         register(BobsMobGearParticles.BONEK, BobsMobGear.id("bonek"))
+        register(BobsMobGearParticles.ATTACK_SPARK, 4, BobsMobGear.id("attack_spark_"))
     }
 
     override fun getName(): String = "Particle Texture Data"

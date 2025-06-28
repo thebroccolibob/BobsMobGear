@@ -1,4 +1,10 @@
 {
+  "block.forge_heater.fuel": {
+    "sounds": [
+      "minecraft:mob/ghast/fireball4"
+    ],
+    "subtitle": "subtitles.block.bobsmobgear.forge_heater.fuel"
+  },
   "block.template.add_item": {
     "sounds": [
       "minecraft:entity/itemframe/add_item1",
@@ -30,5 +36,43 @@
       "minecraft:entity/itemframe/remove_item4"
     ],
     "subtitle": "subtitles.block.bobsmobgear.template.remove_item"
+  },
+  "enchantment.equipment_repair": {
+    "sounds": [
+      "minecraft:block/smithing_table/smithing_table1",
+      "minecraft:block/smithing_table/smithing_table2",
+      "minecraft:block/smithing_table/smithing_table3"
+    ],
+    "subtitle": "subtitles.enchantment.bobsmobgear.equipment_repair"
+  },
+  "item.smithing_tongs.drop": {
+    "sounds": [
+      {
+        "name": "minecraft:random/pop",
+        "pitch": 0.5,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.item.bobsmobgear.smithing_tongs.drop"
+  },
+  "item.smithing_tongs.pickup": {
+    "sounds": [
+      {
+        "name": "minecraft:random/pop",
+        "pitch": 0.5,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.item.bobsmobgear.smithing_tongs.pickup"
+  },
+  "item.weapon.attack_ready": {
+    "sounds": [
+      {
+        "name": "minecraft:random/successful_hit",
+        "pitch": 0.8,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.item.bobsmobgear.weapon.attack_ready"
   }
 }

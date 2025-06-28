@@ -20,12 +20,8 @@ import java.util.*
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
 
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator): Unit = with(blockStateModelGenerator) {
-        registerTemplate(BobsMobGearBlocks.EMPTY_TEMPLATE)
-        registerTemplate(BobsMobGearBlocks.SWORD_TEMPLATE)
-        registerTemplate(BobsMobGearBlocks.PICKAXE_TEMPLATE)
-        registerTemplate(BobsMobGearBlocks.AXE_TEMPLATE)
-        registerTemplate(BobsMobGearBlocks.SHOVEL_TEMPLATE)
-        registerTemplate(BobsMobGearBlocks.HOE_TEMPLATE)
+        for (template in BobsMobGearBlocks.TEMPLATES)
+            registerTemplate(template)
         registerForge(BobsMobGearBlocks.FORGE)
         registerForge(BobsMobGearBlocks.FORGE_HEATER, BobsMobGearBlocks.FORGE)
     }

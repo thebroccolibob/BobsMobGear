@@ -54,7 +54,7 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
     override fun getInputs(): List<EmiIngredient> = inputs
     override fun getCatalysts(): List<EmiIngredient> = catalysts
     override fun getOutputs(): List<EmiStack> = outputs
-    override fun getDisplayWidth(): Int = 130
+    override fun getDisplayWidth(): Int = 138
 
     override fun getDisplayHeight(): Int = 47 +
             (if (hasRow1) 22 else 0) +
@@ -80,6 +80,7 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
             widgets.addSlot(EmiIngredient.of(recipe.base), 10, baseY)
             widgets.addTexture(NUMBERS[step++], 0, baseY)
         }
+        widgets.add(TemplateBlockWidget(recipe, 48, baseY - 20, 40))
 
         if (ingredients != null) {
             val y = 4 + if (hasRow1) 22 else 0
@@ -102,7 +103,7 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
             widgets.addTexture(HAMMER, 63, 10)
         }
 
-        widgets.addSlot(EmiStack.of(recipe.result), 104, baseY).recipeContext(this)
+        widgets.addSlot(EmiStack.of(recipe.result), 104, baseY - 4).large(true).recipeContext(this)
     }
 
     companion object {

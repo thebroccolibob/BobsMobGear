@@ -25,6 +25,7 @@ import net.minecraft.world.World
 import java.util.*
 
 
+// TODO sound when hitting something
 class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : ProjectileEntity(type, world) {
     init {
         ignoreCameraFrustum = true

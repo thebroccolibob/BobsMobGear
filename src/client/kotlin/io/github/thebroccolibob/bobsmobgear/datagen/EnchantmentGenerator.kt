@@ -7,28 +7,26 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.ComponentMap
 import io.github.thebroccolibob.bobsmobgear.util.EnchantmentEffectEntry
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.registry.*
 import net.minecraft.registry.entry.RegistryEntryList
-import net.minecraft.util.Identifier
 import java.util.concurrent.CompletableFuture
-import java.util.function.BiConsumer
 
 class EnchantmentGenerator(
     dataOutput: FabricDataOutput,
     registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>,
-) : FabricCodecDataProvider<Enchantment>(dataOutput, registriesFuture, RegistryKeys.ENCHANTMENT, Enchantment.CODEC) {
+) : FabricDynamicRegistryProvider(dataOutput, registriesFuture) {
     override fun getName(): String = "Enchantments"
 
-    override fun configure(provider: BiConsumer<Identifier, Enchantment>, lookup: RegistryWrapper.WrapperLookup) {
+    override fun configure(lookup: RegistryWrapper.WrapperLookup, entries: Entries) {
         val enchantments = lookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
-        fun provide(key: RegistryKey<Enchantment>) {
-            provider.accept(key.value, enchantments.getOrThrow(key).value())
+        fun add(key: RegistryKey<Enchantment>) {
+            entries.add(key, enchantments.getOrThrow(key).value())
         }
 
-        provide(BobsMobGearEnchantments.MENDER)
+        add(BobsMobGearEnchantments.MENDER)
     }
 
     companion object : RegistryBuilder.BootstrapFunction<Enchantment> {
@@ -54,7 +52,7 @@ class EnchantmentGenerator(
                         RepairEquipmentEffect(RepairEquipmentEffect.Source.DURABIILITY, 2),
                     ))
                     add(BobsMobGearEnchantments.REPAIR_HAND_EQUIPMENT, EnchantmentEffectEntry(
-                        RepairEquipmentEffect(RepairEquipmentEffect.Source.XP, 4),
+                        RepairEquipmentEffect(RepairEquipmentEffect.Source.XP, 1),
                     ))
                 }
             ))

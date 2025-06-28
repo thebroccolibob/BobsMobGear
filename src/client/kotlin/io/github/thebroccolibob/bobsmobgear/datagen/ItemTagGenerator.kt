@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags
 import net.minecraft.item.Items
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.ItemTags
+import net.spell_engine.api.item.Equipment
+import net.spell_engine.rpg_series.tags.RPGSeriesItemTags
 import java.util.concurrent.CompletableFuture
 
 class ItemTagGenerator(
@@ -15,10 +17,13 @@ class ItemTagGenerator(
     registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
 ) : FabricTagProvider.ItemTagProvider(output, registriesFuture) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
-        getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_HAMMERS).add(
-            BobsMobGearItems.SMITHING_HAMMER,
-            Items.MACE,
-        )
+        getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_HAMMERS).apply {
+            add(
+                BobsMobGearItems.SMITHING_HAMMER,
+                Items.MACE,
+            )
+            addOptionalTag(RPGSeriesItemTags.WeaponType.ALL[Equipment.WeaponType.HAMMER])
+        }
         getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE).apply {
             forceAddTag(ConventionalItemTags.MINING_TOOL_TOOLS)
             forceAddTag(ConventionalItemTags.MELEE_WEAPON_TOOLS)
@@ -64,15 +69,21 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(BobsMobGearItemTags.NON_FORGE_FUEL).apply {
             forceAddTag(ConventionalItemTags.TOOLS)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.OFFHAND_PRIORITIZED).add(
+        getOrCreateTagBuilder(BobsMobGearItemTags.LOWER_USE_PRIORITY).add(
             BobsMobGearItems.IRON_FLESH_GLOVE,
-            BobsMobGearItems.WARDEN_FIST,
             BobsMobGearItems.SPIDER_DAGGER,
+            BobsMobGearItems.ENDER_SPEAR,
+        )
+        getOrCreateTagBuilder(BobsMobGearItemTags.NOT_WEAPON).add(
+            BobsMobGearItems.SMITHING_HAMMER,
         )
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.WARDEN_FIST,
+            BobsMobGearItems.SPIDER_DAGGER,
+            BobsMobGearItems.BONE_HAMMER,
+            BobsMobGearItems.ENDER_SPEAR,
         )
         getOrCreateTagBuilder(ConventionalItemTags.TOOLS).add(
             BobsMobGearItems.SMITHING_HAMMER,
@@ -83,6 +94,9 @@ class ItemTagGenerator(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.WARDEN_FIST,
+            BobsMobGearItems.SPIDER_DAGGER,
+            BobsMobGearItems.BONE_HAMMER,
+            BobsMobGearItems.ENDER_SPEAR,
         )
     }
 }

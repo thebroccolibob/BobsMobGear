@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:block/template_wood",
+  "textures": {
+    "top": "bobsmobgear:block/rpg/kite_shield_template_wood"
+  }
+}

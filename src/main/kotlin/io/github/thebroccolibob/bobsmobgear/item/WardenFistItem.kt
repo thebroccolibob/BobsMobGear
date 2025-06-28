@@ -3,10 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.item
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
-import io.github.thebroccolibob.bobsmobgear.util.damage
-import io.github.thebroccolibob.bobsmobgear.util.get
-import io.github.thebroccolibob.bobsmobgear.util.minus
-import io.github.thebroccolibob.bobsmobgear.util.times
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.BlockState
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
@@ -59,7 +56,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
                 entity.setVelocity(difference.normalize() * entity.velocity.length().coerceAtLeast(1.2))
                 entity.velocityDirty = true
             } else {
-                entity.addVelocity((difference.multiply(1.0, 0.0, 1.0).normalize() * 2.0 * strength).add(0.0, strength, 0.0))
+                entity.addVelocity((difference.horizontal().normalize() * 2.0 * strength).add(0.0, strength, 0.0))
                 entity.velocityModified = true
             }
         }
@@ -92,7 +89,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
         (attacker as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 
-    override fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean = user.weaponStack == stack && user.itemUseTime >= USE_TIME
+    override fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean = user.itemUseTime >= USE_TIME
 
     override fun onAttackEnd(player: ServerPlayerEntity, targetCount: Int, stack: ItemStack) {
         if (player.isUsingItem && targetCount == 0)
@@ -101,7 +98,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
     }
 
     companion object {
-        const val USE_TIME = 30
+        const val USE_TIME = 33
         const val BLAST_RANGE = 5.0
         const val COOLDOWN = 100
 

@@ -12,8 +12,8 @@ import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.Util.createTranslationKey
 
-object OffhandPriorityTooltip : ItemTooltipCallback {
-    val TOOLTIP = Translation.unit(createTranslationKey("item.tooltip", BobsMobGear.id("offhand_priority"))) {
+object UsePriorityTooltip : ItemTooltipCallback {
+    val TOOLTIP = Translation.unit(createTranslationKey("item.tooltip", BobsMobGear.id("offhand_lower_priority"))) {
         formatted(Formatting.DARK_GRAY)
     }
 
@@ -23,7 +23,7 @@ object OffhandPriorityTooltip : ItemTooltipCallback {
         tooltipType: TooltipType,
         lines: MutableList<Text>
     ) {
-        if (stack isIn BobsMobGearItemTags.OFFHAND_PRIORITIZED)
+        if (stack isIn BobsMobGearItemTags.LOWER_USE_PRIORITY)
             lines.add(TOOLTIP.text)
     }
 

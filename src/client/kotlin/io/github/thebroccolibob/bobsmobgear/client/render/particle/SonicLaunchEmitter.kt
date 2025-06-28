@@ -1,8 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.particle
 
+import io.github.thebroccolibob.bobsmobgear.client.util.ParticleFactory
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import net.minecraft.client.particle.NoRenderParticle
-import net.minecraft.client.particle.Particle
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particle.SimpleParticleType
@@ -23,16 +23,5 @@ class SonicLaunchEmitter(world: ClientWorld, x: Double, y: Double, z: Double, ve
         markDead()
     }
 
-    companion object Factory : ParticleFactory<SimpleParticleType> {
-        override fun createParticle(
-            parameters: SimpleParticleType,
-            world: ClientWorld,
-            x: Double,
-            y: Double,
-            z: Double,
-            velocityX: Double,
-            velocityY: Double,
-            velocityZ: Double
-        ): Particle = SonicLaunchEmitter(world, x, y, z, velocityX, velocityY, velocityZ)
-    }
+    companion object Factory : ParticleFactory<SimpleParticleType> by ParticleFactory(::SonicLaunchEmitter)
 }

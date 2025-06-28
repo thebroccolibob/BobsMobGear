@@ -1,9 +1,11 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
 import net.minecraft.component.ComponentType
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -11,7 +13,9 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
 import java.util.*
+import kotlin.Unit
 import kotlin.math.roundToInt
 import kotlin.reflect.KProperty
 import net.minecraft.util.Unit as MCUnit
@@ -96,4 +100,51 @@ operator fun TrackedData<OptionalInt>.setValue(thisRef: Entity, property: KPrope
 
 fun ItemStack.damage(amount: Int, entity: LivingEntity, hand: Hand) {
     damage(amount, entity, LivingEntity.getSlotForHand(hand))
+}
+
+fun Vec3d.horizontal(): Vec3d = multiply(1.0, 0.0, 1.0)
+
+inline fun AttributeModifiersComponent.withModified(shouldInclude: (AttributeModifiersComponent.Entry) -> Boolean = { true }, block: AttributeModifiersComponent.Builder.() -> Unit): AttributeModifiersComponent =
+    AttributeModifiersComponent.builder().apply {
+        for (entry in modifiers) {
+            if (shouldInclude(entry))
+                add(entry.attribute, entry.modifier, entry.slot)
+        }
+        block()
+    }.build()
+
+inline fun AttributeModifiersComponent.withRemoved(predicate: (AttributeModifiersComponent.Entry) -> Boolean): AttributeModifiersComponent =
+    withModified({ !predicate(it) }) {}
+
+inline fun <T> ItemStack.modify(componentType: ComponentType<T>, block: (T?) -> T?) {
+    this[componentType] = block(this[componentType])
+}
+
+val PlayerEntity.experienceProgressPoints
+    get() = ((experienceProgress + 0.0001f) * nextLevelExperience).toInt()
+
+fun PlayerEntity.takeExperiencePoints(max: Int): Int {
+    // The player has no way to query the total current xp (totalExperience is not decreased by removing levels) so
+    // this funky loop-based method must be done
+    var consumed = 0
+    while (consumed < max) {
+        if (experienceLevel == 0 && experienceProgressPoints == 0) break
+
+        val amount = (
+            if (experienceProgressPoints == 0) run {
+                experienceProgress = 0f
+                addExperience(-1)
+                nextLevelExperience.also {
+                    addExperience(1)
+                }
+            }
+            else experienceProgressPoints
+        ).coerceAtMost(max - consumed)
+
+        if (amount <= 0) break
+
+        consumed += amount
+        addExperience(-consumed)
+    }
+    return consumed
 }

@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
+import com.google.common.collect.HashMultimap
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -8,6 +9,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.Component
 import net.minecraft.component.ComponentMap
 import net.minecraft.component.ComponentType
+import net.minecraft.component.type.ItemEnchantmentsComponent
 import net.minecraft.enchantment.effect.EnchantmentEffectEntry
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -18,6 +20,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
 import net.minecraft.loot.condition.LootCondition
 import net.minecraft.recipe.Ingredient
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.TagKey
@@ -30,7 +33,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-import net.minecraft.world.event.GameEvent
 import java.util.*
 
 inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock.Settings =
@@ -104,3 +106,19 @@ fun ComponentMap(init: ComponentMap.Builder.() -> Unit): ComponentMap = Componen
 
 operator fun <T> Component<T>.component1(): ComponentType<T> = type
 operator fun <T> Component<T>.component2(): T = value
+
+fun <K, V> multimapOf(vararg entries: Pair<K, V>): HashMultimap<K, V> = HashMultimap.create<K, V>().apply {
+    for ((key, value) in entries)
+        put(key, value)
+}
+
+inline val <T> RegistryEntry<T>.value: T get() = value()
+
+operator fun <T> RegistryEntry<T>.component1(): RegistryKey<T> = key.orElseThrow()
+operator fun <T> RegistryEntry<T>.component2(): T = value()
+
+/**
+ * Should behave the same as [EnchantmentHelper.hasAnyEnchantmentsWith][net.minecraft.enchantment.EnchantmentHelper.hasAnyEnchantmentsWith]
+ */
+operator fun ItemEnchantmentsComponent.contains(type: ComponentType<*>) =
+    enchantmentEntries.any { (enchantment, _) -> type in enchantment.value.effects }

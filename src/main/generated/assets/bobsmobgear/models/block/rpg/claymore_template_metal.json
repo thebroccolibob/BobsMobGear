@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:block/template_metal",
+  "textures": {
+    "top": "bobsmobgear:block/rpg/claymore_template_metal"
+  }
+}

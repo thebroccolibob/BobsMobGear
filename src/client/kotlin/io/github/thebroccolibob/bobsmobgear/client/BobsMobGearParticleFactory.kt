@@ -1,9 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.client
 
-import io.github.thebroccolibob.bobsmobgear.client.render.particle.CartoonParticle
-import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicLaunchEmitter
-import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicLaunchParticle
-import io.github.thebroccolibob.bobsmobgear.client.render.particle.SonicShockwaveParticle
+import io.github.thebroccolibob.bobsmobgear.client.render.particle.*
 import io.github.thebroccolibob.bobsmobgear.fluid.MetalFluid
 import io.github.thebroccolibob.bobsmobgear.mixin.client.ContinuousFallingBlockLeakParticleInvoker
 import io.github.thebroccolibob.bobsmobgear.mixin.client.DrippingBlockLeakParticleInvoker
@@ -64,5 +61,6 @@ internal fun registerParticleFactories() {
         register(BobsMobGearParticles.SONIC_LAUNCH, SonicLaunchParticle)
         register(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, SonicLaunchEmitter)
         register(BobsMobGearParticles.BONEK, CartoonParticle)
+        register(BobsMobGearParticles.ATTACK_SPARK, AttackSparkParticle)
     }
 }

@@ -14,7 +14,9 @@
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
+    "bettercombat.PlayerAttackHelperMixin",
     "bettercombat.ServerNetworkHandlerMixin",
+    "bettercombat.WeaponAttributesFallbackMixin",
     "bettercombat.WeaponRegistryMixin"
   ],
   "injectors": {

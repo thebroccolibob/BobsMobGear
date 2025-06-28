@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:block/template_wood",
+  "textures": {
+    "top": "bobsmobgear:block/rpg/spear_template_wood"
+  }
+}

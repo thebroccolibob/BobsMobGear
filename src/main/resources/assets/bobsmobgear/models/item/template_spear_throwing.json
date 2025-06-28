@@ -1,0 +1,15 @@
+{
+  "parent": "bobsmobgear:item/template_spear_held",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [-170, -90, 55],
+      "translation": [0, -4, 1.25],
+      "scale": [1.7, 1.7, 0.85]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [-170, 90, -55],
+      "translation": [0, -4, 1.25],
+      "scale": [1.7, 1.7, 0.85]
+    }
+  }
+}

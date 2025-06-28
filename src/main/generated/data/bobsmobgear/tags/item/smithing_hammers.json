@@ -1,6 +1,10 @@
 {
   "values": [
     "bobsmobgear:smithing_hammer",
-    "minecraft:mace"
+    "minecraft:mace",
+    {
+      "id": "#rpg_series:weapon_type/hammer",
+      "required": false
+    }
   ]
 }

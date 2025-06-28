@@ -1,5 +1,19 @@
 {
   "values": [
-    "bobsmobgear:sword_template"
+    "bobsmobgear:empty_template",
+    "bobsmobgear:sword_template",
+    "bobsmobgear:pickaxe_template",
+    "bobsmobgear:axe_template",
+    "bobsmobgear:shovel_template",
+    "bobsmobgear:hoe_template",
+    "bobsmobgear:rpg/greathammer_template",
+    "bobsmobgear:rpg/mace_template",
+    "bobsmobgear:rpg/claymore_template",
+    "bobsmobgear:rpg/kite_shield_template",
+    "bobsmobgear:rpg/dagger_template",
+    "bobsmobgear:rpg/glaive_template",
+    "bobsmobgear:rpg/sickle_template",
+    "bobsmobgear:rpg/double_axe_template",
+    "bobsmobgear:rpg/spear_template"
   ]
 }

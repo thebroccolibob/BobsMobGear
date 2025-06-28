@@ -1,8 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.particle
 
-import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
+import io.github.thebroccolibob.bobsmobgear.client.util.PendingParticleFactory
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry.PendingParticleFactory
-import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.ParticleTextureSheet
 import net.minecraft.client.particle.SpriteBillboardParticle
 import net.minecraft.client.render.Camera
@@ -35,11 +34,5 @@ class SonicShockwaveParticle(world: ClientWorld, x: Double, y: Double, z: Double
         method_60373(vertexConsumer, camera, quaternionf, tickDelta)
     }
 
-    companion object Factory: PendingParticleFactory<SimpleParticleType> {
-        override fun create(provider: FabricSpriteProvider) = ParticleFactory<SimpleParticleType> { _, world, x, y, z, _, _, _ ->
-            SonicShockwaveParticle(world, x, y, z).apply {
-                setSprite(provider)
-            }
-        }
-    }
+    companion object Factory: PendingParticleFactory<SimpleParticleType> by PendingParticleFactory(::SonicShockwaveParticle)
 }

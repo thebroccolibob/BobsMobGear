@@ -48,13 +48,4 @@ public class MinecraftClientInjectMixin implements TriggersAttack {
     public void bobsmobgear$startAttack() {
         startUpswing(WeaponRegistry.getAttributes(player.getMainHandStack()));
     }
-
-//    @WrapWithCondition(
-//            method = "startUpswing",
-//            remap = false,
-//            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;stopUsingItem()V")
-//    )
-//    private boolean preventStopUsingItem(ClientPlayerEntity instance) {
-//        return !(instance.getActiveItem().getItem() instanceof UsingAttackable);
-//    }
 }

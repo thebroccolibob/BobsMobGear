@@ -1,3 +1,4 @@
 {
-  "values": []
+  "values": [],
+  "$comment": "Empty file necessary for minecraft to consider it a datapack"
 }

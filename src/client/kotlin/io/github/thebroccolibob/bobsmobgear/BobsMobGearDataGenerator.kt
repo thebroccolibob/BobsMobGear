@@ -7,8 +7,10 @@ import net.minecraft.registry.RegistryBuilder
 import net.minecraft.registry.RegistryKeys
 
 object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
+
 	override fun buildRegistry(registryBuilder: RegistryBuilder) {
 		registryBuilder.addRegistry(RegistryKeys.ENCHANTMENT, EnchantmentGenerator)
+		registryBuilder.addRegistry(RegistryKeys.DAMAGE_TYPE, DamageTypeGenerator)
 	}
 
 	override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
@@ -21,6 +23,8 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::EnchantmentGenerator)
 			addProvider(::EnchantmentTagGenerator)
 			addProvider(::GameEventTagGenerator)
+			addProvider(::DamageTypeGenerator)
+			addProvider(::DamageTypeTagGenerator)
 
 			addProvider(::ModelGenerator)
 			addProvider(::SoundsGenerator)

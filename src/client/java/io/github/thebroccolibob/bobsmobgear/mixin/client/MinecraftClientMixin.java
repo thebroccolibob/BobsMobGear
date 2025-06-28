@@ -50,8 +50,8 @@ public abstract class MinecraftClientMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Hand;values()[Lnet/minecraft/util/Hand;")
     )
     private Hand[] prioritizeOffhand(Hand[] original) {
-        var offHandStack = player.getOffHandStack();
-        return offHandStack.isIn(BobsMobGearItemTags.OFFHAND_PRIORITIZED) && !player.getMainHandStack().isOf(offHandStack.getItem())
+        var mainHandStack = player.getMainHandStack();
+        return mainHandStack.isIn(BobsMobGearItemTags.LOWER_USE_PRIORITY) && !player.getOffHandStack().isOf(mainHandStack.getItem())
             ? bobsmobgear$HANDS_REVERSED : original;
     }
 }

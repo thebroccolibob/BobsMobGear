@@ -1,5 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
+import archives.tater.rpgskills.data.LockGroup
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.RPGSKILLS_INSTALLED
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
@@ -95,9 +98,21 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         return true
     }
 
+    private fun checkValid(player: PlayerEntity, recipe: RecipeEntry<TemplateRecipe>?): Boolean {
+        if (recipe == null) return false
+        if (RPGSKILLS_INSTALLED) {
+            val group = LockGroup.findLocked(player, recipe)
+            if (group != null) {
+                player.sendMessage(group.recipeMessage(), true)
+                return false
+            }
+        }
+        return true
+    }
+
     private fun tryAddNextItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
         when {
-            getMatch(getRecipeInput()) != null -> {
+            checkValid(player, getMatch(getRecipeInput())) -> {
                 if (!(stack isIn BobsMobGearItemTags.SMITHING_HAMMERS) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
                 if (stack.isDamageable)
                     stack.damage(1, player, hand)
@@ -108,14 +123,14 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
             !baseStack.isEmpty -> {
                 // any ingredient slot is open
                 if (!(0..<ingredientsInventory.size).any { ingredientsInventory[it].isEmpty }
-                    || getMatch(getRecipeInput(withIngredient = stack, skipFluid = true, ingredientsPartial = true)) == null) return false
+                    || !checkValid(player, getMatch(getRecipeInput(withIngredient = stack, skipFluid = true, ingredientsPartial = true)))) return false
 
                 ingredientsInventory[ingredientsInventory.indexOf(ItemStack.EMPTY)] = stack.splitUnlessCreative(1, player)
 
                 world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_ADD_ITEM, SoundCategory.BLOCKS)
             }
             else -> {
-                if (getMatch(getRecipeInput(withBase = stack, skipIngredients = true, skipFluid = true)) == null) return false
+                if (!checkValid(player, getMatch(getRecipeInput(withBase = stack, skipIngredients = true, skipFluid = true)))) return false
 
                 baseStack = stack.splitUnlessCreative(1, player)
 

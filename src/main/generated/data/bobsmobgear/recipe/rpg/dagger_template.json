@@ -1,0 +1,24 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "rogues"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "bobsmobgear:empty_template"
+    },
+    {
+      "item": "rogues:flint_dagger"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "bobsmobgear:rpg/dagger_template"
+  }
+}

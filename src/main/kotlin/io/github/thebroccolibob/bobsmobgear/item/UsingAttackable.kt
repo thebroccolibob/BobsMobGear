@@ -8,7 +8,7 @@ interface UsingAttackable : AttackEndBehavior {
     fun canAttackWhileUsing(stack: ItemStack, user: LivingEntity): Boolean
 
     override fun onAttackEnd(player: ServerPlayerEntity, targetCount: Int, stack: ItemStack) {
-        if (player.isUsingItem)
+        if (player.activeItem == stack)
             player.stopUsingItem()
     }
 }

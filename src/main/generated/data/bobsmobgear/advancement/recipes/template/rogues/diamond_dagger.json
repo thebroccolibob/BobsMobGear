@@ -1,0 +1,40 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "rogues"
+      ]
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rpg/dagger_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bobsmobgear:rpg/dagger_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bobsmobgear:template/rogues/diamond_dagger"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rpg/dagger_template"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bobsmobgear:template/rogues/diamond_dagger"
+    ]
+  }
+}

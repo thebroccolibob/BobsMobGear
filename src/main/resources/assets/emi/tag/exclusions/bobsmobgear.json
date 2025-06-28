@@ -1,6 +1,7 @@
 {
   "item": [
     "bobsmobgear:prevent_smithing_table_screen",
-    "bobsmobgear:non_forge_fuel"
+    "bobsmobgear:non_forge_fuel",
+    "bobsmobgear:not_weapon"
   ]
 }

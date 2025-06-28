@@ -23,7 +23,7 @@ import net.minecraft.world.event.listener.EntityGameEventHandler
 
 class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vibrations.Callback {
     private var cooldown = 0
-    private val positionSource = EntityPositionSource(player, player.standingEyeHeight)
+    private val positionSource = EntityPositionSource(player, player.height / 2)
 
     private val vibrationListenerData = ListenerData()
     val gameEventListener = EntityGameEventHandler(VibrationListener(this))

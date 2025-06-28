@@ -5,13 +5,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.github.thebroccolibob.bobsmobgear.mixin.EnchantmentHelperInvoker
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEnchantments.REPAIR_ENTITY_EQUIPMENT
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEnchantments.REPAIR_HAND_EQUIPMENT
-import io.github.thebroccolibob.bobsmobgear.util.damage
-import io.github.thebroccolibob.bobsmobgear.util.get
-import io.github.thebroccolibob.bobsmobgear.util.opposite
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.component.ComponentType
-import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.effect.EnchantmentEffectEntry
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
@@ -19,7 +17,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.StringIdentifiable
@@ -57,30 +54,30 @@ data class RepairEquipmentEffect(
             type: ComponentType<EnchantmentEffectEntry<RepairEquipmentEffect>>,
             getEquipment: () -> ItemStack?,
         ): ActionResult {
-            if (!EnchantmentHelper.hasAnyEnchantmentsWith(stack, type)) return ActionResult.PASS
+            if (type !in stack.enchantments) return ActionResult.PASS
             if (player.world !is ServerWorld) return ActionResult.SUCCESS
 
             val equipment = getEquipment() ?: return ActionResult.FAIL
 
-            EnchantmentHelperInvoker.invokeForEachEnchantment(stack, LivingEntity.getSlotForHand(hand), player) { enchantment, _, _ ->
-                val effectEntry = enchantment.value().effects.get(type) ?: return@invokeForEachEnchantment
+            EnchantmentHelperInvoker.invokeForEachEnchantment(stack, LivingEntity.getSlotForHand(hand), player) { (_, enchantment), _, _ ->
+                val effectEntry = enchantment.effects.get(type) ?: return@invokeForEachEnchantment
 
-                val available = when (effectEntry.effect.source) {
-                    RepairEquipmentEffect.Source.XP -> player.totalExperience
-                    RepairEquipmentEffect.Source.DURABIILITY -> stack.maxDamage - stack.damage
+                val maxConsumed = equipment.damage * effectEntry.effect.costPerDurability
+
+                val consumed = when (effectEntry.effect.source) {
+                    RepairEquipmentEffect.Source.XP -> player.takeExperiencePoints(maxConsumed)
+                    RepairEquipmentEffect.Source.DURABIILITY -> (stack.maxDamage - stack.damage)
+                        .coerceAtMost(maxConsumed).also {
+                            stack.damage(it, player, hand)
+                        }
                 }
 
-                val repairedAmount = (equipment.damage * effectEntry.effect.costPerDurability).coerceAtMost(available) / effectEntry.effect.costPerDurability
-                if (repairedAmount == 0) return@invokeForEachEnchantment
-                val cost = repairedAmount * effectEntry.effect.costPerDurability
+                val repaired = consumed / effectEntry.effect.costPerDurability
+                if (repaired <= 0) return@invokeForEachEnchantment
 
-                equipment.damage -= repairedAmount
-                when (effectEntry.effect.source) {
-                    RepairEquipmentEffect.Source.XP -> player.addExperience(-cost)
-                    RepairEquipmentEffect.Source.DURABIILITY -> stack.damage(cost, player, hand)
-                }
+                equipment.damage -= repaired
 
-                holder.world.playSoundFromEntity(null, holder, SoundEvents.BLOCK_SMITHING_TABLE_USE, player.soundCategory, 1f, 1f) // TODO custom sound event
+                holder.world.playSoundFromEntity(null, holder, BobsMobGearSounds.EQUIPMENT_REPAIR, player.soundCategory, 1f, 1f)
                 player.addCritParticles(holder)
             }
             return ActionResult.SUCCESS

@@ -1,8 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.particle
 
-import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
+import io.github.thebroccolibob.bobsmobgear.client.util.PendingParticleFactory
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry.PendingParticleFactory
-import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.ParticleTextureSheet
 import net.minecraft.client.particle.SpriteBillboardParticle
 import net.minecraft.client.world.ClientWorld
@@ -26,11 +25,5 @@ class CartoonParticle(clientWorld: ClientWorld, x: Double, y: Double, z: Double)
 
     override fun getType(): ParticleTextureSheet = ParticleTextureSheet.PARTICLE_SHEET_OPAQUE
 
-    companion object Factory : PendingParticleFactory<SimpleParticleType> {
-        override fun create(provider: FabricSpriteProvider) = ParticleFactory<SimpleParticleType> { _, world, x, y, z, _, _, _ ->
-            CartoonParticle(world, x, y, z).apply {
-                setSprite(provider)
-            }
-        }
-    }
+    companion object Factory : PendingParticleFactory<SimpleParticleType> by PendingParticleFactory(::CartoonParticle)
 }
