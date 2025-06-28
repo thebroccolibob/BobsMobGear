@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:item/template_spear_throwing",
+  "textures": {
+    "layer0": "bobsmobgear:item/ender_spear"
+  }
+}

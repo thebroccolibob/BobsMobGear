@@ -23,8 +23,8 @@ object BobsMobGearClient : ClientModInitializer {
 
 	override fun onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
-		ModelPredicateProviderRegistry.register(BobsMobGear.id("blocking")) { stack, _, entity, _ ->
-			if (entity?.activeItem == stack) 1f else 0f
+		ModelPredicateProviderRegistry.register(BobsMobGear.id("using")) { stack, _, entity, _ ->
+			if (entity != null && entity.isUsingItem && entity.activeItem == stack) 1f else 0f
 		}
 
 		BlockEntityRendererFactories.register(BobsMobGearBlocks.TEMPLATE_BLOCK_ENTITY, ::TemplateBlockEntityRenderer)

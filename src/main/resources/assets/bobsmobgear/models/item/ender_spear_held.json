@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "bobsmobgear:item/template_spear_held",
   "textures": {
     "layer0": "bobsmobgear:item/ender_spear"
   }

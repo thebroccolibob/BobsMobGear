@@ -31,26 +31,29 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
 
     override fun tick() {
         super.tick()
-        if (world.isClient) repeat(4) {
+        if (world.isClient) repeat(when {
+            !inGround && !hasNoGravity() -> 8
+            random.nextFloat() < 0.25 -> 1
+            else -> 0
+        }) {
             world.addParticle(
                 ParticleTypes.PORTAL,
-                getParticleX(0.5),
-                randomBodyY,
-                getParticleZ(0.5),
-                (random.nextDouble() - 0.5) * 2.0,
-                -random.nextDouble(),
-                (random.nextDouble() - 0.5) * 2.0
+                x,
+                y,
+                z,
+                (random.nextDouble() - 0.5) * 1.0,
+                -((random.nextDouble() - 0.5) * 1.0) - 0.5,
+                (random.nextDouble() - 0.5) * 1.0
             )
         }
     }
 
     override fun tickInVoid() {
-        if (EnchantmentEffectComponentTypes.TRIDENT_RETURN_ACCELERATION in itemStack.enchantments && owner?.isAlive == true) {
-            playTeleportEffect(toOwner = false)
-            if (!returnToOwner())
-                setPosition(owner!!.pos.add(0.0, 1.0, 0.0))
-        }
-        discard()
+        if (world.isClient) return
+        if (EnchantmentEffectComponentTypes.TRIDENT_RETURN_ACCELERATION in itemStack.enchantments)
+            teleportToOwner()
+        else
+            super.tickInVoid()
     }
 
     private fun playTeleportEffect(x: Double, y: Double, z: Double, dh: Double, dy: Double, reverse: Boolean) {
@@ -77,7 +80,7 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
 
     protected fun returnToOwner(): Boolean {
         if (thrownSlot == -1) return false
-        val owner = owner as? PlayerEntity ?: return false
+        val owner = (owner as? PlayerEntity)?.takeIf { it.isAlive } ?: return false
         val stack = asItemStack()
 
         if (thrownSlot == PlayerInventory.OFF_HAND_SLOT) {
@@ -87,7 +90,11 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
             }
             return false
         }
-        return owner.inventory.insertStack(thrownSlot, stack) || owner.giveItemStack(stack)
+        return if (owner.inventory.getStack(thrownSlot).isEmpty) {
+            owner.inventory.setStack(thrownSlot, stack)
+            true
+        } else
+            owner.giveItemStack(stack)
     }
 
     protected fun returnToOwnerOrDrop(hitResult: BlockHitResult? = null) {
@@ -99,5 +106,16 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
                 discard()
             }
         }
+    }
+
+    protected open fun teleportToOwner() {
+        if (owner?.isAlive != true) return
+        playTeleportEffect(toOwner = false)
+        if (returnToOwner()) {
+            discard()
+            return
+        }
+        setPosition(owner!!.pos.add(0.0, 1.0, 0.0))
+        setVelocity(0.0, 0.0, 0.0)
     }
 }

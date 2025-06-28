@@ -41,8 +41,9 @@ class EnderSpearItem(material: ToolMaterial, private val createEntity: (LivingEn
             world.spawnEntity(it)
             world.playSoundFromEntity(null, it, SoundEvents.ITEM_TRIDENT_THROW.value, user.soundCategory, 1f, 1f)
         }
-        if (user is PlayerEntity)
+        if (user is PlayerEntity && !user.isInCreativeMode)
             user.inventory.removeOne(stack)
+        (user as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 
     override fun getUseAction(stack: ItemStack?): UseAction = UseAction.SPEAR
