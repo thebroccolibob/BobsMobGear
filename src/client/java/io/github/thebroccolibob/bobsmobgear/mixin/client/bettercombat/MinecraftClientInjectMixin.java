@@ -23,9 +23,6 @@ public class MinecraftClientInjectMixin implements TriggersAttack {
     @Shadow @Nullable public ClientPlayerEntity player;
 
     @Dynamic(mixin = MinecraftClientInject.class)
-    @Shadow int lastAttacked;
-
-    @Dynamic(mixin = MinecraftClientInject.class)
     @Shadow
     private void startUpswing(WeaponAttributes attributes) {
         throw new AssertionError();
@@ -50,10 +47,5 @@ public class MinecraftClientInjectMixin implements TriggersAttack {
     @Override
     public void bobsmobgear$startAttack() {
         startUpswing(WeaponRegistry.getAttributes(player.getMainHandStack()));
-    }
-
-    @Override
-    public void bobsmobgear$instantAttackCooldown() {
-        lastAttacked = 1024;
     }
 }

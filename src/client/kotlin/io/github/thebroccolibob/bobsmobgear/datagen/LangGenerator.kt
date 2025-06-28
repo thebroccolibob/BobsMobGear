@@ -10,8 +10,10 @@ import io.github.thebroccolibob.bobsmobgear.registry.*
 import io.github.thebroccolibob.bobsmobgear.util.add
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
+import net.minecraft.entity.damage.DamageType
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Util.createTranslationKey
@@ -83,6 +85,11 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         add(BobsMobGearEnchantments.MENDER_NAME, "Mender")
 
+        add(BobsMobGearDamageTypes.TELEFRAG,
+            base = "%s was telefragged by %s",
+            item = "%s was telefragged by %s using %s",
+        )
+
         add(BobsMobGearEmiPlugin.TEMPLATE_CATEGORY, "Template Smithing")
         add(BobsMobGearEmiPlugin.FORGING_CATEGORY, "Forging")
         add(BobsMobGearEmiPlugin.FORGE_FILLING_CATEGORY, "Forge Filling")
@@ -99,6 +106,16 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         fun TranslationBuilder.add(category: EmiRecipeCategory, value: String) {
             add(createTranslationKey("emi.category", category.getId()), value)
+        }
+
+        fun TranslationBuilder.add(damageType: RegistryKey<DamageType>, suffix: String? = null, value: String) {
+            add(createTranslationKey("death.attack", damageType.value).let { if (suffix == null) it else "$it.$suffix" }, value)
+        }
+
+        fun TranslationBuilder.add(damageType: RegistryKey<DamageType>, base: String? = null, player: String? = null, item: String? = null) {
+            base?.let { add(damageType, null, it) }
+            player?.let { add(damageType, "player", it) }
+            item?.let { add(damageType, "item", it) }
         }
     }
 }

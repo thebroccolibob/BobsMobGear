@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.entity
 
 import io.github.thebroccolibob.bobsmobgear.item.EnderSpearItem
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDamageTypes
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEntities
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.horizontal
@@ -37,7 +38,7 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
         teleportOwnerTo(entity.pos + (entity.rotationVector.horizontal().normalize() * -(entity.width / 2 + 2.0)).add(0.0, 2.0, 0.0), entity.yaw, owner?.pitch ?: 0f)
         returnToOwnerOrDrop()
         // TODO instant attack reset?
-        entity.damage(damageSources.arrow(this, owner), 8f) // TODO change damage handling and no knockback
+        entity.damage(damageSources.create(BobsMobGearDamageTypes.TELEFRAG, this, owner), 8f)
     }
 
     override fun onBlockHit(blockHitResult: BlockHitResult?) {

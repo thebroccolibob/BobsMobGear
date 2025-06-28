@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-26T01:32:29.77646574	Bob's Mob Gear/Recipes
+// 1.21.1	2025-06-27T23:35:20.459483185	Bob's Mob Gear/Recipes
 49c3ec2463895a37a11c665e35158966cdca9e5b data/bobsmobgear/advancement/recipes/template/stone_sword.json
 a592acd5238eb148994aa8337e93faca17fbb82d data/bobsmobgear/advancement/recipes/template/stone_hoe.json
 14c88580ce888ba8b319faa54cb3b1a936acc4fb data/bobsmobgear/advancement/recipes/template/rogues/iron_dagger.json
@@ -24,8 +24,8 @@ ce9db0eabf703c20e351aefe7856f334b14c835d data/bobsmobgear/recipe/template/rogues
 208984b6a0450513a8077fb4a56a490dde103d32 data/bobsmobgear/recipe/template/rogues/netherite_double_axe.json
 4b8cb10d30013e88b69ef9765af2fe2792bb78c9 data/bobsmobgear/advancement/recipes/template/iron_shovel.json
 5dcc8c01a7d2b77d669443aa8fa4f849399535b8 data/bobsmobgear/advancement/recipes/template/diamond.json
-4be94b0d95af67fd3c94bd7b820b30ab946ca0c2 data/bobsmobgear/advancement/recipes/template/archers/iron_spear.json
 0bdbb575a6893bc1d9c88c07c623c90fa2f9b761 data/bobsmobgear/advancement/recipes/template/rogues/netherite_double_axe.json
+4be94b0d95af67fd3c94bd7b820b30ab946ca0c2 data/bobsmobgear/advancement/recipes/template/archers/iron_spear.json
 7dbb7d082f83bdafd46b90832d8d4b9c8cde4a70 data/bobsmobgear/advancement/recipes/template/paladins/diamond_great_hammer.json
 a944a1a764cb35df8e80f83129e8d2d3911a49dc data/bobsmobgear/recipe/smithing_hammer.json
 4834db1d2bb4508dcfc2f37ab1513e3071711b87 data/bobsmobgear/advancement/recipes/template/netherite_shovel.json
