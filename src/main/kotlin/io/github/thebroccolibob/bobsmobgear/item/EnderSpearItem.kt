@@ -1,9 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
-import archives.tater.rpgskills.util.value
 import io.github.thebroccolibob.bobsmobgear.entity.AbstractEnderSpearEntity
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.damage
 import io.github.thebroccolibob.bobsmobgear.util.get
+import io.github.thebroccolibob.bobsmobgear.util.value
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
@@ -48,7 +49,14 @@ class EnderSpearItem(material: ToolMaterial, private val createEntity: (LivingEn
 
     override fun getMaxUseTime(stack: ItemStack?, user: LivingEntity?): Int = 72000
 
+    override fun usageTick(world: World, user: LivingEntity, stack: ItemStack?, remainingUseTicks: Int) {
+        if (world.isClient && user.itemUseTime == USE_TIME)
+            user.playSound(BobsMobGearSounds.WEAPON_ATTACK_READY)
+        super.usageTick(world, user, stack, remainingUseTicks)
+    }
+
     companion object {
         const val USE_TIME = 20
+        const val COOLDOWN = 5 * 20
     }
 }

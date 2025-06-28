@@ -1,9 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
+import io.github.thebroccolibob.bobsmobgear.client.HeatedTooltip
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
-import io.github.thebroccolibob.bobsmobgear.client.UsePriority
+import io.github.thebroccolibob.bobsmobgear.client.UsePriorityTooltip
 import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
@@ -66,10 +66,10 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")
         add(BobsMobGearFluids.NETHERITE, "Molten Netherite")
 
-        add(BobsMobGearClient.HEATED_TOOLTIP, "Heated")
+        add(HeatedTooltip.TOOLTIP, "Heated")
         add(TongsItem.HELD_ITEM_TOOLTIP, "Held Item:")
         add(SonicChargeTooltip.TOOLTIP, "Sonic Charge: %s/%s")
-        add(UsePriority.TOOLTIP, "Lower use priority")
+        add(UsePriorityTooltip.TOOLTIP, "Lower use priority")
 
         add(BobsMobGearSounds.TEMPLATE_CRAFT, "Tool crafts")
         add(BobsMobGearSounds.TEMPLATE_HAMMER, "Tool hammers")

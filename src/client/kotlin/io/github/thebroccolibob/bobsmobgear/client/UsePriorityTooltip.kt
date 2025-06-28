@@ -12,7 +12,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.Util.createTranslationKey
 
-object UsePriority : ItemTooltipCallback {
+object UsePriorityTooltip : ItemTooltipCallback {
     val TOOLTIP = Translation.unit(createTranslationKey("item.tooltip", BobsMobGear.id("offhand_lower_priority"))) {
         formatted(Formatting.DARK_GRAY)
     }

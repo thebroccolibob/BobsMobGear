@@ -1,14 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear.recipe
 
-import archives.tater.rpgskills.util.value
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.util.defaultedList
-import io.github.thebroccolibob.bobsmobgear.util.isIn
-import io.github.thebroccolibob.bobsmobgear.util.packetCodecTuple
-import io.github.thebroccolibob.bobsmobgear.util.toDefaultedList
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks

@@ -6,14 +6,10 @@ import io.github.thebroccolibob.bobsmobgear.mixin.EnchantmentHelperInvoker
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEnchantments.REPAIR_ENTITY_EQUIPMENT
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEnchantments.REPAIR_HAND_EQUIPMENT
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
-import io.github.thebroccolibob.bobsmobgear.util.damage
-import io.github.thebroccolibob.bobsmobgear.util.get
-import io.github.thebroccolibob.bobsmobgear.util.opposite
-import io.github.thebroccolibob.bobsmobgear.util.takeExperiencePoints
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.component.ComponentType
-import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.effect.EnchantmentEffectEntry
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
@@ -58,13 +54,13 @@ data class RepairEquipmentEffect(
             type: ComponentType<EnchantmentEffectEntry<RepairEquipmentEffect>>,
             getEquipment: () -> ItemStack?,
         ): ActionResult {
-            if (!EnchantmentHelper.hasAnyEnchantmentsWith(stack, type)) return ActionResult.PASS
+            if (type !in stack.enchantments) return ActionResult.PASS
             if (player.world !is ServerWorld) return ActionResult.SUCCESS
 
             val equipment = getEquipment() ?: return ActionResult.FAIL
 
-            EnchantmentHelperInvoker.invokeForEachEnchantment(stack, LivingEntity.getSlotForHand(hand), player) { enchantment, _, _ ->
-                val effectEntry = enchantment.value().effects.get(type) ?: return@invokeForEachEnchantment
+            EnchantmentHelperInvoker.invokeForEachEnchantment(stack, LivingEntity.getSlotForHand(hand), player) { (_, enchantment), _, _ ->
+                val effectEntry = enchantment.effects.get(type) ?: return@invokeForEachEnchantment
 
                 val maxConsumed = equipment.damage * effectEntry.effect.costPerDurability
 

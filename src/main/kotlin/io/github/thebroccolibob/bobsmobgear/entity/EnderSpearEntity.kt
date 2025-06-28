@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.entity
 
+import io.github.thebroccolibob.bobsmobgear.item.EnderSpearItem
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEntities
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.horizontal
@@ -7,12 +8,14 @@ import io.github.thebroccolibob.bobsmobgear.util.plus
 import io.github.thebroccolibob.bobsmobgear.util.times
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.TeleportTarget
 import net.minecraft.world.World
@@ -24,23 +27,28 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
 
     override fun getDefaultItemStack(): ItemStack = BobsMobGearItems.ENDER_SPEAR.defaultStack
 
+    override fun onCollision(hitResult: HitResult?) {
+        super.onCollision(hitResult)
+        (owner as? PlayerEntity)?.itemCooldownManager?.set(itemStack.item, EnderSpearItem.COOLDOWN)
+    }
+
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         val entity = entityHitResult.entity
-        entity.damage(damageSources.arrow(this, owner), 8f) // TODO change damage handling and no knockback
         teleportOwnerTo(entity.pos + (entity.rotationVector.horizontal().normalize() * -(entity.width / 2 + 2.0)).add(0.0, 2.0, 0.0), entity.yaw, owner?.pitch ?: 0f)
         returnToOwnerOrDrop()
-        discard()
+        // TODO instant attack reset?
+        entity.damage(damageSources.arrow(this, owner), 8f) // TODO change damage handling and no knockback
     }
 
     override fun onBlockHit(blockHitResult: BlockHitResult?) {
         owner?.let { teleportOwnerTo(pos, it.yaw, it.pitch) }
-        returnToOwnerOrDrop() // TODO cooldown
-        discard()
+        returnToOwnerOrDrop(blockHitResult)
     }
 
     private fun teleportOwnerTo(pos: Vec3d, yaw: Float, pitch: Float) {
         val world = world as? ServerWorld ?: return
         val owner = owner ?: return
+        playTeleportEffect(pos, true)
         if (owner.hasVehicle())
             owner.detach()
         if (owner is ServerPlayerEntity && !owner.networkHandler.isConnectionOpen) return

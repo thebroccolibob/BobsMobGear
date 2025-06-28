@@ -23,6 +23,9 @@ public class MinecraftClientInjectMixin implements TriggersAttack {
     @Shadow @Nullable public ClientPlayerEntity player;
 
     @Dynamic(mixin = MinecraftClientInject.class)
+    @Shadow int lastAttacked;
+
+    @Dynamic(mixin = MinecraftClientInject.class)
     @Shadow
     private void startUpswing(WeaponAttributes attributes) {
         throw new AssertionError();
@@ -49,12 +52,8 @@ public class MinecraftClientInjectMixin implements TriggersAttack {
         startUpswing(WeaponRegistry.getAttributes(player.getMainHandStack()));
     }
 
-//    @WrapWithCondition(
-//            method = "startUpswing",
-//            remap = false,
-//            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;stopUsingItem()V")
-//    )
-//    private boolean preventStopUsingItem(ClientPlayerEntity instance) {
-//        return !(instance.getActiveItem().getItem() instanceof UsingAttackable);
-//    }
+    @Override
+    public void bobsmobgear$instantAttackCooldown() {
+        lastAttacked = 1024;
+    }
 }
