@@ -26,10 +26,13 @@ class BoomBatonItem(val range: Int, val cooldown: Int, val gunflower: Block, mat
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
         val placementContext = ItemPlacementContext(context)
         val state = gunflower.getPlacementState(placementContext) ?: return ActionResult.FAIL
+
         val world = placementContext.world
         val pos = placementContext.blockPos
         val player = placementContext.player
         val stack = placementContext.stack
+
+        if (!state.canPlaceAt(world, pos)) return ActionResult.FAIL
 
         world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
         state.block.onPlaced(world, pos, state, player, stack)
