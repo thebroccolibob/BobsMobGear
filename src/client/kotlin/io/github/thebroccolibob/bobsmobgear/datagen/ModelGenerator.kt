@@ -43,6 +43,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         register(BobsMobGearItems.BONE_HAMMER, Models.HANDHELD)
         register(BobsMobGearItems.SPIDER_DAGGER, Models.HANDHELD)
         register(BobsMobGearItems.WARDEN_FIST, "_gui", Models.GENERATED)
+        register(BobsMobGearItems.IRON_BOOM_BATON, Models.HANDHELD)
 
         Models.GENERATED.upload(ModelIds.getItemSubModelId(BobsMobGearItems.SMITHING_TONGS, "_model"), TextureMap.layer0(BobsMobGearItems.SMITHING_TONGS), writer)
     }

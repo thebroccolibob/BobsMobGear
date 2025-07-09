@@ -24,6 +24,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.state.property.Property
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
@@ -68,6 +69,9 @@ operator fun LivingEntity.get(slot: EquipmentSlot): ItemStack = getEquippedStack
 operator fun BlockView.get(pos: BlockPos): BlockState = getBlockState(pos)
 operator fun World.set(pos: BlockPos, state: BlockState) {
     setBlockState(pos, state)
+}
+operator fun <T: Comparable<T>> World.set(pos: BlockPos, property: Property<T>, value: T) {
+    this[pos] = this[pos].with(property, value)
 }
 
 infix fun ItemStack.isOf(item: Item) = isOf(item)

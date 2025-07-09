@@ -3,6 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.registry
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
 import io.github.thebroccolibob.bobsmobgear.block.ForgeHeaterBlock
+import io.github.thebroccolibob.bobsmobgear.block.GunflowerBlock
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
 import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
@@ -18,6 +19,7 @@ import net.minecraft.block.Blocks.createLightLevelFromLitBlockState
 import net.minecraft.block.FluidBlock
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.fluid.FlowableFluid
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -82,6 +84,14 @@ object BobsMobGearBlocks {
     }))
 
     val FORGE = register("forge", ForgeBlock(FORGE_HEATER, AbstractBlock.Settings.copy(FORGE_HEATER)))
+
+    val WORN_GUNFLOWER = register("worn_gunflower", GunflowerBlock(20, 40, 20, 2f, blockSettings {
+        noCollision()
+        ticksRandomly()
+        breakInstantly()
+        sounds(BlockSoundGroup.GRASS)
+        pistonBehavior(PistonBehavior.DESTROY)
+    }))
 
     // BLOCK ENTITIES
 

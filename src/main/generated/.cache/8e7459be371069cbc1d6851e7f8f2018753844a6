@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-28T14:21:39.840817526	Bob's Mob Gear/Recipes
+// 1.21.1	2025-07-09T00:32:15.133461715	Bob's Mob Gear/Recipes
 49c3ec2463895a37a11c665e35158966cdca9e5b data/bobsmobgear/advancement/recipes/template/stone_sword.json
 a592acd5238eb148994aa8337e93faca17fbb82d data/bobsmobgear/advancement/recipes/template/stone_hoe.json
 14c88580ce888ba8b319faa54cb3b1a936acc4fb data/bobsmobgear/advancement/recipes/template/rogues/iron_dagger.json
@@ -11,8 +11,8 @@ e29fd9f0e7aa962e349ab21538c35fdfea92b8d0 data/bobsmobgear/advancement/recipes/te
 424f7a345e7f8c2a31c10e18ea6446b40e9d2f96 data/bobsmobgear/recipe/forging/diamond.json
 b7aad6c12f98200da2066976d2763cbced2c89af data/bobsmobgear/advancement/recipes/template/diamond_hoe.json
 055f2a586a8401fa6f2360b0544e5f3ded98c801 data/bobsmobgear/recipe/template/rogues/iron_dagger.json
-5ba0e132cf5025eb5d3e8b42f85e76e18fb95c56 data/bobsmobgear/recipe/template/netherite_pickaxe.json
 a6dd45318c950108533859ed4988e1bda54fd2f7 data/bobsmobgear/advancement/recipes/template/diamond_pickaxe.json
+5ba0e132cf5025eb5d3e8b42f85e76e18fb95c56 data/bobsmobgear/recipe/template/netherite_pickaxe.json
 9bcfaa2b7b4388c9b9137c0180d56f16a2496e69 data/bobsmobgear/recipe/hoe_template.json
 b4141b46f7545073d984e3788abb65cf085a88b6 data/bobsmobgear/recipe/template/paladins/netherite_kite_shield.json
 4f83268fa2c9505a278c64f83ac1cb30dceb4d49 data/bobsmobgear/recipe/template/stone_hoe.json

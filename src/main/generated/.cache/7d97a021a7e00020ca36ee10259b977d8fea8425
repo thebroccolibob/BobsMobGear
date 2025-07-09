@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-28T14:21:39.844374296	Bob's Mob Gear/Model Definitions
+// 1.21.1	2025-07-09T00:32:15.13845943	Bob's Mob Gear/Model Definitions
 ee11d9fb5d99f6d0df1f642614decb54ccb58e76 assets/bobsmobgear/models/block/rpg/mace_template_metal.json
 9e4f27b03e892252bb5131189500f7c3fb0e4877 assets/bobsmobgear/blockstates/rpg/claymore_template.json
 61468060ad8bbc7dc8014fd54f975361829fac7f assets/bobsmobgear/models/item/sculk_symbiote.json
@@ -88,11 +88,12 @@ dcb29380a4881c17a822e9c8694d1e01ce2239e2 assets/bobsmobgear/models/item/worn_spi
 2684da61f0690c4c06095a9c8bc7afee22a9e0ef assets/bobsmobgear/models/block/rpg/mace_template_wood.json
 4645b0cfe593cb508db2f040a8a15cd79f032881 assets/bobsmobgear/models/block/forge_back_left_lit.json
 4392a399e19421eb37cf0df71e4472cb36db6283 assets/bobsmobgear/models/item/spider_dagger.json
+d801ed0b0b9961f9cdf68f916b563fd08b2d9ecf assets/bobsmobgear/models/item/iron_boom_baton.json
 6fc0b9850de9ab181992c35c41f204818e8432c0 assets/bobsmobgear/models/item/shovel_template.json
-72f83add5f771edfc294d840fcb47474e07199a3 assets/bobsmobgear/models/block/rpg/spear_template_wood.json
 14d8703c68dcf7a6ca0a4c9ca977f85314c0062e assets/bobsmobgear/models/block/sword_template_wood.json
-0372f779474940d674799e087ead7e6f517d0698 assets/bobsmobgear/models/item/forge_heater.json
+72f83add5f771edfc294d840fcb47474e07199a3 assets/bobsmobgear/models/block/rpg/spear_template_wood.json
 194ce3f2646ffab9c84cfaf884712b1e2c65fce8 assets/bobsmobgear/models/block/rpg/glaive_template_metal.json
+0372f779474940d674799e087ead7e6f517d0698 assets/bobsmobgear/models/item/forge_heater.json
 4508558b4376956a9acff0144841ed226c12e318 assets/bobsmobgear/models/item/bone_hammer.json
 f1354630e1b7e2e0edaeeeca44b3e50789eb1687 assets/bobsmobgear/models/block/forge.json
 d42014e618b3ad8e64f38b7834e9f8b48a46e4d0 assets/bobsmobgear/models/block/rpg/kite_shield_template_metal.json

@@ -29,7 +29,6 @@ import net.minecraft.registry.Registry
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
-import kotlin.Unit
 import net.minecraft.util.Unit as MCUnit
 
 object BobsMobGearItems {
@@ -158,7 +157,6 @@ object BobsMobGearItems {
     )
 
     val WARDEN_FIST = register("warden_fist", WardenFistItem(itemSettings {
-        maxCount(1)
         rarity(Rarity.RARE)
         fireproof()
         attributeModifiers(WardenFistItem.createAttributeModifiers())
@@ -175,6 +173,10 @@ object BobsMobGearItems {
     }))
 
     val ENDER_SPEAR = register("ender_spear", EnderSpearItem(ToolMaterials.STONE, ::EnderSpearEntity, itemSettings { // TODO
+
+    }))
+
+    val IRON_BOOM_BATON = register("iron_boom_baton", BoomBatonItem(8, 5 * 20, BobsMobGearBlocks.WORN_GUNFLOWER, ToolMaterials.IRON, itemSettings {
 
     }))
 
