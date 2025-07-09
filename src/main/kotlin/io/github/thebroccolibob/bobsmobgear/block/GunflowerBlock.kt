@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec
 import io.github.thebroccolibob.bobsmobgear.util.set
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.block.PlantBlock
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -18,6 +19,7 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.World.ExplosionSourceType
+import net.minecraft.world.explosion.Explosion
 
 class GunflowerBlock(val budTicks: Int, val grownTicks: Int, val wiltTicks: Int, val power: Float, settings: Settings) : PlantBlock(settings) {
     init {
@@ -47,7 +49,7 @@ class GunflowerBlock(val budTicks: Int, val grownTicks: Int, val wiltTicks: Int,
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        world[pos, AGE] = when (state[AGE]) {
+        val nextAge = when (state[AGE]) {
             Age.BUD -> Age.GROWN
             Age.GROWN -> Age.WILTED
             Age.WILTED -> {
@@ -55,11 +57,13 @@ class GunflowerBlock(val budTicks: Int, val grownTicks: Int, val wiltTicks: Int,
                 return
             }
         }
-        world.scheduleBlockTick(pos, this, nextDelay(state[AGE]))
+        world[pos] = state.with(AGE, nextAge)
+        world.scheduleBlockTick(pos, this, nextDelay(nextAge))
     }
 
     fun explode(state: BlockState, world: World, pos: BlockPos, cause: Entity) {
-        world.createExplosion(cause, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, power, ExplosionSourceType.BLOCK)
+        world[pos] = Blocks.AIR.defaultState
+        world.createExplosion(null, Explosion.createDamageSource(world, cause), null, pos.x + 0.5, pos.y.toDouble(), pos.z + 0.5, power, false, ExplosionSourceType.BLOCK)
     }
 
     private fun nextDelay(age: Age) = when (age) {
