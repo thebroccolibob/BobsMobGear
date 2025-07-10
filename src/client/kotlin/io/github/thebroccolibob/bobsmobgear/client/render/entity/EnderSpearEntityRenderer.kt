@@ -24,11 +24,10 @@ class EnderSpearEntityRenderer(ctx: EntityRendererFactory.Context) : EntityRende
         light: Int
     ) {
         matrices {
-            translate(0f, 0.075f, 0f)
             multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.getYaw(tickDelta)))
             multiply(RotationAxis.NEGATIVE_X.rotationDegrees(entity.getPitch(tickDelta) - 90))
-            translate(0f, -1.2f, 0f)
-            multiply(RotationAxis.POSITIVE_X.rotationDegrees(10f))
+            translate(0f, -1.2f, -0.08f)
+            multiply(RotationAxis.POSITIVE_X.rotationDegrees(-5f))
             itemRenderer.renderItem(entity.itemStack, ModelTransformationMode.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.world, 0)
         }
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light)

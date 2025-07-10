@@ -56,6 +56,8 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
             super.tickInVoid()
     }
 
+    override fun age() {}
+
     private fun playTeleportEffect(x: Double, y: Double, z: Double, dh: Double, dy: Double, reverse: Boolean) {
         world.playSound(null, x, y, z, SoundEvents.ENTITY_PLAYER_TELEPORT, soundCategory)
         (world as? ServerWorld)?.spawnParticles(
