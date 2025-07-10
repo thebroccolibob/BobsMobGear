@@ -71,8 +71,8 @@ class ItemTagGenerator(
         }
         getOrCreateTagBuilder(BobsMobGearItemTags.LOWER_USE_PRIORITY).add(
             BobsMobGearItems.IRON_FLESH_GLOVE,
-            BobsMobGearItems.SPIDER_DAGGER,
-            BobsMobGearItems.ENDER_SPEAR,
+            BobsMobGearItems.IRON_SPIDER_DAGGER,
+            BobsMobGearItems.IRON_ENDER_SPEAR,
         )
         getOrCreateTagBuilder(BobsMobGearItemTags.NOT_WEAPON).add(
             BobsMobGearItems.SMITHING_HAMMER,
@@ -81,9 +81,9 @@ class ItemTagGenerator(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.WARDEN_FIST,
-            BobsMobGearItems.SPIDER_DAGGER,
-            BobsMobGearItems.BONE_HAMMER,
-            BobsMobGearItems.ENDER_SPEAR,
+            BobsMobGearItems.IRON_SPIDER_DAGGER,
+            BobsMobGearItems.IRON_BONE_HAMMER,
+            BobsMobGearItems.IRON_ENDER_SPEAR,
         )
         getOrCreateTagBuilder(ConventionalItemTags.TOOLS).add(
             BobsMobGearItems.SMITHING_HAMMER,
@@ -94,9 +94,9 @@ class ItemTagGenerator(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.WARDEN_FIST,
-            BobsMobGearItems.SPIDER_DAGGER,
-            BobsMobGearItems.BONE_HAMMER,
-            BobsMobGearItems.ENDER_SPEAR,
+            BobsMobGearItems.IRON_SPIDER_DAGGER,
+            BobsMobGearItems.IRON_BONE_HAMMER,
+            BobsMobGearItems.IRON_ENDER_SPEAR,
         )
     }
 }

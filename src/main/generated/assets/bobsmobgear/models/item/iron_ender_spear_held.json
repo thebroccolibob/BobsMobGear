@@ -1,6 +1,6 @@
 {
   "parent": "bobsmobgear:item/template_spear_held",
   "textures": {
-    "layer0": "bobsmobgear:item/ender_spear"
+    "layer0": "bobsmobgear:item/iron_ender_spear"
   }
 }

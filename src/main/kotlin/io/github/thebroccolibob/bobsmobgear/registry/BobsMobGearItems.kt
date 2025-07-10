@@ -164,15 +164,15 @@ object BobsMobGearItems {
         component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
     }))
 
-    val BONE_HAMMER = register("bone_hammer", BoneHammerItem(ToolMaterials.STONE, itemSettings { // TODO
+    val IRON_BONE_HAMMER = register("iron_bone_hammer", BoneHammerItem(5 * 20, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 
-    val SPIDER_DAGGER = register("spider_dagger", SpiderDaggerItem(ToolMaterials.STONE, itemSettings { // TODO
+    val IRON_SPIDER_DAGGER = register("iron_spider_dagger", SpiderDaggerItem(2.0, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 
-    val ENDER_SPEAR = register("ender_spear", EnderSpearItem(ToolMaterials.STONE, ::EnderSpearEntity, itemSettings { // TODO
+    val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem(ToolMaterials.STONE, ::EnderSpearEntity, itemSettings { // TODO
 
     }))
 
@@ -227,8 +227,9 @@ object BobsMobGearItems {
                 SMITHING_TONGS,
                 FLESH_GLOVE,
                 IRON_FLESH_GLOVE,
-                SPIDER_DAGGER,
-                BONE_HAMMER,
+                IRON_SPIDER_DAGGER,
+                IRON_BONE_HAMMER,
+                IRON_ENDER_SPEAR,
             )
             entries.addAll(listOf(
                 WARDEN_FIST.defaultStack.also {

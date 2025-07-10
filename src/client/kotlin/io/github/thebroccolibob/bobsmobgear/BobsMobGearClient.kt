@@ -21,9 +21,11 @@ import net.minecraft.util.ActionResult
 object BobsMobGearClient : ClientModInitializer {
 	val LIQUID_METAL_TEXTURE = BobsMobGear.id("block/liquid_metal");
 
+	val USING_PREDICATE = BobsMobGear.id("using")
+
 	override fun onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
-		ModelPredicateProviderRegistry.register(BobsMobGear.id("using")) { stack, _, entity, _ ->
+		ModelPredicateProviderRegistry.register(USING_PREDICATE) { stack, _, entity, _ ->
 			if (entity != null && entity.isUsingItem && entity.activeItem == stack) 1f else 0f
 		}
 

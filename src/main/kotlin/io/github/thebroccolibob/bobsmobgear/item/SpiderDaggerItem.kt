@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper.square
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class SpiderDaggerItem(material: ToolMaterial, settings: Settings) : ToolItem(material, settings.apply {
+class SpiderDaggerItem(private val pullStrength: Double, material: ToolMaterial, settings: Settings) : ToolItem(material, settings.apply {
     attributeModifiers(SwordItem.createAttributeModifiers(material, 2, -1.8f))
 }) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
@@ -28,17 +28,17 @@ class SpiderDaggerItem(material: ToolMaterial, settings: Settings) : ToolItem(ma
             if (!user.shouldCancelInteraction())  {
                 hookedEntity?.let { hookedEntity ->
                     val difference = user.eyePos - hookedEntity.pos
-                    hookedEntity.addVelocity(if (difference.lengthSquared() * square(ENTITY_DISTANCE_MULTIPLIER) < square(PULL_STRENGTH)) difference * ENTITY_DISTANCE_MULTIPLIER else difference.normalize() * PULL_STRENGTH)
+                    hookedEntity.addVelocity(if (difference.lengthSquared() * square(ENTITY_DISTANCE_MULTIPLIER) < square(pullStrength)) difference * ENTITY_DISTANCE_MULTIPLIER else difference.normalize() * pullStrength)
                     hookedEntity.velocityModified = true
                 }
                 if (isHookedOnBlock) {
                     val difference = pos - user.movementPos
                     val length = (difference * BLOCK_DISTANCE_MULTIPLIER).length()
                     user.addVelocity(
-                        if (length < PULL_STRENGTH)
+                        if (length < pullStrength)
                             difference.normalize() * length
                         else
-                            difference.normalize() * PULL_STRENGTH
+                            difference.normalize() * pullStrength
                     )
                 }
             }
@@ -62,7 +62,6 @@ class SpiderDaggerItem(material: ToolMaterial, settings: Settings) : ToolItem(ma
     }
 
     companion object {
-        const val PULL_STRENGTH = 2.0
         const val ENTITY_DISTANCE_MULTIPLIER = 0.2
         val BLOCK_DISTANCE_MULTIPLIER = Vec3d(1.2, 0.75, 1.2)
     }

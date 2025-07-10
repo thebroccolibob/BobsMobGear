@@ -1,5 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import net.minecraft.component.ComponentType
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
@@ -15,7 +17,6 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import java.util.*
-import kotlin.Unit
 import kotlin.math.roundToInt
 import kotlin.reflect.KProperty
 import net.minecraft.util.Unit as MCUnit
@@ -147,4 +148,9 @@ fun PlayerEntity.takeExperiencePoints(max: Int): Int {
         addExperience(-consumed)
     }
     return consumed
+}
+
+inline fun <T> Iterable<T>.mapToJson(transform: (T) -> JsonElement) = JsonArray().apply {
+    for (item in this@mapToJson)
+        add(transform(item))
 }

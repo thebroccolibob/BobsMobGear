@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "bobsmobgear:item/spider_dagger"
+    "layer0": "bobsmobgear:item/iron_spider_dagger"
   }
 }

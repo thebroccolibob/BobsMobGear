@@ -1,10 +1,13 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Connection
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.client.util.BlockStateVariant
+import io.github.thebroccolibob.bobsmobgear.client.util.ModelOverride
+import io.github.thebroccolibob.bobsmobgear.client.util.register
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -40,8 +43,9 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerGenerated(BobsMobGearItems.WORN_SEETHING_EYE)
         registerGenerated(BobsMobGearItems.SCULK_SYMBIOTE)
 
-        register(BobsMobGearItems.BONE_HAMMER, Models.HANDHELD)
-        register(BobsMobGearItems.SPIDER_DAGGER, Models.HANDHELD)
+        register(BobsMobGearItems.IRON_BONE_HAMMER, Models.HANDHELD)
+        register(BobsMobGearItems.IRON_SPIDER_DAGGER, Models.HANDHELD)
+        registerSpear(BobsMobGearItems.IRON_ENDER_SPEAR)
         register(BobsMobGearItems.WARDEN_FIST, "_gui", Models.GENERATED)
         register(BobsMobGearItems.IRON_BOOM_BATON, Models.HANDHELD)
 
@@ -55,7 +59,12 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         val WOOD_TEMPLATE_FACTORY: TexturedModel.Factory = TexturedModel.makeFactory({ TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_wood")) }, WOOD_TEMPLATE_MODEL)
         val METAL_TEMPLATE_FACTORY: TexturedModel.Factory = TexturedModel.makeFactory({ TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_metal")) }, METAL_TEMPLATE_MODEL)
 
+        val TEMPLATE_SPEAR_HELD = Model(Optional.of(BobsMobGear.id("item/template_spear_held")), Optional.empty(), TextureKey.LAYER0)
+        val TEMPLATE_SPEAR_THROWING = Model(Optional.of(BobsMobGear.id("item/template_spear_throwing")), Optional.empty(), TextureKey.LAYER0)
+
         val BUILTIN_ENTITY_MODEL = Model(Optional.of(Identifier.ofVanilla("builtin/entity")), Optional.empty())
+
+        val IS_HELD: Pair<Identifier, Float> = Identifier.of("pommel", "is_held") to 1f
 
         fun ItemModelGenerator.registerGenerated(item: Item) {
             register(item, Models.GENERATED)
@@ -179,6 +188,19 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
                 })
                 coordinate(createNorthDefaultHorizontalRotationStates())
             })
+        }
+
+        fun ItemModelGenerator.registerSpear(item: Item) {
+            register(item, Models.GENERATED,
+                ModelOverride(register(item, TEMPLATE_SPEAR_HELD, modelSuffix = "_held"),
+                    IS_HELD,
+                ),
+                ModelOverride(register(item, TEMPLATE_SPEAR_THROWING, modelSuffix = "_throwing"),
+                    IS_HELD,
+                    BobsMobGearClient.USING_PREDICATE to 1f
+                ),
+                textureSuffix = "_gui"
+            )
         }
     }
 }

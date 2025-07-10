@@ -19,7 +19,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(material, settings.apply {
+class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings: Settings) : ToolItem(material, settings.apply {
     attributeModifiers(SwordItem.createAttributeModifiers(material, 3, -3.2f))
 }), HasSpecialAttack {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
@@ -62,7 +62,7 @@ class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(mate
                 target.velocity += (difference.normalize() * (MAX_HORIZONTAL_VELOCITY * closeness)).add(0.0, closeness * MAX_VERTICAL_VELOCITY, 0.0)
                 target.velocityModified = true
             }
-            player.itemCooldownManager.set(stack.item, COOLDOWN)
+            player.itemCooldownManager.set(stack.item, cooldown)
         }
         super.onAttackEnd(player, targetCount, stack)
     }
@@ -72,7 +72,6 @@ class BoneHammerItem(material: ToolMaterial, settings: Settings) : ToolItem(mate
         const val MAX_DISTANCE = 5.0
         const val MAX_HORIZONTAL_VELOCITY = 2.0
         const val MAX_VERTICAL_VELOCITY = 0.5
-        const val COOLDOWN = 5 * 20
         const val USE_TIME = 30
     }
 }
