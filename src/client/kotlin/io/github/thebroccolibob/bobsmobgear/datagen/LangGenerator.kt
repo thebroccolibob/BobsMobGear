@@ -14,6 +14,7 @@ import net.minecraft.entity.damage.DamageType
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Util.createTranslationKey
@@ -26,6 +27,12 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         registryLookup: RegistryWrapper.WrapperLookup,
         translationBuilder: TranslationBuilder
     ) = with(translationBuilder) {
+
+        val damageTypes = registryLookup.getWrapperOrThrow(RegistryKeys.DAMAGE_TYPE)
+        fun add(damageType: RegistryKey<DamageType>, base: String? = null, player: String? = null, item: String? = null) {
+            add(damageTypes.getOrThrow(damageType).value(), base, player, item)
+        }
+
         add(BobsMobGearBlocks.EMPTY_TEMPLATE, "Empty Template")
         add(BobsMobGearBlocks.SWORD_TEMPLATE, "Sword Template")
         add(BobsMobGearBlocks.PICKAXE_TEMPLATE, "Pickaxe Template")
@@ -85,9 +92,13 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         add(BobsMobGearEnchantments.MENDER_NAME, "Mender")
 
-        add(BobsMobGearDamageTypes.TELEFRAG,
+        add(BobsMobGearDamageTypes.PROJECTILE_TELEFRAG,
             base = "%s was telefragged by %s",
             item = "%s was telefragged by %s using %s",
+        )
+        add(BobsMobGearDamageTypes.SELF_TELEFRAG,
+            base = "%s was telefragged",
+            player = "%s was telefragged while fighting %s",
         )
 
         add(BobsMobGearEmiPlugin.TEMPLATE_CATEGORY, "Template Smithing")
@@ -108,11 +119,11 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
             add(createTranslationKey("emi.category", category.getId()), value)
         }
 
-        fun TranslationBuilder.add(damageType: RegistryKey<DamageType>, suffix: String? = null, value: String) {
-            add(createTranslationKey("death.attack", damageType.value).let { if (suffix == null) it else "$it.$suffix" }, value)
+        fun TranslationBuilder.add(damageType: DamageType, suffix: String? = null, value: String) {
+            add("death.attack.${damageType.msgId}${ if (suffix == null) "" else ".$suffix" }", value)
         }
 
-        fun TranslationBuilder.add(damageType: RegistryKey<DamageType>, base: String? = null, player: String? = null, item: String? = null) {
+        fun TranslationBuilder.add(damageType: DamageType, base: String? = null, player: String? = null, item: String? = null) {
             base?.let { add(damageType, null, it) }
             player?.let { add(damageType, "player", it) }
             item?.let { add(damageType, "item", it) }

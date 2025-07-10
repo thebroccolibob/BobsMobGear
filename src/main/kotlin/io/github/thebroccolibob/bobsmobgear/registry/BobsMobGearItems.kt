@@ -172,9 +172,14 @@ object BobsMobGearItems {
 
     }))
 
-    val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem(ToolMaterials.STONE, ::EnderSpearEntity, itemSettings { // TODO
+    val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem(
+        3f,
+        5 * 20,
+        ::EnderSpearEntity,
+        ToolMaterials.STONE,
+        itemSettings { // TODO
 
-    }))
+        }))
 
     val IRON_BOOM_BATON = register("iron_boom_baton", BoomBatonItem(8, 5 * 20, BobsMobGearBlocks.WORN_GUNFLOWER, ToolMaterials.IRON, itemSettings {
 

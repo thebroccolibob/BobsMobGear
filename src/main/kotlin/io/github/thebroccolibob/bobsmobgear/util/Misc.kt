@@ -3,19 +3,26 @@ package io.github.thebroccolibob.bobsmobgear.util
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import net.minecraft.component.ComponentType
+import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
+import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributeInstance
+import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.reflect.KProperty
@@ -153,4 +160,18 @@ fun PlayerEntity.takeExperiencePoints(max: Int): Int {
 inline fun <T> Iterable<T>.mapToJson(transform: (T) -> JsonElement) = JsonArray().apply {
     for (item in this@mapToJson)
         add(transform(item))
+}
+
+fun getWeaponDamage(world: World?, stack: ItemStack, target: Entity, damageSource: DamageSource): Float {
+    val instance = EntityAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE) {}
+    instance.baseValue = 1.0
+    stack.applyAttributeModifier(AttributeModifierSlot.MAINHAND) { attribute, modifier ->
+        if (attribute != EntityAttributes.GENERIC_ATTACK_DAMAGE) return@applyAttributeModifier
+        instance.addTemporaryModifier(modifier)
+    }
+    val damage = instance.value.toFloat()
+
+    if (world !is ServerWorld) return damage
+
+    return EnchantmentHelper.getDamage(world, stack, target, damageSource, damage)
 }

@@ -79,6 +79,8 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
     }
 
     protected fun returnToOwner(): Boolean {
+        if (pickupType == PickupPermission.CREATIVE_ONLY && (owner as? PlayerEntity)?.isCreative == true) return true
+        if (pickupType != PickupPermission.ALLOWED) return false
         if (thrownSlot == -1) return false
         val owner = (owner as? PlayerEntity)?.takeIf { it.isAlive } ?: return false
         val stack = asItemStack()
@@ -101,6 +103,7 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
         when {
             returnToOwner() -> discard()
             hitResult != null -> setPosition(hitResult.pos)
+            pickupType != PickupPermission.ALLOWED -> {}
             else -> {
                 dropStack(asItemStack())
                 discard()

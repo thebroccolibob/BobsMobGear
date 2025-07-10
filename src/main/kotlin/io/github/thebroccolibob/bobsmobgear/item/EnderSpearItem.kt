@@ -18,7 +18,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.world.World
 
-class EnderSpearItem(material: ToolMaterial, private val createEntity: (LivingEntity, World, ItemStack) -> AbstractEnderSpearEntity, settings: Settings) :
+class EnderSpearItem(val selfDamage: Float, private val cooldown: Int, private val createEntity: (LivingEntity, World, ItemStack) -> AbstractEnderSpearEntity, material: ToolMaterial, settings: Settings) :
     ToolItem(material, settings.apply {
         attributeModifiers(SwordItem.createAttributeModifiers(material, 4, -2.8f))
     }) {
@@ -43,7 +43,7 @@ class EnderSpearItem(material: ToolMaterial, private val createEntity: (LivingEn
         }
         if (user is PlayerEntity && !user.isInCreativeMode)
             user.inventory.removeOne(stack)
-        (user as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
+        (user as? PlayerEntity)?.itemCooldownManager?.set(this, cooldown)
     }
 
     override fun getUseAction(stack: ItemStack?): UseAction = UseAction.SPEAR
@@ -58,6 +58,5 @@ class EnderSpearItem(material: ToolMaterial, private val createEntity: (LivingEn
 
     companion object {
         const val USE_TIME = 20
-        const val COOLDOWN = 5 * 20
     }
 }

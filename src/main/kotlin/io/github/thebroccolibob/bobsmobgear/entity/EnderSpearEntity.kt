@@ -1,13 +1,15 @@
 package io.github.thebroccolibob.bobsmobgear.entity
 
+import io.github.thebroccolibob.bobsmobgear.item.EnderSpearItem
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDamageTypes
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEntities
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
-import io.github.thebroccolibob.bobsmobgear.util.horizontal
-import io.github.thebroccolibob.bobsmobgear.util.plus
-import io.github.thebroccolibob.bobsmobgear.util.times
+import io.github.thebroccolibob.bobsmobgear.util.*
+import net.minecraft.component.EnchantmentEffectComponentTypes
+import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.mob.EndermanEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
@@ -38,14 +40,41 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
         teleported = nbt.getBoolean("teleported")
     }
 
+    private fun applySelfDamage() {
+        (itemStack.item as? EnderSpearItem)?.selfDamage?.let {
+            owner?.damage(damageSources.create(BobsMobGearDamageTypes.SELF_TELEFRAG, null, null), it)
+        }
+    }
+
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         if (teleported) return
         val entity = entityHitResult.entity
+        val stack = itemStack
+        val damageSource = damageSources.create(BobsMobGearDamageTypes.PROJECTILE_TELEFRAG, this, owner)
+        val damage = getWeaponDamage(world, stack, entity, damageSource)
+        val offset = pos - entity.pos
+
+        playSound(hitSound, 1f, 1f)
+        entity.damage(damageSource, damage)
+        if (entity is EndermanEntity) {
+            entity.damage(damageSources.create(BobsMobGearDamageTypes.BASE_TELEFRAG, this, owner), damage)
+            if (EnchantmentHelper.hasAnyEnchantmentsWith(stack, EnchantmentEffectComponentTypes.TRIDENT_RETURN_ACCELERATION)) {
+                owner?.let { setPosition(it.pos) }
+                returnToOwnerOrDrop()
+            } else {
+                setPosition(entity.pos + offset)
+                setVelocity(0.0, 0.0, 0.0)
+            }
+            teleported = true
+            return
+        }
+
+        // TODO instant attack reset?
         teleportOwnerTo(entity.pos + (entity.rotationVector.horizontal().normalize() * -(entity.width / 2 + 2.0)).add(0.0, 2.0, 0.0), entity.yaw, owner?.pitch ?: 0f)
         returnToOwnerOrDrop()
+        velocity = velocity.multiply(-0.01, -0.1, -0.01)
+        applySelfDamage()
         teleported = true
-        // TODO instant attack reset?
-        entity.damage(damageSources.create(BobsMobGearDamageTypes.TELEFRAG, this, owner), 8f)
     }
 
     override fun onBlockHit(blockHitResult: BlockHitResult?) {
@@ -59,6 +88,7 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
             discard()
         else
             super.onBlockHit(blockHitResult)
+        applySelfDamage()
     }
 
     override fun teleportToOwner() {

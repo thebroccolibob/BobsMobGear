@@ -19,6 +19,8 @@
   "block.bobsmobgear.rpg.spear_template": "Spear Template",
   "block.bobsmobgear.shovel_template": "Shovel Template",
   "block.bobsmobgear.sword_template": "Sword Template",
+  "death.attack.bobsmobgear.self_telefrag": "%s was telefragged",
+  "death.attack.bobsmobgear.self_telefrag.player": "%s was telefragged while fighting %s",
   "death.attack.bobsmobgear.telefrag": "%s was telefragged by %s",
   "death.attack.bobsmobgear.telefrag.item": "%s was telefragged by %s using %s",
   "emi.category.bobsmobgear.forge_filling": "Forge Filling",
