@@ -29,6 +29,8 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
     protected var thrownSlot: Int = -1
         private set
 
+    val hasLoyalty get() = EnchantmentEffectComponentTypes.TRIDENT_RETURN_ACCELERATION in itemStack.enchantments
+
     override fun tick() {
         super.tick()
         if (world.isClient) repeat(when {
@@ -50,7 +52,7 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
 
     override fun tickInVoid() {
         if (world.isClient) return
-        if (EnchantmentEffectComponentTypes.TRIDENT_RETURN_ACCELERATION in itemStack.enchantments)
+        if (hasLoyalty)
             teleportToOwner()
         else
             super.tickInVoid()
@@ -83,7 +85,6 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
     protected fun returnToOwner(): Boolean {
         if (pickupType == PickupPermission.CREATIVE_ONLY && (owner as? PlayerEntity)?.isCreative == true) return true
         if (pickupType != PickupPermission.ALLOWED) return false
-        if (thrownSlot == -1) return false
         val owner = (owner as? PlayerEntity)?.takeIf { it.isAlive } ?: return false
         val stack = asItemStack()
 
@@ -92,13 +93,11 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
                 owner[Hand.OFF_HAND] = stack
                 return true
             }
-            return false
-        }
-        return if (owner.inventory.getStack(thrownSlot).isEmpty) {
+        } else if (thrownSlot != -1 && owner.inventory.getStack(thrownSlot).isEmpty) {
             owner.inventory.setStack(thrownSlot, stack)
-            true
-        } else
-            owner.giveItemStack(stack)
+            return true
+        }
+        return owner.giveItemStack(stack)
     }
 
     protected fun returnToOwnerOrDrop(hitResult: BlockHitResult? = null) {

@@ -3,6 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.registry
 import com.mojang.serialization.Codec
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.entity.EnderEyeSpearEntity
 import io.github.thebroccolibob.bobsmobgear.entity.EnderSpearEntity
 import io.github.thebroccolibob.bobsmobgear.item.*
 import io.github.thebroccolibob.bobsmobgear.util.ComparableItemStack
@@ -172,14 +173,13 @@ object BobsMobGearItems {
 
     }))
 
-    val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem(
-        3f,
-        5 * 20,
-        ::EnderSpearEntity,
-        ToolMaterials.STONE,
-        itemSettings { // TODO
+    val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem(3f, 5 * 20, ::EnderSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
 
-        }))
+    }))
+
+    val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem(5 * 20, ::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
+
+    }))
 
     val IRON_BOOM_BATON = register("iron_boom_baton", BoomBatonItem(8, 5 * 20, BobsMobGearBlocks.WORN_GUNFLOWER, ToolMaterials.IRON, itemSettings {
 
@@ -235,6 +235,7 @@ object BobsMobGearItems {
                 IRON_SPIDER_DAGGER,
                 IRON_BONE_HAMMER,
                 IRON_ENDER_SPEAR,
+                IRON_ENDER_EYE_SPEAR,
             )
             entries.addAll(listOf(
                 WARDEN_FIST.defaultStack.also {

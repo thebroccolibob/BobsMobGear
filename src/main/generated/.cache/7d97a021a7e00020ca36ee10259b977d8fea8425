@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-09T22:45:21.198575161	Bob's Mob Gear/Model Definitions
+// 1.21.1	2025-07-09T23:49:02.766425438	Bob's Mob Gear/Model Definitions
 ee11d9fb5d99f6d0df1f642614decb54ccb58e76 assets/bobsmobgear/models/block/rpg/mace_template_metal.json
 9e4f27b03e892252bb5131189500f7c3fb0e4877 assets/bobsmobgear/blockstates/rpg/claymore_template.json
 61468060ad8bbc7dc8014fd54f975361829fac7f assets/bobsmobgear/models/item/sculk_symbiote.json
@@ -14,6 +14,7 @@ ae444940e8807e17c56cd8898037dd4a5ecabcc5 assets/bobsmobgear/models/item/iron_end
 f61f0120f9b6af3bd584f96e4a9928e4087982cf assets/bobsmobgear/models/block/forge_lit.json
 7a3fc1d0c6ec27b1f7eec6c42cbf52df708d6d0c assets/bobsmobgear/models/item/axe_template.json
 4649706c139120dd8e827a1e82a8697f8a247135 assets/bobsmobgear/models/item/worn_creeper_core.json
+5be08d5475c2944854d4a6e8ee073c7eaadd7370 assets/bobsmobgear/models/item/iron_ender_eye_spear.json
 ebfe20d58f5e35558aec49ea33a1f0cae2a3e914 assets/bobsmobgear/models/item/diamond_pot.json
 30748a6ae7ae44c2424e4b6d4f5be11aecfd4370 assets/bobsmobgear/models/block/axe_template_wood.json
 e96efd23625afedb9d4fa51c5375b69dd4fa2e31 assets/bobsmobgear/models/block/shovel_template_wood.json
@@ -92,6 +93,7 @@ cd291500744f27c29a4b31534105ab1ae64dd6ce assets/bobsmobgear/models/item/hoe_temp
 dcb29380a4881c17a822e9c8694d1e01ce2239e2 assets/bobsmobgear/models/item/worn_spider_fang.json
 2684da61f0690c4c06095a9c8bc7afee22a9e0ef assets/bobsmobgear/models/block/rpg/mace_template_wood.json
 4645b0cfe593cb508db2f040a8a15cd79f032881 assets/bobsmobgear/models/block/forge_back_left_lit.json
+ee7f25089b396a2478b932d3b40b46342a1e84a3 assets/bobsmobgear/models/item/iron_ender_eye_spear_held.json
 d801ed0b0b9961f9cdf68f916b563fd08b2d9ecf assets/bobsmobgear/models/item/iron_boom_baton.json
 6fc0b9850de9ab181992c35c41f204818e8432c0 assets/bobsmobgear/models/item/shovel_template.json
 14d8703c68dcf7a6ca0a4c9ca977f85314c0062e assets/bobsmobgear/models/block/sword_template_wood.json
@@ -100,5 +102,6 @@ d801ed0b0b9961f9cdf68f916b563fd08b2d9ecf assets/bobsmobgear/models/item/iron_boo
 0372f779474940d674799e087ead7e6f517d0698 assets/bobsmobgear/models/item/forge_heater.json
 f1354630e1b7e2e0edaeeeca44b3e50789eb1687 assets/bobsmobgear/models/block/forge.json
 d42014e618b3ad8e64f38b7834e9f8b48a46e4d0 assets/bobsmobgear/models/block/rpg/kite_shield_template_metal.json
+57f328b434e6329ac3e16a2a20566d764503ed1f assets/bobsmobgear/models/item/iron_ender_eye_spear_throwing.json
 7899ccfebecb10769755c6c5977c1effa1be41cb assets/bobsmobgear/blockstates/rpg/kite_shield_template.json
 eb37054f5a7b98f10986622adc39d43fc9f3b4a5 assets/bobsmobgear/models/block/forge_heater_lit.json

@@ -69,15 +69,14 @@ class BoomBatonItem(val range: Int, val cooldown: Int, val gunflower: Block, mat
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if (world.isClient || user.itemUseTime < USE_TIME) return
         val center = user.blockPos
-        var found = false
-        for (pos in BlockPos.iterate(center.x - range, center.y - range, center.z - range, center.x + range, center.y + range, center.z + range)) {
-            val state = world[pos]
-            val block = state.block
-            if (block !is GunflowerBlock) continue
-            block.explode(state, world, pos, user)
-            found = true
+        val flowerPosS = BlockPos.iterate(center.x - range, center.y - range, center.z - range, center.x + range, center.y + range, center.z + range).filter {
+            world[it].block is GunflowerBlock
         }
-        if (!found) return
+        for (pos in flowerPosS) {
+            val state = world[pos]
+            (state.block as? GunflowerBlock)?.explode(state, world, pos, user)
+        }
+        if (flowerPosS.isEmpty()) return
         (user as? PlayerEntity)?.itemCooldownManager?.set(stack.item, cooldown)
     }
 

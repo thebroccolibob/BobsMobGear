@@ -94,6 +94,8 @@ operator fun Vec3d.minus(other: Vec3d): Vec3d = subtract(other)
 operator fun Vec3d.times(scalar: Double): Vec3d = multiply(scalar)
 operator fun Vec3d.times(other: Vec3d): Vec3d = multiply(other)
 operator fun Vec3d.div(scalar: Double): Vec3d = multiply(1 / scalar)
+infix fun Vec3d.cross(other: Vec3d): Vec3d = crossProduct(other)
+infix fun Vec3d.dot(other: Vec3d): Double = dotProduct(other)
 
 operator fun Vec3d.component1(): Double = x
 operator fun Vec3d.component2(): Double = y

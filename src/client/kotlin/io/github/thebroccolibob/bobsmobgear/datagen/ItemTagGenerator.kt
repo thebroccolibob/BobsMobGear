@@ -84,6 +84,7 @@ class ItemTagGenerator(
             BobsMobGearItems.IRON_SPIDER_DAGGER,
             BobsMobGearItems.IRON_BONE_HAMMER,
             BobsMobGearItems.IRON_ENDER_SPEAR,
+            BobsMobGearItems.IRON_ENDER_EYE_SPEAR,
         )
         getOrCreateTagBuilder(ConventionalItemTags.TOOLS).add(
             BobsMobGearItems.SMITHING_HAMMER,
@@ -97,6 +98,7 @@ class ItemTagGenerator(
             BobsMobGearItems.IRON_SPIDER_DAGGER,
             BobsMobGearItems.IRON_BONE_HAMMER,
             BobsMobGearItems.IRON_ENDER_SPEAR,
+            BobsMobGearItems.IRON_ENDER_EYE_SPEAR,
         )
     }
 }

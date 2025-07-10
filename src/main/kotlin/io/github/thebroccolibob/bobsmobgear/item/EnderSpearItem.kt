@@ -23,6 +23,9 @@ class EnderSpearItem(val selfDamage: Float, private val cooldown: Int, private v
         attributeModifiers(SwordItem.createAttributeModifiers(material, 4, -2.8f))
     }) {
 
+    constructor(cooldown: Int, createEntity: (LivingEntity, World, ItemStack) -> AbstractEnderSpearEntity, material: ToolMaterial, settings: Settings) :
+        this(0f, cooldown, createEntity, material, settings)
+
     override fun use(world: World?, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         user.setCurrentHand(hand)
         return TypedActionResult.consume(user[hand])

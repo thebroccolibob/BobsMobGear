@@ -46,6 +46,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         register(BobsMobGearItems.IRON_BONE_HAMMER, Models.HANDHELD)
         register(BobsMobGearItems.IRON_SPIDER_DAGGER, Models.HANDHELD)
         registerSpear(BobsMobGearItems.IRON_ENDER_SPEAR)
+        registerSpear(BobsMobGearItems.IRON_ENDER_EYE_SPEAR)
         register(BobsMobGearItems.WARDEN_FIST, "_gui", Models.GENERATED)
         register(BobsMobGearItems.IRON_BOOM_BATON, Models.HANDHELD)
 

@@ -5,7 +5,6 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDamageTypes
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEntities
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.*
-import net.minecraft.component.EnchantmentEffectComponentTypes
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -55,12 +54,15 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
         val offset = pos - entity.pos
 
         playSound(hitSound, 1f, 1f)
-        entity.damage(damageSource, damage)
+        if (entity.damage(damageSource, damage)) {
+            (world as? ServerWorld)?.let {
+                EnchantmentHelper.onTargetDamaged(it, entity, damageSource, stack)
+            }
+        }
         if (entity is EndermanEntity) {
             entity.damage(damageSources.create(BobsMobGearDamageTypes.BASE_TELEFRAG, this, owner), damage)
-            if (EnchantmentHelper.hasAnyEnchantmentsWith(stack, EnchantmentEffectComponentTypes.TRIDENT_RETURN_ACCELERATION)) {
-                owner?.let { setPosition(it.pos) }
-                returnToOwnerOrDrop()
+            if (hasLoyalty) {
+                teleportToOwner()
             } else {
                 setPosition(entity.pos + offset)
                 setVelocity(0.0, 0.0, 0.0)
