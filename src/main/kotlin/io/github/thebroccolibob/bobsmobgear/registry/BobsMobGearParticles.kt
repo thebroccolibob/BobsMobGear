@@ -30,6 +30,8 @@ object BobsMobGearParticles {
 
     val BONEK = register("bonek")
     val ATTACK_SPARK = register("attack_spark")
+    @JvmField
+    val STAR = register("star")
 
     fun register() {}
 

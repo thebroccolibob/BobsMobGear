@@ -40,14 +40,15 @@ class EnderSpearItem(
 }) {
 
     override fun use(world: World?, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        val stack = user[hand]
+        if (stack.maxDamage - stack.damage == 1) return TypedActionResult.fail(stack)
         user.setCurrentHand(hand)
-        return TypedActionResult.consume(user[hand])
+        return TypedActionResult.consume(stack)
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if (user.itemUseTime < USE_TIME) return
         if (world.isClient) return
-        if (stack.maxDamage - stack.damage == 1) return
         stack.damage(1, user, user.activeHand)
         createEntity(user, world, stack).apply {
             setVelocity(user, user.pitch, user.yaw, 0f, 2.5f, 1f)

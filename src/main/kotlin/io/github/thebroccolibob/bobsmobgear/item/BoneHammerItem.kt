@@ -1,11 +1,13 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEffects
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.SwordItem
@@ -37,7 +39,11 @@ class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (user !is PlayerEntity || user.itemUseTime < USE_TIME) return
+        if (user !is PlayerEntity) return
+        if (user.itemUseTime < USE_TIME) {
+            user.itemCooldownManager.set(stack.item, cooldown / 2)
+            return
+        }
         user.clearActiveItem()
         runSpecialAttack(user, user.activeHand, world)
     }
@@ -51,6 +57,8 @@ class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
         if (target.isDead || BobsMobGearItems.USING_SPECIAL_ATTACK in stack)
             (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.BONEK, target.x, target.getBodyY(0.67), target.z, 1, target.width / 2.0, target.height / 3.0, target.width / 2.0, 0.0)
+
+        applyBruised(target, 1)
     }
 
     override fun canMine(state: BlockState?, world: World?, pos: BlockPos?, miner: PlayerEntity): Boolean = !miner.isCreative
@@ -65,6 +73,8 @@ class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings
                 if (closeness < 0) continue
                 target.velocity += (difference.normalize() * (MAX_HORIZONTAL_VELOCITY * closeness)).add(0.0, closeness * MAX_VERTICAL_VELOCITY, 0.0)
                 target.velocityModified = true
+                if (target is LivingEntity)
+                    applyBruised(target, (closeness * 3).toInt())
             }
             player.itemCooldownManager.set(stack.item, cooldown)
         }
@@ -77,5 +87,18 @@ class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings
         const val MAX_HORIZONTAL_VELOCITY = 2.0
         const val MAX_VERTICAL_VELOCITY = 0.5
         const val USE_TIME = 30
+
+        const val MAX_BRUISED = 4
+
+        fun applyBruised(entity: LivingEntity, amount: Int) {
+            if (entity.hasStatusEffect(BobsMobGearEffects.BROKEN)) return
+
+            val total = (entity.getStatusEffect(BobsMobGearEffects.BRUISED)?.amplifier ?: 0) + amount
+            if (total >= MAX_BRUISED) {
+                entity.removeStatusEffect(BobsMobGearEffects.BRUISED)
+                entity.addStatusEffect(StatusEffectInstance(BobsMobGearEffects.BROKEN, 5 * 20, 1))
+            } else
+                entity.addStatusEffect(StatusEffectInstance(BobsMobGearEffects.BRUISED, 20 * 20, total, false, false, true))
+        }
     }
 }

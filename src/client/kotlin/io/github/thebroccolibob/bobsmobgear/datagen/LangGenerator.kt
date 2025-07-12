@@ -8,14 +8,17 @@ import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
 import io.github.thebroccolibob.bobsmobgear.util.add
+import io.github.thebroccolibob.bobsmobgear.util.value
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.entity.damage.DamageType
+import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Util.createTranslationKey
 import java.util.concurrent.CompletableFuture
@@ -101,6 +104,9 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
             player = "%s was telefragged while fighting %s",
         )
 
+        add(BobsMobGearEffects.BRUISED, "Bruised")
+        add(BobsMobGearEffects.BROKEN, "Broken")
+
         add(BobsMobGearEmiPlugin.TEMPLATE_CATEGORY, "Template Smithing")
         add(BobsMobGearEmiPlugin.FORGING_CATEGORY, "Forging")
         add(BobsMobGearEmiPlugin.FORGE_FILLING_CATEGORY, "Forge Filling")
@@ -113,6 +119,10 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
 
         fun TranslationBuilder.add(fluid: Fluid, value: String) {
             add(createTranslationKey("block", Registries.FLUID.getId(fluid)), value)
+        }
+
+        fun TranslationBuilder.add(effect: RegistryEntry<StatusEffect>, value: String) {
+            add(effect.value, value)
         }
 
         fun TranslationBuilder.add(category: EmiRecipeCategory, value: String) {

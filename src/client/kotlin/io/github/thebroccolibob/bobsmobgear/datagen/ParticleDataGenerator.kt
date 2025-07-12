@@ -51,6 +51,7 @@ class ParticleDataGenerator(
         register(BobsMobGearParticles.SONIC_LAUNCH, 7, 15, Identifier.ofVanilla("sonic_boom_"))
         register(BobsMobGearParticles.BONEK, BobsMobGear.id("bonek"))
         register(BobsMobGearParticles.ATTACK_SPARK, 4, BobsMobGear.id("attack_spark_"))
+        register(BobsMobGearParticles.STAR, BobsMobGear.id("star"))
     }
 
     override fun getName(): String = "Particle Texture Data"

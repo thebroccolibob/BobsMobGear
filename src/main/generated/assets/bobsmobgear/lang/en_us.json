@@ -23,6 +23,8 @@
   "death.attack.bobsmobgear.self_telefrag.player": "%s was telefragged while fighting %s",
   "death.attack.bobsmobgear.telefrag": "%s was telefragged by %s",
   "death.attack.bobsmobgear.telefrag.item": "%s was telefragged by %s using %s",
+  "effect.bobsmobgear.broken": "Broken",
+  "effect.bobsmobgear.bruised": "Bruised",
   "emi.category.bobsmobgear.forge_filling": "Forge Filling",
   "emi.category.bobsmobgear.forging": "Forging",
   "emi.category.bobsmobgear.template": "Template Smithing",

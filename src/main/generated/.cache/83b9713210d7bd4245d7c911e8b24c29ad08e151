@@ -1,10 +1,11 @@
-// 1.21.1	2025-07-12T13:04:14.320463681	Bob's Mob Gear/Particle Texture Data
+// 1.21.1	2025-07-12T16:33:03.036341011	Bob's Mob Gear/Particle Texture Data
 5f8ce93f21ff77f032d8ee76ebdaede340e3e524 assets/bobsmobgear/particles/falling_diamond.json
 843710e4aae08e6dc849c923c265d7473a0a7528 assets/bobsmobgear/particles/dripping_diamond.json
 5f8ce93f21ff77f032d8ee76ebdaede340e3e524 assets/bobsmobgear/particles/falling_netherite.json
 0b48b37ee3470d6b496033de5cd8c29afe6ad5bf assets/bobsmobgear/particles/landing_netherite.json
 0b48b37ee3470d6b496033de5cd8c29afe6ad5bf assets/bobsmobgear/particles/landing_iron.json
 843710e4aae08e6dc849c923c265d7473a0a7528 assets/bobsmobgear/particles/dripping_iron.json
+4bd05a13648ccd379d7f70e9f0e15ae5556f3012 assets/bobsmobgear/particles/star.json
 843710e4aae08e6dc849c923c265d7473a0a7528 assets/bobsmobgear/particles/dripping_netherite.json
 e65cf73fcc6b6bb5bdeb1f53629d19f6302d3d55 assets/bobsmobgear/particles/bonek.json
 0312ecb3ed95bb2c4d94788046f56af376809a92 assets/bobsmobgear/particles/sonic_launch.json

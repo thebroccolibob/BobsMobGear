@@ -62,5 +62,6 @@ internal fun registerParticleFactories() {
         register(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, SonicLaunchEmitter)
         register(BobsMobGearParticles.BONEK, CartoonParticle)
         register(BobsMobGearParticles.ATTACK_SPARK, AttackSparkParticle)
+        register(BobsMobGearParticles.STAR, StarParticle)
     }
 }
