@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "bobsmobgear:item/iron_ender_eye_spear_held",
+      "predicate": {
+        "pommel:is_held": 1.0
+      }
+    },
+    {
+      "model": "bobsmobgear:item/iron_ender_eye_spear_throwing",
+      "predicate": {
+        "bobsmobgear:using": 1.0,
+        "pommel:is_held": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "bobsmobgear:item/iron_ender_eye_spear_gui"
+  }
+}
