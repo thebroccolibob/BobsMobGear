@@ -177,7 +177,7 @@ object BobsMobGearItems {
 
     }))
 
-    val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem(5 * 20, ::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
+    val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem(::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 

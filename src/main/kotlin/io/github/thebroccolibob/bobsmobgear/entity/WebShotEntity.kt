@@ -35,7 +35,7 @@ class WebShotEntity(type: EntityType<out WebShotEntity>, world: World) : Project
     private var hookedEntityId by HOOKED_ENTITY_ID
 
     var hookedEntity: Entity? = null
-        private set(value: Entity?) {
+        private set(value) {
             field = value
             hookedEntityId = value?.id
         }

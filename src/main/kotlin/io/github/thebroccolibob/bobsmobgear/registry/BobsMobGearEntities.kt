@@ -40,6 +40,8 @@ object BobsMobGearEntities {
     val ENDER_EYE_SPEAR = register("ender_eye_spear", ::EnderEyeSpearEntity) {
         dimensions(0.5F, 0.5F)
         eyeHeight(0.13F)
+        maxTrackingRange(4)
+        trackingTickInterval(20)
     }
 
     fun register() {}

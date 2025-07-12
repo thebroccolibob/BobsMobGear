@@ -58,7 +58,10 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
             super.tickInVoid()
     }
 
-    override fun age() {}
+    override fun age() {
+        if (pickupType != PickupPermission.ALLOWED)
+            super.age()
+    }
 
     private fun playTeleportEffect(x: Double, y: Double, z: Double, dh: Double, dy: Double, reverse: Boolean) {
         world.playSound(null, x, y, z, SoundEvents.ENTITY_PLAYER_TELEPORT, soundCategory)
@@ -121,5 +124,9 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
         }
         setPosition(owner!!.pos.add(0.0, 1.0, 0.0))
         setVelocity(0.0, 0.0, 0.0)
+    }
+
+    protected fun bounce() {
+        velocity = velocity.multiply(-0.01, -0.1, -0.01)
     }
 }

@@ -5,6 +5,7 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.get
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -89,6 +90,8 @@ class BoomBatonItem(val range: Int, val cooldown: Int, val gunflower: Block, mat
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity?, attacker: LivingEntity) {
         stack.damage(1, attacker, EquipmentSlot.MAINHAND)
     }
+
+    override fun canMine(state: BlockState?, world: World?, pos: BlockPos?, miner: PlayerEntity): Boolean = !miner.isCreative
 
     companion object {
         const val USE_TIME = 10

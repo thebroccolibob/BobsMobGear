@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.EndermanEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
@@ -22,10 +23,11 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
     constructor(owner: LivingEntity, world: World, stack: ItemStack) : super(BobsMobGearEntities.ENDER_EYE_SPEAR, owner, world, stack)
     constructor(x: Double, y: Double, z: Double, world: World, stack: ItemStack) : super(BobsMobGearEntities.ENDER_EYE_SPEAR, x, y, z, world, stack)
 
+    private var hasHit = false
+    private var endermanHits = 0
+
     var target: Entity? = null
         private set
-
-    private var dealtDamage = false
 
     override fun getDefaultItemStack(): ItemStack = BobsMobGearItems.IRON_ENDER_EYE_SPEAR.defaultStack
 
@@ -42,34 +44,43 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
         super.tick()
         if (world.isClient) return
         updateTarget()
-        if (!dealtDamage && !inGround) {
-            val target = target ?: return
 
-            velocity *= 0.95
-            val difference = target.eyePos - pos
+        if (hasHit || inGround) return
+
+        val target = target ?: return
+
+        velocity *= 0.8
+        val positionDiff = target.eyePos - pos
 //            val adjust = (target.eyePos - (pos + difference.normalize() * (1 * (velocity dot difference.normalize()))))
-            val approxTime = distanceTo(target) / velocity.length()
-            val adjust = (target.eyePos + difference.normalize() * (velocity.length() * approxTime) - (pos + velocity * approxTime)) - velocity
-            velocity += adjust.normalize() * adjust.length().coerceAtMost(0.5)
-        }
+        val distanceToTarget = positionDiff.length()
+        val approxTime = distanceToTarget / velocity.length()
+        val estimatedMovement = velocity * approxTime
+        val targetVelocity = positionDiff * 2.0 - estimatedMovement
+        val velocityDiff = targetVelocity - velocity
+        velocity += velocityDiff.normalize() * velocityDiff.length().coerceAtMost(0.2)
+        velocityDirty = true
     }
 
-    override fun hasNoGravity(): Boolean = !dealtDamage && target != null
+    override fun hasNoGravity(): Boolean = !hasHit && target != null
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
-        if (dealtDamage) return
+        if (hasHit) return
         val entity = entityHitResult.entity
         val stack = itemStack
         val damageSource = damageSources.create(BobsMobGearDamageTypes.PROJECTILE_TELEFRAG, this, owner)
         val damage = getWeaponDamage(world, stack, entity, damageSource)
 
-        playSound(hitSound, 1f, 1f)
-        if (entity.damage(damageSource, damage)) {
-            if (entity is EndermanEntity) {
-                // TODO
-                return
-            }
+        val isEnderman = entity is EndermanEntity
 
+        if (isEnderman)
+            endermanHits++
+        else
+            playSound(hitSound, 1f, 1f)
+
+
+        if (isEnderman && endermanHits >= 4) {
+            entity.damage(damageSources.create(BobsMobGearDamageTypes.BASE_TELEFRAG, this, owner), damage)
+        } else if (entity.damage(damageSource, damage)) {
             (world as? ServerWorld)?.let {
                 EnchantmentHelper.onTargetDamaged(it, entity, damageSource, stack)
             }
@@ -79,13 +90,23 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
                 onHit(entity)
             }
 
+            if (isEnderman) {
+                bounce()
+                return
+            }
         }
-        dealtDamage = true
+
+        hasHit = true
 
         if (hasLoyalty)
             teleportToOwner()
         else
-            velocity = velocity.multiply(-0.01, -0.1, -0.01)
+            bounce()
+    }
+
+    override fun onBlockHit(blockHitResult: BlockHitResult) {
+        super.onBlockHit(blockHitResult)
+        hasHit = true
     }
 
     companion object {
@@ -101,7 +122,7 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
                 origin.x + maxDistance * 2,
                 origin.y + maxDistance * 2,
                 origin.z + maxDistance * 2,
-            ), canHit).minByOrNull { distanceToLine(it.pos, origin, end) }
+            ), canHit).minByOrNull { if ((it.pos - origin) dot direction > 0) distanceToLine(it.pos, origin, end) else it.pos.distanceTo(origin) }
         }
 
         private fun distanceToLine(point: Vec3d, lineA: Vec3d, lineB: Vec3d): Double =

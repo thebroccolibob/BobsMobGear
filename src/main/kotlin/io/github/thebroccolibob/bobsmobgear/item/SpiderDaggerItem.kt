@@ -7,6 +7,9 @@ import io.github.thebroccolibob.bobsmobgear.util.damage
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.minus
 import io.github.thebroccolibob.bobsmobgear.util.times
+import net.minecraft.block.BlockState
+import net.minecraft.entity.EquipmentSlot
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.SwordItem
@@ -15,6 +18,7 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper.square
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -60,6 +64,14 @@ class SpiderDaggerItem(private val pullStrength: Double, material: ToolMaterial,
 
         return TypedActionResult.success(stack)
     }
+
+    override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean = true
+
+    override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
+        stack.damage(1, attacker, EquipmentSlot.MAINHAND)
+    }
+
+    override fun canMine(state: BlockState?, world: World?, pos: BlockPos?, miner: PlayerEntity): Boolean = !miner.isCreative
 
     companion object {
         const val ENTITY_DISTANCE_MULTIPLIER = 0.2

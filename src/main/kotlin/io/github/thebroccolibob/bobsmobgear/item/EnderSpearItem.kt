@@ -5,6 +5,8 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.damage
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.value
+import net.minecraft.block.BlockState
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
@@ -16,6 +18,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class EnderSpearItem(val selfDamage: Float, private val cooldown: Int, private val createEntity: (LivingEntity, World, ItemStack) -> AbstractEnderSpearEntity, material: ToolMaterial, settings: Settings) :
@@ -23,8 +26,8 @@ class EnderSpearItem(val selfDamage: Float, private val cooldown: Int, private v
         attributeModifiers(SwordItem.createAttributeModifiers(material, 4, -2.8f))
     }) {
 
-    constructor(cooldown: Int, createEntity: (LivingEntity, World, ItemStack) -> AbstractEnderSpearEntity, material: ToolMaterial, settings: Settings) :
-        this(0f, cooldown, createEntity, material, settings)
+    constructor(createEntity: (LivingEntity, World, ItemStack) -> AbstractEnderSpearEntity, material: ToolMaterial, settings: Settings) :
+        this(0f, 0, createEntity, material, settings)
 
     override fun use(world: World?, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         user.setCurrentHand(hand)
@@ -46,7 +49,8 @@ class EnderSpearItem(val selfDamage: Float, private val cooldown: Int, private v
         }
         if (user is PlayerEntity && !user.isInCreativeMode)
             user.inventory.removeOne(stack)
-        (user as? PlayerEntity)?.itemCooldownManager?.set(this, cooldown)
+        if (cooldown > 0)
+            (user as? PlayerEntity)?.itemCooldownManager?.set(this, cooldown)
     }
 
     override fun getUseAction(stack: ItemStack?): UseAction = UseAction.SPEAR
@@ -58,6 +62,14 @@ class EnderSpearItem(val selfDamage: Float, private val cooldown: Int, private v
             user.playSound(BobsMobGearSounds.WEAPON_ATTACK_READY)
         super.usageTick(world, user, stack, remainingUseTicks)
     }
+
+    override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean = true
+
+    override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
+        stack.damage(1, attacker, EquipmentSlot.MAINHAND)
+    }
+
+    override fun canMine(state: BlockState?, world: World?, pos: BlockPos?, miner: PlayerEntity): Boolean = !miner.isCreative
 
     companion object {
         const val USE_TIME = 20

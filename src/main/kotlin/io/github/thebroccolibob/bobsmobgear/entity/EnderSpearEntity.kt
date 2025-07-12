@@ -40,7 +40,7 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
     }
 
     private fun applySelfDamage() {
-        (itemStack.item as? EnderSpearItem)?.selfDamage?.let {
+        (itemStack.item as? EnderSpearItem)?.selfDamage?.takeIf { it > 0 }?.let {
             owner?.damage(damageSources.create(BobsMobGearDamageTypes.SELF_TELEFRAG, null, null), it)
         }
     }
@@ -65,7 +65,7 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
                 teleportToOwner()
             } else {
                 setPosition(entity.pos + offset)
-                setVelocity(0.0, 0.0, 0.0)
+                bounce()
             }
             teleported = true
             return
@@ -74,7 +74,7 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
         // TODO instant attack reset?
         teleportOwnerTo(entity.pos + (entity.rotationVector.horizontal().normalize() * -(entity.width / 2 + 2.0)).add(0.0, 2.0, 0.0), entity.yaw, owner?.pitch ?: 0f)
         returnToOwnerOrDrop()
-        velocity = velocity.multiply(-0.01, -0.1, -0.01)
+        bounce()
         applySelfDamage()
         teleported = true
     }
