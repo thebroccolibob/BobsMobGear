@@ -214,3 +214,5 @@ fun entityProperty(getWorld: () -> World, uuidProperty: KMutableProperty0<UUID?>
 }
 
 fun Entity.entityProperty(uuid: KMutableProperty0<UUID?>? = null, id: KMutableProperty0<Int?>? = null) = entityProperty(::getWorld, uuid, id)
+
+fun DamageSource.toDirect() = DamageSource(typeRegistryEntry, attacker)

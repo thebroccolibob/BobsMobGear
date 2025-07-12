@@ -71,7 +71,6 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
 
         velocity *= 0.8
         val positionDiff = target.eyePos - pos
-//            val adjust = (target.eyePos - (pos + difference.normalize() * (1 * (velocity dot difference.normalize()))))
         val distanceToTarget = positionDiff.length()
         val approxTime = distanceToTarget / velocity.length()
         val estimatedMovement = velocity * approxTime
@@ -102,21 +101,20 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
             playSound(hitSound, 1f, 1f)
 
 
-        if (isEnderman && endermanHits >= 4) {
-            entity.damage(damageSources.create(BobsMobGearDamageTypes.BASE_TELEFRAG, this, owner), damage)
-        } else if (entity.damage(damageSource, damage)) {
+        if (isEnderman && endermanHits < 4) {
+            entity.damage(damageSource, damage)
+            bounce()
+            return
+        }
+
+        if (entity.damage(if (isEnderman) damageSources.create(BobsMobGearDamageTypes.BASE_TELEFRAG, this, owner) else damageSource, damage)) {
             (world as? ServerWorld)?.let {
-                EnchantmentHelper.onTargetDamaged(it, entity, damageSource, stack)
+                EnchantmentHelper.onTargetDamaged(it, entity, damageSource.toDirect(), stack) // must be direct so enchantments like fire aspects apply
             }
 
             if (entity is LivingEntity) {
                 knockback(entity, damageSource)
                 onHit(entity)
-            }
-
-            if (isEnderman) {
-                bounce()
-                return
             }
         }
 

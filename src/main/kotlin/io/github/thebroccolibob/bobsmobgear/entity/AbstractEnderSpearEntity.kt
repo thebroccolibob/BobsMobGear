@@ -1,7 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.entity
 
 import io.github.thebroccolibob.bobsmobgear.util.contains
-import io.github.thebroccolibob.bobsmobgear.util.set
 import net.minecraft.component.EnchantmentEffectComponentTypes
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -13,7 +12,6 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -71,8 +69,8 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
         val stack = asItemStack()
 
         if (thrownSlot == PlayerInventory.OFF_HAND_SLOT) {
-            if (player.offHandStack.isEmpty) {
-                player[Hand.OFF_HAND] = stack
+            if (player.inventory.offHand[0].isEmpty) { // player.offHandStack returns ItemStack.EMPTY if holding a 2-handed weapon in Better Combat
+                player.inventory.offHand[0] = stack
                 return true
             }
         } else if (thrownSlot != -1 && player.inventory.getStack(thrownSlot).isEmpty) {
