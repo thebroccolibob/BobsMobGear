@@ -6,7 +6,10 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.damage
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.value
+import net.fabricmc.fabric.api.item.v1.EnchantingContext
 import net.minecraft.block.BlockState
+import net.minecraft.enchantment.Enchantment
+import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -15,6 +18,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.SwordItem
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
@@ -70,6 +74,12 @@ class EnderSpearItem(
             user.playSound(BobsMobGearSounds.WEAPON_ATTACK_READY)
         super.usageTick(world, user, stack, remainingUseTicks)
     }
+
+    override fun canBeEnchantedWith(
+        stack: ItemStack,
+        enchantment: RegistryEntry<Enchantment>,
+        context: EnchantingContext
+    ): Boolean = super.canBeEnchantedWith(stack, enchantment, context) || enchantment.matchesKey(Enchantments.LOYALTY)
 
     override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean = true
 
