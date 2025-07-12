@@ -65,7 +65,8 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
     }
 
     override fun tryPickup(player: PlayerEntity): Boolean {
-        if (pickupType != PickupPermission.ALLOWED || player != owner) return super.tryPickup(player)
+        if (pickupType != PickupPermission.ALLOWED) return super.tryPickup(player)
+        if (owner?.isAlive == true && player != owner) return false
 
         val stack = asItemStack()
 

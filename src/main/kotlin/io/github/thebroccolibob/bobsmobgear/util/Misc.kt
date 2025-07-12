@@ -25,6 +25,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 import net.minecraft.util.Unit as MCUnit
 
@@ -175,3 +177,40 @@ fun getWeaponDamage(world: World?, stack: ItemStack, target: Entity, damageSourc
 
     return EnchantmentHelper.getDamage(world, stack, target, damageSource, damage)
 }
+
+fun entityProperty(getWorld: () -> World, uuidProperty: KMutableProperty0<UUID?>? = null, idProperty: KMutableProperty0<Int?>? = null) = object : ReadWriteProperty<Any?, Entity?> {
+    private var entity: Entity? = null
+
+    override fun getValue(thisRef: Any?, property: KProperty<*>): Entity? {
+        val world = getWorld()
+
+        if (world is ServerWorld) {
+            if (uuidProperty != null && entity?.uuid != uuidProperty.get())
+                entity = null
+        } else {
+            if (idProperty != null && entity?.id != idProperty.get())
+                entity = null
+        }
+
+        if (entity?.isRemoved == false) return entity
+
+        entity = if (world is ServerWorld)
+            uuidProperty?.get()?.let { world.getEntity(it) }
+        else
+            idProperty?.get()?.let { world.getEntityById(it) }
+
+        return entity
+    }
+
+    override fun setValue(
+        thisRef: Any?,
+        property: KProperty<*>,
+        value: Entity?
+    ) {
+        entity = value
+        idProperty?.set(entity?.id ?: 0)
+        uuidProperty?.set(entity?.uuid)
+    }
+}
+
+fun Entity.entityProperty(uuid: KMutableProperty0<UUID?>? = null, id: KMutableProperty0<Int?>? = null) = entityProperty(::getWorld, uuid, id)

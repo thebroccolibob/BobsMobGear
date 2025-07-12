@@ -18,6 +18,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import java.util.*
 
 class EnderEyeSpearEntity : AbstractEnderSpearEntity {
     constructor(type: EntityType<out EnderEyeSpearEntity>, world: World) : super(type, world)
@@ -36,14 +37,14 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
             else 0
     var maxRange = 16.0
 
-    var target: Entity? = null
-        private set
+    var targetUUID: UUID? = null
+    var target by entityProperty(::targetUUID)
 
     override fun getDefaultItemStack(): ItemStack = BobsMobGearItems.IRON_ENDER_EYE_SPEAR.defaultStack
 
     private fun updateTarget() {
         if (age % 2 == 0 && target?.isAlive != true)
-            target = findTarget(world, pos, velocity.normalize(), maxRange, ::canHit)
+            target = findTarget(world, pos, velocity.normalize(), maxRange.toDouble(), ::canHit)
     }
 
     override fun canHit(entity: Entity): Boolean {
@@ -52,8 +53,8 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
 
     override fun tick() {
         super.tick()
-        if (world.isClient) return
-        updateTarget()
+        if (!world.isClient)
+            updateTarget()
 
         if (hasHit) {
             if (returnTime <= 0) return
@@ -133,17 +134,23 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
         super.writeCustomDataToNbt(nbt)
         nbt.putInt(RETURN_TIME_NBT, returnTime)
         nbt.putDouble(MAX_RANGE_NBT, maxRange)
+        nbt.putBoolean(HAS_HIT_NBT, hasHit)
+        targetUUID?.let { nbt.putUuid(TARGET_UUID_NBT, it) }
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
         super.readCustomDataFromNbt(nbt)
         returnTime = nbt.getInt(RETURN_TIME_NBT)
         maxRange = nbt.getDouble(MAX_RANGE_NBT)
+        hasHit = nbt.getBoolean(HAS_HIT_NBT)
+        targetUUID = if (nbt.containsUuid(TARGET_UUID_NBT)) nbt.getUuid(TARGET_UUID_NBT) else null
     }
 
     companion object {
         private const val RETURN_TIME_NBT = "return_time"
         private const val MAX_RANGE_NBT = "max_range"
+        private const val TARGET_UUID_NBT = "target_uuid"
+        private const val HAS_HIT_NBT = "has_hit"
 
         /**
          * @param direction Should be a unit vector
