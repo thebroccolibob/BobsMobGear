@@ -37,8 +37,8 @@ class DamageTypeGenerator(
         }
 
         override fun run(registerable: Registerable<DamageType>) {
-            registerable.register(BobsMobGearDamageTypes.PROJECTILE_TELEFRAG, 0.1f, "telefrag", effects = DamageEffects.BURNING)
-            registerable.register(BobsMobGearDamageTypes.BASE_TELEFRAG, 0.1f, "telefrag", effects = DamageEffects.BURNING)
+            registerable.register(BobsMobGearDamageTypes.PROJECTILE_TELEFRAG, 0.1f, "telefrag")
+            registerable.register(BobsMobGearDamageTypes.BASE_TELEFRAG, 0.1f, "telefrag")
             registerable.register(BobsMobGearDamageTypes.SELF_TELEFRAG, 0.1f, effects = DamageEffects.BURNING)
         }
     }
