@@ -173,11 +173,11 @@ object BobsMobGearItems {
 
     }))
 
-    val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem(3f, 5 * 20, ::EnderSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
+    val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem.teleporting(3f, 5 * 20, ::EnderSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 
-    val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem(::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
+    val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem.homing(16.0, ::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 

@@ -31,12 +31,12 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
         super.writeCustomDataToNbt(nbt)
-        nbt.putBoolean("teleported", teleported)
+        nbt.putBoolean(TELEPORTED_NBT, teleported)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
         super.readCustomDataFromNbt(nbt)
-        teleported = nbt.getBoolean("teleported")
+        teleported = nbt.getBoolean(TELEPORTED_NBT)
     }
 
     private fun applySelfDamage() {
@@ -109,5 +109,9 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
         owner.onLanding()
         if (owner is ServerPlayerEntity) owner.clearCurrentExplosion()
         world.playSound(null, x, y, z, SoundEvents.ENTITY_PLAYER_TELEPORT, owner.soundCategory, 1f, 1f)
+    }
+
+    companion object {
+        private const val TELEPORTED_NBT = "teleported"
     }
 }

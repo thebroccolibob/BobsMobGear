@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.EndermanEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
@@ -25,6 +26,15 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
 
     private var hasHit = false
     private var endermanHits = 0
+    private var returnTicks = 0
+    private var returnTime = if (hasLoyalty)
+            (world as? ServerWorld)
+                ?.let { EnchantmentHelper.getTridentReturnAcceleration(it, itemStack, owner) }
+                ?.takeIf { it != 0 }
+                ?.let { 80 / it }
+                ?: 0
+            else 0
+    var maxRange = 16.0
 
     var target: Entity? = null
         private set
@@ -33,7 +43,7 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
 
     private fun updateTarget() {
         if (age % 2 == 0 && target?.isAlive != true)
-            target = findTarget(world, pos, velocity.normalize(), 64.0, ::canHit)
+            target = findTarget(world, pos, velocity.normalize(), maxRange, ::canHit)
     }
 
     override fun canHit(entity: Entity): Boolean {
@@ -45,7 +55,16 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
         if (world.isClient) return
         updateTarget()
 
-        if (hasHit || inGround) return
+        if (hasHit) {
+            if (returnTime <= 0) return
+            returnTicks++
+            if (returnTicks > returnTime) {
+                teleportToOwner()
+                returnTime = 0
+            }
+            return
+        }
+        if (inGround) return
 
         val target = target ?: return
 
@@ -62,6 +81,10 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
     }
 
     override fun hasNoGravity(): Boolean = !hasHit && target != null
+
+    override fun onDeflected(deflector: Entity?, fromAttack: Boolean) {
+        target = null
+    }
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         if (hasHit) return
@@ -98,10 +121,7 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
 
         hasHit = true
 
-        if (hasLoyalty)
-            teleportToOwner()
-        else
-            bounce()
+        bounce()
     }
 
     override fun onBlockHit(blockHitResult: BlockHitResult) {
@@ -109,20 +129,33 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
         hasHit = true
     }
 
+    override fun writeCustomDataToNbt(nbt: NbtCompound) {
+        super.writeCustomDataToNbt(nbt)
+        nbt.putInt(RETURN_TIME_NBT, returnTime)
+        nbt.putDouble(MAX_RANGE_NBT, maxRange)
+    }
+
+    override fun readCustomDataFromNbt(nbt: NbtCompound) {
+        super.readCustomDataFromNbt(nbt)
+        returnTime = nbt.getInt(RETURN_TIME_NBT)
+        maxRange = nbt.getDouble(MAX_RANGE_NBT)
+    }
+
     companion object {
+        private const val RETURN_TIME_NBT = "return_time"
+        private const val MAX_RANGE_NBT = "max_range"
+
         /**
          * @param direction Should be a unit vector
          */
         fun findTarget(world: World, origin: Vec3d, direction: Vec3d, maxDistance: Double, canHit: Predicate<Entity>): Entity? {
             val end = origin + direction * maxDistance
-            return world.getOtherEntities(null, Box(
-                origin.x - maxDistance * 2,
-                origin.y - maxDistance * 2,
-                origin.z - maxDistance * 2,
-                origin.x + maxDistance * 2,
-                origin.y + maxDistance * 2,
-                origin.z + maxDistance * 2,
-            ), canHit).minByOrNull { if ((it.pos - origin) dot direction > 0) distanceToLine(it.pos, origin, end) else it.pos.distanceTo(origin) }
+            return world.getOtherEntities(null, Box.of(origin, 2 * maxDistance, 2 * maxDistance, 2 * maxDistance), canHit).minByOrNull {
+                if ((it.pos - origin) dot direction > 0)
+                    distanceToLine(it.pos, origin, end)
+                else
+                    it.pos.distanceTo(origin)
+            }
         }
 
         private fun distanceToLine(point: Vec3d, lineA: Vec3d, lineB: Vec3d): Double =

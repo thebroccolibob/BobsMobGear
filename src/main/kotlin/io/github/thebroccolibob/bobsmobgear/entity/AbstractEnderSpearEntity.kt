@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
@@ -63,6 +64,34 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
             super.age()
     }
 
+    override fun tryPickup(player: PlayerEntity): Boolean {
+        if (pickupType != PickupPermission.ALLOWED || player != owner) return super.tryPickup(player)
+
+        val stack = asItemStack()
+
+        if (thrownSlot == PlayerInventory.OFF_HAND_SLOT) {
+            if (player.offHandStack.isEmpty) {
+                player[Hand.OFF_HAND] = stack
+                return true
+            }
+        } else if (thrownSlot != -1 && player.inventory.getStack(thrownSlot).isEmpty) {
+            player.inventory.setStack(thrownSlot, stack)
+            return true
+        }
+
+        return super.tryPickup(player)
+    }
+
+    override fun writeCustomDataToNbt(nbt: NbtCompound) {
+        super.writeCustomDataToNbt(nbt)
+        nbt.putInt(THROWN_SLOT_NBT, thrownSlot)
+    }
+
+    override fun readCustomDataFromNbt(nbt: NbtCompound) {
+        super.readCustomDataFromNbt(nbt)
+        thrownSlot = nbt.getInt(THROWN_SLOT_NBT)
+    }
+
     private fun playTeleportEffect(x: Double, y: Double, z: Double, dh: Double, dy: Double, reverse: Boolean) {
         world.playSound(null, x, y, z, SoundEvents.ENTITY_PLAYER_TELEPORT, soundCategory)
         (world as? ServerWorld)?.spawnParticles(
@@ -85,23 +114,7 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
         }
     }
 
-    protected fun returnToOwner(): Boolean {
-        if (pickupType == PickupPermission.CREATIVE_ONLY && (owner as? PlayerEntity)?.isCreative == true) return true
-        if (pickupType != PickupPermission.ALLOWED) return false
-        val owner = (owner as? PlayerEntity)?.takeIf { it.isAlive } ?: return false
-        val stack = asItemStack()
-
-        if (thrownSlot == PlayerInventory.OFF_HAND_SLOT) {
-            if (owner.offHandStack.isEmpty) {
-                owner[Hand.OFF_HAND] = stack
-                return true
-            }
-        } else if (thrownSlot != -1 && owner.inventory.getStack(thrownSlot).isEmpty) {
-            owner.inventory.setStack(thrownSlot, stack)
-            return true
-        }
-        return owner.giveItemStack(stack)
-    }
+    protected fun returnToOwner(): Boolean = (owner as? PlayerEntity)?.let { tryPickup(it) } == true
 
     protected fun returnToOwnerOrDrop(hitResult: BlockHitResult? = null) {
         when {
@@ -128,5 +141,9 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
 
     protected fun bounce() {
         velocity = velocity.multiply(-0.01, -0.1, -0.01)
+    }
+
+    companion object {
+        private const val THROWN_SLOT_NBT = "thrown_slot"
     }
 }
