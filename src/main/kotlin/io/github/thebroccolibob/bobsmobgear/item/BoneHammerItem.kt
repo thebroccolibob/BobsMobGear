@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEffects
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.*
@@ -58,7 +58,7 @@ class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
         stack.damage(1, attacker, EquipmentSlot.MAINHAND)
 
-        if (target.isDead || BobsMobGearItems.USING_SPECIAL_ATTACK in stack)
+        if (target.isDead || BobsMobGearComponents.USING_SPECIAL_ATTACK in stack)
             (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.BONEK, target.x, target.getBodyY(0.67), target.z, 1, target.width / 2.0, target.height / 3.0, target.width / 2.0, 0.0)
 
         applyBruised(target, 1)
@@ -67,7 +67,7 @@ class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings
     override fun canMine(state: BlockState?, world: World?, pos: BlockPos?, miner: PlayerEntity): Boolean = !miner.isCreative
 
     override fun onAttackEnd(player: ServerPlayerEntity, targetCount: Int, stack: ItemStack) {
-        if (BobsMobGearItems.USING_SPECIAL_ATTACK in stack) {
+        if (BobsMobGearComponents.USING_SPECIAL_ATTACK in stack) {
             val center = Vec3d(player.x, player.getBodyY(0.5), player.z) + player.rotationVector.horizontal().normalize() * HIT_DISTANCE
             //            (player.world as? ServerWorld)?.syncWorldEvent(WorldEvents.SMASH_ATTACK, BlockPos(center.x.toInt(), (player.y - 1).toInt(), center.z.toInt()), 250)
             for (target in player.world.getOtherEntities(player, Box.of(center, 2 * MAX_DISTANCE, player.height.toDouble() + 2, 2 * MAX_DISTANCE)) { it is LivingEntity }) {

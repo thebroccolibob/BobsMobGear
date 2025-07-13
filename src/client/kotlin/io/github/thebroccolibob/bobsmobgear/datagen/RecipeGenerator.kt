@@ -6,10 +6,7 @@ import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.PALADINS
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.ROGUES
 import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.*
 import io.github.thebroccolibob.bobsmobgear.util.set
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
@@ -109,7 +106,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                     material * FluidConstants.INGOT,
                     true,
                     ItemStack(iron, 1).apply {
-                        set(BobsMobGearItems.HEATED)
+                        set(BobsMobGearComponents.HEATED)
                     }
                 ),
                 conditionedExporter
@@ -125,7 +122,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                     material * FluidConstants.INGOT,
                     true,
                     ItemStack(diamond).apply {
-                        set(BobsMobGearItems.HEATED)
+                        set(BobsMobGearComponents.HEATED)
                     }
                 ),
                 conditionedExporter
@@ -141,7 +138,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                     1 * FluidConstants.INGOT,
                     true,
                     ItemStack(netherite).apply {
-                        set(BobsMobGearItems.HEATED)
+                        set(BobsMobGearComponents.HEATED)
                     }
                 ),
                 conditionedExporter
@@ -207,7 +204,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                     FluidConstants.INGOT,
                     true,
                     ItemStack(ingot).apply {
-                        set(BobsMobGearItems.HEATED)
+                        set(BobsMobGearComponents.HEATED)
                     }
                 ),
                 exporter

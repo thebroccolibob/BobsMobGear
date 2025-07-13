@@ -2,7 +2,7 @@ package io.github.thebroccolibob.bobsmobgear
 
 import io.github.thebroccolibob.bobsmobgear.event.ItemTickCallback
 import io.github.thebroccolibob.bobsmobgear.mixin.AbstractCauldronBlockInvoker
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.isOf
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
@@ -31,7 +31,7 @@ val HEATED_COLOR_MATRIX = Matrix3f(
 )
 
 fun extinguishHeatedStack(stack: ItemStack, world: World, entity: Entity?, pos: Vec3d, soundCategory: SoundCategory) {
-    stack.remove(BobsMobGearItems.HEATED)
+    stack.remove(BobsMobGearComponents.HEATED)
 
     world.playSound(entity as? PlayerEntity, pos.x, pos.y, pos.z, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, soundCategory)
 
@@ -60,7 +60,7 @@ fun registerHeatedLogic() {
 
         val stack = player[hand]
         val state = world[hitResult.blockPos]
-        if (BobsMobGearItems.HEATED !in stack
+        if (BobsMobGearComponents.HEATED !in stack
             || !(state isOf Blocks.WATER_CAULDRON)
             || (hitResult.side != Direction.UP))
             return@register ActionResult.PASS
@@ -70,7 +70,7 @@ fun registerHeatedLogic() {
     }
 
     ItemTickCallback.EVENT.register { entity, stack ->
-        if (BobsMobGearItems.HEATED !in stack) return@register
+        if (BobsMobGearComponents.HEATED !in stack) return@register
 
         val state = entity.blockStateAtPos
 
@@ -94,7 +94,7 @@ fun registerHeatedLogic() {
     }
 
     ServerLivingEntityEvents.AFTER_DAMAGE.register { entity, source, _, _, blocked ->
-        if (!blocked && source.attacker?.weaponStack?.contains(BobsMobGearItems.HEATED) == true) {
+        if (!blocked && source.attacker?.weaponStack?.contains(BobsMobGearComponents.HEATED) == true) {
             entity.setOnFireFor(4f)
         }
     }

@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
 import com.google.common.collect.HashMultimap
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -16,6 +17,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.FluidState
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
 import net.minecraft.loot.condition.LootCondition
@@ -128,3 +130,14 @@ operator fun <T> RegistryEntry<T>.component2(): T = value()
  */
 operator fun ItemEnchantmentsComponent.contains(type: ComponentType<*>) =
     enchantmentEntries.any { (enchantment, _) -> type in enchantment.value.effects }
+
+fun ItemGroup(init: ItemGroup.Builder.() -> Unit): ItemGroup = FabricItemGroup.builder().apply(init).build()
+
+fun ItemGroup.Entries.addAll(vararg items: Item) {
+    addAll(items.map { it.defaultStack })
+}
+
+fun ItemGroup.Entries.addAll(vararg stacks: ItemStack) {
+    addAll(stacks.toList())
+}
+

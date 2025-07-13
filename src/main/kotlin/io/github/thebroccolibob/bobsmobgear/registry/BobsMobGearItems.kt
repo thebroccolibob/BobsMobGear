@@ -1,15 +1,14 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
-import com.mojang.serialization.Codec
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.entity.EnderEyeSpearEntity
 import io.github.thebroccolibob.bobsmobgear.entity.EnderSpearEntity
 import io.github.thebroccolibob.bobsmobgear.item.*
-import io.github.thebroccolibob.bobsmobgear.util.ComparableItemStack
-import io.github.thebroccolibob.bobsmobgear.util.itemSettings
-import io.github.thebroccolibob.bobsmobgear.util.plus
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.MAX_SONIC_CHARGE
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.SONIC_CHARGE
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.TONGS_HELD_ITEM
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
@@ -17,20 +16,16 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.EmptyItemFluidStorage
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.Block
-import net.minecraft.component.ComponentType
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.ToolComponent
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.*
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
-import net.minecraft.util.Unit as MCUnit
 
 object BobsMobGearItems {
     private fun register(id: Identifier, item: Item): Item =
@@ -40,14 +35,6 @@ object BobsMobGearItems {
         register(BobsMobGear.id(path), item)
 
     private fun register(block: Block): Item = Items.register(block)
-
-    private fun <T> register(path: String, init: ComponentType.Builder<T>.() -> Unit): ComponentType<T> =
-        Registry.register(Registries.DATA_COMPONENT_TYPE, BobsMobGear.id(path), ComponentType.builder<T>().apply(init).build())
-
-    private fun registerUnit(path: String): ComponentType<MCUnit> = register(path) {
-        codec(MCUnit.CODEC)
-        packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
-    }
 
     private fun registerBucket(fluid: Fluid) =
         register(Registries.FLUID.getId(fluid) + "_bucket", BucketItem(fluid, itemSettings {
@@ -60,31 +47,6 @@ object BobsMobGearItems {
             recipeRemainder(EMPTY_POT)
             maxCount(1)
         }))
-
-    // COMPONENTS
-
-    @JvmField
-    val HEATED = registerUnit("heated")
-
-    val TONGS_HELD_ITEM = register<ComparableItemStack>("tongs_held_item") {
-        codec(ComparableItemStack.CODEC)
-        packetCodec(ComparableItemStack.PACKET_CODEC)
-    }
-
-    val MAX_SONIC_CHARGE = register<Int>("max_sonic_charge") {
-        codec(Codec.INT)
-        packetCodec(PacketCodecs.INTEGER)
-    }
-
-    val SONIC_CHARGE = register<Int>("sonic_charge") {
-        codec(Codec.INT)
-        packetCodec(PacketCodecs.INTEGER)
-    }
-
-    @JvmField
-    val USING_SPECIAL_ATTACK = registerUnit("using_special_attack")
-
-    // ITEMS
 
     val EMPTY_TEMPLATE = register(BobsMobGearBlocks.EMPTY_TEMPLATE)
     val SWORD_TEMPLATE = register(BobsMobGearBlocks.SWORD_TEMPLATE)
@@ -187,11 +149,7 @@ object BobsMobGearItems {
 
     // ITEM GROUPS
 
-    private fun ItemGroup.Entries.addAll(vararg items: Item) {
-        addAll(items.map { it.defaultStack })
-    }
-
-    val ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), FabricItemGroup.builder().apply {
+    val ITEM_GROUP: ItemGroup = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), ItemGroup {
         icon { SMITHING_HAMMER.defaultStack }
         displayName(Text.of(FabricLoader.getInstance().getModContainer(BobsMobGear.MOD_ID).orElseThrow().metadata.name))
         entries { _, entries ->
@@ -230,6 +188,15 @@ object BobsMobGearItems {
                 NETHERITE_POT,
                 SMITHING_HAMMER,
                 SMITHING_TONGS,
+
+                WORN_HARDENED_FLESH,
+                WORN_STURDY_BONE,
+                WORN_SPIDER_FANG,
+                WORN_CREEPER_CORE,
+                WORN_SEETHING_PEARL,
+                WORN_SEETHING_EYE,
+                SCULK_SYMBIOTE,
+
                 FLESH_GLOVE,
                 IRON_FLESH_GLOVE,
                 IRON_SPIDER_DAGGER,
@@ -237,13 +204,13 @@ object BobsMobGearItems {
                 IRON_ENDER_SPEAR,
                 IRON_ENDER_EYE_SPEAR,
             )
-            entries.addAll(listOf(
+            entries.addAll(
                 WARDEN_FIST.defaultStack.also {
                     it[SONIC_CHARGE] = 16
                 },
-            ))
+            )
         }
-    }.build())
+    })
 
     fun register() {
         FluidStorage.ITEM.registerForItems({ stack, context ->

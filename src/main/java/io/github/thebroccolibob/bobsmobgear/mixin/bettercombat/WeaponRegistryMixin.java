@@ -3,7 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.mixin.bettercombat;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.thebroccolibob.bobsmobgear.item.HasSpecialAttack;
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems;
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents;
 import net.bettercombat.api.WeaponAttributes;
 import net.bettercombat.logic.WeaponRegistry;
 import net.minecraft.item.Item;
@@ -41,7 +41,7 @@ public abstract class WeaponRegistryMixin {
             cancellable = true
     )
     private static void checkSpecialAttack(ItemStack itemStack, CallbackInfoReturnable<WeaponAttributes> cir) {
-        if (itemStack.contains(BobsMobGearItems.USING_SPECIAL_ATTACK) && itemStack.getItem() instanceof HasSpecialAttack hasSpecialAttack)
+        if (itemStack.contains(BobsMobGearComponents.USING_SPECIAL_ATTACK) && itemStack.getItem() instanceof HasSpecialAttack hasSpecialAttack)
             cir.setReturnValue(getAttributes(hasSpecialAttack.getSpecialAttack()));
     }
 }

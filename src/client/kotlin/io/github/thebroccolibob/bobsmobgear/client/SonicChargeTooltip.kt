@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.client
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.util.Translation
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.minecraft.item.Item
@@ -22,8 +22,8 @@ object SonicChargeTooltip : ItemTooltipCallback {
         tooltipType: TooltipType?,
         lines: MutableList<Text>
     ) {
-        stack[BobsMobGearItems.MAX_SONIC_CHARGE]?.let {
-            lines.add(TOOLTIP.text(stack[BobsMobGearItems.SONIC_CHARGE] ?: 0, it))
+        stack[BobsMobGearComponents.MAX_SONIC_CHARGE]?.let {
+            lines.add(TOOLTIP.text(stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0, it))
         }
     }
 

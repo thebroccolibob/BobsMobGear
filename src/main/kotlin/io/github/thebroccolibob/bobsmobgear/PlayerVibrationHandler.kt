@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear
 
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearGameEvents
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.get
 import io.github.thebroccolibob.bobsmobgear.util.isIn
 import net.minecraft.entity.Entity
@@ -35,7 +35,7 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
     private fun canAcceptCharge(stack: ItemStack) =
         cooldown <= 0 &&
         !player.itemCooldownManager.isCoolingDown(stack.item) &&
-        stack[BobsMobGearItems.MAX_SONIC_CHARGE]?.let { (stack[BobsMobGearItems.SONIC_CHARGE] ?: 0) < it } == true
+        stack[BobsMobGearComponents.MAX_SONIC_CHARGE]?.let { (stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0) < it } == true
 
     override fun getTag(): TagKey<GameEvent> = BobsMobGearGameEvents.CHARGES_WARDEN_FIST
 
@@ -61,11 +61,11 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
             .map { player[it] }
             .firstOrNull(::canAcceptCharge)
             ?.let { stack ->
-                ((stack[BobsMobGearItems.SONIC_CHARGE] ?: 0) +
+                ((stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0) +
                         if (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST) SUPER_CHARGE_INCREASE else 1
                 ).also {
-                    stack[BobsMobGearItems.SONIC_CHARGE] = it
-                } == stack[BobsMobGearItems.MAX_SONIC_CHARGE]
+                    stack[BobsMobGearComponents.SONIC_CHARGE] = it
+                } == stack[BobsMobGearComponents.MAX_SONIC_CHARGE]
             } == true
         world.playSoundFromEntity(null, player, if (full) SoundEvents.ENTITY_WARDEN_NEARBY_CLOSEST else SoundEvents.ENTITY_WARDEN_TENDRIL_CLICKS, player.soundCategory, 1f, 1f)
         cooldown = MAX_COOLDOWN

@@ -1,6 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.client
 
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.util.Translation
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.minecraft.item.Item
@@ -15,7 +15,7 @@ object HeatedTooltip : ItemTooltipCallback {
     }
 
     override fun getTooltip(stack: ItemStack, tooltipContext: Item.TooltipContext, tooltipType: TooltipType, lines: MutableList<Text>) {
-        if (BobsMobGearItems.HEATED in stack)
+        if (BobsMobGearComponents.HEATED in stack)
             lines.add(TOOLTIP.text())
     }
 

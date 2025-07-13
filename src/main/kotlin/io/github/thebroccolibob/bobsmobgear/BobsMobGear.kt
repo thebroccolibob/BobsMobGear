@@ -21,6 +21,7 @@ object BobsMobGear : ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		BobsMobGearBlocks.register()
+		BobsMobGearComponents.register()
 		BobsMobGearItems.register()
 		BobsMobGearEntities.register()
 		BobsMobGearParticles.register()

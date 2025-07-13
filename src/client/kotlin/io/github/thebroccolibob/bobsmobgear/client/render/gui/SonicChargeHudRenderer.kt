@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.gui
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.util.getBarProgress
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
@@ -57,11 +57,11 @@ object SonicChargeHudRenderer : HudRenderCallback, ClientTickEvents.EndTick {
     }
 
     private fun getSonicStack(player: PlayerEntity, arm: Arm) =
-        (if (player.mainArm == arm) player.mainHandStack else player.offHandStack).takeIf { BobsMobGearItems.MAX_SONIC_CHARGE in it }
+        (if (player.mainArm == arm) player.mainHandStack else player.offHandStack).takeIf { BobsMobGearComponents.MAX_SONIC_CHARGE in it }
 
     private fun renderBar(context: DrawContext, emptyTexture: Identifier, filledTexture: Identifier, stack: ItemStack, x: Int, y: Int, leftToRight: Boolean = true) {
-        val maxCharge = stack[BobsMobGearItems.MAX_SONIC_CHARGE] ?: 1
-        val charge = stack[BobsMobGearItems.SONIC_CHARGE] ?: 0
+        val maxCharge = stack[BobsMobGearComponents.MAX_SONIC_CHARGE] ?: 1
+        val charge = stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0
         context.drawGuiTexture(emptyTexture, x, y, WIDTH, HEIGHT)
         if (charge == maxCharge)
             context.drawGuiTexture(filledTexture, x, y, WIDTH, HEIGHT)
