@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
+import io.github.thebroccolibob.bobsmobgear.client.util.cataclysmId
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -65,6 +66,7 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_SURFACE).apply {
             add(Items.SMITHING_TABLE)
             forceAddTag(ItemTags.ANVIL)
+            addOptional(cataclysmId("mechanical_fusion_anvil"))
         }
         getOrCreateTagBuilder(BobsMobGearItemTags.NON_FORGE_FUEL).apply {
             forceAddTag(ConventionalItemTags.TOOLS)
