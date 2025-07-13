@@ -6,6 +6,7 @@ import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.BlockState
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
@@ -55,6 +56,8 @@ class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings
     override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean = true
 
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
+        stack.damage(1, attacker, EquipmentSlot.MAINHAND)
+
         if (target.isDead || BobsMobGearItems.USING_SPECIAL_ATTACK in stack)
             (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.BONEK, target.x, target.getBodyY(0.67), target.z, 1, target.width / 2.0, target.height / 3.0, target.width / 2.0, 0.0)
 
