@@ -25,6 +25,7 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::GameEventTagGenerator)
 			addProvider(::DamageTypeGenerator)
 			addProvider(::DamageTypeTagGenerator)
+			addProvider(::CreateRecipeGenerator)
 
 			addProvider(::ModelGenerator)
 			addProvider(::SoundsGenerator)

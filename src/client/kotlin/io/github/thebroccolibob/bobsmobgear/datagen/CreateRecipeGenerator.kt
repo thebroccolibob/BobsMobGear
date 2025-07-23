@@ -1,0 +1,83 @@
+package io.github.thebroccolibob.bobsmobgear.datagen
+
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.datagen.util.JsonObject
+import io.github.thebroccolibob.bobsmobgear.datagen.util.jsonArrayOf
+import io.github.thebroccolibob.bobsmobgear.item.FluidPotItem
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
+import net.minecraft.data.DataOutput
+import net.minecraft.data.DataProvider
+import net.minecraft.data.DataWriter
+import net.minecraft.registry.Registries
+import java.util.concurrent.CompletableFuture
+
+// yeah I got lazy
+class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
+    private val pathResolver = output.getResolver(DataOutput.OutputType.DATA_PACK, "recipe/create")
+
+    private val emptyPotStack = JsonObject {
+        addProperty("id", Registries.ITEM.getId(BobsMobGearItems.EMPTY_POT).toString())
+    }
+
+    override fun run(writer: DataWriter): CompletableFuture<*> = BobsMobGearItems.FILLED_POTS.flatMap { pot ->
+        val itemId = Registries.ITEM.getId(pot).toString()
+        val fluid = (pot as FluidPotItem).fluid
+        val fluidId = Registries.FLUID.getId(fluid)
+        val potStack = JsonObject {
+            addProperty("item", itemId)
+        }
+
+        listOf(
+            DataProvider.writeToPath(
+                writer,
+                JsonObject {
+                    addProperty("type", "create:filling")
+                    add("ingredients", jsonArrayOf(
+                        emptyPotStack,
+                        JsonObject {
+                            addProperty("amount", FluidConstants.INGOT)
+                            when (fluid) {
+                                BobsMobGearFluids.IRON -> BobsMobGearFluids.MOLTEN_IRON_TAG
+                                BobsMobGearFluids.DIAMOND -> BobsMobGearFluids.MOLTEN_DIAMOND_TAG
+                                BobsMobGearFluids.NETHERITE -> BobsMobGearFluids.MOLTEN_NETHERITE_TAG
+                                else -> null
+                            }?.let {
+                                addProperty("type", "fluid_tag")
+                                addProperty("fluid_tag", "#${it.id}")
+                            } ?: run {
+                                addProperty("type", "fluid_stack")
+                                addProperty("fluid", fluidId.toString())
+                            }
+                        },
+                    ))
+                    add("results", jsonArrayOf(
+                        potStack,
+                    ))
+                },
+                pathResolver.resolveJson(BobsMobGear.id("filling/${fluidId.path}"))
+            ),
+            DataProvider.writeToPath(
+                writer,
+                JsonObject {
+                    addProperty("type", "create:emptying")
+                    add("ingredients", jsonArrayOf(
+                        potStack,
+                    ))
+                    add("results", jsonArrayOf(
+                        emptyPotStack,
+                        JsonObject {
+                            addProperty("amount", FluidConstants.INGOT)
+                            addProperty("fluid", fluidId.toString())
+                        },
+                    ))
+                },
+                pathResolver.resolveJson(BobsMobGear.id("emptying/${fluidId.path}"))
+            ),
+        )
+    }.toTypedArray().let { CompletableFuture.allOf(*it) }
+
+    override fun getName(): String = "Create Filling/Emptying Recipes"
+}

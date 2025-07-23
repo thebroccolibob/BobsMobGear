@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-22T21:32:59.595637465	Bob's Mob Gear/Model Definitions
+// 1.21.1	2025-07-22T22:36:47.114874064	Bob's Mob Gear/Model Definitions
 ee11d9fb5d99f6d0df1f642614decb54ccb58e76 assets/bobsmobgear/models/block/rpg/mace_template_metal.json
 9e4f27b03e892252bb5131189500f7c3fb0e4877 assets/bobsmobgear/blockstates/rpg/claymore_template.json
 61468060ad8bbc7dc8014fd54f975361829fac7f assets/bobsmobgear/models/item/sculk_symbiote.json
@@ -28,15 +28,15 @@ b80bae3d7d16173d5c3c00f2812214c358236e8f assets/bobsmobgear/blockstates/rpg/sick
 934d173dcbea4dda75307d75b9208eb71d664465 assets/bobsmobgear/models/block/forge_heater.json
 9273212563e5ccd78ad32f7253c89880df90662a assets/bobsmobgear/models/item/worn_sturdy_bone.json
 de41bc3f02badbf893d7b75dcc0ce309dd4540bb assets/bobsmobgear/models/block/axe_template_metal.json
-fd3ac2c656f14d312b1d00a982756011d64ab616 assets/bobsmobgear/models/item/rpg/double_axe_template.json
 31ac47f3667dada7687109b0ba42757b33007fac assets/bobsmobgear/blockstates/forge.json
+fd3ac2c656f14d312b1d00a982756011d64ab616 assets/bobsmobgear/models/item/rpg/double_axe_template.json
 3b5fe2b6ba7e151bb0497be16e3c3e450a4861c8 assets/bobsmobgear/models/block/rpg/claymore_template_metal.json
 f4f13dd9dc870ab8dd7bbcd68dee5779ebda46d6 assets/bobsmobgear/models/block/empty_template_wood.json
 964fd2f5b86dd516da5e92fe23a72e4d6655bd74 assets/bobsmobgear/blockstates/sword_template.json
 1a626dbb81e814c867430d6479968d6f4c17574f assets/bobsmobgear/models/block/farmersdelight/knife_template_metal.json
 ab30c9e82a7da0fcbd9eb587635eb4e1ec3d6a53 assets/bobsmobgear/models/block/rpg/glaive_template_wood.json
-93ff09368420da0e71035252ac544be0e8611c69 assets/bobsmobgear/models/block/sword_template_metal.json
 8c8b1beb34cb55f82102335289f3238cc38398c7 assets/bobsmobgear/models/block/forge_heater_back_left.json
+93ff09368420da0e71035252ac544be0e8611c69 assets/bobsmobgear/models/block/sword_template_metal.json
 25dffc36b20bce5ec226f38f053302346f46eab0 assets/bobsmobgear/models/block/forge_heater_front_right.json
 ea44d71f089891624f6668dcbc03c4054d107253 assets/bobsmobgear/models/item/farmersdelight/knife_template.json
 2d0915af6841cf38c844b7e1c8ed9bfbde53ac8f assets/bobsmobgear/models/item/rpg/glaive_template.json

@@ -1,0 +1,17 @@
+{
+  "type": "create:emptying",
+  "ingredients": [
+    {
+      "item": "bobsmobgear:cataclysm/black_steel_pot"
+    }
+  ],
+  "results": [
+    {
+      "id": "bobsmobgear:empty_pot"
+    },
+    {
+      "amount": 9000,
+      "fluid": "bobsmobgear:cataclysm/black_steel"
+    }
+  ]
+}

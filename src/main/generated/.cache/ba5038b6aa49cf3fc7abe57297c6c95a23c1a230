@@ -1,0 +1,9 @@
+// 1.21.1	2025-07-22T22:36:47.114506745	Bob's Mob Gear/Create Filling/Emptying Recipes
+61d64a51bcd4d0b1916579f49c0b5735c2c0472f data/bobsmobgear/recipe/create/filling/diamond.json
+a1162293ecac31fa96bdbc3df7f599f0b72fc2b2 data/bobsmobgear/recipe/create/filling/cataclysm/black_steel.json
+317b683e985eb44d184d1800c1ecfbf6f4601dea data/bobsmobgear/recipe/create/filling/iron.json
+18ad455d1b0139638bd7482d59ee26164e1892ca data/bobsmobgear/recipe/create/emptying/diamond.json
+b36390c64b7d29cf0b344fd17ce9e8e2cc1145c8 data/bobsmobgear/recipe/create/emptying/iron.json
+c0dac4d6d1fbcd3db99224d0a48674d394b7fa98 data/bobsmobgear/recipe/create/filling/netherite.json
+8073711ad137b5c9150500f3d15fbf0ff87c8731 data/bobsmobgear/recipe/create/emptying/cataclysm/black_steel.json
+46d60e8a37e13fac01aab13d09bd1e04fb88cb9f data/bobsmobgear/recipe/create/emptying/netherite.json
