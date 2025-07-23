@@ -39,10 +39,24 @@ repositories {
 		url 'https://maven.kosmx.dev/'
 	}
 	maven { url = "https://maven.bawnorton.com/releases" }
-	maven { url 'https://jitpack.io' }
 	maven {
 		name "Ladysnake"
 		url "https://maven.ladysnake.org/releases"
+	}
+	maven {
+		name = "Greenhouse Maven"
+		url = 'https://repo.greenhouse.house/releases/'
+	}
+	maven {
+		name = "Greenhouse Maven"
+		url = 'https://repo.greenhouse.house/snapshots/' // Porting Lib Hotfixes
+	}
+	maven { url "https://mvn.devos.one/snapshots/" } // Porting Lib Betas
+	maven {
+		url "https://jitpack.io/" // Fabric ASM
+		content {
+			excludeGroup "io.github.fabricators_of_create"
+		}
 	}
 }
 
@@ -103,6 +117,10 @@ dependencies {
 	modLocalRuntime modCompileOnly("maven.modrinth:paladins-and-priests:${project.rpg_paladins_priests_version}")
 	modLocalRuntime modCompileOnly("maven.modrinth:archers:${project.rpg_archers_version}")
 	modLocalRuntime modCompileOnly("maven.modrinth:rogues-and-warriors:${project.rpg_rogues_warriors_version}")
+
+	modLocalRuntime modCompileOnly("vectorwing:FarmersDelight:${fdrf_version}") {
+		exclude(group: "net.fabricmc")
+	}
 }
 
 processResources {

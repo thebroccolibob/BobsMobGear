@@ -6,6 +6,7 @@ import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
 import io.github.thebroccolibob.bobsmobgear.client.UsePriorityTooltip
 import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
+import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
 import io.github.thebroccolibob.bobsmobgear.util.add
 import io.github.thebroccolibob.bobsmobgear.util.value
@@ -51,6 +52,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearBlocks.SICKLE_TEMPLATE, "Sickle Template")
         add(BobsMobGearBlocks.DOUBLE_AXE_TEMPLATE, "Double Axe Template")
         add(BobsMobGearBlocks.SPEAR_TEMPLATE, "Spear Template")
+        add(BobsMobGearBlocks.KNIFE_TEMPLATE, "Knife Template")
 
         add(BobsMobGearBlocks.FORGE, "Forge")
         add(BobsMobGearBlocks.FORGE_HEATER, "Forge Heater")
@@ -62,6 +64,8 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItems.DIAMOND_POT, "Pot of Molten Diamond")
         add(BobsMobGearItems.NETHERITE_POT, "Pot of Molten Netherite")
         add(BobsMobGearItems.WARDEN_FIST, "Warden Fist")
+        add(BobsMobGearItems.UNLIMITED_BACON, "Unlimited Bacon")
+        add(UnlimitedBaconItem.KICK_REASON, "...but no games")
 
         add(BobsMobGearItemTags.SMITHING_HAMMERS, "Smithing Hammers")
         add(BobsMobGearItemTags.TONG_HOLDABLE, "Holdable by Tongs")

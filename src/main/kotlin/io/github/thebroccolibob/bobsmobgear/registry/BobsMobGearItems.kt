@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.Block
 import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.FoodComponent
 import net.minecraft.component.type.ToolComponent
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.Fluids
@@ -64,6 +65,7 @@ object BobsMobGearItems {
     val SICKLE_TEMPLATE = register(BobsMobGearBlocks.SICKLE_TEMPLATE)
     val DOUBLE_AXE_TEMPLATE = register(BobsMobGearBlocks.DOUBLE_AXE_TEMPLATE)
     val SPEAR_TEMPLATE = register(BobsMobGearBlocks.SPEAR_TEMPLATE)
+    val KNIFE_TEMPLATE = register(BobsMobGearBlocks.KNIFE_TEMPLATE)
 
     val FORGE = register(BobsMobGearBlocks.FORGE)
     val FORGE_HEATER = register(BobsMobGearBlocks.FORGE_HEATER)
@@ -147,6 +149,17 @@ object BobsMobGearItems {
 
     }))
 
+    val UNLIMITED_BACON = register("unlimited_bacon", UnlimitedBaconItem(itemSettings {
+        component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+        food(FoodComponent.Builder().apply {
+            alwaysEdible()
+            nutrition(2)
+            saturationModifier(0.3f)
+        }.build())
+        maxCount(1)
+        rarity(Rarity.RARE)
+    }))
+
     // ITEM GROUPS
 
     val ITEM_GROUP: ItemGroup = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), ItemGroup {
@@ -178,6 +191,10 @@ object BobsMobGearItems {
             if (BobsMobGearCompat.ARCHERS_INSTALLED)
                 entries.addAll(
                     SPEAR_TEMPLATE,
+                )
+            if (BobsMobGearCompat.FARMERS_DELIGHT_INSTALLED)
+                entries.addAll(
+                    KNIFE_TEMPLATE,
                 )
             entries.addAll(
                 FORGE,
@@ -224,6 +241,9 @@ object BobsMobGearItems {
                 }
             }
         }
+
+//        if (FabricLoader.getInstance().isDevelopmentEnvironment && System.getProperty("fabric-api.datagen") != null)
+//            BobsMobGearDatagenItems.register()
     }
 }
 

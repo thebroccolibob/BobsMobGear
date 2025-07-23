@@ -19,6 +19,7 @@ import net.minecraft.data.client.BlockStateModelGenerator.createNorthDefaultHori
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 import java.util.*
+import vectorwing.farmersdelight.common.registry.ModItems as FarmersDelightItems
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
 
@@ -49,6 +50,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerSpear(BobsMobGearItems.IRON_ENDER_EYE_SPEAR)
         register(BobsMobGearItems.WARDEN_FIST, "_gui", Models.GENERATED)
         register(BobsMobGearItems.IRON_BOOM_BATON, Models.HANDHELD)
+        register(BobsMobGearItems.UNLIMITED_BACON, FarmersDelightItems.COOKED_BACON.get(), Models.GENERATED)
 
         Models.GENERATED.upload(ModelIds.getItemSubModelId(BobsMobGearItems.SMITHING_TONGS, "_model"), TextureMap.layer0(BobsMobGearItems.SMITHING_TONGS), writer)
     }

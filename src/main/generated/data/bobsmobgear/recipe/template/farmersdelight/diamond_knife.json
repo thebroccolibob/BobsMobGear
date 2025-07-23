@@ -1,0 +1,27 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
+  ],
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "farmersdelight:iron_knife"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:diamond"
+  },
+  "fluid_amount": 9000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "farmersdelight:diamond_knife"
+  },
+  "template": "bobsmobgear:farmersdelight/knife_template"
+}

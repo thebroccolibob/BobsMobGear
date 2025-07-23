@@ -73,6 +73,7 @@ object BobsMobGearBlocks {
     val SICKLE_TEMPLATE = registerTemplate("rpg/sickle")
     val DOUBLE_AXE_TEMPLATE = registerTemplate("rpg/double_axe")
     val SPEAR_TEMPLATE = registerTemplate("rpg/spear")
+    val KNIFE_TEMPLATE = registerTemplate("farmersdelight/knife")
 
     val TEMPLATES by lazy { templates.toTypedArray() }
 

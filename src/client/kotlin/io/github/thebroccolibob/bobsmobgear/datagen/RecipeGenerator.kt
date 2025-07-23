@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.ARCHERS
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.PALADINS
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.ROGUES
@@ -22,6 +23,7 @@ import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.RecipeExporter
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
@@ -40,6 +42,7 @@ import net.paladins.item.Shields as PaladinsShields
 import net.paladins.item.Weapons as PaladinsWeapons
 import net.rogues.item.Weapons as RoguesWeapons
 import net.spell_engine.api.item.weapon.Weapon as SpellWeapon
+import vectorwing.farmersdelight.common.registry.ModItems as FarmersDelightItems
 
 class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricRecipeProvider(output, registriesFuture) {
@@ -187,6 +190,37 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 200,
             ),
             exporter
+        )
+
+        acceptTemplateRecipe(
+            BobsMobGear.id("template/hot_potato"),
+            TemplateRecipe(
+                BobsMobGearBlocks.EMPTY_TEMPLATE,
+                smithingSurface,
+                Ingredient.ofItems(Items.POTATO),
+                DefaultedList.of(),
+                FluidVariant.of(Fluids.LAVA),
+                FluidConstants.BUCKET,
+                true,
+                Items.POTATO.defaultStack.apply {
+                    set(BobsMobGearComponents.HEATED)
+                }
+            ),
+            exporter,
+        )
+
+        acceptTemplateRecipe(
+            TemplateRecipe(
+                BobsMobGearBlocks.EMPTY_TEMPLATE,
+                smithingSurface,
+                Ingredient.ofItems(FarmersDelightItems.BACON.get()),
+                DefaultedList.of(),
+                FluidVariant.of(BobsMobGearFluids.NETHERITE),
+                FluidConstants.INGOT,
+                true,
+                BobsMobGearItems.UNLIMITED_BACON.defaultStack
+            ),
+            withConditions(exporter, ResourceConditions.allModsLoaded(BobsMobGearCompat.FARMERS_DELIGHT))
         )
 
         for ((fluid, ingot) in listOf(
@@ -365,6 +399,16 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 BobsMobGearBlocks.SPEAR_TEMPLATE,
                 ARCHERS,
             ),
+            ToolType(
+                1,
+                FarmersDelightItems.FLINT_KNIFE.get(),
+                null,
+                FarmersDelightItems.IRON_KNIFE.get(),
+                FarmersDelightItems.DIAMOND_KNIFE.get(),
+                FarmersDelightItems.NETHERITE_KNIFE.get(),
+                BobsMobGearBlocks.KNIFE_TEMPLATE,
+                BobsMobGearCompat.FARMERS_DELIGHT,
+            )
         )
 
         private fun acceptTemplateRecipe(recipeId: Identifier, recipe: TemplateRecipe, exporter: RecipeExporter) {

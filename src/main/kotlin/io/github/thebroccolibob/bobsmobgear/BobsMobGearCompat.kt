@@ -15,4 +15,7 @@ object BobsMobGearCompat {
 
     const val ARCHERS = "archers"
     val ARCHERS_INSTALLED = isModLoaded(ARCHERS)
+
+    const val FARMERS_DELIGHT = "farmersdelight"
+    val FARMERS_DELIGHT_INSTALLED = isModLoaded(FARMERS_DELIGHT)
 }

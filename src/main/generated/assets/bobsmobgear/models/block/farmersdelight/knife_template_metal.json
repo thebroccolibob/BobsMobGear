@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:block/template_metal",
+  "textures": {
+    "top": "bobsmobgear:block/farmersdelight/knife_template_metal"
+  }
+}

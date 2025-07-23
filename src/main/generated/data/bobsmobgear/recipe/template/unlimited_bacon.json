@@ -1,0 +1,24 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
+  ],
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "farmersdelight:bacon"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:netherite"
+  },
+  "fluid_amount": 9000,
+  "requires_hammer": true,
+  "result": {
+    "id": "bobsmobgear:unlimited_bacon"
+  },
+  "template": "bobsmobgear:empty_template"
+}
