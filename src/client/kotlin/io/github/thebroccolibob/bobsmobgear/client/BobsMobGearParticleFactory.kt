@@ -56,6 +56,7 @@ internal fun registerParticleFactories() {
     registerDrips(BobsMobGearParticles.IRON_DRIPS, BobsMobGearFluids.IRON)
     registerDrips(BobsMobGearParticles.DIAMOND_DRIPS, BobsMobGearFluids.DIAMOND)
     registerDrips(BobsMobGearParticles.NETHERITE_DRIPS, BobsMobGearFluids.NETHERITE)
+    registerDrips(BobsMobGearParticles.BLACK_STEEL_DRIPS, BobsMobGearFluids.BLACK_STEEL)
     ParticleFactoryRegistry.getInstance().apply {
         register(BobsMobGearParticles.SONIC_SHOCKWAVE, SonicShockwaveParticle)
         register(BobsMobGearParticles.SONIC_LAUNCH, SonicLaunchParticle)

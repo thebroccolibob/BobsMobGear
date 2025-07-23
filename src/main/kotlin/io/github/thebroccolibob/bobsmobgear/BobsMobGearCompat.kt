@@ -18,4 +18,7 @@ object BobsMobGearCompat {
 
     const val FARMERS_DELIGHT = "farmersdelight"
     val FARMERS_DELIGHT_INSTALLED = isModLoaded(FARMERS_DELIGHT)
+
+    const val CATACLYSM = "cataclysm"
+    val CATACLYSM_INSTALLED = isModLoaded(CATACLYSM)
 }

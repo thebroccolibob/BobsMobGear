@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.fluid.MetalFluid
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributeHandler
@@ -33,6 +34,7 @@ object BobsMobGearFluids {
     val IRON = register("iron", MetalFluid(0xD8AF93, BobsMobGearParticles.IRON_DRIPS.dripping))
     val DIAMOND = register("diamond", MetalFluid(0x20C5B5, BobsMobGearParticles.DIAMOND_DRIPS.dripping))
     val NETHERITE = register("netherite", MetalFluid(0x111111, BobsMobGearParticles.NETHERITE_DRIPS.dripping))
+    val BLACK_STEEL = register("${BobsMobGearCompat.CATACLYSM}/black_steel", MetalFluid(0x111133, BobsMobGearParticles.BLACK_STEEL_DRIPS.dripping))
 
     val LIQUID_METALS = listOf(IRON, DIAMOND, NETHERITE)
 
@@ -44,5 +46,6 @@ object BobsMobGearFluids {
         registerAttributes(IRON, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
         registerAttributes(DIAMOND, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
         registerAttributes(NETHERITE, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
+        registerAttributes(BLACK_STEEL, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
     }
 }

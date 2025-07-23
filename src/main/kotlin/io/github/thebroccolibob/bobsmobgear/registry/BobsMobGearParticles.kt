@@ -23,6 +23,7 @@ object BobsMobGearParticles {
     val IRON_DRIPS = registerDrips("iron")
     val DIAMOND_DRIPS = registerDrips("diamond")
     val NETHERITE_DRIPS = registerDrips("netherite")
+    val BLACK_STEEL_DRIPS = registerDrips("cataclysm_black_steel")
 
     val SONIC_SHOCKWAVE = register("sonic_shockwave")
     val SONIC_LAUNCH = register("sonic_launch")

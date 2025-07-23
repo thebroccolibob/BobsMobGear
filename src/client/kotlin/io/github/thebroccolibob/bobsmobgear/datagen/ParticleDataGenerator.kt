@@ -46,6 +46,7 @@ class ParticleDataGenerator(
         registerDrips(BobsMobGearParticles.IRON_DRIPS)
         registerDrips(BobsMobGearParticles.DIAMOND_DRIPS)
         registerDrips(BobsMobGearParticles.NETHERITE_DRIPS)
+        registerDrips(BobsMobGearParticles.BLACK_STEEL_DRIPS)
 
         register(BobsMobGearParticles.SONIC_SHOCKWAVE, BobsMobGear.id("sonic_boom"))
         register(BobsMobGearParticles.SONIC_LAUNCH, 7, 15, Identifier.ofVanilla("sonic_boom_"))

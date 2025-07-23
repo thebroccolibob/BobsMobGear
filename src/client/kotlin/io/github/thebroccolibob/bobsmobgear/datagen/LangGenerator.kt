@@ -74,6 +74,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItemTags.FORGES_GOLD_INGOT, "Forges Gold Ingot")
         add(BobsMobGearItemTags.FORGES_NETHERITE_INGOT, "Forges Netherite Ingot")
         add(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP, "Forges Netherite Scrap")
+        add(BobsMobGearItemTags.FORGES_BLACK_STEEL_INGOT, "Forges Black Steel Ingot")
         add(BobsMobGearItemTags.SMITHING_SURFACE, "Smithing Surfaces")
         add(BobsMobGearItemTags.MENDER_ENCHANTABLE, "Mender Enchantable")
         add(BobsMobGearItemTags.LOWER_USE_PRIORITY, "Lower Use Priority")
@@ -81,6 +82,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearFluids.IRON, "Molten Iron")
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")
         add(BobsMobGearFluids.NETHERITE, "Molten Netherite")
+        add(BobsMobGearFluids.BLACK_STEEL, "Molten Black Steel")
 
         add(HeatedTooltip.TOOLTIP, "Heated")
         add(TongsItem.HELD_ITEM_TOOLTIP, "Held Item:")

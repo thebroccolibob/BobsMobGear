@@ -1,12 +1,14 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.client.util.cataclysmId
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDatagenItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags
 import net.minecraft.item.Items
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.ItemTags
 import net.spell_engine.api.item.Equipment
@@ -56,6 +58,9 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_NETHERITE_INGOT).apply {
             forceAddTag(ConventionalItemTags.NETHERITE_INGOTS)
         }
+        getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_BLACK_STEEL_INGOT).addOptional(
+            Registries.ITEM.getId(BobsMobGearDatagenItems.BLACK_STEEL_INGOT),
+        )
         getOrCreateTagBuilder(BobsMobGearItemTags.PREVENT_SMITHING_TABLE_SCREEN).apply {
             add(BobsMobGearItems.SMITHING_TONGS)
             forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)

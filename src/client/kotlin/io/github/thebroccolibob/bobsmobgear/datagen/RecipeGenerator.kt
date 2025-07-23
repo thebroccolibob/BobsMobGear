@@ -71,7 +71,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
         // the recipe generator only runs once registriesFuture is resolved
         val smithingSurface = registriesFuture.get().getWrapperOrThrow(RegistryKeys.BLOCK).getOrThrow(BobsMobGearBlocks.SMITHING_SURFACE)
 
-        for ((material, base, stone, iron, diamond, netherite, template, modId, extraIngredient) in TOOL_TYPES) {
+        for ((material, base, stone, iron, diamond, netherite, template, modId, extraIngredient, blackSteel) in TOOL_TYPES) {
             val conditionedExporter = modId?.let { withConditions(exporter, ResourceConditions.allModsLoaded(modId)) } ?: exporter
 
             conditionedExporter.shapelessRecipe(RecipeCategory.TOOLS, template.asItem()) {
@@ -146,6 +146,23 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 ),
                 conditionedExporter
             )
+
+            if (blackSteel != null)
+                acceptTemplateRecipe(
+                    TemplateRecipe(
+                        template,
+                        smithingSurface,
+                        Ingredient.ofItems(iron),
+                        DefaultedList.of(),
+                        FluidVariant.of(BobsMobGearFluids.BLACK_STEEL),
+                        material * FluidConstants.INGOT,
+                        true,
+                        ItemStack(blackSteel).apply {
+                            set(BobsMobGearComponents.HEATED)
+                        }
+                    ),
+                    withConditions(exporter, ResourceConditions.allModsLoaded(BobsMobGearCompat.CATACLYSM))
+                )
         }
 
         acceptForgingRecipe(
@@ -190,6 +207,16 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 200,
             ),
             exporter
+        )
+
+        acceptForgingRecipe(
+            ForgingRecipe(
+                ingredientList(Ingredient.fromTag(BobsMobGearItemTags.FORGES_BLACK_STEEL_INGOT)),
+                FluidVariant.of(BobsMobGearFluids.BLACK_STEEL),
+                FluidConstants.INGOT,
+                200,
+            ),
+            withConditions(exporter, ResourceConditions.allModsLoaded(BobsMobGearCompat.CATACLYSM))
         )
 
         acceptTemplateRecipe(
@@ -258,6 +285,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
          * Only for iron
          */
         val extraIngredient: ItemConvertible? = null,
+        val blackSteel: Item? = null,
     )
 
     companion object {
@@ -269,7 +297,8 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 Items.IRON_SWORD,
                 Items.DIAMOND_SWORD,
                 Items.NETHERITE_SWORD,
-                BobsMobGearBlocks.SWORD_TEMPLATE
+                BobsMobGearBlocks.SWORD_TEMPLATE,
+                blackSteel = BobsMobGearDatagenItems.BLACK_STEEL_SWORD,
             ),
             ToolType(
                 3,
@@ -278,7 +307,8 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 Items.IRON_PICKAXE,
                 Items.DIAMOND_PICKAXE,
                 Items.NETHERITE_PICKAXE,
-                BobsMobGearBlocks.PICKAXE_TEMPLATE
+                BobsMobGearBlocks.PICKAXE_TEMPLATE,
+                blackSteel = BobsMobGearDatagenItems.BLACK_STEEL_PICKAXE,
             ),
             ToolType(
                 3,
@@ -287,7 +317,8 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 Items.IRON_AXE,
                 Items.DIAMOND_AXE,
                 Items.NETHERITE_AXE,
-                BobsMobGearBlocks.AXE_TEMPLATE
+                BobsMobGearBlocks.AXE_TEMPLATE,
+                blackSteel = BobsMobGearDatagenItems.BLACK_STEEL_AXE,
             ),
             ToolType(
                 1,
@@ -296,7 +327,8 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 Items.IRON_SHOVEL,
                 Items.DIAMOND_SHOVEL,
                 Items.NETHERITE_SHOVEL,
-                BobsMobGearBlocks.SHOVEL_TEMPLATE
+                BobsMobGearBlocks.SHOVEL_TEMPLATE,
+                blackSteel = BobsMobGearDatagenItems.BLACK_STEEL_SHOVEL,
             ),
             ToolType(
                 2,
@@ -305,7 +337,8 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 Items.IRON_HOE,
                 Items.DIAMOND_HOE,
                 Items.NETHERITE_HOE,
-                BobsMobGearBlocks.HOE_TEMPLATE
+                BobsMobGearBlocks.HOE_TEMPLATE,
+                blackSteel = BobsMobGearDatagenItems.BLACK_STEEL_HOE,
             ),
 
             ToolType(

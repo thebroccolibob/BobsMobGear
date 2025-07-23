@@ -77,8 +77,9 @@ object BobsMobGearItems {
     val IRON_POT = registerPot(BobsMobGearFluids.IRON)
     val DIAMOND_POT = registerPot(BobsMobGearFluids.DIAMOND)
     val NETHERITE_POT = registerPot(BobsMobGearFluids.NETHERITE)
+    val BLACK_STEEL_POT = registerPot(BobsMobGearFluids.BLACK_STEEL)
 
-    val FILLED_POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT)
+    val FILLED_POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT, BLACK_STEEL_POT)
 
     val SMITHING_HAMMER = register("smithing_hammer", SmithingHammerItem(itemSettings {
         maxDamage(128) // TODO decide max damage
@@ -203,6 +204,10 @@ object BobsMobGearItems {
                 IRON_POT,
                 DIAMOND_POT,
                 NETHERITE_POT,
+            )
+            if (BobsMobGearCompat.CATACLYSM_INSTALLED)
+                entries.add(BLACK_STEEL_POT)
+            entries.addAll(
                 SMITHING_HAMMER,
                 SMITHING_TONGS,
 
@@ -242,8 +247,8 @@ object BobsMobGearItems {
             }
         }
 
-//        if (FabricLoader.getInstance().isDevelopmentEnvironment && System.getProperty("fabric-api.datagen") != null)
-//            BobsMobGearDatagenItems.register()
+        if (FabricLoader.getInstance().isDevelopmentEnvironment && System.getProperty("fabric-api.datagen") != null)
+            BobsMobGearDatagenItems.register()
     }
 }
 

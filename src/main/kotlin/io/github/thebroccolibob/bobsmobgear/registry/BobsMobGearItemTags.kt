@@ -15,6 +15,7 @@ object BobsMobGearItemTags {
     val FORGES_GOLD_INGOT = of("forges/gold_ingot")
     val FORGES_NETHERITE_SCRAP = of("forges/netherite_scrap")
     val FORGES_NETHERITE_INGOT = of("forges/netherite_ingot")
+    val FORGES_BLACK_STEEL_INGOT = of("forges/cataclysm/black_steel_ingot")
 
     val SMITHING_HAMMERS = of("smithing_hammers")
     val TONG_HOLDABLE = of("tong_holdable")
