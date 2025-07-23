@@ -9,6 +9,7 @@ import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.client.util.SizedTexture
 import io.github.thebroccolibob.bobsmobgear.client.util.region
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.util.groupConsecutive
 import net.minecraft.registry.Registries
@@ -47,7 +48,9 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
             add(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount))
     }
 
-    private val outputs = listOf(EmiStack.of(recipe.result))
+    private val result = EmiStack.of(recipe.result.copy().apply { remove(BobsMobGearComponents.HEATED) })
+
+    private val outputs = listOf(result)
 
     override fun getCategory(): EmiRecipeCategory = BobsMobGearEmiPlugin.TEMPLATE_CATEGORY
     override fun getId(): Identifier = id
@@ -103,7 +106,7 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
             widgets.addTexture(HAMMER, 63, 10)
         }
 
-        widgets.addSlot(EmiStack.of(recipe.result), 104, baseY - 4).large(true).recipeContext(this)
+        widgets.addSlot(result, 104, baseY - 4).large(true).recipeContext(this)
     }
 
     companion object {

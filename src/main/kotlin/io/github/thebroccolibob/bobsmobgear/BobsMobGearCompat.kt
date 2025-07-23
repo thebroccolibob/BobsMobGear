@@ -21,4 +21,6 @@ object BobsMobGearCompat {
 
     const val CATACLYSM = "cataclysm"
     val CATACLYSM_INSTALLED = isModLoaded(CATACLYSM)
+
+    const val CREATE = "create"
 }

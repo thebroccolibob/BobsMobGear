@@ -31,6 +31,7 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::SoundsGenerator)
 			addProvider(::LangGenerator)
 			addProvider(::ParticleDataGenerator)
+			addProvider(::EmiRecipeDefaultGenerator)
 		}
 	}
 }

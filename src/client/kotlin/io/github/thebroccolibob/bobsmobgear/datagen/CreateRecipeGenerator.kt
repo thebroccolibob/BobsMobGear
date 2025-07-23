@@ -1,6 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.datagen.util.JsonObject
 import io.github.thebroccolibob.bobsmobgear.datagen.util.jsonArrayOf
 import io.github.thebroccolibob.bobsmobgear.item.FluidPotItem
@@ -21,6 +22,14 @@ class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
     private val emptyPotStack = JsonObject {
         addProperty("id", Registries.ITEM.getId(BobsMobGearItems.EMPTY_POT).toString())
     }
+    private val createCondition = jsonArrayOf(
+        JsonObject {
+            addProperty("condition", "fabric:all_mods_loaded")
+            add("values", jsonArrayOf(
+                BobsMobGearCompat.CREATE
+            ))
+        }
+    )
 
     override fun run(writer: DataWriter): CompletableFuture<*> = BobsMobGearItems.FILLED_POTS.flatMap { pot ->
         val itemId = Registries.ITEM.getId(pot).toString()
@@ -34,6 +43,7 @@ class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
             DataProvider.writeToPath(
                 writer,
                 JsonObject {
+                    add("fabric:load_conditions", createCondition)
                     addProperty("type", "create:filling")
                     add("ingredients", jsonArrayOf(
                         emptyPotStack,
@@ -62,6 +72,7 @@ class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
             DataProvider.writeToPath(
                 writer,
                 JsonObject {
+                    add("fabric:load_conditions", createCondition)
                     addProperty("type", "create:emptying")
                     add("ingredients", jsonArrayOf(
                         potStack,

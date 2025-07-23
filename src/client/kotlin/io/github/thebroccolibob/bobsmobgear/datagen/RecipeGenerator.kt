@@ -289,7 +289,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
     )
 
     companion object {
-        private val TOOL_TYPES = listOf(
+        val TOOL_TYPES = listOf(
             ToolType(
                 2,
                 Items.WOODEN_SWORD,
