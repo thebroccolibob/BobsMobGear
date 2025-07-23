@@ -1,42 +1,28 @@
 package io.github.thebroccolibob.bobsmobgear.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import io.github.thebroccolibob.bobsmobgear.HeatedLogicKt;
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
-import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import static java.lang.Math.max;
 import static net.minecraft.client.render.LightmapTextureManager.*;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
-	@ModifyArgs(
-			method = "renderBakedItemQuads",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumer;quad(Lnet/minecraft/client/util/math/MatrixStack$Entry;Lnet/minecraft/client/render/model/BakedQuad;FFFFII)V")
-	)
-	private void init(Args args, @Local(argsOnly = true) ItemStack stack) {
-        if (!stack.contains(BobsMobGearComponents.HEATED)) {
-			return;
-		}
-
-		var color = new Vector3f(args.get(2), args.get(3), args.get(4)).mul(HeatedLogicKt.HEATED_COLOR_MATRIX);
-
-		// TODO move logic into HeatedLogic.kt?
-
-		int light = args.get(6);
-		var block = getBlockLightCoordinates(light);
-		var sky = getSkyLightCoordinates(light);
-		var modifiedLight = pack(max(block, 12), sky);
-
-		args.set(2, color.x);
-		args.set(3, color.y);
-		args.set(4, color.z);
-		args.set(6, modifiedLight);
+    @ModifyVariable(
+            method = "renderBakedItemModel",
+            at = @At("HEAD"),
+            ordinal = 0,
+            argsOnly = true
+    )
+    private int heatedLight(int value, @Local(argsOnly = true) ItemStack stack) {
+        if (!stack.contains(BobsMobGearComponents.HEATED)) return value;
+        var block = getBlockLightCoordinates(value);
+        var sky = getSkyLightCoordinates(value);
+        return pack(max(block, 12), sky);
     }
 }

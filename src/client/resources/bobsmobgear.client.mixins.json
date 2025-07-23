@@ -5,11 +5,12 @@
   "client": [
     "ContinuousFallingBlockLeakParticleInvoker",
     "DrippingBlockLeakParticleInvoker",
+    "ItemColorsMixin",
     "ItemRendererMixin",
+    "ItemStackMixin",
     "LandingBlockLeakParticleInvoker",
     "MinecraftClientMixin",
-    "bettercombat.MinecraftClientInjectMixin",
-    "ItemStackMixin"
+    "bettercombat.MinecraftClientInjectMixin"
   ],
   "injectors": {
     "defaultRequire": 1
