@@ -237,7 +237,7 @@ object BobsMobGearItems {
     fun register() {
         FluidStorage.ITEM.registerForItems({ stack, context ->
             FullItemFluidStorage(context, EMPTY_POT, FluidVariant.of((stack.item as FluidPotItem).fluid), FluidConstants.INGOT)
-        }, IRON_POT, DIAMOND_POT, NETHERITE_POT)
+        }, IRON_POT, DIAMOND_POT, NETHERITE_POT, BLACK_STEEL_POT)
 
         FluidStorage.combinedItemApiProvider(EMPTY_POT).run {
             FILLED_POTS.forEach {

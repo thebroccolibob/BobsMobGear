@@ -6,6 +6,7 @@ import dev.emi.emi.api.render.EmiTexture
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.item.FluidPotItem
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
@@ -41,7 +42,7 @@ class ForgeFillingEmiRecipe(id: Identifier, input: ItemStack, fluid: Fluid, amou
             Registries.ITEM.getId(pot).withPrefixedPath("/forge_filling/"),
             BobsMobGearItems.EMPTY_POT.defaultStack,
             pot.fluid,
-            FluidConstants.INGOT,
+            FluidConstants.INGOT / BobsMobGearCompat.FLUID_FACTOR,
             pot.defaultStack
         )
 

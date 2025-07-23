@@ -18,8 +18,8 @@
       "id": "bobsmobgear:empty_pot"
     },
     {
-      "amount": 9000,
-      "fluid": "bobsmobgear:cataclysm/black_steel"
+      "amount": 111,
+      "id": "bobsmobgear:cataclysm/black_steel"
     }
   ]
 }

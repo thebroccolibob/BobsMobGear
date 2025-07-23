@@ -19,9 +19,8 @@ import java.util.concurrent.CompletableFuture
 class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
     private val pathResolver = output.getResolver(DataOutput.OutputType.DATA_PACK, "recipe/create")
 
-    private val emptyPotStack = JsonObject {
-        addProperty("id", Registries.ITEM.getId(BobsMobGearItems.EMPTY_POT).toString())
-    }
+    private val emptyPot = Registries.ITEM.getId(BobsMobGearItems.EMPTY_POT).toString()
+
     private val createCondition = jsonArrayOf(
         JsonObject {
             addProperty("condition", "fabric:all_mods_loaded")
@@ -35,9 +34,6 @@ class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
         val itemId = Registries.ITEM.getId(pot).toString()
         val fluid = (pot as FluidPotItem).fluid
         val fluidId = Registries.FLUID.getId(fluid)
-        val potStack = JsonObject {
-            addProperty("item", itemId)
-        }
 
         listOf(
             DataProvider.writeToPath(
@@ -46,9 +42,11 @@ class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
                     add("fabric:load_conditions", createCondition)
                     addProperty("type", "create:filling")
                     add("ingredients", jsonArrayOf(
-                        emptyPotStack,
                         JsonObject {
-                            addProperty("amount", FluidConstants.INGOT)
+                            addProperty("item", emptyPot)
+                        },
+                        JsonObject {
+                            addProperty("amount", FluidConstants.INGOT / 81)
                             when (fluid) {
                                 BobsMobGearFluids.IRON -> BobsMobGearFluids.MOLTEN_IRON_TAG
                                 BobsMobGearFluids.DIAMOND -> BobsMobGearFluids.MOLTEN_DIAMOND_TAG
@@ -56,7 +54,7 @@ class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
                                 else -> null
                             }?.let {
                                 addProperty("type", "fluid_tag")
-                                addProperty("fluid_tag", "#${it.id}")
+                                addProperty("fluid_tag", it.id.toString())
                             } ?: run {
                                 addProperty("type", "fluid_stack")
                                 addProperty("fluid", fluidId.toString())
@@ -64,7 +62,9 @@ class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
                         },
                     ))
                     add("results", jsonArrayOf(
-                        potStack,
+                        JsonObject {
+                            addProperty("id", itemId)
+                        },
                     ))
                 },
                 pathResolver.resolveJson(BobsMobGear.id("filling/${fluidId.path}"))
@@ -75,13 +75,17 @@ class CreateRecipeGenerator(output: FabricDataOutput) : DataProvider {
                     add("fabric:load_conditions", createCondition)
                     addProperty("type", "create:emptying")
                     add("ingredients", jsonArrayOf(
-                        potStack,
+                        JsonObject {
+                            addProperty("item", itemId)
+                        },
                     ))
                     add("results", jsonArrayOf(
-                        emptyPotStack,
                         JsonObject {
-                            addProperty("amount", FluidConstants.INGOT)
-                            addProperty("fluid", fluidId.toString())
+                            addProperty("id", emptyPot)
+                        },
+                        JsonObject {
+                            addProperty("amount", FluidConstants.INGOT / 81)
+                            addProperty("id", fluidId.toString())
                         },
                     ))
                 },

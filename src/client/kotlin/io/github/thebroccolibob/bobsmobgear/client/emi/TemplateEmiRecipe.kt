@@ -6,12 +6,15 @@ import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.client.util.SizedTexture
 import io.github.thebroccolibob.bobsmobgear.client.util.region
 import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.util.groupConsecutive
+import io.github.thebroccolibob.bobsmobgear.util.isOf
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -45,10 +48,13 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
             add(EmiIngredient.of(recipe.base))
         ingredients?.let(::addAll)
         if (!recipe.fluid.isBlank)
-            add(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount))
+            add(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount / BobsMobGearCompat.FLUID_FACTOR))
     }
 
-    private val result = EmiStack.of(recipe.result.copy().apply { remove(BobsMobGearComponents.HEATED) })
+    private val result = EmiStack.of(recipe.result.let {
+        if (it isOf Items.POTATO) it else
+        it.copy().apply { remove(BobsMobGearComponents.HEATED) }
+    })
 
     private val outputs = listOf(result)
 
@@ -96,7 +102,7 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
         }
 
         if (!recipe.fluid.isBlank) {
-            widgets.addSlot(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount), 41, 4)
+            widgets.addSlot(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount / BobsMobGearCompat.FLUID_FACTOR), 41, 4)
             widgets.addTexture(NUMBERS[step++], 31, 4)
         }
 

@@ -35,6 +35,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerGenerated(BobsMobGearItems.IRON_POT)
         registerGenerated(BobsMobGearItems.DIAMOND_POT)
         registerGenerated(BobsMobGearItems.NETHERITE_POT)
+        registerGenerated(BobsMobGearItems.BLACK_STEEL_POT)
 
         registerGenerated(BobsMobGearItems.WORN_HARDENED_FLESH)
         registerGenerated(BobsMobGearItems.WORN_STURDY_BONE)

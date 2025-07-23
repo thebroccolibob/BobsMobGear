@@ -10,17 +10,17 @@
   "type": "create:filling",
   "ingredients": [
     {
-      "id": "bobsmobgear:empty_pot"
+      "item": "bobsmobgear:empty_pot"
     },
     {
       "type": "fluid_tag",
-      "amount": 9000,
-      "fluid_tag": "#c:molten_iron"
+      "amount": 111,
+      "fluid_tag": "c:molten_iron"
     }
   ],
   "results": [
     {
-      "item": "bobsmobgear:iron_pot"
+      "id": "bobsmobgear:iron_pot"
     }
   ]
 }

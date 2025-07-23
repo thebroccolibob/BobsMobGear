@@ -10,17 +10,17 @@
   "type": "create:filling",
   "ingredients": [
     {
-      "id": "bobsmobgear:empty_pot"
+      "item": "bobsmobgear:empty_pot"
     },
     {
       "type": "fluid_stack",
-      "amount": 9000,
+      "amount": 111,
       "fluid": "bobsmobgear:cataclysm/black_steel"
     }
   ],
   "results": [
     {
-      "item": "bobsmobgear:cataclysm/black_steel_pot"
+      "id": "bobsmobgear:cataclysm/black_steel_pot"
     }
   ]
 }

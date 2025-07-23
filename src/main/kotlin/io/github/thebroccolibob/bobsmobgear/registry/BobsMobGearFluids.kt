@@ -36,7 +36,7 @@ object BobsMobGearFluids {
     val NETHERITE = register("netherite", MetalFluid(0x111111, BobsMobGearParticles.NETHERITE_DRIPS.dripping))
     val BLACK_STEEL = register("${BobsMobGearCompat.CATACLYSM}/black_steel", MetalFluid(0x111133, BobsMobGearParticles.BLACK_STEEL_DRIPS.dripping))
 
-    val LIQUID_METALS = listOf(IRON, DIAMOND, NETHERITE)
+    val LIQUID_METALS = listOf(IRON, DIAMOND, NETHERITE, BLACK_STEEL)
 
     val MOLTEN_IRON_TAG = tagOf(Identifier.of("c", "molten_iron"))
     val MOLTEN_DIAMOND_TAG = tagOf(Identifier.of("c", "molten_diamond"))

@@ -23,4 +23,8 @@ object BobsMobGearCompat {
     val CATACLYSM_INSTALLED = isModLoaded(CATACLYSM)
 
     const val CREATE = "create"
+
+    const val CONNECTOR = "connector"
+    val CONNECTOR_INSTALLED = isModLoaded(CONNECTOR)
+    val FLUID_FACTOR = if (CONNECTOR_INSTALLED) 81L else 1L
 }

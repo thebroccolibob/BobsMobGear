@@ -5,6 +5,7 @@ import dev.emi.emi.api.render.EmiTexture
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
 import io.github.thebroccolibob.bobsmobgear.util.Translation
 import io.github.thebroccolibob.bobsmobgear.util.groupConsecutive
@@ -16,7 +17,7 @@ import java.util.*
 class ForgingEmiRecipe(id: Identifier, private val recipe: ForgingRecipe)
     : BasicEmiRecipe(BobsMobGearEmiPlugin.FORGING_CATEGORY, id, 100, 18 * ((recipe.ingredients.size + 1) / 2) + 23) {
 
-    private val output: EmiStack = EmiStack.of(recipe.result.fluid, recipe.resultAmount)
+    private val output: EmiStack = EmiStack.of(recipe.result.fluid, recipe.resultAmount / BobsMobGearCompat.FLUID_FACTOR)
 
     init {
         inputs.addAll(recipe.ingredients.groupConsecutive { i, ingredient -> EmiIngredient.of(ingredient, i.toLong()) })

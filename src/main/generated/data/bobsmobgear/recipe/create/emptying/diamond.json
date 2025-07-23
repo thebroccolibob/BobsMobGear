@@ -18,8 +18,8 @@
       "id": "bobsmobgear:empty_pot"
     },
     {
-      "amount": 9000,
-      "fluid": "bobsmobgear:diamond"
+      "amount": 111,
+      "id": "bobsmobgear:diamond"
     }
   ]
 }

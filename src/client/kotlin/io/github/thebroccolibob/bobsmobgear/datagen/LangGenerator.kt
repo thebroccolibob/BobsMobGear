@@ -63,6 +63,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItems.IRON_POT, "Pot of Molten Iron")
         add(BobsMobGearItems.DIAMOND_POT, "Pot of Molten Diamond")
         add(BobsMobGearItems.NETHERITE_POT, "Pot of Molten Netherite")
+        add(BobsMobGearItems.BLACK_STEEL_POT, "Pot of Molten Black Steel")
         add(BobsMobGearItems.WARDEN_FIST, "Warden Fist")
         add(BobsMobGearItems.UNLIMITED_BACON, "Unlimited Bacon")
         add(UnlimitedBaconItem.KICK_REASON, "...but no games")

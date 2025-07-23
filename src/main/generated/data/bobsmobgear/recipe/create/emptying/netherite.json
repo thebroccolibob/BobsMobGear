@@ -18,8 +18,8 @@
       "id": "bobsmobgear:empty_pot"
     },
     {
-      "amount": 9000,
-      "fluid": "bobsmobgear:netherite"
+      "amount": 111,
+      "id": "bobsmobgear:netherite"
     }
   ]
 }
