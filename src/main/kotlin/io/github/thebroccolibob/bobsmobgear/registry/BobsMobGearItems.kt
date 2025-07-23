@@ -17,7 +17,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.Block
 import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.FoodComponent
 import net.minecraft.component.type.ToolComponent
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.Fluids
@@ -152,11 +151,11 @@ object BobsMobGearItems {
 
     val UNLIMITED_BACON = register("unlimited_bacon", UnlimitedBaconItem(itemSettings {
         component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-        food(FoodComponent.Builder().apply {
+        food {
             alwaysEdible()
-            nutrition(2)
+            nutrition(3)
             saturationModifier(0.3f)
-        }.build())
+        }
         maxCount(1)
         rarity(Rarity.RARE)
     }))

@@ -10,6 +10,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.Component
 import net.minecraft.component.ComponentMap
 import net.minecraft.component.ComponentType
+import net.minecraft.component.type.FoodComponent
 import net.minecraft.component.type.ItemEnchantmentsComponent
 import net.minecraft.enchantment.effect.EnchantmentEffectEntry
 import net.minecraft.entity.EquipmentSlot
@@ -141,3 +142,6 @@ fun ItemGroup.Entries.addAll(vararg stacks: ItemStack) {
     addAll(stacks.toList())
 }
 
+fun Item.Settings.food(init: FoodComponent.Builder.() -> Unit) {
+    food(FoodComponent.Builder().apply(init).build())
+}
