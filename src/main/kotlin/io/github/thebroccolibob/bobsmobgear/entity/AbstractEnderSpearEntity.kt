@@ -4,6 +4,9 @@ import io.github.thebroccolibob.bobsmobgear.util.contains
 import net.minecraft.component.EnchantmentEffectComponentTypes
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.entity.projectile.PersistentProjectileEntity
@@ -22,13 +25,28 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
         thrownSlot = (owner as? PlayerEntity)?.run {
             if (offHandStack == stack) PlayerInventory.OFF_HAND_SLOT else inventory.getSlotWithStack(stack)
         } ?: -1
+        dataTracker[ITEM] = stack
     }
-    constructor(type: EntityType<out AbstractEnderSpearEntity>, x: Double, y: Double, z: Double, world: World, stack: ItemStack) : super(type, x, y, z, world, stack, null)
+    constructor(type: EntityType<out AbstractEnderSpearEntity>, x: Double, y: Double, z: Double, world: World, stack: ItemStack) : super(type, x, y, z, world, stack, null) {
+        dataTracker[ITEM] = stack
+    }
 
     protected var thrownSlot: Int = -1
         private set
 
     val hasLoyalty get() = EnchantmentEffectComponentTypes.TRIDENT_RETURN_ACCELERATION in itemStack.enchantments
+
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(ITEM, defaultItemStack)
+    }
+
+    override fun getItemStack(): ItemStack = dataTracker[ITEM]
+
+    override fun setStack(stack: ItemStack) {
+        super.setStack(stack)
+        dataTracker[ITEM] = stack
+    }
 
     override fun tick() {
         super.tick()
@@ -144,5 +162,7 @@ abstract class AbstractEnderSpearEntity : PersistentProjectileEntity {
 
     companion object {
         private const val THROWN_SLOT_NBT = "thrown_slot"
+
+        val ITEM: TrackedData<ItemStack> = DataTracker.registerData(AbstractEnderSpearEntity::class.java, TrackedDataHandlerRegistry.ITEM_STACK)
     }
 }
