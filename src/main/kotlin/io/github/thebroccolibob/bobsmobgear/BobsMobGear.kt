@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear
 
+import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -41,5 +42,6 @@ object BobsMobGear : ModInitializer {
 		)
 
 		registerHeatedLogic()
+		UnlimitedBaconItem.register()
 	}
 }
