@@ -1,7 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.ComponentType
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
@@ -23,6 +24,8 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.properties.ReadWriteProperty
@@ -216,3 +219,10 @@ fun entityProperty(getWorld: () -> World, uuidProperty: KMutableProperty0<UUID?>
 fun Entity.entityProperty(uuid: KMutableProperty0<UUID?>? = null, id: KMutableProperty0<Int?>? = null) = entityProperty(::getWorld, uuid, id)
 
 fun DamageSource.toDirect() = DamageSource(typeRegistryEntry, attacker)
+
+@Suppress("UNCHECKED_CAST")
+fun <E : BlockEntity, A : BlockEntity> validateTicker(
+    givenType: BlockEntityType<A>,
+    expectedType: BlockEntityType<E>,
+    ticker: BlockEntityTicker<in E>
+): BlockEntityTicker<A>? = if (expectedType === givenType) ticker as BlockEntityTicker<A> else null

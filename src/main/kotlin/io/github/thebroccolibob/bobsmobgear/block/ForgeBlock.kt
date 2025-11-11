@@ -1,12 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.block
 
-import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
-import io.github.thebroccolibob.bobsmobgear.mixin.FluidInvoker
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.util.get
-import io.github.thebroccolibob.bobsmobgear.util.isOf
-import io.github.thebroccolibob.bobsmobgear.util.minus
-import io.github.thebroccolibob.bobsmobgear.util.set
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
@@ -27,6 +20,10 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
+import io.github.thebroccolibob.bobsmobgear.mixin.FluidInvoker
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.util.*
 import kotlin.jvm.optionals.getOrNull
 
 class ForgeBlock(private val heaterBlock: Block, settings: Settings) : AbstractForgeBlock(settings), BlockEntityProvider {
@@ -129,16 +126,12 @@ class ForgeBlock(private val heaterBlock: Block, settings: Settings) : AbstractF
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = ForgeBlockEntity(pos, state)
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : BlockEntity?> getTicker(
+    override fun <T : BlockEntity> getTicker(
         world: World,
         state: BlockState,
         type: BlockEntityType<T>
     ): BlockEntityTicker<T>? =
-        if (!world.isClient && type == BobsMobGearBlocks.FORGE_BLOCK_ENTITY)
-            ForgeBlockEntity as BlockEntityTicker<T>
-        else
-            null
+        if (!world.isClient) validateTicker(type, BobsMobGearBlocks.FORGE_BLOCK_ENTITY, ForgeBlockEntity) else null
 
     companion object {
         private fun getBlockEntity( // TODO abstract this into an interface?

@@ -1,14 +1,12 @@
 package io.github.thebroccolibob.bobsmobgear.block
 
-import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.util.get
-import io.github.thebroccolibob.bobsmobgear.util.isIn
-import io.github.thebroccolibob.bobsmobgear.util.isOf
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
@@ -25,6 +23,12 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.util.get
+import io.github.thebroccolibob.bobsmobgear.util.isIn
+import io.github.thebroccolibob.bobsmobgear.util.isOf
+import io.github.thebroccolibob.bobsmobgear.util.validateTicker
 
 class TemplateBlock(settings: Settings) : Block(settings), BlockEntityProvider {
     init {
@@ -97,6 +101,12 @@ class TemplateBlock(settings: Settings) : Block(settings), BlockEntityProvider {
 
     override fun getSoundGroup(state: BlockState): BlockSoundGroup =
         if (state[METAL]) BlockSoundGroup.METAL else super.getSoundGroup(state)
+
+    override fun <T : BlockEntity> getTicker(
+        world: World?,
+        state: BlockState?,
+        type: BlockEntityType<T>
+    ): BlockEntityTicker<T>? = validateTicker(type, BobsMobGearBlocks.TEMPLATE_BLOCK_ENTITY, TemplateBlockEntity)
 
     companion object {
         private val SHAPE: VoxelShape = createCuboidShape(1.0, 0.0, 1.0, 15.0, 2.0, 15.0)

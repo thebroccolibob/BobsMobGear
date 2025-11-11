@@ -1,12 +1,11 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
 import com.mojang.datafixers.util.Either
-import com.mojang.datafixers.util.Function8
+import com.mojang.datafixers.util.Function9
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
-import io.netty.buffer.ByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.registry.Registry
@@ -14,13 +13,14 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
+import io.netty.buffer.ByteBuf
 import java.util.*
 import java.util.function.Function
 
 /**
  * Returns a codec for encoding 8 values.
  */
-fun <B, C, T1, T2, T3, T4, T5, T6, T7, T8> packetCodecTuple(
+fun <B, C, T1, T2, T3, T4, T5, T6, T7, T8, T9> packetCodecTuple(
     codec1: PacketCodec<in B, T1>,
     from1: Function<C, T1>,
     codec2: PacketCodec<in B, T2>,
@@ -37,7 +37,9 @@ fun <B, C, T1, T2, T3, T4, T5, T6, T7, T8> packetCodecTuple(
     from7: Function<C, T7>,
     codec8: PacketCodec<in B, T8>,
     from8: Function<C, T8>,
-    to: Function8<T1, T2, T3, T4, T5, T6, T7, T8, C>
+    codec9: PacketCodec<in B, T9>,
+    from9: Function<C, T9>,
+    to: Function9<T1, T2, T3, T4, T5, T6, T7, T8, T9, C>
 ): PacketCodec<B, C> = object : PacketCodec<B, C> {
     override fun decode(buf: B): C {
         val object1 = codec1.decode(buf)
@@ -48,7 +50,8 @@ fun <B, C, T1, T2, T3, T4, T5, T6, T7, T8> packetCodecTuple(
         val object6 = codec6.decode(buf)
         val object7 = codec7.decode(buf)
         val object8 = codec8.decode(buf)
-        return to.apply(object1, object2, object3, object4, object5, object6, object7, object8)
+        val object9 = codec9.decode(buf)
+        return to.apply(object1, object2, object3, object4, object5, object6, object7, object8, object9)
     }
 
     override fun encode(buf: B, value: C) {
@@ -60,6 +63,7 @@ fun <B, C, T1, T2, T3, T4, T5, T6, T7, T8> packetCodecTuple(
         codec6.encode(buf, from6.apply(value))
         codec7.encode(buf, from7.apply(value))
         codec8.encode(buf, from8.apply(value))
+        codec9.encode(buf, from9.apply(value))
     }
 }
 

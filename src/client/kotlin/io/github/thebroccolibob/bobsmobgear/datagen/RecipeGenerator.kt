@@ -1,14 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.ARCHERS
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.PALADINS
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.ROGUES
-import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.registry.*
-import io.github.thebroccolibob.bobsmobgear.util.set
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions
@@ -36,6 +27,15 @@ import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.ARCHERS
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.PALADINS
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.ROGUES
+import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.registry.*
+import io.github.thebroccolibob.bobsmobgear.util.set
 import java.util.concurrent.CompletableFuture
 import net.archers.item.Weapons as ArchersWeapons
 import net.paladins.item.Shields as PaladinsShields

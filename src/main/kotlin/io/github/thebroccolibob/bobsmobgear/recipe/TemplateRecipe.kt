@@ -1,11 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.recipe
 
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.util.*
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.item.ItemStack
@@ -23,6 +21,8 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.util.*
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
@@ -36,6 +36,7 @@ class TemplateRecipe(
     val fluidAmount: Long,
     val requiresHammer: Boolean,
     val result: ItemStack,
+    val delay: Int = 0,
 ) : Recipe<TemplateRecipeInput> {
 
     constructor(
@@ -47,7 +48,8 @@ class TemplateRecipe(
         fluidAmount: Long,
         requiresHammer: Boolean,
         result: ItemStack,
-    ) : this(template, Optional.ofNullable(blockBelow), base, ingredients, fluid, fluidAmount, requiresHammer, result)
+        delay: Int = 0,
+    ) : this(template, Optional.ofNullable(blockBelow), base, ingredients, fluid, fluidAmount, requiresHammer, result, delay)
 
     override fun matches(input: TemplateRecipeInput, world: World): Boolean {
         return template == input.template
@@ -100,7 +102,8 @@ class TemplateRecipe(
                 FluidVariant.CODEC.optionalFieldOf("fluid", FluidVariant.blank()).forGetter(TemplateRecipe::fluid),
                 Codec.LONG.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),
                 Codec.BOOL.optionalFieldOf("requires_hammer", false).forGetter(TemplateRecipe::requiresHammer),
-                ItemStack.VALIDATED_UNCOUNTED_CODEC.fieldOf("result").forGetter(TemplateRecipe::result)
+                ItemStack.VALIDATED_UNCOUNTED_CODEC.fieldOf("result").forGetter(TemplateRecipe::result),
+                Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("delay", 0).forGetter(TemplateRecipe::delay),
             ).apply(instance, ::TemplateRecipe)
         }
 
@@ -113,6 +116,7 @@ class TemplateRecipe(
             PacketCodecs.VAR_LONG, TemplateRecipe::fluidAmount,
             PacketCodecs.BOOL, TemplateRecipe::requiresHammer,
             ItemStack.PACKET_CODEC, TemplateRecipe::result,
+            PacketCodecs.INTEGER, TemplateRecipe::delay,
             ::TemplateRecipe
         )
 
