@@ -17,10 +17,10 @@ import net.minecraft.util.Identifier
 import java.util.*
 
 object BobsMobGearFluids {
-    private fun <T: Fluid> register(path: String, fluid: T): T =
+    fun <T: Fluid> register(path: String, fluid: T): T =
         Registry.register(Registries.FLUID, BobsMobGear.id(path), fluid)
 
-    private fun registerAttributes(fluid: Fluid, emptySound: SoundEvent? = null) {
+    fun registerAttributes(fluid: Fluid, emptySound: SoundEvent? = null) {
         FluidVariantAttributes.register(fluid, object : FluidVariantAttributeHandler {
             val emptySoundOptional = Optional.ofNullable(emptySound)
 

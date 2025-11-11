@@ -42,7 +42,7 @@ object BobsMobGearItems {
             maxCount(1)
         }))
 
-    private fun registerPot(fluid: Fluid) =
+    fun registerPot(fluid: Fluid) =
         register(Registries.FLUID.getId(fluid) + "_pot", FluidPotItem(fluid, itemSettings {
             recipeRemainder(EMPTY_POT)
             maxCount(1)
