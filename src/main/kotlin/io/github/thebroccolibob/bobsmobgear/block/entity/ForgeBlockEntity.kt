@@ -7,9 +7,7 @@ import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Companion.i
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Connection
 import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.util.minus
-import io.github.thebroccolibob.bobsmobgear.util.plus
-import io.github.thebroccolibob.bobsmobgear.util.toDefaultedList
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
@@ -155,8 +153,10 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
                 return
             }
 
+            val strongHeat = world[pos.down()] isOf BobsMobGearBlocks.FORGE_HEATER
+
             if (!state[CONNECTION].isConnected) {
-                world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(blockEntity.inventory.heldStacks), world).getOrNull()?.value?.let {
+                world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(blockEntity.inventory.heldStacks, strongHeat), world).getOrNull()?.value?.let {
                     tickForgesRecipe(listOf(blockEntity), blockEntity.inventory.heldStacks, it)
                 }
                 return
@@ -166,7 +166,7 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
             while (remainingForges.isNotEmpty()) {
                 val stacks = remainingForges.flatMap { it.inventory.heldStacks }.toDefaultedList()
                 if (stacks.all { it.isEmpty }) break
-                val recipe = world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(stacks), world).getOrNull()?.value ?: break
+                val recipe = world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(stacks, strongHeat), world).getOrNull()?.value ?: break
                 val used = recipe.selectInventories(remainingForges) { inventory.heldStacks }
                 tickForgesRecipe(used, stacks, recipe)
                 remainingForges.removeAll(used)

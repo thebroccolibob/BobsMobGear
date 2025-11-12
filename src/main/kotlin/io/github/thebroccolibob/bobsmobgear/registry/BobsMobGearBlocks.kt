@@ -84,7 +84,9 @@ object BobsMobGearBlocks {
         luminance(createLightLevelFromLitBlockState(14))
     }))
 
-    @JvmField val FORGE = register("forge", ForgeBlock(FORGE_HEATER, AbstractBlock.Settings.copy(FORGE_HEATER)))
+    @JvmField val WEAK_HEAT_SOURCES: TagKey<Block> = TagKey.of(RegistryKeys.BLOCK, BobsMobGear.id("weak_heat_sources"))
+
+    @JvmField val FORGE = register("forge", ForgeBlock(WEAK_HEAT_SOURCES, FORGE_HEATER, AbstractBlock.Settings.copy(FORGE_HEATER)))
 
     @JvmField val WORN_GUNFLOWER = register("worn_gunflower", GunflowerBlock(20, 40, 20, 2f, blockSettings {
         noCollision()

@@ -7,5 +7,6 @@
   "result": {
     "fluid": "bobsmobgear:iron"
   },
-  "result_amount": 9000
+  "result_amount": 9000,
+  "weak_heat": true
 }

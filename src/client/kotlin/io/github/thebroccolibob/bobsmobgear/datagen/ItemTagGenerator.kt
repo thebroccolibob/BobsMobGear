@@ -84,6 +84,14 @@ class ItemTagGenerator(
         getOrCreateTagBuilder(BobsMobGearItemTags.NOT_WEAPON).add(
             BobsMobGearItems.SMITHING_HAMMER,
         )
+        getOrCreateTagBuilder(BobsMobGearItemTags.WEAK_HEAT_SOURCES).add(
+            Items.FLINT_AND_STEEL,
+            Items.CAMPFIRE,
+            Items.SOUL_CAMPFIRE,
+            Items.MAGMA_BLOCK,
+            Items.LAVA_BUCKET,
+            Items.CAULDRON,
+        )
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
             BobsMobGearItems.FLESH_GLOVE,
             BobsMobGearItems.IRON_FLESH_GLOVE,

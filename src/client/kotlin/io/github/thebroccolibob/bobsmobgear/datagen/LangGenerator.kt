@@ -1,6 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
-import dev.emi.emi.api.recipe.EmiRecipeCategory
 import io.github.thebroccolibob.bobsmobgear.client.HeatedTooltip
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
 import io.github.thebroccolibob.bobsmobgear.client.UsePriorityTooltip
@@ -22,6 +21,7 @@ import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Util.createTranslationKey
+import dev.emi.emi.api.recipe.EmiRecipeCategory
 import java.util.concurrent.CompletableFuture
 
 class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFuture<RegistryWrapper.WrapperLookup>) :
@@ -79,6 +79,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItemTags.SMITHING_SURFACE, "Smithing Surfaces")
         add(BobsMobGearItemTags.MENDER_ENCHANTABLE, "Mender Enchantable")
         add(BobsMobGearItemTags.LOWER_USE_PRIORITY, "Lower Use Priority")
+        add(BobsMobGearItemTags.WEAK_HEAT_SOURCES, "Weak Heat Sources")
 
         add(BobsMobGearFluids.IRON, "Molten Iron")
         add(BobsMobGearFluids.DIAMOND, "Molten Diamond")

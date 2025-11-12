@@ -1,5 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.block
 
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
+import io.github.thebroccolibob.bobsmobgear.mixin.FluidInvoker
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
@@ -10,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemActionResult
@@ -20,17 +25,15 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
-import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
-import io.github.thebroccolibob.bobsmobgear.mixin.FluidInvoker
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.util.*
 import kotlin.jvm.optionals.getOrNull
 
-class ForgeBlock(private val heaterBlock: Block, settings: Settings) : AbstractForgeBlock(settings), BlockEntityProvider {
+class ForgeBlock(private val weakHeatSources: TagKey<Block>, private val heaterBlock: Block, settings: Settings) : AbstractForgeBlock(settings), BlockEntityProvider {
+
+    private fun isHeatSource(state: BlockState) = (state isIn weakHeatSources || state isOf heaterBlock) && (LIT !in state || state[LIT])
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         return super.getPlacementState(ctx)
-            .with(LIT, ctx.world[ctx.blockPos.down()].let { it isOf heaterBlock && it[LIT] })
+            .with(LIT, ctx.world[ctx.blockPos.down()].let { isHeatSource(it) })
     }
 
     override fun getStateForNeighborUpdate(
@@ -43,7 +46,7 @@ class ForgeBlock(private val heaterBlock: Block, settings: Settings) : AbstractF
     ): BlockState {
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos).let {
             if (pos.down() == neighborPos)
-                it.with(LIT, neighborState isOf heaterBlock && neighborState[LIT])
+                it.with(LIT, isHeatSource(neighborState))
             else it
         }
     }

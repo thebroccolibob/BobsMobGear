@@ -1,12 +1,12 @@
 package io.github.thebroccolibob.bobsmobgear.recipe
 
-import com.mojang.serialization.Codec
-import com.mojang.serialization.MapCodec
-import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.util.defaultedList
 import io.github.thebroccolibob.bobsmobgear.util.singleOrList
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
+import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
@@ -26,9 +26,10 @@ class ForgingRecipe(
     val result: FluidVariant,
     val resultAmount: Long,
     val forgingTime: Int,
+    val weakHeat: Boolean = false,
 ) : Recipe<ForgingRecipe.Input> {
 
-    override fun matches(input: Input, world: World): Boolean = subtractItems(input.stacks.map { it.copy() })
+    override fun matches(input: Input, world: World): Boolean = (weakHeat || input.strongHeat) && subtractItems(input.stacks.map { it.copy() })
 
     override fun craft(input: Input?, lookup: RegistryWrapper.WrapperLookup?): ItemStack = ItemStack.EMPTY
 
@@ -64,6 +65,7 @@ class ForgingRecipe(
             FluidVariant.CODEC.fieldOf("result").forGetter(ForgingRecipe::result),
             Codec.LONG.fieldOf("result_amount").forGetter(ForgingRecipe::resultAmount),
             Codec.INT.fieldOf("forging_time").forGetter(ForgingRecipe::forgingTime),
+            Codec.BOOL.optionalFieldOf("weak_heat", false).forGetter(ForgingRecipe::weakHeat),
         ).apply(it, ::ForgingRecipe) }
 
         val PACKET_CODEC: PacketCodec<RegistryByteBuf, ForgingRecipe> = PacketCodec.tuple(
@@ -71,6 +73,7 @@ class ForgingRecipe(
             FluidVariant.PACKET_CODEC, ForgingRecipe::result,
             PacketCodecs.VAR_LONG, ForgingRecipe::resultAmount,
             PacketCodecs.INTEGER, ForgingRecipe::forgingTime,
+            PacketCodecs.BOOL, ForgingRecipe::weakHeat,
             ::ForgingRecipe
         )
 
@@ -85,6 +88,7 @@ class ForgingRecipe(
 
     data class Input(
         val stacks: DefaultedList<ItemStack>,
+        val strongHeat: Boolean,
     ) : RecipeInput {
         override fun getStackInSlot(slot: Int): ItemStack = stacks[slot]
 

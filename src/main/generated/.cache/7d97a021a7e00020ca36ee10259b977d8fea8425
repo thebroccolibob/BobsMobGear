@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-22T23:38:53.102896538	Bob's Mob Gear/Model Definitions
+// 1.21.1	2025-11-12T00:53:35.429209621	Bob's Mob Gear/Model Definitions
 ee11d9fb5d99f6d0df1f642614decb54ccb58e76 assets/bobsmobgear/models/block/rpg/mace_template_metal.json
 9e4f27b03e892252bb5131189500f7c3fb0e4877 assets/bobsmobgear/blockstates/rpg/claymore_template.json
 61468060ad8bbc7dc8014fd54f975361829fac7f assets/bobsmobgear/models/item/sculk_symbiote.json
@@ -63,8 +63,8 @@ b2f59b50c89e97a11d346e2d6c7ef127d70be3cf assets/bobsmobgear/models/item/rpg/spea
 9e1284bbe781c2ff1fb414f34074bf425279ca25 assets/bobsmobgear/models/block/pickaxe_template_metal.json
 cdd6dd5f43674268f5da86a7db753f641876fa97 assets/bobsmobgear/blockstates/rpg/glaive_template.json
 579855afd6bd8712f0e49bf4f12a2e6787a61702 assets/bobsmobgear/blockstates/rpg/double_axe_template.json
-f3e21143a1d7bcc313ca22fe08c0d3637537523f assets/bobsmobgear/models/block/rpg/sickle_template_metal.json
 ce052d58cc23f1204286aa0e429aaa8d2bcf98fa assets/bobsmobgear/models/item/sword_template.json
+f3e21143a1d7bcc313ca22fe08c0d3637537523f assets/bobsmobgear/models/block/rpg/sickle_template_metal.json
 edd17730db727f51273a7ccc3c5d7d87d26ea56c assets/bobsmobgear/models/item/rpg/kite_shield_template.json
 011b7d371055147dac3f3a4d2dab0e295dcc07c6 assets/bobsmobgear/blockstates/rpg/mace_template.json
 8c8b1beb34cb55f82102335289f3238cc38398c7 assets/bobsmobgear/models/block/forge_heater_back_left_lit.json

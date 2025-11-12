@@ -171,6 +171,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 FluidVariant.of(BobsMobGearFluids.IRON),
                 FluidConstants.INGOT,
                 200,
+                weakHeat = true,
             ),
             exporter
         )

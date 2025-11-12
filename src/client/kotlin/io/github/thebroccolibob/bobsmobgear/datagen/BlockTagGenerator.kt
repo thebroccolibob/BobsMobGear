@@ -19,6 +19,15 @@ class BlockTagGenerator(
             forceAddTag(BlockTags.ANVIL)
             addOptional(cataclysmId("mechanical_fusion_anvil"))
         }
+        getOrCreateTagBuilder(BobsMobGearBlocks.WEAK_HEAT_SOURCES).apply {
+            forceAddTag(BlockTags.FIRE)
+            forceAddTag(BlockTags.CAMPFIRES)
+            add(
+                Blocks.MAGMA_BLOCK,
+                Blocks.LAVA,
+                Blocks.LAVA_CAULDRON,
+            )
+        }
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).apply {
             add(*BobsMobGearBlocks.TEMPLATES)
         }
