@@ -78,6 +78,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(variantMap))
         }
 
+        @JvmStatic
         fun BlockStateModelGenerator.registerTemplate(template: Block) {
             blockStateCollector.accept(VariantsBlockStateSupplier.create(template).apply {
                 coordinate(createBooleanModelMap(TemplateBlock.METAL,

@@ -1,8 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
-import com.mojang.serialization.Codec
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.util.ComparableItemStack
+import com.mojang.serialization.Codec
 import net.minecraft.component.ComponentType
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
@@ -20,26 +20,24 @@ object BobsMobGearComponents {
         packetCodec(PacketCodec.unit(MCUnit.INSTANCE))
     }
 
-    @JvmField
-    val HEATED = registerUnit("heated")
+    @JvmField val HEATED = registerUnit("heated")
 
-    val TONGS_HELD_ITEM = register<ComparableItemStack>("tongs_held_item") {
+    @JvmField val TONGS_HELD_ITEM = register<ComparableItemStack>("tongs_held_item") {
         codec(ComparableItemStack.CODEC)
         packetCodec(ComparableItemStack.PACKET_CODEC)
     }
 
-    val MAX_SONIC_CHARGE = register<Int>("max_sonic_charge") {
+    @JvmField val MAX_SONIC_CHARGE = register<Int>("max_sonic_charge") {
         codec(Codec.INT)
         packetCodec(PacketCodecs.INTEGER)
     }
 
-    val SONIC_CHARGE = register<Int>("sonic_charge") {
+    @JvmField val SONIC_CHARGE = register<Int>("sonic_charge") {
         codec(Codec.INT)
         packetCodec(PacketCodecs.INTEGER)
     }
 
-    @JvmField
-    val USING_SPECIAL_ATTACK = registerUnit("using_special_attack")
+    @JvmField val USING_SPECIAL_ATTACK = registerUnit("using_special_attack")
 
     fun register() {}
 }

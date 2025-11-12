@@ -32,18 +32,18 @@ object BobsMobGearEnchantments {
 
     private fun tagOf(path: String): TagKey<Enchantment> = TagKey.of(RegistryKeys.ENCHANTMENT, BobsMobGear.id(path))
 
-    val REPAIR_ENTITY_EQUIPMENT = register<EnchantmentEffectEntry<RepairEquipmentEffect>>("repair_entity_equipment") {
+    @JvmField val REPAIR_ENTITY_EQUIPMENT = register<EnchantmentEffectEntry<RepairEquipmentEffect>>("repair_entity_equipment") {
         codec(EnchantmentEffectEntry.createCodec(RepairEquipmentEffect.CODEC, LootContextTypes.ENCHANTED_ITEM))
     }
 
-    val REPAIR_HAND_EQUIPMENT = register<EnchantmentEffectEntry<RepairEquipmentEffect>>("repair_hand_equipment") {
+    @JvmField val REPAIR_HAND_EQUIPMENT = register<EnchantmentEffectEntry<RepairEquipmentEffect>>("repair_hand_equipment") {
         codec(EnchantmentEffectEntry.createCodec(RepairEquipmentEffect.CODEC, LootContextTypes.ENCHANTED_ITEM))
     }
 
-    val MENDER = keyOf("mender")
-    val MENDER_NAME = Translation.unit(createTranslationKey("enchantment", MENDER.value))
+    @JvmField val MENDER = keyOf("mender")
+    @JvmField val MENDER_NAME = Translation.unit(createTranslationKey("enchantment", MENDER.value))
 
-    val EXCLUSIVE_SET_MENDER = tagOf("exclusive_set/mender")
+    @JvmField val EXCLUSIVE_SET_MENDER = tagOf("exclusive_set/mender")
 
     fun register() {
         RepairEquipmentEffect.register()

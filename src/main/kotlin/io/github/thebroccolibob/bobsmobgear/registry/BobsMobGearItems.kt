@@ -42,65 +42,65 @@ object BobsMobGearItems {
             maxCount(1)
         }))
 
+    @JvmStatic
     fun registerPot(fluid: Fluid) =
         register(Registries.FLUID.getId(fluid) + "_pot", FluidPotItem(fluid, itemSettings {
             recipeRemainder(EMPTY_POT)
             maxCount(1)
         }))
 
-    val EMPTY_TEMPLATE = register(BobsMobGearBlocks.EMPTY_TEMPLATE)
-    val SWORD_TEMPLATE = register(BobsMobGearBlocks.SWORD_TEMPLATE)
-    val PICKAXE_TEMPLATE = register(BobsMobGearBlocks.PICKAXE_TEMPLATE)
-    val AXE_TEMPLATE = register(BobsMobGearBlocks.AXE_TEMPLATE)
-    val SHOVEL_TEMPLATE = register(BobsMobGearBlocks.SHOVEL_TEMPLATE)
-    val HOE_TEMPLATE = register(BobsMobGearBlocks.HOE_TEMPLATE)
+    @JvmField val EMPTY_TEMPLATE = register(BobsMobGearBlocks.EMPTY_TEMPLATE)
+    @JvmField val SWORD_TEMPLATE = register(BobsMobGearBlocks.SWORD_TEMPLATE)
+    @JvmField val PICKAXE_TEMPLATE = register(BobsMobGearBlocks.PICKAXE_TEMPLATE)
+    @JvmField val AXE_TEMPLATE = register(BobsMobGearBlocks.AXE_TEMPLATE)
+    @JvmField val SHOVEL_TEMPLATE = register(BobsMobGearBlocks.SHOVEL_TEMPLATE)
+    @JvmField val HOE_TEMPLATE = register(BobsMobGearBlocks.HOE_TEMPLATE)
 
-    val GREATHAMMER_TEMPLATE = register(BobsMobGearBlocks.GREATHAMMER_TEMPLATE)
-    val MACE_TEMPLATE = register(BobsMobGearBlocks.MACE_TEMPLATE)
-    val CLAYMORE_TEMPLATE = register(BobsMobGearBlocks.CLAYMORE_TEMPLATE)
-    val KITE_SHIELD_TEMPLATE = register(BobsMobGearBlocks.KITE_SHIELD_TEMPLATE)
-    val DAGGER_TEMPLATE = register(BobsMobGearBlocks.DAGGER_TEMPLATE)
-    val GLAIVE_TEMPLATE = register(BobsMobGearBlocks.GLAIVE_TEMPLATE)
-    val SICKLE_TEMPLATE = register(BobsMobGearBlocks.SICKLE_TEMPLATE)
-    val DOUBLE_AXE_TEMPLATE = register(BobsMobGearBlocks.DOUBLE_AXE_TEMPLATE)
-    val SPEAR_TEMPLATE = register(BobsMobGearBlocks.SPEAR_TEMPLATE)
-    val KNIFE_TEMPLATE = register(BobsMobGearBlocks.KNIFE_TEMPLATE)
+    @JvmField val GREATHAMMER_TEMPLATE = register(BobsMobGearBlocks.GREATHAMMER_TEMPLATE)
+    @JvmField val MACE_TEMPLATE = register(BobsMobGearBlocks.MACE_TEMPLATE)
+    @JvmField val CLAYMORE_TEMPLATE = register(BobsMobGearBlocks.CLAYMORE_TEMPLATE)
+    @JvmField val KITE_SHIELD_TEMPLATE = register(BobsMobGearBlocks.KITE_SHIELD_TEMPLATE)
+    @JvmField val DAGGER_TEMPLATE = register(BobsMobGearBlocks.DAGGER_TEMPLATE)
+    @JvmField val GLAIVE_TEMPLATE = register(BobsMobGearBlocks.GLAIVE_TEMPLATE)
+    @JvmField val SICKLE_TEMPLATE = register(BobsMobGearBlocks.SICKLE_TEMPLATE)
+    @JvmField val DOUBLE_AXE_TEMPLATE = register(BobsMobGearBlocks.DOUBLE_AXE_TEMPLATE)
+    @JvmField val SPEAR_TEMPLATE = register(BobsMobGearBlocks.SPEAR_TEMPLATE)
+    @JvmField val KNIFE_TEMPLATE = register(BobsMobGearBlocks.KNIFE_TEMPLATE)
 
-    val FORGE = register(BobsMobGearBlocks.FORGE)
-    val FORGE_HEATER = register(BobsMobGearBlocks.FORGE_HEATER)
+    @JvmField val FORGE = register(BobsMobGearBlocks.FORGE)
+    @JvmField val FORGE_HEATER = register(BobsMobGearBlocks.FORGE_HEATER)
 
-    val EMPTY_POT = register("empty_pot", FluidPotItem(Fluids.EMPTY, itemSettings {
+    @JvmField val EMPTY_POT = register("empty_pot", FluidPotItem(Fluids.EMPTY, itemSettings {
         maxCount(16)
     }))
 
-    val IRON_POT = registerPot(BobsMobGearFluids.IRON)
-    val DIAMOND_POT = registerPot(BobsMobGearFluids.DIAMOND)
-    val NETHERITE_POT = registerPot(BobsMobGearFluids.NETHERITE)
-    val BLACK_STEEL_POT = registerPot(BobsMobGearFluids.BLACK_STEEL)
+    @JvmField val IRON_POT = registerPot(BobsMobGearFluids.IRON)
+    @JvmField val DIAMOND_POT = registerPot(BobsMobGearFluids.DIAMOND)
+    @JvmField val NETHERITE_POT = registerPot(BobsMobGearFluids.NETHERITE)
+    @JvmField val BLACK_STEEL_POT = registerPot(BobsMobGearFluids.BLACK_STEEL)
 
-    val FILLED_POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT, BLACK_STEEL_POT)
+    @JvmField val FILLED_POTS = listOf(IRON_POT, DIAMOND_POT, NETHERITE_POT, BLACK_STEEL_POT)
 
-    val SMITHING_HAMMER = register("smithing_hammer", SmithingHammerItem(itemSettings {
+    @JvmField val SMITHING_HAMMER = register("smithing_hammer", SmithingHammerItem(itemSettings {
         maxDamage(128) // TODO decide max damage
         attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.IRON, 1, -3.2f))
         component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 2))
     }))
 
-    @JvmField
-    val SMITHING_TONGS = register("smithing_tongs", TongsItem(itemSettings {
+    @JvmField val SMITHING_TONGS = register("smithing_tongs", TongsItem(itemSettings {
         maxCount(1)
         component(TONGS_HELD_ITEM, ComparableItemStack.EMPTY)
     }))
 
-    val WORN_HARDENED_FLESH = register("worn_hardened_flesh", Item(itemSettings {}))
-    val WORN_STURDY_BONE = register("worn_sturdy_bone", Item(itemSettings {}))
-    val WORN_SPIDER_FANG = register("worn_spider_fang", Item(itemSettings {}))
-    val WORN_CREEPER_CORE = register("worn_creeper_core", Item(itemSettings {}))
-    val WORN_SEETHING_PEARL = register("worn_seething_pearl", Item(itemSettings {}))
-    val WORN_SEETHING_EYE = register("worn_seething_eye", Item(itemSettings {}))
-    val SCULK_SYMBIOTE = register("sculk_symbiote", Item(itemSettings {}))
+    @JvmField val WORN_HARDENED_FLESH = register("worn_hardened_flesh", Item(itemSettings {}))
+    @JvmField val WORN_STURDY_BONE = register("worn_sturdy_bone", Item(itemSettings {}))
+    @JvmField val WORN_SPIDER_FANG = register("worn_spider_fang", Item(itemSettings {}))
+    @JvmField val WORN_CREEPER_CORE = register("worn_creeper_core", Item(itemSettings {}))
+    @JvmField val WORN_SEETHING_PEARL = register("worn_seething_pearl", Item(itemSettings {}))
+    @JvmField val WORN_SEETHING_EYE = register("worn_seething_eye", Item(itemSettings {}))
+    @JvmField val SCULK_SYMBIOTE = register("sculk_symbiote", Item(itemSettings {}))
 
-    val FLESH_GLOVE = register("flesh_glove",
+    @JvmField val FLESH_GLOVE = register("flesh_glove",
         AbstractFleshGlove(
             FLESH_GLOVE_MATERIAL,
             itemSettings {
@@ -110,7 +110,7 @@ object BobsMobGearItems {
         )
     )
 
-    val IRON_FLESH_GLOVE = register("iron_flesh_glove",
+    @JvmField val IRON_FLESH_GLOVE = register("iron_flesh_glove",
         FleshGloveItem(
             ToolMaterials.IRON,
             itemSettings {
@@ -121,7 +121,7 @@ object BobsMobGearItems {
         )
     )
 
-    val WARDEN_FIST = register("warden_fist", WardenFistItem(itemSettings {
+    @JvmField val WARDEN_FIST = register("warden_fist", WardenFistItem(itemSettings {
         rarity(Rarity.RARE)
         fireproof()
         attributeModifiers(WardenFistItem.createAttributeModifiers())
@@ -129,27 +129,27 @@ object BobsMobGearItems {
         component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
     }))
 
-    val IRON_BONE_HAMMER = register("iron_bone_hammer", BoneHammerItem(5 * 20, ToolMaterials.STONE, itemSettings { // TODO
+    @JvmField val IRON_BONE_HAMMER = register("iron_bone_hammer", BoneHammerItem(5 * 20, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 
-    val IRON_SPIDER_DAGGER = register("iron_spider_dagger", SpiderDaggerItem(2.0, ToolMaterials.STONE, itemSettings { // TODO
+    @JvmField val IRON_SPIDER_DAGGER = register("iron_spider_dagger", SpiderDaggerItem(2.0, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 
-    val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem.teleporting(3f, 5 * 20, ::EnderSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
+    @JvmField val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem.teleporting(3f, 5 * 20, ::EnderSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 
-    val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem.homing(16.0, ::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
+    @JvmField val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem.homing(16.0, ::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
 
     }))
 
-    val IRON_BOOM_BATON = register("iron_boom_baton", BoomBatonItem(8, 5 * 20, BobsMobGearBlocks.WORN_GUNFLOWER, ToolMaterials.IRON, itemSettings {
+    @JvmField val IRON_BOOM_BATON = register("iron_boom_baton", BoomBatonItem(8, 5 * 20, BobsMobGearBlocks.WORN_GUNFLOWER, ToolMaterials.IRON, itemSettings {
 
     }))
 
-    val UNLIMITED_BACON = register("unlimited_bacon", UnlimitedBaconItem(itemSettings {
+    @JvmField val UNLIMITED_BACON = register("unlimited_bacon", UnlimitedBaconItem(itemSettings {
         component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
         food {
             alwaysEdible()
@@ -162,7 +162,7 @@ object BobsMobGearItems {
 
     // ITEM GROUPS
 
-    val ITEM_GROUP: ItemGroup = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), ItemGroup {
+    @JvmField val ITEM_GROUP: ItemGroup = Registry.register(Registries.ITEM_GROUP, BobsMobGear.id("item_group"), ItemGroup {
         icon { SMITHING_HAMMER.defaultStack }
         displayName(Text.of(FabricLoader.getInstance().getModContainer(BobsMobGear.MOD_ID).orElseThrow().metadata.name))
         entries { _, entries ->

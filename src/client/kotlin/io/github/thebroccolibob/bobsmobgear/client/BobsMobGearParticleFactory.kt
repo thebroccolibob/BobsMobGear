@@ -44,7 +44,7 @@ fun createDripFactory(fluid: MetalFluid, next: ParticleEffect, create: (ClientWo
         }
     }
 
-private fun registerDrips(dripParticles: BobsMobGearParticles.Drips, fluid: MetalFluid) {
+fun registerDrips(dripParticles: BobsMobGearParticles.Drips, fluid: MetalFluid) {
     ParticleFactoryRegistry.getInstance().apply {
         register(dripParticles.dripping, createDripFactory(fluid, dripParticles.falling, DrippingBlockLeakParticleInvoker::newDripping))
         register(dripParticles.falling, createDripFactory(fluid, dripParticles.landing, ContinuousFallingBlockLeakParticleInvoker::newContinuousFalling))

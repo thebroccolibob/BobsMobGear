@@ -57,36 +57,36 @@ object BobsMobGearBlocks {
 
     // BLOCKS
 
-    val EMPTY_TEMPLATE = registerTemplate("empty")
-    val SWORD_TEMPLATE = registerTemplate("sword")
-    val PICKAXE_TEMPLATE = registerTemplate("pickaxe")
-    val AXE_TEMPLATE = registerTemplate("axe")
-    val SHOVEL_TEMPLATE = registerTemplate("shovel")
-    val HOE_TEMPLATE = registerTemplate("hoe")
+    @JvmField val EMPTY_TEMPLATE = registerTemplate("empty")
+    @JvmField val SWORD_TEMPLATE = registerTemplate("sword")
+    @JvmField val PICKAXE_TEMPLATE = registerTemplate("pickaxe")
+    @JvmField val AXE_TEMPLATE = registerTemplate("axe")
+    @JvmField val SHOVEL_TEMPLATE = registerTemplate("shovel")
+    @JvmField val HOE_TEMPLATE = registerTemplate("hoe")
 
-    val GREATHAMMER_TEMPLATE = registerTemplate("rpg/greathammer")
-    val MACE_TEMPLATE = registerTemplate("rpg/mace")
-    val CLAYMORE_TEMPLATE = registerTemplate("rpg/claymore")
-    val KITE_SHIELD_TEMPLATE = registerTemplate("rpg/kite_shield")
-    val DAGGER_TEMPLATE = registerTemplate("rpg/dagger")
-    val GLAIVE_TEMPLATE = registerTemplate("rpg/glaive")
-    val SICKLE_TEMPLATE = registerTemplate("rpg/sickle")
-    val DOUBLE_AXE_TEMPLATE = registerTemplate("rpg/double_axe")
-    val SPEAR_TEMPLATE = registerTemplate("rpg/spear")
-    val KNIFE_TEMPLATE = registerTemplate("farmersdelight/knife")
+    @JvmField val GREATHAMMER_TEMPLATE = registerTemplate("rpg/greathammer")
+    @JvmField val MACE_TEMPLATE = registerTemplate("rpg/mace")
+    @JvmField val CLAYMORE_TEMPLATE = registerTemplate("rpg/claymore")
+    @JvmField val KITE_SHIELD_TEMPLATE = registerTemplate("rpg/kite_shield")
+    @JvmField val DAGGER_TEMPLATE = registerTemplate("rpg/dagger")
+    @JvmField val GLAIVE_TEMPLATE = registerTemplate("rpg/glaive")
+    @JvmField val SICKLE_TEMPLATE = registerTemplate("rpg/sickle")
+    @JvmField val DOUBLE_AXE_TEMPLATE = registerTemplate("rpg/double_axe")
+    @JvmField val SPEAR_TEMPLATE = registerTemplate("rpg/spear")
+    @JvmField val KNIFE_TEMPLATE = registerTemplate("farmersdelight/knife")
 
     val TEMPLATES by lazy { templates.toTypedArray() }
 
-    val FORGE_HEATER = register("forge_heater", ForgeHeaterBlock(blockSettings {
+    @JvmField val FORGE_HEATER = register("forge_heater", ForgeHeaterBlock(blockSettings {
         sounds(BlockSoundGroup.METAL)
         requiresTool()
         strength(3.5F)
         luminance(createLightLevelFromLitBlockState(14))
     }))
 
-    val FORGE = register("forge", ForgeBlock(FORGE_HEATER, AbstractBlock.Settings.copy(FORGE_HEATER)))
+    @JvmField val FORGE = register("forge", ForgeBlock(FORGE_HEATER, AbstractBlock.Settings.copy(FORGE_HEATER)))
 
-    val WORN_GUNFLOWER = register("worn_gunflower", GunflowerBlock(20, 40, 20, 2f, blockSettings {
+    @JvmField val WORN_GUNFLOWER = register("worn_gunflower", GunflowerBlock(20, 40, 20, 2f, blockSettings {
         noCollision()
         ticksRandomly()
         breakInstantly()
@@ -96,20 +96,19 @@ object BobsMobGearBlocks {
 
     // BLOCK ENTITIES
 
-    val TEMPLATE_BLOCK_ENTITY = register("template", BlockEntityType(::TemplateBlockEntity, *TEMPLATES))
+    @JvmField val TEMPLATE_BLOCK_ENTITY = register("template", BlockEntityType(::TemplateBlockEntity, *TEMPLATES))
 
-    val FORGE_BLOCK_ENTITY = register("forge", BlockEntityType(::ForgeBlockEntity,
+    @JvmField val FORGE_BLOCK_ENTITY = register("forge", BlockEntityType(::ForgeBlockEntity,
         FORGE,
     ))
 
-    val FORGE_HEATER_BLOCK_ENTITY = register("forge_heater", BlockEntityType(::ForgeHeaterBlockEntity,
+    @JvmField val FORGE_HEATER_BLOCK_ENTITY = register("forge_heater", BlockEntityType(::ForgeHeaterBlockEntity,
         FORGE_HEATER,
     ))
 
     // TAGS
 
-    @JvmField
-    val SMITHING_SURFACE: TagKey<Block> = TagKey.of(RegistryKeys.BLOCK, BobsMobGear.id("smithing_surface"))
+    @JvmField val SMITHING_SURFACE: TagKey<Block> = TagKey.of(RegistryKeys.BLOCK, BobsMobGear.id("smithing_surface"))
 
     fun register() {
         registerFluidStorage(TEMPLATE_BLOCK_ENTITY) { fluidStorage }
