@@ -39,7 +39,7 @@ class ForgingEmiRecipe(id: Identifier, private val recipe: ForgingRecipe)
         widgets.addAnimatedTexture(EmiTexture.FULL_FLAME, 15, 24, 4000, false, true, true)
         widgets.addSlot(
             if (recipe.weakHeat) EmiIngredient.of(BobsMobGearItemTags.WEAK_HEAT_SOURCES) else EmiStack.of(BobsMobGearBlocks.FORGE_HEATER),
-            14,
+            13,
             41,
         ).catalyst(true)
 
