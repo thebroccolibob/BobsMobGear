@@ -1,11 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.client.emi
 
-import dev.emi.emi.api.EmiEntrypoint
-import dev.emi.emi.api.EmiPlugin
-import dev.emi.emi.api.EmiRegistry
-import dev.emi.emi.api.recipe.EmiRecipe
-import dev.emi.emi.api.recipe.EmiRecipeCategory
-import dev.emi.emi.api.stack.EmiStack
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.client.util.SizedTexture
 import io.github.thebroccolibob.bobsmobgear.client.util.region
@@ -16,6 +10,12 @@ import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.input.RecipeInput
 import net.minecraft.util.Identifier
+import dev.emi.emi.api.EmiEntrypoint
+import dev.emi.emi.api.EmiPlugin
+import dev.emi.emi.api.EmiRegistry
+import dev.emi.emi.api.recipe.EmiRecipe
+import dev.emi.emi.api.recipe.EmiRecipeCategory
+import dev.emi.emi.api.stack.EmiStack
 
 @EmiEntrypoint
 class BobsMobGearEmiPlugin : EmiPlugin {
@@ -48,7 +48,6 @@ class BobsMobGearEmiPlugin : EmiPlugin {
 
         registry.addCategory(FORGING_CATEGORY)
         registry.addWorkstation(FORGING_CATEGORY, EmiStack.of(BobsMobGearItems.FORGE))
-        registry.addWorkstation(FORGING_CATEGORY, EmiStack.of(BobsMobGearItems.FORGE_HEATER))
 
         registry.addCategory(FORGE_FILLING_CATEGORY)
         registry.addWorkstation(FORGE_FILLING_CATEGORY, EmiStack.of(BobsMobGearItems.FORGE))

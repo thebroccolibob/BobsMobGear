@@ -1,26 +1,29 @@
 package io.github.thebroccolibob.bobsmobgear.client.emi
 
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.util.Translation
+import io.github.thebroccolibob.bobsmobgear.util.groupConsecutive
+import net.minecraft.util.Identifier
 import dev.emi.emi.api.recipe.BasicEmiRecipe
 import dev.emi.emi.api.render.EmiTexture
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
-import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
-import io.github.thebroccolibob.bobsmobgear.util.Translation
-import io.github.thebroccolibob.bobsmobgear.util.groupConsecutive
-import net.minecraft.util.Identifier
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
 class ForgingEmiRecipe(id: Identifier, private val recipe: ForgingRecipe)
-    : BasicEmiRecipe(BobsMobGearEmiPlugin.FORGING_CATEGORY, id, 100, 18 * ((recipe.ingredients.size + 1) / 2) + 23) {
+    : BasicEmiRecipe(BobsMobGearEmiPlugin.FORGING_CATEGORY, id, 100, 18 * ((recipe.ingredients.size + 1) / 2) + 45) {
 
     private val output: EmiStack = EmiStack.of(recipe.result.fluid, recipe.resultAmount / BobsMobGearCompat.FLUID_FACTOR)
 
     init {
         inputs.addAll(recipe.ingredients.groupConsecutive { i, ingredient -> EmiIngredient.of(ingredient, i.toLong()) })
+        catalysts.add(if (recipe.weakHeat) EmiIngredient.of(BobsMobGearItemTags.WEAK_HEAT_SOURCES) else EmiStack.of(BobsMobGearBlocks.FORGE_HEATER))
         outputs.add(output)
     }
 
@@ -34,6 +37,11 @@ class ForgingEmiRecipe(id: Identifier, private val recipe: ForgingRecipe)
 
         widgets.addTexture(EmiTexture.EMPTY_FLAME, 15, 24)
         widgets.addAnimatedTexture(EmiTexture.FULL_FLAME, 15, 24, 4000, false, true, true)
+        widgets.addSlot(
+            if (recipe.weakHeat) EmiIngredient.of(BobsMobGearItemTags.WEAK_HEAT_SOURCES) else EmiStack.of(BobsMobGearBlocks.FORGE_HEATER),
+            14,
+            41,
+        ).catalyst(true)
 
         widgets.addSlot(output, 78, 4).recipeContext(this)
     }
