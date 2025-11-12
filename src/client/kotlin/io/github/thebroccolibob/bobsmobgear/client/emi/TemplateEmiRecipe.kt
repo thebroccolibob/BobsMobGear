@@ -1,10 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.client.emi
 
-import dev.emi.emi.api.recipe.EmiRecipe
-import dev.emi.emi.api.recipe.EmiRecipeCategory
-import dev.emi.emi.api.stack.EmiIngredient
-import dev.emi.emi.api.stack.EmiStack
-import dev.emi.emi.api.widget.WidgetHolder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.client.util.SizedTexture
@@ -19,17 +14,23 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
+import dev.emi.emi.api.recipe.EmiRecipe
+import dev.emi.emi.api.recipe.EmiRecipeCategory
+import dev.emi.emi.api.stack.EmiIngredient
+import dev.emi.emi.api.stack.EmiStack
+import dev.emi.emi.api.widget.WidgetHolder
 import kotlin.jvm.optionals.getOrNull
 
 class TemplateEmiRecipe(private val id: Identifier, private val recipe: TemplateRecipe) : EmiRecipe {
     private val hasRow1 get() = !recipe.fluid.isBlank || recipe.requiresHammer
 
     private val blockBelow = recipe.blockBelow.getOrNull()?.let { blockTag ->
-        blockTag.tagKey.getOrNull()
-            ?.let { TagKey.of(RegistryKeys.ITEM, it.id) }
-            ?.takeIf { Registries.ITEM.tagCreatingWrapper.getOptional(it).isPresent }
-            ?.let { EmiIngredient.of(it) }
-            ?: EmiIngredient.of(blockTag.map { entry -> EmiStack.of(entry.value()) })
+        blockTag.tagKey.getOrNull()?.let { tagKey ->
+            TagKey.of(RegistryKeys.ITEM, tagKey.id)
+                ?.takeIf { Registries.ITEM.tagCreatingWrapper.getOptional(it).isPresent }
+                ?.let { EmiIngredient.of(it) }
+            ?: EmiIngredient.of(tagKey)
+        } ?: EmiIngredient.of(blockTag.map { entry -> EmiStack.of(entry.value()) })
     }
 
     private val ingredients = recipe.ingredients.takeUnless { it.isEmpty() }?.groupConsecutive { count, ingredient ->
