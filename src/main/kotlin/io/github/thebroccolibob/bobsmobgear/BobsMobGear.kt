@@ -35,10 +35,10 @@ object BobsMobGear : ModInitializer {
 		BobsMobGearSounds.register()
 
 		ResourceManagerHelper.registerBuiltinResourcePack(
-			id("vanilla_recipe_disable"),
+			id("recipe_replacemets"),
 			FabricLoader.getInstance().getModContainer(MOD_ID).get(),
-			Text.literal("Vanilla Recipe Disable"),
-			ResourcePackActivationType.ALWAYS_ENABLED
+			Text.literal("Recipe Replacements"),
+			ResourcePackActivationType.NORMAL
 		)
 
 		registerHeatedLogic()

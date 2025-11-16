@@ -31,10 +31,7 @@ class EmiRecipeDefaultGenerator(
         val CODEC: Codec<List<Identifier>> = Identifier.CODEC.listOf().fieldOf("added").codec()
 
         val RECIPES =
-            RecipeGenerator.TOOL_TYPES.flatMap { type -> type.run { listOf(stone, iron, diamond, netherite, blackSteel) }.filterNotNull().map {
-                val id = Registries.ITEM.getId(it)
-                BobsMobGear.id("template/${if (id.namespace == Identifier.DEFAULT_NAMESPACE) id.path else "${id.namespace}/${id.path}"}")
-            } } +
+            RecipeGenerator.TOOL_TYPES.flatMap { it.getRecipeIds() } +
             listOf(BobsMobGearFluids.IRON, BobsMobGearFluids.DIAMOND, BobsMobGearFluids.BLACK_STEEL).map {
                 Registries.FLUID.getId(it).withPrefixedPath("forging/")
             } +
