@@ -1,12 +1,12 @@
 package io.github.thebroccolibob.bobsmobgear.recipe
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.util.defaultedList
 import io.github.thebroccolibob.bobsmobgear.util.singleOrList
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
-import com.mojang.serialization.Codec
-import com.mojang.serialization.MapCodec
-import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
@@ -29,7 +29,9 @@ class ForgingRecipe(
     val weakHeat: Boolean = false,
 ) : Recipe<ForgingRecipe.Input> {
 
-    override fun matches(input: Input, world: World): Boolean = (weakHeat || input.strongHeat) && subtractItems(input.stacks.map { it.copy() })
+    override fun matches(input: Input, world: World): Boolean = (weakHeat || input.strongHeat)
+            && input.stacks.all { ingredients.any { ingredient -> ingredient.test(it) } }
+            && subtractItems(input.stacks.map { it.copy() })
 
     override fun craft(input: Input?, lookup: RegistryWrapper.WrapperLookup?): ItemStack = ItemStack.EMPTY
 
