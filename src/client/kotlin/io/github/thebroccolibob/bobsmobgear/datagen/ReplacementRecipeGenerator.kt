@@ -190,6 +190,6 @@ class ReplacementRecipeGenerator(
             )
         )
 
-        val SpellWeapon.Entry.item get() = item()!!
+        private inline val SpellWeapon.Entry.item get() = item()!!
     }
 }
