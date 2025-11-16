@@ -30,7 +30,7 @@ class ForgingRecipe(
 ) : Recipe<ForgingRecipe.Input> {
 
     override fun matches(input: Input, world: World): Boolean = (weakHeat || input.strongHeat)
-            && input.stacks.all { ingredients.any { ingredient -> ingredient.test(it) } }
+            && input.stacks.all { it.isEmpty || ingredients.any { ingredient -> ingredient.test(it) } }
             && subtractItems(input.stacks.map { it.copy() })
 
     override fun craft(input: Input?, lookup: RegistryWrapper.WrapperLookup?): ItemStack = ItemStack.EMPTY

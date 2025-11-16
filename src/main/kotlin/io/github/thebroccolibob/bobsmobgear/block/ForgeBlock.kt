@@ -24,31 +24,15 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
 import kotlin.jvm.optionals.getOrNull
 
 class ForgeBlock(private val weakHeatSources: TagKey<Block>, private val heaterBlock: Block, settings: Settings) : AbstractForgeBlock(settings), BlockEntityProvider {
 
-    private fun isHeatSource(state: BlockState) = (state isIn weakHeatSources || state isOf heaterBlock) && (LIT !in state || state[LIT])
+    fun isHeatSource(state: BlockState) = (state isIn weakHeatSources || state isOf heaterBlock) && (LIT !in state || state[LIT])
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         return super.getPlacementState(ctx)
             .with(LIT, ctx.world[ctx.blockPos.down()].let { isHeatSource(it) })
-    }
-
-    override fun getStateForNeighborUpdate(
-        state: BlockState,
-        direction: Direction,
-        neighborState: BlockState,
-        world: WorldAccess,
-        pos: BlockPos,
-        neighborPos: BlockPos
-    ): BlockState {
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos).let {
-            if (pos.down() == neighborPos)
-                it.with(LIT, isHeatSource(neighborState))
-            else it
-        }
     }
 
     override fun onStateReplaced(
