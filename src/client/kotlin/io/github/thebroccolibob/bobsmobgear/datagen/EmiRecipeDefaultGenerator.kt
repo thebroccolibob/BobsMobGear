@@ -32,6 +32,7 @@ class EmiRecipeDefaultGenerator(
 
         val RECIPES =
             RecipeGenerator.TOOL_TYPES.flatMap { it.getRecipeIds() } +
+            ReplacementRecipeGenerator.TOOL_TYPES.flatMap { it.getRecipeIds() } +
             listOf(BobsMobGearFluids.IRON, BobsMobGearFluids.DIAMOND, BobsMobGearFluids.BLACK_STEEL).map {
                 Registries.FLUID.getId(it).withPrefixedPath("forging/")
             } +

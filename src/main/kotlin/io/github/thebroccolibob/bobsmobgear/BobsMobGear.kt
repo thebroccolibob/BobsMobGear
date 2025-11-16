@@ -35,7 +35,7 @@ object BobsMobGear : ModInitializer {
 		BobsMobGearSounds.register()
 
 		ResourceManagerHelper.registerBuiltinResourcePack(
-			id("recipe_replacemets"),
+			id("recipe_replacements"),
 			FabricLoader.getInstance().getModContainer(MOD_ID).get(),
 			Text.literal("Recipe Replacements"),
 			ResourcePackActivationType.NORMAL
