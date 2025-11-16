@@ -1,9 +1,11 @@
 package io.github.thebroccolibob.bobsmobgear.recipe
 
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.util.*
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.item.ItemStack
@@ -21,8 +23,6 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.util.*
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
@@ -97,7 +97,7 @@ class TemplateRecipe(
             instance.group(
                 Registries.BLOCK.codec.fieldOf("template").forGetter(TemplateRecipe::template),
                 RegistryCodecs.entryList(RegistryKeys.BLOCK).optionalFieldOf("block_below").forGetter(TemplateRecipe::blockBelow),
-                Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter(TemplateRecipe::base),
+                Ingredient.ALLOW_EMPTY_CODEC.optionalFieldOf("base", Ingredient.EMPTY).forGetter(TemplateRecipe::base),
                 Ingredient.DISALLOW_EMPTY_CODEC.listOf().defaultedList(Ingredient.EMPTY).optionalFieldOf("ingredients", DefaultedList.of()).forGetter(TemplateRecipe::ingredients),
                 FluidVariant.CODEC.optionalFieldOf("fluid", FluidVariant.blank()).forGetter(TemplateRecipe::fluid),
                 Codec.LONG.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),

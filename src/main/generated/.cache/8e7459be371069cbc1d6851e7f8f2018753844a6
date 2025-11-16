@@ -1,8 +1,8 @@
-// 1.21.1	2025-11-16T01:41:26.160039759	Bob's Mob Gear/Recipes
-0dd4790d8e353bee823c2ba294f0073921d80f90 data/bobsmobgear/recipe/template/diamond.json
+// 1.21.1	2025-11-16T14:21:47.878358228	Bob's Mob Gear/Recipes
+abc40456b29147ee324dec2b40670944fa3f42bf data/bobsmobgear/recipe/template/diamond.json
 2df4211a3297deff7105df985a93bbac6c8175df data/bobsmobgear/recipe/forging/cataclysm/black_steel.json
 52ad1b23715e8e63100be941883c166638ee3cad data/bobsmobgear/recipe/forging/netherite.json
-537629993c4ea11c2b27493654d38722d78a028e data/bobsmobgear/recipe/template/iron_ingot.json
+9c32b83775d975eae69286eaaabd24653618a0b1 data/bobsmobgear/recipe/template/iron_ingot.json
 ad015548e41c3bab0501d9d785002f04ee611650 data/bobsmobgear/advancement/recipes/tools/empty_template.json
 60c77e7e115c5e626a1a4ae470424afa32fa643c data/bobsmobgear/advancement/recipes/tools/smithing_hammer.json
 f63044ee7b564f35b7a44305cad596c7e006e7d1 data/bobsmobgear/recipe/template/hot_potato.json
@@ -16,5 +16,5 @@ a944a1a764cb35df8e80f83129e8d2d3911a49dc data/bobsmobgear/recipe/smithing_hammer
 c5eb92e1e8707681d34529b0e1c19679e1f3d497 data/bobsmobgear/advancement/recipes/template/iron_ingot.json
 c5377bb6e8a2621c9239d24ab7aee53b353ab4f8 data/bobsmobgear/recipe/forging/netherite_alloying.json
 e7186e6832215a6d38ae22239addd21af4488a24 data/bobsmobgear/recipe/forging/iron.json
-09bff6a9f79086bfb2b95e6c0d26e0cd87ec10bf data/bobsmobgear/recipe/template/netherite_ingot.json
+b2b29d99fc743b1c2b84cf2a1eeb8cb53ae91b3a data/bobsmobgear/recipe/template/netherite_ingot.json
 b70cec96b8fbb695ee2dac8ebed04ea0704c6b46 data/bobsmobgear/advancement/recipes/template/hot_potato.json
