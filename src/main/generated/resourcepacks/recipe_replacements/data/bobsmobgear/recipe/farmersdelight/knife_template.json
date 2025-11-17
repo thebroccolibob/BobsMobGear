@@ -1,0 +1,24 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "bobsmobgear:empty_template"
+    },
+    {
+      "item": "farmersdelight:flint_knife"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "bobsmobgear:farmersdelight/knife_template"
+  }
+}

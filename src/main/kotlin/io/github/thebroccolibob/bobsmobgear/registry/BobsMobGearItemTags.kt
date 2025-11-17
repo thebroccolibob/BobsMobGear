@@ -10,21 +10,20 @@ object BobsMobGearItemTags {
     private fun of(id: Identifier): TagKey<Item> = TagKey.of(RegistryKeys.ITEM, id)
     private fun of(path: String) = of(BobsMobGear.id(path))
 
-    val FORGES_IRON_INGOT = of("forges/iron_ingot")
-    val FORGES_DIAMOND = of("forges/diamond")
-    val FORGES_GOLD_INGOT = of("forges/gold_ingot")
-    val FORGES_NETHERITE_SCRAP = of("forges/netherite_scrap")
-    val FORGES_NETHERITE_INGOT = of("forges/netherite_ingot")
+    @JvmField val FORGES_IRON_INGOT = of("forges/iron_ingot")
+    @JvmField val FORGES_DIAMOND = of("forges/diamond")
+    @JvmField val FORGES_GOLD_INGOT = of("forges/gold_ingot")
+    @JvmField val FORGES_NETHERITE_SCRAP = of("forges/netherite_scrap")
+    @JvmField val FORGES_NETHERITE_INGOT = of("forges/netherite_ingot")
+    @JvmField val FORGES_BLACK_STEEL_INGOT = of("forges/cataclysm/black_steel_ingot")
 
-    val SMITHING_HAMMERS = of("smithing_hammers")
-    val TONG_HOLDABLE = of("tong_holdable")
-    val MENDER_ENCHANTABLE = of("enchantable/mender")
-    val SMITHING_SURFACE = of(BobsMobGearBlocks.SMITHING_SURFACE.id)
-    val NON_FORGE_FUEL = of("non_forge_fuel")
-    @JvmField
-    val LOWER_USE_PRIORITY = of("lower_use_priority")
-    @JvmField
-    val PREVENT_SMITHING_TABLE_SCREEN = of("prevent_smithing_table_screen")
-    @JvmField
-    val NOT_WEAPON = of("not_weapon")
+    @JvmField val SMITHING_HAMMERS = of("smithing_hammers")
+    @JvmField val TONG_HOLDABLE = of("tong_holdable")
+    @JvmField val MENDER_ENCHANTABLE = of("enchantable/mender")
+    @JvmField val SMITHING_SURFACE = of(BobsMobGearBlocks.SMITHING_SURFACE.id)
+    @JvmField val NON_FORGE_FUEL = of("non_forge_fuel")
+    @JvmField val LOWER_USE_PRIORITY = of("lower_use_priority")
+    @JvmField val PREVENT_SMITHING_TABLE_SCREEN = of("prevent_smithing_table_screen")
+    @JvmField val NOT_WEAPON = of("not_weapon")
+    @JvmField val WEAK_HEAT_SOURCES = of(BobsMobGearBlocks.WEAK_HEAT_SOURCES.id)
 }

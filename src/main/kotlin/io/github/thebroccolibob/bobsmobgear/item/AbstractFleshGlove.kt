@@ -2,15 +2,19 @@ package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.ToolMaterial
+import net.minecraft.block.BlockState
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.SwordItem
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.recipe.Ingredient
 import net.minecraft.registry.tag.BlockTags
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 open class AbstractFleshGlove(
     material: ToolMaterial,
@@ -22,13 +26,13 @@ open class AbstractFleshGlove(
         SwordItem.createAttributeModifiers(material, 2, -2.0f)
     )
 ) {
-    override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean {
-        return true
-    }
+    override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean = true
 
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity?, attacker: LivingEntity?) {
         stack.damage(1, attacker, EquipmentSlot.MAINHAND)
     }
+
+    override fun canMine(state: BlockState?, world: World?, pos: BlockPos?, miner: PlayerEntity): Boolean = !miner.isCreative
 }
 
 val FLESH_GLOVE_MATERIAL = ToolMaterial(

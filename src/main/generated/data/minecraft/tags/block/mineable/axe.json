@@ -14,6 +14,7 @@
     "bobsmobgear:rpg/glaive_template",
     "bobsmobgear:rpg/sickle_template",
     "bobsmobgear:rpg/double_axe_template",
-    "bobsmobgear:rpg/spear_template"
+    "bobsmobgear:rpg/spear_template",
+    "bobsmobgear:farmersdelight/knife_template"
   ]
 }

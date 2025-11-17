@@ -16,10 +16,18 @@ class DamageTypeTagGenerator(
 
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK).add(
-            BobsMobGearDamageTypes.TELEFRAG
+            BobsMobGearDamageTypes.PROJECTILE_TELEFRAG,
+            BobsMobGearDamageTypes.BASE_TELEFRAG,
+            BobsMobGearDamageTypes.SELF_TELEFRAG,
         )
         getOrCreateTagBuilder(DamageTypeTags.IS_PROJECTILE).add(
-            BobsMobGearDamageTypes.TELEFRAG
+            BobsMobGearDamageTypes.PROJECTILE_TELEFRAG
+        )
+        getOrCreateTagBuilder(DamageTypeTags.BYPASSES_ARMOR).add(
+            BobsMobGearDamageTypes.SELF_TELEFRAG,
+        )
+        getOrCreateTagBuilder(DamageTypeTags.IS_FALL).add(
+            BobsMobGearDamageTypes.SELF_TELEFRAG,
         )
     }
 }

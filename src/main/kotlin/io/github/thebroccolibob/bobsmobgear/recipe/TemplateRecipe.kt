@@ -36,6 +36,7 @@ class TemplateRecipe(
     val fluidAmount: Long,
     val requiresHammer: Boolean,
     val result: ItemStack,
+    val delay: Int = 0,
 ) : Recipe<TemplateRecipeInput> {
 
     constructor(
@@ -47,7 +48,8 @@ class TemplateRecipe(
         fluidAmount: Long,
         requiresHammer: Boolean,
         result: ItemStack,
-    ) : this(template, Optional.ofNullable(blockBelow), base, ingredients, fluid, fluidAmount, requiresHammer, result)
+        delay: Int = 0,
+    ) : this(template, Optional.ofNullable(blockBelow), base, ingredients, fluid, fluidAmount, requiresHammer, result, delay)
 
     override fun matches(input: TemplateRecipeInput, world: World): Boolean {
         return template == input.template
@@ -95,12 +97,13 @@ class TemplateRecipe(
             instance.group(
                 Registries.BLOCK.codec.fieldOf("template").forGetter(TemplateRecipe::template),
                 RegistryCodecs.entryList(RegistryKeys.BLOCK).optionalFieldOf("block_below").forGetter(TemplateRecipe::blockBelow),
-                Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter(TemplateRecipe::base),
+                Ingredient.ALLOW_EMPTY_CODEC.optionalFieldOf("base", Ingredient.EMPTY).forGetter(TemplateRecipe::base),
                 Ingredient.DISALLOW_EMPTY_CODEC.listOf().defaultedList(Ingredient.EMPTY).optionalFieldOf("ingredients", DefaultedList.of()).forGetter(TemplateRecipe::ingredients),
                 FluidVariant.CODEC.optionalFieldOf("fluid", FluidVariant.blank()).forGetter(TemplateRecipe::fluid),
                 Codec.LONG.optionalFieldOf("fluid_amount", 0).forGetter(TemplateRecipe::fluidAmount),
                 Codec.BOOL.optionalFieldOf("requires_hammer", false).forGetter(TemplateRecipe::requiresHammer),
-                ItemStack.VALIDATED_UNCOUNTED_CODEC.fieldOf("result").forGetter(TemplateRecipe::result)
+                ItemStack.VALIDATED_UNCOUNTED_CODEC.fieldOf("result").forGetter(TemplateRecipe::result),
+                Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("delay", 0).forGetter(TemplateRecipe::delay),
             ).apply(instance, ::TemplateRecipe)
         }
 
@@ -113,6 +116,7 @@ class TemplateRecipe(
             PacketCodecs.VAR_LONG, TemplateRecipe::fluidAmount,
             PacketCodecs.BOOL, TemplateRecipe::requiresHammer,
             ItemStack.PACKET_CODEC, TemplateRecipe::result,
+            PacketCodecs.INTEGER, TemplateRecipe::delay,
             ::TemplateRecipe
         )
 

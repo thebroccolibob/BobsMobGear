@@ -8,4 +8,5 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.regist
 internal fun registerEntityRenderers() {
     register(BobsMobGearEntities.WEB_SHOT, ::WebShotEntityRenderer)
     register(BobsMobGearEntities.ENDER_SPEAR, ::EnderSpearEntityRenderer)
+    register(BobsMobGearEntities.ENDER_EYE_SPEAR, ::EnderSpearEntityRenderer)
 }

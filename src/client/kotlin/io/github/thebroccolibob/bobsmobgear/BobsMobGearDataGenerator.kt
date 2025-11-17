@@ -14,7 +14,7 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 	}
 
 	override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
-		fabricDataGenerator.createPack().apply {
+		with (fabricDataGenerator.createPack()) {
 			addProvider(::RecipeGenerator)
 			addProvider(::BlockTagGenerator)
 			addProvider(::ItemTagGenerator)
@@ -25,11 +25,17 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::GameEventTagGenerator)
 			addProvider(::DamageTypeGenerator)
 			addProvider(::DamageTypeTagGenerator)
+			addProvider(::CreateRecipeGenerator)
 
 			addProvider(::ModelGenerator)
 			addProvider(::SoundsGenerator)
 			addProvider(::LangGenerator)
 			addProvider(::ParticleDataGenerator)
+			addProvider(::EmiRecipeDefaultGenerator)
 		}
+
+        with (fabricDataGenerator.createBuiltinResourcePack(BobsMobGear.id("recipe_replacements"))) {
+            addProvider(::ReplacementRecipeGenerator)
+        }
 	}
 }

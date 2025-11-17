@@ -1,0 +1,27 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "cataclysm"
+      ]
+    }
+  ],
+  "type": "bobsmobgear:template",
+  "base": {
+    "item": "minecraft:iron_shovel"
+  },
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:cataclysm/black_steel"
+  },
+  "fluid_amount": 9000,
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "cataclysm:black_steel_shovel"
+  },
+  "template": "bobsmobgear:shovel_template"
+}

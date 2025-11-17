@@ -1,6 +1,11 @@
+@file:Suppress("UnstableApiUsage")
+
 package io.github.thebroccolibob.bobsmobgear.util
 
 import com.google.common.collect.HashMultimap
+import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -9,6 +14,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.Component
 import net.minecraft.component.ComponentMap
 import net.minecraft.component.ComponentType
+import net.minecraft.component.type.FoodComponent
 import net.minecraft.component.type.ItemEnchantmentsComponent
 import net.minecraft.enchantment.effect.EnchantmentEffectEntry
 import net.minecraft.entity.EquipmentSlot
@@ -16,6 +22,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.FluidState
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
 import net.minecraft.loot.condition.LootCondition
@@ -24,6 +31,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.state.property.Property
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
@@ -69,6 +77,9 @@ operator fun BlockView.get(pos: BlockPos): BlockState = getBlockState(pos)
 operator fun World.set(pos: BlockPos, state: BlockState) {
     setBlockState(pos, state)
 }
+operator fun <T: Comparable<T>> World.set(pos: BlockPos, property: Property<T>, value: T) {
+    this[pos] = this[pos].with(property, value)
+}
 
 infix fun ItemStack.isOf(item: Item) = isOf(item)
 infix fun ItemStack.isIn(tag: TagKey<Item>) = isIn(tag)
@@ -90,6 +101,8 @@ operator fun Vec3d.minus(other: Vec3d): Vec3d = subtract(other)
 operator fun Vec3d.times(scalar: Double): Vec3d = multiply(scalar)
 operator fun Vec3d.times(other: Vec3d): Vec3d = multiply(other)
 operator fun Vec3d.div(scalar: Double): Vec3d = multiply(1 / scalar)
+infix fun Vec3d.cross(other: Vec3d): Vec3d = crossProduct(other)
+infix fun Vec3d.dot(other: Vec3d): Double = dotProduct(other)
 
 operator fun Vec3d.component1(): Double = x
 operator fun Vec3d.component2(): Double = y
@@ -122,3 +135,23 @@ operator fun <T> RegistryEntry<T>.component2(): T = value()
  */
 operator fun ItemEnchantmentsComponent.contains(type: ComponentType<*>) =
     enchantmentEntries.any { (enchantment, _) -> type in enchantment.value.effects }
+
+fun ItemGroup(init: ItemGroup.Builder.() -> Unit): ItemGroup = FabricItemGroup.builder().apply(init).build()
+
+fun ItemGroup.Entries.addAll(vararg items: Item) {
+    addAll(items.map { it.defaultStack })
+}
+
+fun ItemGroup.Entries.addAll(vararg stacks: ItemStack) {
+    addAll(stacks.toList())
+}
+
+fun Item.Settings.food(init: FoodComponent.Builder.() -> Unit) {
+    food(FoodComponent.Builder().apply(init).build())
+}
+
+operator fun AttachmentTarget.contains(attachmentType: AttachmentType<*>) = hasAttached(attachmentType)
+operator fun <T> AttachmentTarget.get(attachmentType: AttachmentType<T>): T? = getAttached(attachmentType)
+operator fun <T> AttachmentTarget.set(attachmentType: AttachmentType<T>, value: T?) {
+    setAttached(attachmentType, value)
+}

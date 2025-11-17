@@ -1,22 +1,35 @@
 package io.github.thebroccolibob.bobsmobgear.util
 
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.ComponentType
+import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
+import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributeInstance
+import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import java.util.*
-import kotlin.Unit
 import kotlin.math.roundToInt
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 import net.minecraft.util.Unit as MCUnit
 
@@ -148,3 +161,68 @@ fun PlayerEntity.takeExperiencePoints(max: Int): Int {
     }
     return consumed
 }
+
+inline fun <T> Iterable<T>.mapToJson(transform: (T) -> JsonElement) = JsonArray().apply {
+    for (item in this@mapToJson)
+        add(transform(item))
+}
+
+fun getWeaponDamage(world: World?, stack: ItemStack, target: Entity, damageSource: DamageSource): Float {
+    val instance = EntityAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE) {}
+    instance.baseValue = 1.0
+    stack.applyAttributeModifier(AttributeModifierSlot.MAINHAND) { attribute, modifier ->
+        if (attribute != EntityAttributes.GENERIC_ATTACK_DAMAGE) return@applyAttributeModifier
+        instance.addTemporaryModifier(modifier)
+    }
+    val damage = instance.value.toFloat()
+
+    if (world !is ServerWorld) return damage
+
+    return EnchantmentHelper.getDamage(world, stack, target, damageSource, damage)
+}
+
+fun entityProperty(getWorld: () -> World, uuidProperty: KMutableProperty0<UUID?>? = null, idProperty: KMutableProperty0<Int?>? = null) = object : ReadWriteProperty<Any?, Entity?> {
+    private var entity: Entity? = null
+
+    override fun getValue(thisRef: Any?, property: KProperty<*>): Entity? {
+        val world = getWorld()
+
+        if (world is ServerWorld) {
+            if (uuidProperty != null && entity?.uuid != uuidProperty.get())
+                entity = null
+        } else {
+            if (idProperty != null && entity?.id != idProperty.get())
+                entity = null
+        }
+
+        if (entity?.isRemoved == false) return entity
+
+        entity = if (world is ServerWorld)
+            uuidProperty?.get()?.let { world.getEntity(it) }
+        else
+            idProperty?.get()?.let { world.getEntityById(it) }
+
+        return entity
+    }
+
+    override fun setValue(
+        thisRef: Any?,
+        property: KProperty<*>,
+        value: Entity?
+    ) {
+        entity = value
+        idProperty?.set(entity?.id ?: 0)
+        uuidProperty?.set(entity?.uuid)
+    }
+}
+
+fun Entity.entityProperty(uuid: KMutableProperty0<UUID?>? = null, id: KMutableProperty0<Int?>? = null) = entityProperty(::getWorld, uuid, id)
+
+fun DamageSource.toDirect() = DamageSource(typeRegistryEntry, attacker)
+
+@Suppress("UNCHECKED_CAST")
+fun <E : BlockEntity, A : BlockEntity> validateTicker(
+    givenType: BlockEntityType<A>,
+    expectedType: BlockEntityType<E>,
+    ticker: BlockEntityTicker<in E>
+): BlockEntityTicker<A>? = if (expectedType === givenType) ticker as BlockEntityTicker<A> else null

@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear
 
+import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
 import io.github.thebroccolibob.bobsmobgear.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -21,10 +22,12 @@ object BobsMobGear : ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		BobsMobGearBlocks.register()
+		BobsMobGearComponents.register()
 		BobsMobGearItems.register()
 		BobsMobGearEntities.register()
 		BobsMobGearParticles.register()
 		BobsMobGearFluids.register()
+		BobsMobGearEffects.register()
 		BobsMobGearEnchantments.register()
 		BobsMobGearGameEvents.register()
 		registerBobsMobGearRecipes()
@@ -32,12 +35,13 @@ object BobsMobGear : ModInitializer {
 		BobsMobGearSounds.register()
 
 		ResourceManagerHelper.registerBuiltinResourcePack(
-			id("vanilla_recipe_disable"),
+			id("recipe_replacements"),
 			FabricLoader.getInstance().getModContainer(MOD_ID).get(),
-			Text.literal("Vanilla Recipe Disable"),
-			ResourcePackActivationType.ALWAYS_ENABLED
+			Text.literal("Recipe Replacements"),
+			ResourcePackActivationType.NORMAL
 		)
 
 		registerHeatedLogic()
+		UnlimitedBaconItem.register()
 	}
 }

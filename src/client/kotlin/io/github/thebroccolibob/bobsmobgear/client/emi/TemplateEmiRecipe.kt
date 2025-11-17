@@ -1,31 +1,36 @@
 package io.github.thebroccolibob.bobsmobgear.client.emi
 
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.client.util.SizedTexture
+import io.github.thebroccolibob.bobsmobgear.client.util.region
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.util.groupConsecutive
+import io.github.thebroccolibob.bobsmobgear.util.isOf
+import net.minecraft.item.Items
+import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.util.Identifier
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.client.util.SizedTexture
-import io.github.thebroccolibob.bobsmobgear.client.util.region
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.util.groupConsecutive
-import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
 import kotlin.jvm.optionals.getOrNull
 
 class TemplateEmiRecipe(private val id: Identifier, private val recipe: TemplateRecipe) : EmiRecipe {
     private val hasRow1 get() = !recipe.fluid.isBlank || recipe.requiresHammer
 
     private val blockBelow = recipe.blockBelow.getOrNull()?.let { blockTag ->
-        blockTag.tagKey.getOrNull()
-            ?.let { TagKey.of(RegistryKeys.ITEM, it.id) }
-            ?.takeIf { Registries.ITEM.tagCreatingWrapper.getOptional(it).isPresent }
-            ?.let { EmiIngredient.of(it) }
-            ?: EmiIngredient.of(blockTag.map { entry -> EmiStack.of(entry.value()) })
+        blockTag.tagKey.getOrNull()?.let { tagKey ->
+            TagKey.of(RegistryKeys.ITEM, tagKey.id)
+                ?.takeIf { Registries.ITEM.tagCreatingWrapper.getOptional(it).isPresent }
+                ?.let { EmiIngredient.of(it) }
+            ?: EmiIngredient.of(tagKey)
+        } ?: EmiIngredient.of(blockTag.map { entry -> EmiStack.of(entry.value()) })
     }
 
     private val ingredients = recipe.ingredients.takeUnless { it.isEmpty() }?.groupConsecutive { count, ingredient ->
@@ -44,10 +49,15 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
             add(EmiIngredient.of(recipe.base))
         ingredients?.let(::addAll)
         if (!recipe.fluid.isBlank)
-            add(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount))
+            add(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount / BobsMobGearCompat.FLUID_FACTOR))
     }
 
-    private val outputs = listOf(EmiStack.of(recipe.result))
+    private val result = EmiStack.of(recipe.result.let {
+        if (it isOf Items.POTATO) it else
+        it.copy().apply { remove(BobsMobGearComponents.HEATED) }
+    })
+
+    private val outputs = listOf(result)
 
     override fun getCategory(): EmiRecipeCategory = BobsMobGearEmiPlugin.TEMPLATE_CATEGORY
     override fun getId(): Identifier = id
@@ -93,7 +103,7 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
         }
 
         if (!recipe.fluid.isBlank) {
-            widgets.addSlot(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount), 41, 4)
+            widgets.addSlot(EmiStack.of(recipe.fluid.fluid, recipe.fluidAmount / BobsMobGearCompat.FLUID_FACTOR), 41, 4)
             widgets.addTexture(NUMBERS[step++], 31, 4)
         }
 
@@ -103,7 +113,7 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
             widgets.addTexture(HAMMER, 63, 10)
         }
 
-        widgets.addSlot(EmiStack.of(recipe.result), 104, baseY - 4).large(true).recipeContext(this)
+        widgets.addSlot(result, 104, baseY - 4).large(true).recipeContext(this)
     }
 
     companion object {

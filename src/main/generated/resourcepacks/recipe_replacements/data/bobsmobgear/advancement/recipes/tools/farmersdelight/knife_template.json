@@ -1,0 +1,40 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_empty_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "bobsmobgear:empty_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bobsmobgear:farmersdelight/knife_template"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_empty_template"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bobsmobgear:farmersdelight/knife_template"
+    ]
+  }
+}

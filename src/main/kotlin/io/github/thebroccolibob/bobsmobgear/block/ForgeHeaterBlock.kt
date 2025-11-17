@@ -1,10 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.block
 
-import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
-import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
@@ -25,6 +20,11 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.util.*
 import kotlin.jvm.optionals.getOrNull
 
 class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), BlockEntityProvider {
@@ -83,14 +83,9 @@ class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), Block
         world.addParticle(ParticleTypes.FLAME, x + dx, y + dy, z + dz, 0.0, 0.0, 0.0)
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun <T : BlockEntity> getTicker(
         world: World,
         state: BlockState,
         type: BlockEntityType<T>
-    ): BlockEntityTicker<T>? =
-        if (!world.isClient && type == BobsMobGearBlocks.FORGE_HEATER_BLOCK_ENTITY)
-            ForgeHeaterBlockEntity as BlockEntityTicker<T>
-        else
-            null
+    ): BlockEntityTicker<T>? = validateTicker(type, BobsMobGearBlocks.FORGE_HEATER_BLOCK_ENTITY, ForgeHeaterBlockEntity)
 }

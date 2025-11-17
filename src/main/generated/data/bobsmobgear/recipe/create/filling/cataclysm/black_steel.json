@@ -1,0 +1,26 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "bobsmobgear:empty_pot"
+    },
+    {
+      "type": "fluid_stack",
+      "amount": 111,
+      "fluid": "bobsmobgear:cataclysm/black_steel"
+    }
+  ],
+  "results": [
+    {
+      "id": "bobsmobgear:cataclysm/black_steel_pot"
+    }
+  ]
+}

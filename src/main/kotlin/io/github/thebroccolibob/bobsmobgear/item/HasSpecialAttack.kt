@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.event.ClientSpecialAttackCallback
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.util.component1
 import io.github.thebroccolibob.bobsmobgear.util.component2
 import io.github.thebroccolibob.bobsmobgear.util.get
@@ -22,13 +22,13 @@ interface HasSpecialAttack : AttackEndBehavior, FabricItem {
 
     fun runSpecialAttack(user: PlayerEntity, hand: Hand, world: World): TypedActionResult<ItemStack> {
         val stack = user[hand]
-        stack.set(BobsMobGearItems.USING_SPECIAL_ATTACK)
+        stack.set(BobsMobGearComponents.USING_SPECIAL_ATTACK)
         if (!world.isClient) return TypedActionResult.consume(stack)
         return TypedActionResult(ClientSpecialAttackCallback(stack, user, world, hand), stack)
     }
 
     override fun onAttackEnd(player: ServerPlayerEntity, targetCount: Int, stack: ItemStack) {
-        stack.remove(BobsMobGearItems.USING_SPECIAL_ATTACK)
+        stack.remove(BobsMobGearComponents.USING_SPECIAL_ATTACK)
     }
 
     override fun allowComponentsUpdateAnimation(
@@ -38,7 +38,7 @@ interface HasSpecialAttack : AttackEndBehavior, FabricItem {
         newStack: ItemStack
     ): Boolean {
         if (!ItemStack.areItemsEqual(oldStack, newStack)) return true
-        if (!oldStack.components.all { (type, value) -> type == BobsMobGearItems.USING_SPECIAL_ATTACK || newStack[type] == value } || !newStack.components.all { (type, value) -> type == BobsMobGearItems.USING_SPECIAL_ATTACK || oldStack[type] == value }) return true
+        if (!oldStack.components.all { (type, value) -> type == BobsMobGearComponents.USING_SPECIAL_ATTACK || newStack[type] == value } || !newStack.components.all { (type, value) -> type == BobsMobGearComponents.USING_SPECIAL_ATTACK || oldStack[type] == value }) return true
         return false
     }
 }

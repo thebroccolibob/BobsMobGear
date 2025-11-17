@@ -5,11 +5,10 @@ import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Companion.F
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Companion.LIT
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Companion.iterateConnected
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Connection
+import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
 import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.util.minus
-import io.github.thebroccolibob.bobsmobgear.util.plus
-import io.github.thebroccolibob.bobsmobgear.util.toDefaultedList
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
@@ -148,25 +147,39 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
 
         override fun tick(world: World, pos: BlockPos, state: BlockState, blockEntity: ForgeBlockEntity) {
             if (!state[CONNECTION].isRoot) return
-            val connectedForges = blockEntity.getConnected(world)
+            val forges = blockEntity.getConnected(world)
 
-            if (!state[LIT]) {
-                tickForgesRecipe(connectedForges, DefaultedList.of(), null)
+            tickForges(world, pos, state, blockEntity, forges)
+
+            val lit = forges.any { it.progress > 0 }
+            for (forge in forges) with (forge) {
+                for (forge in getConnected(world)) with(forge) {
+                    if (lit != cachedState[LIT])
+                        world[forge.pos] = cachedState.with(LIT, lit)
+                }
+            }
+        }
+
+        private fun tickForges(world: World, pos: BlockPos, state: BlockState, blockEntity: ForgeBlockEntity, forges: List<ForgeBlockEntity>) {
+            if (!(state.block as ForgeBlock).isHeatSource(world[pos.down()])) {
+                tickForgesRecipe(forges, DefaultedList.of(), null)
                 return
             }
 
+            val strongHeat = world[pos.down()] isOf BobsMobGearBlocks.FORGE_HEATER
+
             if (!state[CONNECTION].isConnected) {
-                world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(blockEntity.inventory.heldStacks), world).getOrNull()?.value?.let {
+                world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(blockEntity.inventory.heldStacks, strongHeat), world).getOrNull()?.value?.let {
                     tickForgesRecipe(listOf(blockEntity), blockEntity.inventory.heldStacks, it)
                 }
                 return
             }
 
-            val remainingForges = connectedForges.toMutableSet()
+            val remainingForges = forges.toMutableSet()
             while (remainingForges.isNotEmpty()) {
                 val stacks = remainingForges.flatMap { it.inventory.heldStacks }.toDefaultedList()
                 if (stacks.all { it.isEmpty }) break
-                val recipe = world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(stacks), world).getOrNull()?.value ?: break
+                val recipe = world.recipeManager.getFirstMatch(ForgingRecipe, ForgingRecipe.Input(stacks, strongHeat), world).getOrNull()?.value ?: break
                 val used = recipe.selectInventories(remainingForges) { inventory.heldStacks }
                 tickForgesRecipe(used, stacks, recipe)
                 remainingForges.removeAll(used)
@@ -178,7 +191,7 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
             if (recipe == null) {
                 for (blockEntity in forges) with (blockEntity) {
                     if (progress > 0)
-                        progress--
+                        progress = 0
                 }
                 return
             }
@@ -205,6 +218,9 @@ class ForgeBlockEntity(type: BlockEntityType<out ForgeBlockEntity>, pos: BlockPo
                 forge.progress = 0
                 forge.updateListeners()
             }
+        }
+
+        private fun updateLitState(forges: List<ForgeBlockEntity>) {
         }
     }
 }

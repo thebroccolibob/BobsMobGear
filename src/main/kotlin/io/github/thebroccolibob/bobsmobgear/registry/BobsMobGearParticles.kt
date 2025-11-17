@@ -6,23 +6,34 @@ import net.minecraft.particle.ParticleType
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
+import net.minecraft.util.Identifier
 
 object BobsMobGearParticles {
-    private fun <T: ParticleType<*>> register(path: String, type: T): T =
-        Registry.register(Registries.PARTICLE_TYPE, BobsMobGear.id(path), type)
+    @JvmStatic
+    fun <T: ParticleType<*>> register(id: Identifier, type: T): T =
+        Registry.register(Registries.PARTICLE_TYPE, id, type)
 
-    private fun register(path: String, alwaysSpawn: Boolean = false): SimpleParticleType =
-        register(path, FabricParticleTypes.simple(alwaysSpawn))
+    private fun <T: ParticleType<*>> register(path: String, type: T) = register(BobsMobGear.id(path), type)
 
-    private fun registerDrips(name: String) = Drips(
-        register("dripping_$name"),
-        register("falling_$name"),
-        register("landing_$name"),
+    @JvmStatic
+    fun register(id: Identifier, alwaysSpawn: Boolean = false): SimpleParticleType =
+        register(id, FabricParticleTypes.simple(alwaysSpawn))
+
+    private fun register(path: String, alwaysSpawn: Boolean = false) = register(BobsMobGear.id(path), alwaysSpawn)
+
+    @JvmStatic
+    fun registerDrips(id: Identifier) = Drips(
+        register(id.withPrefixedPath("dripping_")),
+        register(id.withPrefixedPath("falling_")),
+        register(id.withPrefixedPath("landing_")),
     )
+
+    private fun registerDrips(path: String) = registerDrips(BobsMobGear.id(path))
 
     val IRON_DRIPS = registerDrips("iron")
     val DIAMOND_DRIPS = registerDrips("diamond")
     val NETHERITE_DRIPS = registerDrips("netherite")
+    val BLACK_STEEL_DRIPS = registerDrips("cataclysm_black_steel")
 
     val SONIC_SHOCKWAVE = register("sonic_shockwave")
     val SONIC_LAUNCH = register("sonic_launch")
@@ -30,6 +41,8 @@ object BobsMobGearParticles {
 
     val BONEK = register("bonek")
     val ATTACK_SPARK = register("attack_spark")
+    @JvmField
+    val STAR = register("star")
 
     fun register() {}
 

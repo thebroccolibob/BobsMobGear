@@ -44,7 +44,7 @@ fun createDripFactory(fluid: MetalFluid, next: ParticleEffect, create: (ClientWo
         }
     }
 
-private fun registerDrips(dripParticles: BobsMobGearParticles.Drips, fluid: MetalFluid) {
+fun registerDrips(dripParticles: BobsMobGearParticles.Drips, fluid: MetalFluid) {
     ParticleFactoryRegistry.getInstance().apply {
         register(dripParticles.dripping, createDripFactory(fluid, dripParticles.falling, DrippingBlockLeakParticleInvoker::newDripping))
         register(dripParticles.falling, createDripFactory(fluid, dripParticles.landing, ContinuousFallingBlockLeakParticleInvoker::newContinuousFalling))
@@ -56,11 +56,13 @@ internal fun registerParticleFactories() {
     registerDrips(BobsMobGearParticles.IRON_DRIPS, BobsMobGearFluids.IRON)
     registerDrips(BobsMobGearParticles.DIAMOND_DRIPS, BobsMobGearFluids.DIAMOND)
     registerDrips(BobsMobGearParticles.NETHERITE_DRIPS, BobsMobGearFluids.NETHERITE)
+    registerDrips(BobsMobGearParticles.BLACK_STEEL_DRIPS, BobsMobGearFluids.BLACK_STEEL)
     ParticleFactoryRegistry.getInstance().apply {
         register(BobsMobGearParticles.SONIC_SHOCKWAVE, SonicShockwaveParticle)
         register(BobsMobGearParticles.SONIC_LAUNCH, SonicLaunchParticle)
         register(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, SonicLaunchEmitter)
         register(BobsMobGearParticles.BONEK, CartoonParticle)
         register(BobsMobGearParticles.ATTACK_SPARK, AttackSparkParticle)
+        register(BobsMobGearParticles.STAR, StarParticle)
     }
 }

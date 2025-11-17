@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.BlockState
@@ -33,7 +33,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val stack = user[hand]
-        if (stack[BobsMobGearItems.MAX_SONIC_CHARGE]?.let { (stack[BobsMobGearItems.SONIC_CHARGE] ?: 0) < it } != false) return TypedActionResult.pass(stack)
+        if (stack[BobsMobGearComponents.MAX_SONIC_CHARGE]?.let { (stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0) < it } != false) return TypedActionResult.pass(stack)
         user.setCurrentHand(hand)
         user.playSound(SoundEvents.ENTITY_WARDEN_SONIC_CHARGE)
         return TypedActionResult.consume(stack)
@@ -61,7 +61,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
             }
         }
         if (!user.isInCreativeMode)
-            stack[BobsMobGearItems.SONIC_CHARGE] = 0
+            stack[BobsMobGearComponents.SONIC_CHARGE] = 0
         stack.damage(1, user, user.activeHand)
         (user as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
@@ -85,7 +85,7 @@ class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, set
         target.velocityModified = true
         (target.world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.SONIC_LAUNCH_EMITTER, target.x, target.getBodyY(0.5), target.z, 0, velocity.x, velocity.y, velocity.z, 1.0)
         if (!attacker.isInCreativeMode)
-            stack[BobsMobGearItems.SONIC_CHARGE] = 0
+            stack[BobsMobGearComponents.SONIC_CHARGE] = 0
         (attacker as? PlayerEntity)?.itemCooldownManager?.set(this, COOLDOWN)
     }
 

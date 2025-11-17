@@ -1,0 +1,18 @@
+{
+  "pack": {
+    "description": "Removes some vanilla recipes for Bob's Mob Gear",
+    "pack_format": 48
+  },
+  "filter": {
+    "block": [
+      {
+        "namespace": "minecraft|paladins|rogues|archers|farmersdelight",
+        "path": "(recipe|advancement/recipes/combat|advancement/recipes/tools)/(stone|golden|iron|diamond|netherite)_(sword|pickaxe|axe|shovel|hoe|great_hammer|kite_shield|mace|claymore|dagger|glaive|sickle|double_axe|spear|knife)(_smithing)?\\.json"
+      },
+      {
+        "namespace": "minecraft",
+        "path": "recipe/netherite_ingot.json"
+      }
+    ]
+  }
+}

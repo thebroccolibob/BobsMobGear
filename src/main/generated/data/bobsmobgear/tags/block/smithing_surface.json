@@ -1,6 +1,10 @@
 {
   "values": [
     "minecraft:smithing_table",
-    "#minecraft:anvil"
+    "#minecraft:anvil",
+    {
+      "id": "cataclysm:mechanical_fusion_anvil",
+      "required": false
+    }
   ]
 }

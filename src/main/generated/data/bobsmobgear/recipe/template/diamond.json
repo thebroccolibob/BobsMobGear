@@ -1,6 +1,5 @@
 {
   "type": "bobsmobgear:template",
-  "base": [],
   "block_below": "#bobsmobgear:smithing_surface",
   "fluid": {
     "fluid": "bobsmobgear:diamond"

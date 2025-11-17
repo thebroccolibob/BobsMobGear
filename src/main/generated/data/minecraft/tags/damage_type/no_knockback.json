@@ -1,5 +1,7 @@
 {
   "values": [
-    "bobsmobgear:telefrag"
+    "bobsmobgear:projectile_telefrag",
+    "bobsmobgear:base_telefrag",
+    "bobsmobgear:self_telefrag"
   ]
 }

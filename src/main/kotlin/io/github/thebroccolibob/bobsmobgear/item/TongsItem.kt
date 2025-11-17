@@ -2,9 +2,9 @@ package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.extinguishHeatedStack
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems.TONGS_HELD_ITEM
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.TONGS_HELD_ITEM
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.Blocks
@@ -54,7 +54,7 @@ class TongsItem(settings: Settings) : Item(settings) {
 
         val state = context.world[context.blockPos]
 
-        if (BobsMobGearItems.HEATED in heldItem && (state.fluidState isIn FluidTags.WATER || state isOf Blocks.WATER_CAULDRON)) {
+        if (BobsMobGearComponents.HEATED in heldItem && (state.fluidState isIn FluidTags.WATER || state isOf Blocks.WATER_CAULDRON)) {
             context.stack[TONGS_HELD_ITEM] = heldItem.copy().also {
                 extinguishHeatedStack(it, context.world, context.player, context.blockPos)
             }

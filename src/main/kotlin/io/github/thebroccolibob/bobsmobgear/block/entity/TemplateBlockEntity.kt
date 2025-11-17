@@ -1,14 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
 import archives.tater.rpgskills.data.LockGroup
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.RPGSKILLS_INSTALLED
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
-import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
@@ -17,6 +9,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -35,7 +28,15 @@ import net.minecraft.util.Hand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.RPGSKILLS_INSTALLED
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.util.*
 import kotlin.jvm.optionals.getOrNull
 
 class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: BlockPos, state: BlockState) :
@@ -43,7 +44,8 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
     constructor(pos: BlockPos, state: BlockState) : this(BobsMobGearBlocks.TEMPLATE_BLOCK_ENTITY, pos, state)
 
-    private var hammerHits = 0;
+    private var hammerHits = 0
+    private var craftTicks = -1
     var baseStack: ItemStack = ItemStack.EMPTY
         private set
     var ingredientsInventory: DefaultedList<ItemStack> = DefaultedList.ofSize(9, ItemStack.EMPTY)
@@ -89,13 +91,27 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         if (!world.isClient)
             getRecipeInput().let { input -> getMatch(input)?.let {
                 if (!it.value.requiresHammer || hammerHits >= REQUIRED_HAMMERS)
-                    craft(world as ServerWorld, it, input)
+                    if (it.value.delay == 0)
+                        craft(world as ServerWorld, it, input)
+                    else
+                        craftTicks = 0
             } }
 
         world.emitGameEvent(GameEvent.BLOCK_CHANGE, getPos(), GameEvent.Emitter.of(player, cachedState))
         this.updateListeners()
 
         return true
+    }
+
+    fun tick(world: ServerWorld) {
+        if (craftTicks <= -1) return
+        craftTicks++
+        getRecipeInput().let { input -> getMatch(input)?.let {
+            if (craftTicks >= it.value.delay)
+                craft(world, it, input)
+        } ?: run {
+            craftTicks = -1
+        } }
     }
 
     private fun checkValid(player: PlayerEntity, recipe: RecipeEntry<TemplateRecipe>?): Boolean {
@@ -186,6 +202,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         baseStack = ItemStack.EMPTY
         ingredientsInventory.clear()
         hammerHits = 0
+        craftTicks = -1
     }
 
     fun clearFluid() {
@@ -195,7 +212,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
     fun getItems(): DefaultedList<ItemStack> = DefaultedList.copyOf(ItemStack.EMPTY, baseStack, *ingredientsInventory.toTypedArray())
 
-    companion object {
+    companion object : BlockEntityTicker<TemplateBlockEntity> {
         const val HAMMER_HITS_NBT = "hammer_hits"
         const val BASE_STACK_NBT = "base_stack"
         const val INGREDIENTS_NBT = "ingredients"
@@ -203,6 +220,10 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         const val FLUID_NBT = "fluid"
 
         private const val REQUIRED_HAMMERS = 3
+
+        override fun tick(world: World, pos: BlockPos, state: BlockState, blockEntity: TemplateBlockEntity) {
+            (world as? ServerWorld)?.let { blockEntity.tick(it) }
+        }
     }
 
     inner class TemplateFluidStorage : SingleFluidStorage() {

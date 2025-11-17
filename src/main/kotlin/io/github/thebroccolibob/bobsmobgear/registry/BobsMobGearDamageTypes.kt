@@ -8,5 +8,7 @@ import net.minecraft.registry.RegistryKeys
 object BobsMobGearDamageTypes {
     private fun of(path: String): RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, BobsMobGear.id(path))
 
-    val TELEFRAG = of("telefrag")
+    val PROJECTILE_TELEFRAG = of("projectile_telefrag")
+    val BASE_TELEFRAG = of("base_telefrag")
+    val SELF_TELEFRAG = of("self_telefrag")
 }

@@ -1,4 +1,5 @@
-// 1.21.1	2025-06-28T14:21:39.845421667	Bob's Mob Gear/Tags for minecraft:block
+// 1.21.1	2025-11-16T14:21:47.905241752	Bob's Mob Gear/Tags for minecraft:block
+fcd6bf0522c3cf30c50bbd44999b3b751dee9de8 data/bobsmobgear/tags/block/weak_heat_sources.json
 c01d632d807b413c1ff1e63ca149a13daeb7b789 data/minecraft/tags/block/mineable/pickaxe.json
-bb6a071de74592262917af83a0a371b85d77d7cd data/minecraft/tags/block/mineable/axe.json
-74df2db8045085c10b9f8d20e77f2f22f1e4a31b data/bobsmobgear/tags/block/smithing_surface.json
+0b3107a910c8f87243743358d688f39a08f77e30 data/minecraft/tags/block/mineable/axe.json
+d43e2238772073f1088dd2dec9522d20ccd0d5f8 data/bobsmobgear/tags/block/smithing_surface.json

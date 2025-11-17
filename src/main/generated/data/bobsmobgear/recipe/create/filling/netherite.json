@@ -1,0 +1,26 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "bobsmobgear:empty_pot"
+    },
+    {
+      "type": "fluid_tag",
+      "amount": 111,
+      "fluid_tag": "c:molten_netherite"
+    }
+  ],
+  "results": [
+    {
+      "id": "bobsmobgear:netherite_pot"
+    }
+  ]
+}
