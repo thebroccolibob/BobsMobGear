@@ -14,6 +14,8 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 	}
 
 	override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
+        if (!BobsMobGearCompat.DATAGEN_REQUIREMENTS) return
+
 		with (fabricDataGenerator.createPack()) {
 			addProvider(::RecipeGenerator)
 			addProvider(::BlockTagGenerator)
@@ -34,9 +36,8 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::EmiRecipeDefaultGenerator)
 		}
 
-        if (BobsMobGearCompat.DATAGEN_REQUIREMENTS)
-            with (fabricDataGenerator.createBuiltinResourcePack(BobsMobGear.id("recipe_replacements"))) {
-                addProvider(::ReplacementRecipeGenerator)
-            }
+        with (fabricDataGenerator.createBuiltinResourcePack(BobsMobGear.id("recipe_replacements"))) {
+            addProvider(::ReplacementRecipeGenerator)
+        }
 	}
 }

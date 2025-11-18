@@ -1,7 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -33,7 +32,7 @@ class EmiRecipeDefaultGenerator(
 
         val RECIPES =
             RecipeGenerator.TOOL_TYPES.flatMap { it.getRecipeIds() } +
-            (if (BobsMobGearCompat.DATAGEN_REQUIREMENTS) ReplacementRecipeGenerator.TOOL_TYPES.flatMap { it.getRecipeIds() } else listOf()) +
+            ReplacementRecipeGenerator.TOOL_TYPES.flatMap { it.getRecipeIds() } +
             listOf(BobsMobGearFluids.IRON, BobsMobGearFluids.DIAMOND, BobsMobGearFluids.BLACK_STEEL).map {
                 Registries.FLUID.getId(it).withPrefixedPath("forging/")
             } +
