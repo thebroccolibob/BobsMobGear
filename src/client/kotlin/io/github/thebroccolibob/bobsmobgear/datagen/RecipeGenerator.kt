@@ -127,19 +127,20 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
             exporter,
         )
 
-        acceptTemplateRecipe(
-            TemplateRecipe(
-                BobsMobGearBlocks.EMPTY_TEMPLATE,
-                smithingSurface,
-                Ingredient.ofItems(FarmersDelightItems.BACON.get()),
-                DefaultedList.of(),
-                FluidVariant.of(BobsMobGearFluids.NETHERITE),
-                FluidConstants.INGOT,
-                true,
-                BobsMobGearItems.UNLIMITED_BACON.defaultStack
-            ),
-            withConditions(exporter, ResourceConditions.allModsLoaded(BobsMobGearCompat.FARMERS_DELIGHT))
-        )
+        if (BobsMobGearCompat.FARMERS_DELIGHT_INSTALLED)
+            acceptTemplateRecipe(
+                TemplateRecipe(
+                    BobsMobGearBlocks.EMPTY_TEMPLATE,
+                    smithingSurface,
+                    Ingredient.ofItems(FarmersDelightItems.BACON.get()),
+                    DefaultedList.of(),
+                    FluidVariant.of(BobsMobGearFluids.NETHERITE),
+                    FluidConstants.INGOT,
+                    true,
+                    BobsMobGearItems.UNLIMITED_BACON.defaultStack
+                ),
+                withConditions(exporter, ResourceConditions.allModsLoaded(BobsMobGearCompat.FARMERS_DELIGHT))
+            )
 
         for ((fluid, ingot) in listOf(
             BobsMobGearFluids.IRON to Items.IRON_INGOT,
