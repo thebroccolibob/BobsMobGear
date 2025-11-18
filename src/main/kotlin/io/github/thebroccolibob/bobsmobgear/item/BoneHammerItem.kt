@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEffects
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
@@ -28,6 +29,7 @@ class BoneHammerItem(private val cooldown: Int, material: ToolMaterial, settings
     attributeModifiers(SwordItem.createAttributeModifiers(material, 3, -3.2f))
 }), HasSpecialAttack {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        if (!BobsMobGearCompat.BETTER_COMBAT_INSTALLED) return super.use(world, user, hand)
         (world as? ServerWorld)?.spawnParticles(BobsMobGearParticles.ATTACK_SPARK, user.x, user.getBodyY(0.5), user.z, 24, 0.0, 0.0, 0.0, 0.3)
         user.setCurrentHand(hand)
         return TypedActionResult.consume(user[hand])

@@ -1,5 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.client
 
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
 import io.github.thebroccolibob.bobsmobgear.client.duck.TriggersAttack
 import io.github.thebroccolibob.bobsmobgear.event.ClientSpecialAttackCallback
 import io.github.thebroccolibob.bobsmobgear.item.HasSpecialAttack
@@ -21,6 +22,7 @@ object SpecialAttacks : ClientSpecialAttackCallback {
     }
 
     fun register() {
-        ClientSpecialAttackCallback.EVENT.register(this)
+        if (BobsMobGearCompat.BETTER_COMBAT_INSTALLED)
+            ClientSpecialAttackCallback.EVENT.register(this)
     }
 }

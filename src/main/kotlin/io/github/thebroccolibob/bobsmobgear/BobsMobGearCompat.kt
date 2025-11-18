@@ -7,6 +7,8 @@ object BobsMobGearCompat {
 
     val RPGSKILLS_INSTALLED = isModLoaded("rpgskills")
 
+    val BETTER_COMBAT_INSTALLED = isModLoaded("bettercombat")
+
     const val PALADINS = "paladins"
     val PALADINS_INSTALLED = isModLoaded(PALADINS)
 
