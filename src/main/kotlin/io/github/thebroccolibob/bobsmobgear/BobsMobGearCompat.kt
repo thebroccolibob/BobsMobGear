@@ -24,9 +24,13 @@ object BobsMobGearCompat {
     const val CATACLYSM = "cataclysm"
     val CATACLYSM_INSTALLED = isModLoaded(CATACLYSM)
 
+    val DATAGEN_REQUIREMENTS = PALADINS_INSTALLED && ROGUES_INSTALLED && ARCHERS_INSTALLED && FARMERS_DELIGHT_INSTALLED
+
     const val CREATE = "create"
 
     const val CONNECTOR = "connector"
     val CONNECTOR_INSTALLED = isModLoaded(CONNECTOR)
     val FLUID_FACTOR = if (CONNECTOR_INSTALLED) 81L else 1L
+
+    val IS_DATAGEN = FabricLoader.getInstance().isDevelopmentEnvironment && System.getProperty("fabric-api.datagen") != null
 }

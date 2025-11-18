@@ -246,8 +246,7 @@ object BobsMobGearItems {
             }
         }
 
-        if (FabricLoader.getInstance().isDevelopmentEnvironment && System.getProperty("fabric-api.datagen") != null)
-            BobsMobGearDatagenItems.register()
+        if (BobsMobGearCompat.IS_DATAGEN) BobsMobGearDatagenItems.register()
     }
 }
 

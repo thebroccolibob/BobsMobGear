@@ -34,8 +34,9 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::EmiRecipeDefaultGenerator)
 		}
 
-        with (fabricDataGenerator.createBuiltinResourcePack(BobsMobGear.id("recipe_replacements"))) {
-            addProvider(::ReplacementRecipeGenerator)
-        }
+        if (BobsMobGearCompat.DATAGEN_REQUIREMENTS)
+            with (fabricDataGenerator.createBuiltinResourcePack(BobsMobGear.id("recipe_replacements"))) {
+                addProvider(::ReplacementRecipeGenerator)
+            }
 	}
 }
