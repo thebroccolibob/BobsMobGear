@@ -93,7 +93,7 @@ dependencies {
 	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${project.mixinsquared_version}")))
 
     modImplementation include("maven.modrinth:pommel-held-item-models:${project.pommel_version}")
-    modImplementation("maven.modrinth:flexible-arms-1.21:${project.flexible_arms_version}")
+//    modImplementation("maven.modrinth:flexible-arms-1.21:${project.flexible_arms_version}")
 
 	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
 	modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}"
