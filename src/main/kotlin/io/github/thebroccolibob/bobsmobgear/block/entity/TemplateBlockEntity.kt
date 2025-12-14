@@ -1,6 +1,13 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
 import archives.tater.rpgskills.data.LockGroup
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.RPGSKILLS_INSTALLED
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
@@ -30,13 +37,6 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.RPGSKILLS_INSTALLED
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
-import io.github.thebroccolibob.bobsmobgear.util.*
 import kotlin.jvm.optionals.getOrNull
 
 class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: BlockPos, state: BlockState) :
@@ -53,6 +53,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     val fluidStorage = TemplateFluidStorage()
 
     private var capacity = FluidConstants.BUCKET
+    private var lastInteracted: PlayerEntity? = null
 
     fun getRecipeInput(
         withBase: ItemStack? = null,
@@ -92,13 +93,14 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
             getRecipeInput().let { input -> getMatch(input)?.let {
                 if (!it.value.requiresHammer || hammerHits >= REQUIRED_HAMMERS)
                     if (it.value.delay == 0)
-                        craft(world as ServerWorld, it, input)
+                        craft(world as ServerWorld, it, input, player)
                     else
                         craftTicks = 0
             } }
 
         world.emitGameEvent(GameEvent.BLOCK_CHANGE, getPos(), GameEvent.Emitter.of(player, cachedState))
         this.updateListeners()
+        lastInteracted = player
 
         return true
     }
@@ -108,7 +110,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         craftTicks++
         getRecipeInput().let { input -> getMatch(input)?.let {
             if (craftTicks >= it.value.delay)
-                craft(world, it, input)
+                craft(world, it, input, lastInteracted)
         } ?: run {
             craftTicks = -1
         } }
@@ -157,9 +159,11 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         return true
     }
 
-    private fun craft(world: ServerWorld, recipe: RecipeEntry<TemplateRecipe>, input: TemplateRecipeInput) {
+    private fun craft(world: ServerWorld, recipe: RecipeEntry<TemplateRecipe>, input: TemplateRecipeInput, player: PlayerEntity?) {
         val itemPos = pos.toCenterPos()
-        world.spawnEntity(ItemEntity(world, itemPos.x, itemPos.y - 0.125, itemPos.z, recipe.value.craft(input, world.registryManager), 0.0, 0.0, 0.0))
+        val stack = recipe.value.craft(input, world.registryManager)
+        stack.onCraftByPlayer(world, player, stack.count)
+        world.spawnEntity(ItemEntity(world, itemPos.x, itemPos.y - 0.125, itemPos.z, stack, 0.0, 0.0, 0.0))
         clearItems()
         clearFluid()
         world.setBlockState(pos, cachedState.fluidState.blockState)
