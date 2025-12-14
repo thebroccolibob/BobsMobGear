@@ -162,7 +162,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     private fun craft(world: ServerWorld, recipe: RecipeEntry<TemplateRecipe>, input: TemplateRecipeInput, player: PlayerEntity?) {
         val itemPos = pos.toCenterPos()
         val stack = recipe.value.craft(input, world.registryManager)
-        stack.onCraftByPlayer(world, player, stack.count)
+        if (player != null) stack.onCraftByPlayer(world, player, stack.count)
         world.spawnEntity(ItemEntity(world, itemPos.x, itemPos.y - 0.125, itemPos.z, stack, 0.0, 0.0, 0.0))
         clearItems()
         clearFluid()
