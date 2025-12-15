@@ -1,8 +1,5 @@
 {
   "parent": "minecraft:item/handheld",
-  "textures": {
-    "layer0": "bobsmobgear:item/smithing_hammer"
-  },
   "display": {
     "thirdperson_righthand": {
       "rotation": [ 0, -90, 55 ],

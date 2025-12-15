@@ -5,9 +5,7 @@ import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Connection
 import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
-import io.github.thebroccolibob.bobsmobgear.client.util.BlockStateVariant
-import io.github.thebroccolibob.bobsmobgear.client.util.ModelOverride
-import io.github.thebroccolibob.bobsmobgear.client.util.register
+import io.github.thebroccolibob.bobsmobgear.client.util.*
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -18,7 +16,6 @@ import net.minecraft.data.client.BlockStateModelGenerator.createBooleanModelMap
 import net.minecraft.data.client.BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
-import java.util.*
 import vectorwing.farmersdelight.common.registry.ModItems as FarmersDelightItems
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
@@ -53,22 +50,26 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         register(BobsMobGearItems.IRON_BOOM_BATON, Models.HANDHELD)
         register(BobsMobGearItems.UNLIMITED_BACON, FarmersDelightItems.COOKED_BACON.get(), Models.GENERATED)
 
-        Models.GENERATED.upload(ModelIds.getItemSubModelId(BobsMobGearItems.SMITHING_TONGS, "_model"), TextureMap.layer0(BobsMobGearItems.SMITHING_TONGS), writer)
+        register(BobsMobGearItems.SMITHING_HAMMER, SMITHING_HAMMER_MODEL)
+        register(BobsMobGearItems.SMITHING_TONGS, SMITHING_TONGS_BUILTIN_MODEL)
+        register(BobsMobGearItems.SMITHING_TONGS, Models.GENERATED, modelSuffix = "_model")
     }
 
     companion object {
-        val WOOD_TEMPLATE_MODEL = Model(Optional.of(BobsMobGear.id("block/template_wood")), Optional.empty(), TextureKey.TOP)
-        val METAL_TEMPLATE_MODEL = Model(Optional.of(BobsMobGear.id("block/template_metal")), Optional.empty(), TextureKey.TOP)
+        @JvmStatic val WOOD_TEMPLATE_MODEL = Model(BobsMobGear.id("block/template_wood"), TextureKey.TOP)
+        @JvmStatic val METAL_TEMPLATE_MODEL = Model(BobsMobGear.id("block/template_metal"), TextureKey.TOP)
 
-        val WOOD_TEMPLATE_FACTORY: TexturedModel.Factory = TexturedModel.makeFactory({ TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_wood")) }, WOOD_TEMPLATE_MODEL)
-        val METAL_TEMPLATE_FACTORY: TexturedModel.Factory = TexturedModel.makeFactory({ TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_metal")) }, METAL_TEMPLATE_MODEL)
+        @JvmStatic val WOOD_TEMPLATE_FACTORY: TexturedModel.Factory = texturedModelFactory(WOOD_TEMPLATE_MODEL) { TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_wood")) }
+        @JvmStatic val METAL_TEMPLATE_FACTORY: TexturedModel.Factory = texturedModelFactory(METAL_TEMPLATE_MODEL) { TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_metal")) }
 
-        val TEMPLATE_SPEAR_HELD = Model(Optional.of(BobsMobGear.id("item/template_spear_held")), Optional.empty(), TextureKey.LAYER0)
-        val TEMPLATE_SPEAR_THROWING = Model(Optional.of(BobsMobGear.id("item/template_spear_throwing")), Optional.empty(), TextureKey.LAYER0)
+        @JvmStatic val TEMPLATE_SPEAR_HELD = Model(BobsMobGear.id("item/template_spear_held"), TextureKey.LAYER0)
+        @JvmStatic val TEMPLATE_SPEAR_THROWING = Model(BobsMobGear.id("item/template_spear_throwing"), TextureKey.LAYER0)
 
-        val BUILTIN_ENTITY_MODEL = Model(Optional.of(Identifier.ofVanilla("builtin/entity")), Optional.empty())
+        @JvmStatic val SMITHING_HAMMER_MODEL = Model(BobsMobGear.id("item/template_smithing_hammer"), TextureKey.LAYER0)
 
-        val IS_HELD: Pair<Identifier, Float> = Identifier.of("pommel", "is_held") to 1f
+        @JvmStatic val SMITHING_TONGS_BUILTIN_MODEL = Model(BobsMobGear.id("item/template_smithing_tongs"))
+
+        @JvmStatic val IS_HELD: Pair<Identifier, Float> = Identifier.of("pommel", "is_held") to 1f
 
         fun ItemModelGenerator.registerGenerated(item: Item) {
             register(item, Models.GENERATED)
@@ -90,6 +91,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             Models.GENERATED.upload(ModelIds.getItemModelId(template.asItem()), TextureMap.layer0(TextureMap.getSubId(template, "_wood")), modelCollector)
         }
 
+        @JvmStatic
         fun BlockStateModelGenerator.registerForge(block: Block, bottomSides: Block = block) {
             val textures = object {
                 private fun main(suffix: String) = ModelIds.getBlockSubModelId(block, "_$suffix")
@@ -195,6 +197,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             })
         }
 
+        @JvmStatic
         fun ItemModelGenerator.registerSpear(item: Item) {
             register(item, Models.GENERATED,
                 ModelOverride(register(item, TEMPLATE_SPEAR_HELD, modelSuffix = "_held"),

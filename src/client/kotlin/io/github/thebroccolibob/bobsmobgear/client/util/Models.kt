@@ -1,7 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.client.util
 
-import com.google.gson.JsonObject
 import io.github.thebroccolibob.bobsmobgear.util.mapToJson
+import net.minecraft.block.Block
 import net.minecraft.client.render.model.json.ModelOverride
 import net.minecraft.data.client.*
 import net.minecraft.data.client.Model.JsonFactory
@@ -9,6 +9,9 @@ import net.minecraft.data.client.VariantSettings.Rotation
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
+import com.google.gson.JsonObject
+import java.util.*
+import java.util.function.Function
 
 fun BlockStateVariant(
     model: Identifier,
@@ -84,3 +87,9 @@ fun ItemModelGenerator.register(item: Item, model: Model, vararg overrides: Mode
         *overrides
     )
 }
+
+fun Model(id: Identifier? = null, vararg requiredTextureKeys: TextureKey, variant: String? = null) =
+    Model(Optional.ofNullable(id), Optional.ofNullable(variant), *requiredTextureKeys)
+
+fun texturedModelFactory(model: Model, textureMap: Function<Block, TextureMap>): TexturedModel.Factory =
+    TexturedModel.makeFactory(textureMap, model)
