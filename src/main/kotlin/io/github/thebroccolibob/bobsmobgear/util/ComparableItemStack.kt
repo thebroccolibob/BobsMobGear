@@ -23,7 +23,7 @@ class ComparableItemStack(val stack: ItemStack) {
     val isEmpty get() = stack.isEmpty
 
     companion object {
-        val EMPTY = ComparableItemStack(ItemStack.EMPTY)
+        @JvmField val EMPTY = ComparableItemStack(ItemStack.EMPTY)
 
         val CODEC: Codec<ComparableItemStack> = ItemStack.CODEC.xmap(::ComparableItemStack, ComparableItemStack::stack)
         val PACKET_CODEC: PacketCodec<RegistryByteBuf, ComparableItemStack> = ItemStack.PACKET_CODEC.xmap(::ComparableItemStack, ComparableItemStack::stack)

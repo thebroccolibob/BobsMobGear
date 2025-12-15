@@ -1,8 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.item
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.client.util.invoke
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.TONGS_HELD_ITEM
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
@@ -11,21 +9,18 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.data.client.ModelIds
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.RotationAxis
 
-object TongsItemRenderer : DynamicItemRenderer {
-    private val TONGS_MODEL = BobsMobGear.id("item/smithing_tongs_model")
+class TongsItemRenderer private constructor(tongs: Item) : DynamicItemRenderer {
+    private val tongsModel = ModelIds.getItemSubModelId(tongs, "_model")
 
-    private val itemRenderer by lazy {
-        MinecraftClient.getInstance().itemRenderer
-    }
-
-    fun register() {
+    init {
         ModelLoadingPlugin.register { ctx ->
-            ctx.addModels(TONGS_MODEL)
+            ctx.addModels(tongsModel)
         }
-        BuiltinItemRendererRegistry.INSTANCE.register(BobsMobGearItems.SMITHING_TONGS, this)
     }
 
     override fun render(
@@ -49,7 +44,7 @@ object TongsItemRenderer : DynamicItemRenderer {
                 vertexConsumers,
                 light,
                 overlay,
-                itemRenderer.models.modelManager.getModel(TONGS_MODEL)
+                itemRenderer.models.modelManager.getModel(tongsModel)
             )
 
             stack[TONGS_HELD_ITEM]?.takeUnless { it.isEmpty }?.stack?.let {
@@ -81,6 +76,17 @@ object TongsItemRenderer : DynamicItemRenderer {
                     0
                 )
             }
+        }
+    }
+
+    companion object {
+        private val itemRenderer by lazy {
+            MinecraftClient.getInstance().itemRenderer
+        }
+
+        @JvmStatic
+        fun register(tongs: Item) = TongsItemRenderer(tongs).also {
+            BuiltinItemRendererRegistry.INSTANCE.register(tongs, it)
         }
     }
 }

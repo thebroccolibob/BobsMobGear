@@ -3,8 +3,8 @@ package io.github.thebroccolibob.bobsmobgear.item
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.extinguishHeatedStack
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.TONGS_HELD_ITEM
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.Blocks
@@ -87,7 +87,8 @@ class TongsItem(settings: Settings) : Item(settings) {
             cursorStackReference.set(stack.removeHeld())
             playRemoveSound(player)
         } else {
-            if (!(otherStack isIn BobsMobGearItemTags.TONG_HOLDABLE) || stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
+            if (stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
+            if (!(otherStack isIn BobsMobGearItemTags.TONG_HOLDABLE)) return true
 
             stack[TONGS_HELD_ITEM] = otherStack.split(1)
             playAddSound(player)
@@ -99,15 +100,17 @@ class TongsItem(settings: Settings) : Item(settings) {
     override fun onStackClicked(stack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity): Boolean {
         if (clickType != ClickType.RIGHT) return false
 
+        val heldStack = stack[TONGS_HELD_ITEM] ?: return false
         val otherStack = slot.stack
 
         if (otherStack.isEmpty) {
-            if (stack[TONGS_HELD_ITEM]?.isEmpty != false) return false
+            if (heldStack.isEmpty || !slot.canInsert(heldStack.stack)) return false
 
             slot.stack = stack.removeHeld()
             playRemoveSound(player)
         } else {
-            if (!(otherStack isIn BobsMobGearItemTags.TONG_HOLDABLE) || stack[TONGS_HELD_ITEM]?.isEmpty != true) return false
+            if (!heldStack.isEmpty) return false
+            if (!(otherStack isIn BobsMobGearItemTags.TONG_HOLDABLE)) return true
 
             stack[TONGS_HELD_ITEM] = otherStack.split(1)
             playAddSound(player)

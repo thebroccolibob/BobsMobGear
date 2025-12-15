@@ -10,6 +10,7 @@ import io.github.thebroccolibob.bobsmobgear.event.ClientSpecialAttackCallback
 import io.github.thebroccolibob.bobsmobgear.item.HasSpecialAttack
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler
@@ -40,7 +41,7 @@ object BobsMobGearClient : ClientModInitializer {
 
 		registerParticleFactories()
 		registerEntityRenderers()
-		TongsItemRenderer.register()
+		TongsItemRenderer.register(BobsMobGearItems.SMITHING_TONGS)
 		WardenFistItemRenderer.register()
 		HeatedTooltip.register()
 		UsePriorityTooltip.register()
