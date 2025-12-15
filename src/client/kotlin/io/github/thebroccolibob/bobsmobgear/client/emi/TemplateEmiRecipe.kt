@@ -124,7 +124,7 @@ class TemplateEmiRecipe(private val id: Identifier, private val recipe: Template
         val ARROW = TEXTURE.region(0, 5, 64, 15)
         val ANVIL = TEXTURE.region(0, 20, 44, 21)
 
-        val HAMMER_INGREDIENT: EmiIngredient = EmiIngredient.of(BobsMobGearItemTags.SMITHING_HAMMERS).apply {
+        val HAMMER_INGREDIENT: EmiIngredient = EmiIngredient.of(BobsMobGearItemTags.HAMMERS).apply {
             for (stack in emiStacks)
                 stack.setRemainder(EmiStack.of(stack.itemStack.copy().apply { damage = 1 }))
         }

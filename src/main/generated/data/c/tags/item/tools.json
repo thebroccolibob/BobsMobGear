@@ -1,6 +1,6 @@
 {
   "values": [
-    "bobsmobgear:smithing_hammer",
-    "bobsmobgear:smithing_tongs"
+    "bobsmobgear:smithing_tongs",
+    "#bobsmobgear:smithing_hammers"
   ]
 }

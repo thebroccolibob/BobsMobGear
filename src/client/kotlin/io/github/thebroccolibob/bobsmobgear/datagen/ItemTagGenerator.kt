@@ -20,14 +20,15 @@ class ItemTagGenerator(
     registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
 ) : FabricTagProvider.ItemTagProvider(output, registriesFuture) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
-        getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_HAMMERS).apply {
-            add(
-                BobsMobGearItems.SMITHING_HAMMER,
-                Items.MACE,
-            )
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_HAMMERS)) {
+            add(BobsMobGearItems.SMITHING_HAMMER)
+        }
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.HAMMERS)) {
+            forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
+            add(Items.MACE)
             addOptionalTag(RPGSeriesItemTags.WeaponType.ALL[Equipment.WeaponType.HAMMER])
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE)) {
             forceAddTag(ConventionalItemTags.MINING_TOOL_TOOLS)
             forceAddTag(ConventionalItemTags.MELEE_WEAPON_TOOLS)
             forceAddTag(ItemTags.SWORDS)
@@ -37,43 +38,46 @@ class ItemTagGenerator(
             forceAddTag(ItemTags.HOES)
             add(Items.IRON_INGOT, Items.DIAMOND, Items.NETHERITE_INGOT)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_IRON_INGOT).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_IRON_INGOT)) {
             forceAddTag(ConventionalItemTags.IRON_ORES)
             forceAddTag(ConventionalItemTags.IRON_RAW_MATERIALS)
             forceAddTag(ConventionalItemTags.IRON_INGOTS)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_DIAMOND).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_DIAMOND)) {
             forceAddTag(ConventionalItemTags.DIAMOND_ORES)
             forceAddTag(ConventionalItemTags.DIAMOND_GEMS)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_GOLD_INGOT).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_GOLD_INGOT)) {
             forceAddTag(ConventionalItemTags.GOLD_ORES)
             forceAddTag(ConventionalItemTags.GOLD_RAW_MATERIALS)
             forceAddTag(ConventionalItemTags.GOLD_INGOTS)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_NETHERITE_SCRAP)) {
             forceAddTag(ConventionalItemTags.NETHERITE_SCRAP_ORES)
             add(Items.NETHERITE_SCRAP)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_NETHERITE_INGOT).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_NETHERITE_INGOT)) {
             forceAddTag(ConventionalItemTags.NETHERITE_INGOTS)
         }
         getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_BLACK_STEEL_INGOT).addOptional(
             Registries.ITEM.getId(BobsMobGearDatagenItems.BLACK_STEEL_INGOT),
         )
-        getOrCreateTagBuilder(BobsMobGearItemTags.PREVENT_SMITHING_TABLE_SCREEN).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.PREVENT_SMITHING_TABLE_SCREEN)) {
             add(BobsMobGearItems.SMITHING_TONGS)
             forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.MENDER_ENCHANTABLE).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.MENDER_ENCHANTABLE)) {
+            forceAddTag(BobsMobGearItemTags.HAMMERS)
+        }
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.MENDER_ENCHANTABLE_PRIMARY)) {
             forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_SURFACE).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.SMITHING_SURFACE)) {
             add(Items.SMITHING_TABLE)
             forceAddTag(ItemTags.ANVIL)
             addOptional(cataclysmId("mechanical_fusion_anvil"))
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.NON_FORGE_FUEL).apply {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.NON_FORGE_FUEL)) {
             forceAddTag(ConventionalItemTags.TOOLS)
         }
         getOrCreateTagBuilder(BobsMobGearItemTags.LOWER_USE_PRIORITY).add(
@@ -81,9 +85,9 @@ class ItemTagGenerator(
             BobsMobGearItems.IRON_SPIDER_DAGGER,
             BobsMobGearItems.IRON_ENDER_SPEAR,
         )
-        getOrCreateTagBuilder(BobsMobGearItemTags.NOT_WEAPON).add(
-            BobsMobGearItems.SMITHING_HAMMER,
-        )
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.NOT_WEAPON)) {
+            forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
+        }
         getOrCreateTagBuilder(BobsMobGearItemTags.WEAK_HEAT_SOURCES).add(
             Items.FLINT_AND_STEEL,
             Items.CAMPFIRE,
@@ -101,10 +105,10 @@ class ItemTagGenerator(
             BobsMobGearItems.IRON_ENDER_SPEAR,
             BobsMobGearItems.IRON_ENDER_EYE_SPEAR,
         )
-        getOrCreateTagBuilder(ConventionalItemTags.TOOLS).add(
-            BobsMobGearItems.SMITHING_HAMMER,
-            BobsMobGearItems.SMITHING_TONGS,
-        )
+        with (getOrCreateTagBuilder(ConventionalItemTags.TOOLS)) {
+            add(BobsMobGearItems.SMITHING_TONGS)
+            forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
+        }
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE).add(
             BobsMobGearItems.SMITHING_HAMMER,
             BobsMobGearItems.FLESH_GLOVE,

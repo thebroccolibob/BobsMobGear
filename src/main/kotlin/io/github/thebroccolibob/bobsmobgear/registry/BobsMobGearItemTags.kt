@@ -17,9 +17,11 @@ object BobsMobGearItemTags {
     @JvmField val FORGES_NETHERITE_INGOT = of("forges/netherite_ingot")
     @JvmField val FORGES_BLACK_STEEL_INGOT = of("forges/cataclysm/black_steel_ingot")
 
+    @JvmField val HAMMERS = of("hammers")
     @JvmField val SMITHING_HAMMERS = of("smithing_hammers")
     @JvmField val TONG_HOLDABLE = of("tong_holdable")
     @JvmField val MENDER_ENCHANTABLE = of("enchantable/mender")
+    @JvmField val MENDER_ENCHANTABLE_PRIMARY = of("enchantable/mender_primary")
     @JvmField val SMITHING_SURFACE = of(BobsMobGearBlocks.SMITHING_SURFACE.id)
     @JvmField val NON_FORGE_FUEL = of("non_forge_fuel")
     @JvmField val LOWER_USE_PRIORITY = of("lower_use_priority")

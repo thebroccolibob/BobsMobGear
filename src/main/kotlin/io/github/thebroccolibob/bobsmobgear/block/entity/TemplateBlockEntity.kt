@@ -131,7 +131,7 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
     private fun tryAddNextItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
         when {
             checkValid(player, getMatch(getRecipeInput())) -> {
-                if (!(stack isIn BobsMobGearItemTags.SMITHING_HAMMERS) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
+                if (!(stack isIn BobsMobGearItemTags.HAMMERS) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
                 if (stack.isDamageable)
                     stack.damage(1, player, hand)
                 player.itemCooldownManager.set(stack.item, 10)

@@ -68,6 +68,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItems.UNLIMITED_BACON, "Unlimited Bacon")
         add(UnlimitedBaconItem.KICK_REASON, "...but no games")
 
+        add(BobsMobGearItemTags.HAMMERS, "Hammers")
         add(BobsMobGearItemTags.SMITHING_HAMMERS, "Smithing Hammers")
         add(BobsMobGearItemTags.TONG_HOLDABLE, "Holdable by Tongs")
         add(BobsMobGearItemTags.FORGES_IRON_INGOT, "Forges Iron Ingot")

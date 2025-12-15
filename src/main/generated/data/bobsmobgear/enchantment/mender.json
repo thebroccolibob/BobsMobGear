@@ -27,7 +27,7 @@
     "base": 25,
     "per_level_above_first": 0
   },
-  "primary_items": "bobsmobgear:smithing_hammer",
+  "primary_items": "#bobsmobgear:enchantable/mender_primary",
   "slots": [
     "mainhand",
     "offhand"
