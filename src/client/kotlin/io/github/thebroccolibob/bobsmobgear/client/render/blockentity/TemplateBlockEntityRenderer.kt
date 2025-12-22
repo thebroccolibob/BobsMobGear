@@ -1,10 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.client.render.blockentity
 
-import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
-import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
-import io.github.thebroccolibob.bobsmobgear.client.util.invoke
-import io.github.thebroccolibob.bobsmobgear.fluid.VirtualFluid
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
@@ -23,6 +18,11 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper.lerp
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
+import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
+import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
+import io.github.thebroccolibob.bobsmobgear.client.util.invoke
+import io.github.thebroccolibob.bobsmobgear.fluid.VirtualFluid
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -55,7 +55,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
     companion object {
         const val MARGIN = 2 / 16f
         const val FLUID_STEPS = 12
-        const val OFFSET = 1 / 256f
+        const val OFFSET = 0.002f
         const val BASE_SCALE = 1 - 2 * MARGIN
         const val TEMPLATE_WIDTH = 2 / 16f
         const val INGREDIENT_SCALE = 0.75f

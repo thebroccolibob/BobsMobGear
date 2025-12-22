@@ -1,33 +1,18 @@
 {
   "variants": {
-    "facing=east,metal=false": {
-      "model": "bobsmobgear:block/empty_template_wood",
+    "facing=east": {
+      "model": "bobsmobgear:block/empty_template",
       "y": 90
     },
-    "facing=east,metal=true": {
-      "model": "bobsmobgear:block/empty_template_metal",
-      "y": 90
+    "facing=north": {
+      "model": "bobsmobgear:block/empty_template"
     },
-    "facing=north,metal=false": {
-      "model": "bobsmobgear:block/empty_template_wood"
-    },
-    "facing=north,metal=true": {
-      "model": "bobsmobgear:block/empty_template_metal"
-    },
-    "facing=south,metal=false": {
-      "model": "bobsmobgear:block/empty_template_wood",
+    "facing=south": {
+      "model": "bobsmobgear:block/empty_template",
       "y": 180
     },
-    "facing=south,metal=true": {
-      "model": "bobsmobgear:block/empty_template_metal",
-      "y": 180
-    },
-    "facing=west,metal=false": {
-      "model": "bobsmobgear:block/empty_template_wood",
-      "y": 270
-    },
-    "facing=west,metal=true": {
-      "model": "bobsmobgear:block/empty_template_metal",
+    "facing=west": {
+      "model": "bobsmobgear:block/empty_template",
       "y": 270
     }
   }

@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "bobsmobgear:item/cutout_template",
   "textures": {
-    "layer0": "bobsmobgear:block/rpg/glaive_template_wood"
+    "layer1": "bobsmobgear:block/rpg/glaive_template"
   }
 }

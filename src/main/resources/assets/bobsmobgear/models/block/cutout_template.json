@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "#top",
+    "side": "bobsmobgear:block/template_side_wood",
+    "inside": "bobsmobgear:block/template_inside"
+  },
+  "elements": [
+    {
+      "from": [1, 0, 1],
+      "to": [15, 2.064, 15],
+      "rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 1]},
+      "faces": {
+        "north": {"uv": [1, 14, 15, 16], "texture": "#side"},
+        "east": {"uv": [1, 14, 15, 16], "texture": "#side"},
+        "south": {"uv": [1, 14, 15, 16], "texture": "#side"},
+        "west": {"uv": [1, 14, 15, 16], "texture": "#side"},
+        "up": {"uv": [1, 1, 15, 15], "texture": "#top"},
+        "down": {"uv": [1, 15, 15, 1], "texture": "#top", "cullface": "down"}
+      }
+    },
+    {
+      "from": [1, 2, 1],
+      "to": [15, 2, 15],
+      "rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 1]},
+      "faces": {
+        "up": {"uv": [1, 1, 15, 15], "texture": "#inside"}
+      }
+    }
+  ]
+}

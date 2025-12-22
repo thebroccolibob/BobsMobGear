@@ -1,6 +1,0 @@
-{
-  "parent": "bobsmobgear:block/template_wood",
-  "textures": {
-    "top": "bobsmobgear:block/rpg/dagger_template_wood"
-  }
-}

@@ -1,0 +1,6 @@
+{
+  "parent": "bobsmobgear:block/cutout_template",
+  "textures": {
+    "top": "bobsmobgear:block/pickaxe_template"
+  }
+}

@@ -1,6 +1,0 @@
-{
-  "parent": "bobsmobgear:block/template_metal",
-  "textures": {
-    "top": "bobsmobgear:block/shovel_template_metal"
-  }
-}

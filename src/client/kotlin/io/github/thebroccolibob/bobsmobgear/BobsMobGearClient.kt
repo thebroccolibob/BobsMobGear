@@ -1,5 +1,14 @@
 package io.github.thebroccolibob.bobsmobgear
 
+import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.item.ModelPredicateProviderRegistry
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
+import net.minecraft.util.ActionResult
 import io.github.thebroccolibob.bobsmobgear.client.*
 import io.github.thebroccolibob.bobsmobgear.client.duck.TriggersAttack
 import io.github.thebroccolibob.bobsmobgear.client.render.blockentity.TemplateBlockEntityRenderer
@@ -11,13 +20,6 @@ import io.github.thebroccolibob.bobsmobgear.item.HasSpecialAttack
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
-import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
-import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.item.ModelPredicateProviderRegistry
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
-import net.minecraft.util.ActionResult
 
 object BobsMobGearClient : ClientModInitializer {
 	val LIQUID_METAL_TEXTURE = BobsMobGear.id("block/liquid_metal");
@@ -38,6 +40,10 @@ object BobsMobGearClient : ClientModInitializer {
 				LIQUID_METAL_TEXTURE,
 				fluid.tint
 			))
+
+        with (BlockRenderLayerMap.INSTANCE) {
+            putBlocks(RenderLayer.getCutout(), *BobsMobGearBlocks.TEMPLATES)
+        }
 
 		registerParticleFactories()
 		registerEntityRenderers()

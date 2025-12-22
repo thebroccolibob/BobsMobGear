@@ -1,13 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
-import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
-import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Connection
-import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
-import io.github.thebroccolibob.bobsmobgear.client.util.*
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
@@ -16,13 +8,21 @@ import net.minecraft.data.client.BlockStateModelGenerator.createBooleanModelMap
 import net.minecraft.data.client.BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock.Connection
+import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
+import io.github.thebroccolibob.bobsmobgear.client.util.*
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import vectorwing.farmersdelight.common.registry.ModItems as FarmersDelightItems
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
 
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator): Unit = with(blockStateModelGenerator) {
         for (template in BobsMobGearBlocks.TEMPLATES)
-            registerTemplate(template)
+            registerCutoutTemplate(template)
         registerForge(BobsMobGearBlocks.FORGE)
         registerForge(BobsMobGearBlocks.FORGE_HEATER, BobsMobGearBlocks.FORGE)
     }
@@ -58,9 +58,12 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
     companion object {
         @JvmStatic val WOOD_TEMPLATE_MODEL = Model(BobsMobGear.id("block/template_wood"), TextureKey.TOP)
         @JvmStatic val METAL_TEMPLATE_MODEL = Model(BobsMobGear.id("block/template_metal"), TextureKey.TOP)
+        @JvmStatic val CUTOUT_TEMPLATE_MODEL = Model(BobsMobGear.id("block/cutout_template"), TextureKey.TOP)
+        @JvmStatic val CUTOUT_TEMPLATE_ITEM_MODEL = Model(BobsMobGear.id("item/cutout_template"), TextureKey.LAYER1)
 
         @JvmStatic val WOOD_TEMPLATE_FACTORY: TexturedModel.Factory = texturedModelFactory(WOOD_TEMPLATE_MODEL) { TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_wood")) }
         @JvmStatic val METAL_TEMPLATE_FACTORY: TexturedModel.Factory = texturedModelFactory(METAL_TEMPLATE_MODEL) { TextureMap.of(TextureKey.TOP, ModelIds.getBlockSubModelId(it, "_metal")) }
+        @JvmStatic val CUTOUT_TEMPLATE_FACTORY: TexturedModel.Factory = texturedModelFactory(CUTOUT_TEMPLATE_MODEL) { TextureMap.of(TextureKey.TOP, ModelIds.getBlockModelId(it)) }
 
         @JvmStatic val TEMPLATE_SPEAR_HELD = Model(BobsMobGear.id("item/template_spear_held"), TextureKey.LAYER0)
         @JvmStatic val TEMPLATE_SPEAR_THROWING = Model(BobsMobGear.id("item/template_spear_throwing"), TextureKey.LAYER0)
@@ -89,6 +92,12 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
                 coordinate(createNorthDefaultHorizontalRotationStates())
             })
             Models.GENERATED.upload(ModelIds.getItemModelId(template.asItem()), TextureMap.layer0(TextureMap.getSubId(template, "_wood")), modelCollector)
+        }
+
+        @JvmStatic
+        fun BlockStateModelGenerator.registerCutoutTemplate(template: Block) {
+            registerNorthDefaultHorizontalRotated(template, CUTOUT_TEMPLATE_FACTORY)
+            CUTOUT_TEMPLATE_ITEM_MODEL.upload(ModelIds.getItemModelId(template.asItem()), TextureMap.of(TextureKey.LAYER1, TextureMap.getId(template)), modelCollector)
         }
 
         @JvmStatic
