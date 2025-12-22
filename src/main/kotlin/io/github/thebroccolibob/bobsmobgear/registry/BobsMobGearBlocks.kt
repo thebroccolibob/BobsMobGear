@@ -50,7 +50,7 @@ object BobsMobGearBlocks {
 
     private fun registerTemplate(type: String): Block =
         register("${type}_template", TemplateBlock(blockSettings {
-            sounds(BlockSoundGroup.WOOD)
+            sounds(BlockSoundGroup.STONE)
             strength(0.5f)
             nonOpaque()
         })).also { templates.add(it) }
