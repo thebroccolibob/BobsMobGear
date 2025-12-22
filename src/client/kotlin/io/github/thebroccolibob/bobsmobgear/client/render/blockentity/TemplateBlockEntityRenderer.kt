@@ -116,7 +116,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
             val fluid = fluidVariant.takeUnless { it.isBlank }?.fluid ?: return
             val renderer = FluidRenderHandlerRegistry.INSTANCE.get(fluid) ?: return
             val sprite = renderer.getFluidSprites(world, pos, fluid.defaultState)?.get(0) ?: return
-            val fluidProgress = (fluidAmount.toFloat() * FLUID_STEPS / fluidCapacity).roundToInt() / FLUID_STEPS.toFloat()
+            val fluidProgress = ((fluidAmount.toFloat() * FLUID_STEPS / fluidCapacity).roundToInt() / FLUID_STEPS.toFloat()).coerceAtMost(1f)
 
             matrices.translate(0f, 0f, -OFFSET)
 
