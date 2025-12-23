@@ -1,11 +1,11 @@
 {
   "type": "bobsmobgear:template",
   "block_below": "#bobsmobgear:smithing_surface",
+  "delay": 40,
   "fluid": {
     "fluid": "bobsmobgear:iron"
   },
   "fluid_amount": 9000,
-  "requires_hammer": true,
   "result": {
     "components": {
       "bobsmobgear:heated": {}

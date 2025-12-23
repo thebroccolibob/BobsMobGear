@@ -1,13 +1,6 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
 import archives.tater.rpgskills.data.LockGroup
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.RPGSKILLS_INSTALLED
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
-import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
@@ -37,6 +30,13 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat.RPGSKILLS_INSTALLED
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipeInput
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.util.*
 import kotlin.jvm.optionals.getOrNull
 
 class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: BlockPos, state: BlockState) :
@@ -130,8 +130,11 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
     private fun tryAddNextItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
         when {
-            checkValid(player, getMatch(getRecipeInput())) -> {
-                if (!(stack isIn BobsMobGearItemTags.HAMMERS) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
+            stack isIn BobsMobGearItemTags.HAMMERS -> {
+                val recipe = getMatch(getRecipeInput()) ?: return false
+                if (!checkValid(player, recipe)) return false
+                if (!recipe.value.requiresHammer) return false
+                if (player.itemCooldownManager.isCoolingDown(stack.item)) return false
                 if (stack.isDamageable)
                     stack.damage(1, player, hand)
                 player.itemCooldownManager.set(stack.item, 10)

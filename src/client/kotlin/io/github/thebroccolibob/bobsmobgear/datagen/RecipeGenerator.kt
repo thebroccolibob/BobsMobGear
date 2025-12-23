@@ -1,12 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
-import io.github.thebroccolibob.bobsmobgear.datagen.util.*
-import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.registry.*
-import io.github.thebroccolibob.bobsmobgear.util.set
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions
@@ -22,6 +15,13 @@ import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.collection.DefaultedList
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.datagen.util.*
+import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.registry.*
+import io.github.thebroccolibob.bobsmobgear.util.set
 import java.util.concurrent.CompletableFuture
 import vectorwing.farmersdelight.common.registry.ModItems as FarmersDelightItems
 
@@ -155,10 +155,11 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                     ingredientList(),
                     FluidVariant.of(fluid),
                     FluidConstants.INGOT,
-                    true,
+                    false,
                     ItemStack(ingot).apply {
                         set(BobsMobGearComponents.HEATED)
-                    }
+                    },
+                    delay = 40
                 ),
                 exporter
             )
