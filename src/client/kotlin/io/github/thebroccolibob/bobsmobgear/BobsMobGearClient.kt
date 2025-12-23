@@ -54,6 +54,7 @@ object BobsMobGearClient : ClientModInitializer {
 		UsePriorityTooltip.register()
 		SonicChargeTooltip.register()
 		SonicChargeHudRenderer.register()
+        DetectedEntity.register()
 
 		ClientSpecialAttackCallback.register { stack, user, _, _ ->
 			if (user != MinecraftClient.getInstance().player) return@register ActionResult.PASS

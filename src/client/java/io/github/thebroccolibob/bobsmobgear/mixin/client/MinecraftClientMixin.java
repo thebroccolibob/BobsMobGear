@@ -1,19 +1,24 @@
 package io.github.thebroccolibob.bobsmobgear.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
-import io.github.thebroccolibob.bobsmobgear.item.UsingAttackable;
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.util.Hand;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Slice;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.Hand;
+
+import io.github.thebroccolibob.bobsmobgear.client.DetectedEntity;
+import io.github.thebroccolibob.bobsmobgear.item.UsingAttackable;
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags;
+import org.jetbrains.annotations.Nullable;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
@@ -53,5 +58,13 @@ public abstract class MinecraftClientMixin {
         var mainHandStack = player.getMainHandStack();
         return mainHandStack.isIn(BobsMobGearItemTags.LOWER_USE_PRIORITY) && !player.getOffHandStack().isOf(mainHandStack.getItem())
             ? bobsmobgear$HANDS_REVERSED : original;
+    }
+
+    @ModifyReturnValue(
+            method = "hasOutline",
+            at = @At("RETURN")
+    )
+    private boolean detectedEntity(boolean original, @Local(argsOnly = true) Entity entity) {
+        return original || entity.equals(DetectedEntity.getEntity());
     }
 }
