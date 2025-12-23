@@ -1,9 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
-import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.BlockState
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
@@ -28,6 +24,10 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearParticles
+import io.github.thebroccolibob.bobsmobgear.util.*
 
 class WardenFistItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, settings), UsingAttackable {
 

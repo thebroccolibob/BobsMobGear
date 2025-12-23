@@ -16,6 +16,7 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory
 import io.github.thebroccolibob.bobsmobgear.client.HeatedTooltip
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
 import io.github.thebroccolibob.bobsmobgear.client.UsePriorityTooltip
+import io.github.thebroccolibob.bobsmobgear.client.VanishingTooltip
 import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
 import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
@@ -88,6 +89,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearFluids.BLACK_STEEL, "Molten Black Steel")
 
         add(HeatedTooltip.TOOLTIP, "Heated")
+        add(VanishingTooltip.TOOLTIP, "Vanishing")
         add(TongsItem.HELD_ITEM_TOOLTIP, "Held Item:")
         add(SonicChargeTooltip.TOOLTIP, "Sonic Charge: %s/%s")
         add(UsePriorityTooltip.TOOLTIP, "Lower use priority")

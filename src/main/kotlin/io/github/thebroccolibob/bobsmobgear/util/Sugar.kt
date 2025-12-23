@@ -151,6 +151,10 @@ fun Item.Settings.food(init: FoodComponent.Builder.() -> Unit) {
     food(FoodComponent.Builder().apply(init).build())
 }
 
+fun Item.Settings.component(type: ComponentType<McUnit>) {
+    component(type, McUnit.INSTANCE)
+}
+
 operator fun AttachmentTarget.contains(attachmentType: AttachmentType<*>) = hasAttached(attachmentType)
 operator fun <T> AttachmentTarget.get(attachmentType: AttachmentType<T>): T? = getAttached(attachmentType)
 operator fun <T> AttachmentTarget.set(attachmentType: AttachmentType<T>, value: T?) {

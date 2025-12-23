@@ -1,14 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
-import io.github.thebroccolibob.bobsmobgear.entity.EnderEyeSpearEntity
-import io.github.thebroccolibob.bobsmobgear.entity.EnderSpearEntity
-import io.github.thebroccolibob.bobsmobgear.item.*
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.MAX_SONIC_CHARGE
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.SONIC_CHARGE
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.TONGS_HELD_ITEM
-import io.github.thebroccolibob.bobsmobgear.util.*
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
@@ -26,6 +17,15 @@ import net.minecraft.registry.Registry
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.entity.EnderEyeSpearEntity
+import io.github.thebroccolibob.bobsmobgear.entity.EnderSpearEntity
+import io.github.thebroccolibob.bobsmobgear.item.*
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.MAX_SONIC_CHARGE
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.SONIC_CHARGE
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.TONGS_HELD_ITEM
+import io.github.thebroccolibob.bobsmobgear.util.*
 
 object BobsMobGearItems {
     private fun register(id: Identifier, item: Item): Item =
@@ -98,7 +98,9 @@ object BobsMobGearItems {
     @JvmField val WORN_CREEPER_CORE = register("worn_creeper_core", Item(itemSettings {}))
     @JvmField val WORN_SEETHING_PEARL = register("worn_seething_pearl", Item(itemSettings {}))
     @JvmField val WORN_SEETHING_EYE = register("worn_seething_eye", Item(itemSettings {}))
-    @JvmField val SCULK_SYMBIOTE = register("sculk_symbiote", Item(itemSettings {}))
+    @JvmField val SCULK_SYMBIOTE = register("sculk_symbiote", Item(itemSettings {
+        component(BobsMobGearComponents.VANISHING)
+    }))
 
     @JvmField val FLESH_GLOVE = register("flesh_glove",
         AbstractFleshGlove(
