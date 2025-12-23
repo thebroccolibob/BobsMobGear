@@ -130,16 +130,13 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
 
     private fun tryAddNextItem(stack: ItemStack, player: PlayerEntity, hand: Hand): Boolean {
         when {
-            stack isIn BobsMobGearItemTags.HAMMERS -> {
-                val recipe = getMatch(getRecipeInput()) ?: return false
-                if (!checkValid(player, recipe)) return false
-                if (!recipe.value.requiresHammer) return false
-                if (player.itemCooldownManager.isCoolingDown(stack.item)) return false
-                if (stack.isDamageable)
-                    stack.damage(1, player, hand)
-                player.itemCooldownManager.set(stack.item, 10)
-                world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_HAMMER, SoundCategory.BLOCKS)
-                hammerHits++
+             getMatch(getRecipeInput())?.let { checkValid(player, it) && it.value.requiresHammer } ?: false -> {
+                 if (!(stack isIn BobsMobGearItemTags.HAMMERS) || player.itemCooldownManager.isCoolingDown(stack.item)) return false
+                 if (stack.isDamageable)
+                     stack.damage(1, player, hand)
+                 player.itemCooldownManager.set(stack.item, 10)
+                 world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_HAMMER, SoundCategory.BLOCKS)
+                 hammerHits++
             }
             !baseStack.isEmpty -> {
                 // any ingredient slot is open
