@@ -1,13 +1,13 @@
 package io.github.thebroccolibob.bobsmobgear
 
-import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
-import io.github.thebroccolibob.bobsmobgear.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
+import io.github.thebroccolibob.bobsmobgear.registry.*
 import org.slf4j.LoggerFactory
 
 object BobsMobGear : ModInitializer {
@@ -25,12 +25,14 @@ object BobsMobGear : ModInitializer {
 		BobsMobGearComponents.register()
 		BobsMobGearItems.register()
 		BobsMobGearEntities.register()
+        BobsMobGearAttachments.register()
 		BobsMobGearParticles.register()
 		BobsMobGearFluids.register()
 		BobsMobGearEffects.register()
 		BobsMobGearEnchantments.register()
 		BobsMobGearGameEvents.register()
 		registerBobsMobGearRecipes()
+        BobsMobGearLoot.register()
 
 		BobsMobGearSounds.register()
 

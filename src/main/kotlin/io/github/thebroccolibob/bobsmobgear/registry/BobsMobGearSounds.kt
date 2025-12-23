@@ -1,10 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 
 object BobsMobGearSounds {
     private fun register(id: Identifier): SoundEvent = Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id))
@@ -19,6 +19,7 @@ object BobsMobGearSounds {
     @JvmField val EQUIPMENT_REPAIR = register("enchantment.equipment_repair")
     @JvmField val TONGS_PICKUP = register("item.smithing_tongs.pickup")
     @JvmField val TONGS_DROP = register("item.smithing_tongs.drop")
+    @JvmField val WARDEN_SHEARED = register("entity.warden.shear")
 
     fun register() {}
 }

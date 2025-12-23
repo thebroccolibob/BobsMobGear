@@ -2,7 +2,6 @@
 
 package io.github.thebroccolibob.bobsmobgear.util
 
-import com.google.common.collect.HashMultimap
 import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
@@ -41,7 +40,9 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import com.google.common.collect.HashMultimap
 import java.util.*
+import net.minecraft.util.Unit as McUnit
 
 inline fun blockSettings(init: AbstractBlock.Settings.() -> Unit): AbstractBlock.Settings =
     AbstractBlock.Settings.create().apply(init)
@@ -154,4 +155,7 @@ operator fun AttachmentTarget.contains(attachmentType: AttachmentType<*>) = hasA
 operator fun <T> AttachmentTarget.get(attachmentType: AttachmentType<T>): T? = getAttached(attachmentType)
 operator fun <T> AttachmentTarget.set(attachmentType: AttachmentType<T>, value: T?) {
     setAttached(attachmentType, value)
+}
+fun AttachmentTarget.set(attachmentType: AttachmentType<McUnit>) {
+    this[attachmentType] = McUnit.INSTANCE
 }
