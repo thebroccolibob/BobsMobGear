@@ -1,18 +1,15 @@
 package io.github.thebroccolibob.bobsmobgear
 
-import io.github.thebroccolibob.bobsmobgear.event.ItemTickCallback
-import io.github.thebroccolibob.bobsmobgear.mixin.AbstractCauldronBlockInvoker
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
-import io.github.thebroccolibob.bobsmobgear.util.get
-import io.github.thebroccolibob.bobsmobgear.util.isOf
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
+import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
+import net.minecraft.particle.ParticleTypes.SMOKE
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -21,6 +18,11 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import io.github.thebroccolibob.bobsmobgear.event.ItemTickCallback
+import io.github.thebroccolibob.bobsmobgear.mixin.AbstractCauldronBlockInvoker
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
+import io.github.thebroccolibob.bobsmobgear.util.get
+import io.github.thebroccolibob.bobsmobgear.util.isOf
 import org.joml.Matrix3f
 
 @JvmField
@@ -31,7 +33,10 @@ val HEATED_COLOR_MATRIX = Matrix3f(
 )
 
 fun extinguishHeatedStack(stack: ItemStack, world: World, entity: Entity?, pos: Vec3d, soundCategory: SoundCategory) {
-    stack.remove(BobsMobGearComponents.HEATED)
+    if (entity is ItemEntity)
+        entity.stack = stack.copy().apply { remove(BobsMobGearComponents.HEATED) }
+    else
+        stack.remove(BobsMobGearComponents.HEATED)
 
     world.playSound(entity as? PlayerEntity, pos.x, pos.y, pos.z, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, soundCategory)
 
@@ -70,7 +75,7 @@ fun registerHeatedLogic() {
     }
 
     ItemTickCallback.EVENT.register { entity, stack ->
-        if (BobsMobGearComponents.HEATED !in stack) return@register
+        if (entity.world.isClient || BobsMobGearComponents.HEATED !in stack) return@register
 
         val state = entity.blockStateAtPos
 
@@ -91,6 +96,16 @@ fun registerHeatedLogic() {
                     entity.damage(entity.world.damageSources.onFire(), 1f) // TODO custom damage source?
             } else
                 entity.setOnFireForTicks(20)
+    }
+
+    ItemTickCallback.EVENT.register { entity, stack ->
+        if (!entity.world.isClient || entity !is ItemEntity || BobsMobGearComponents.HEATED !in stack) return@register
+
+        with(entity) {
+            repeat(random.nextInt(3)) {
+                world.addParticle(SMOKE, getParticleX(1.0), getBodyY(random.nextDouble()), getParticleZ(1.0), 0.0, 0.0, 0.0 )
+            }
+        }
     }
 
     ServerLivingEntityEvents.AFTER_DAMAGE.register { entity, source, _, _, blocked ->
