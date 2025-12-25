@@ -54,7 +54,7 @@ class TemplateBlockEntityRenderer(ctx: BlockEntityRendererFactory.Context) : Blo
 
     companion object {
         const val MARGIN = 2 / 16f
-        const val FLUID_STEPS = 12
+        const val FLUID_STEPS = 6
         const val OFFSET = 0.002f
         const val BASE_SCALE = 1 - 2 * MARGIN
         const val TEMPLATE_WIDTH = 2 / 16f

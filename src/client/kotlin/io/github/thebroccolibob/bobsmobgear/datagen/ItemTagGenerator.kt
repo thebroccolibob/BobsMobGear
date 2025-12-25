@@ -1,9 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
-import io.github.thebroccolibob.bobsmobgear.client.util.cataclysmId
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDatagenItems
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags
@@ -11,6 +7,10 @@ import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.ItemTags
+import io.github.thebroccolibob.bobsmobgear.client.util.cataclysmId
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDatagenItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.spell_engine.api.item.Equipment
 import net.spell_engine.rpg_series.tags.RPGSeriesItemTags
 import java.util.concurrent.CompletableFuture
@@ -28,7 +28,7 @@ class ItemTagGenerator(
             add(Items.MACE)
             addOptionalTag(RPGSeriesItemTags.WeaponType.ALL[Equipment.WeaponType.HAMMER])
         }
-        with(getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE)) {
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE_WEAPONS)) {
             forceAddTag(ConventionalItemTags.MINING_TOOL_TOOLS)
             forceAddTag(ConventionalItemTags.MELEE_WEAPON_TOOLS)
             forceAddTag(ItemTags.SWORDS)
@@ -36,6 +36,9 @@ class ItemTagGenerator(
             forceAddTag(ItemTags.AXES)
             forceAddTag(ItemTags.SHOVELS)
             forceAddTag(ItemTags.HOES)
+        }
+        with(getOrCreateTagBuilder(BobsMobGearItemTags.TONG_HOLDABLE)) {
+            forceAddTag(BobsMobGearItemTags.TONG_HOLDABLE_WEAPONS)
             add(Items.IRON_INGOT, Items.DIAMOND, Items.NETHERITE_INGOT)
         }
         with(getOrCreateTagBuilder(BobsMobGearItemTags.FORGES_IRON_INGOT)) {
