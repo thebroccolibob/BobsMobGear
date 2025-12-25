@@ -38,6 +38,10 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
     private fun canAcceptCharge(stack: ItemStack) =
         cooldown <= 0 &&
         !player.itemCooldownManager.isCoolingDown(stack.item) &&
+        BobsMobGearComponents.MAX_SONIC_CHARGE in stack
+
+    private fun hasSpaceForCharge(stack: ItemStack) =
+        canAcceptCharge(stack) &&
         stack[BobsMobGearComponents.MAX_SONIC_CHARGE]?.let { (stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0) < it } == true
 
     override fun getTag(): TagKey<GameEvent> = BobsMobGearGameEvents.CHARGES_WARDEN_FIST
@@ -49,7 +53,7 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
         emitter: GameEvent.Emitter
     ): Boolean =
         !player.isDead &&
-        (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST || emitter.sourceEntity?.let { it.isLiving && it != player } == true) &&
+        (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST || emitter.sourceEntity?.let { it.isLiving && it.isAlive && it != player } == true) &&
         Hand.entries.any { hand -> canAcceptCharge(player[hand]) }
 
     override fun accept(
@@ -62,7 +66,7 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
     ) {
         val full = Hand.entries
             .map { player[it] }
-            .firstOrNull(::canAcceptCharge)
+            .firstOrNull(::hasSpaceForCharge)
             ?.let { stack ->
                 ((stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0) +
                         if (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST) SUPER_CHARGE_INCREASE else 1
