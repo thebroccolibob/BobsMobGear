@@ -1,12 +1,6 @@
 {
   "values": [
-    "#c:tools/mining_tool",
-    "#c:tools/melee_weapon",
-    "#minecraft:swords",
-    "#minecraft:pickaxes",
-    "#minecraft:axes",
-    "#minecraft:shovels",
-    "#minecraft:hoes",
+    "#bobsmobgear:tong_holdable_weapons",
     "minecraft:iron_ingot",
     "minecraft:diamond",
     "minecraft:netherite_ingot"

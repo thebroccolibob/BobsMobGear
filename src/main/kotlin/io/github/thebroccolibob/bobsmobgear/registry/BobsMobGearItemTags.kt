@@ -1,10 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 
 object BobsMobGearItemTags {
     private fun of(id: Identifier): TagKey<Item> = TagKey.of(RegistryKeys.ITEM, id)
@@ -20,6 +20,7 @@ object BobsMobGearItemTags {
     @JvmField val HAMMERS = of("hammers")
     @JvmField val SMITHING_HAMMERS = of("smithing_hammers")
     @JvmField val TONG_HOLDABLE = of("tong_holdable")
+    @JvmField val TONG_HOLDABLE_WEAPONS = of("tong_holdable_weapons")
     @JvmField val MENDER_ENCHANTABLE = of("enchantable/mender")
     @JvmField val MENDER_ENCHANTABLE_PRIMARY = of("enchantable/mender_primary")
     @JvmField val SMITHING_SURFACE = of(BobsMobGearBlocks.SMITHING_SURFACE.id)
