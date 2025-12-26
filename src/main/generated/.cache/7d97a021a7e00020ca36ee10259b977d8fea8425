@@ -1,7 +1,8 @@
-// 1.21.1	2025-12-24T23:04:47.155370023	Bob's Mob Gear/Model Definitions
+// 1.21.1	2025-12-25T22:14:04.452382515	Bob's Mob Gear/Model Definitions
 f383f8f640974769df38b6428a56e48865d07b30 assets/bobsmobgear/models/block/sword_template.json
 e05716b341c3006f64b569fc8a7d37aec92e64d2 assets/bobsmobgear/blockstates/rpg/claymore_template.json
 cd8fd991a37f56149b0048d5cbaa988742c15c22 assets/bobsmobgear/models/item/smithing_hammer.json
+6f4fe8cc177e3633360774101247557282d1ef49 assets/bobsmobgear/models/block/liquid_metal.json
 61468060ad8bbc7dc8014fd54f975361829fac7f assets/bobsmobgear/models/item/sculk_symbiote.json
 3ed701eb510ca4c7f5e7597e74adfac62cfaedc9 assets/bobsmobgear/blockstates/rpg/greathammer_template.json
 63e08fd8bb0bcfdd9d0a05ce614a6e0fea5ff244 assets/bobsmobgear/models/item/empty_template.json
@@ -51,8 +52,8 @@ f9a3f3dfa5d3b59108204687ae1c5540060dac79 assets/bobsmobgear/models/item/forge.js
 78c07c6d59c81ef114a4c6a2641d91621c0fafb2 assets/bobsmobgear/models/item/iron_spider_dagger.json
 543f75a6ecbdd6892acdeb196481e462ef6ce42d assets/bobsmobgear/models/block/forge_front_left.json
 da043c48332bb306db022e9a51e0cc2f6262911b assets/bobsmobgear/models/item/warden_fist_gui.json
-19f0a214e018ed6cb5d56f47b10693c3a1d1f8e8 assets/bobsmobgear/models/block/forge_heater_front_right_lit.json
 d28a7685a549b86469fe83c23bc05ea8cf38bea0 assets/bobsmobgear/blockstates/pickaxe_template.json
+19f0a214e018ed6cb5d56f47b10693c3a1d1f8e8 assets/bobsmobgear/models/block/forge_heater_front_right_lit.json
 f2bc2273cf706c803f7b027fa6964ef690f65ab7 assets/bobsmobgear/models/item/rpg/spear_template.json
 a9a7d2c2427aeabf84d2ff6711676f959849bd7c assets/bobsmobgear/blockstates/rpg/glaive_template.json
 9400893984531d0bb0855ac67d284b00bd780a93 assets/bobsmobgear/blockstates/rpg/double_axe_template.json
@@ -64,6 +65,7 @@ b6df73b25cedefcfdc32dc491a8e156214b639b6 assets/bobsmobgear/blockstates/rpg/mace
 440ae4bace9f2db0d9b928036bf95389fdc781df assets/bobsmobgear/blockstates/empty_template.json
 3d8972f7dba66e9bdb6eec5c56d08141df46df5c assets/bobsmobgear/blockstates/axe_template.json
 7cf692aca3dab19fa026300052b4547f686084d6 assets/bobsmobgear/models/item/rpg/dagger_template.json
+347e1efbfdc359a49fe82a8268764fb6fa26ded1 assets/bobsmobgear/blockstates/liquid_metal.json
 953e5774e7dafbbbdc4c9392305317daa64d6622 assets/bobsmobgear/models/block/forge_heater_front_left.json
 b44414221de67c6eca8db223c712e2bcb464e9a8 assets/bobsmobgear/models/item/rpg/greathammer_template.json
 3ffab0a125af0ebc5d253e18c4d7721edfde5b1a assets/bobsmobgear/models/block/rpg/mace_template.json
@@ -72,8 +74,8 @@ ab407f6f2099c75634359c276a0add18d876cfb7 assets/bobsmobgear/models/item/smithing
 20a603f9899b8f0266f01b5a762326316f9faab2 assets/bobsmobgear/models/item/worn_seething_eye.json
 ef0ca8ee019c626acc75a47373bf64efea0a520c assets/bobsmobgear/models/block/forge_heater_back_right.json
 80d3280accee6decb32d405ac22cca5fcb3a88e4 assets/bobsmobgear/models/block/forge_front_right_lit.json
-ef0ca8ee019c626acc75a47373bf64efea0a520c assets/bobsmobgear/models/block/forge_heater_back_right_lit.json
 f89b6e36755630125d870fca3c2a8a6147f0aa5a assets/bobsmobgear/models/block/forge_back_right.json
+ef0ca8ee019c626acc75a47373bf64efea0a520c assets/bobsmobgear/models/block/forge_heater_back_right_lit.json
 373221e913949eb01505efd861cb716c9ea83fe3 assets/bobsmobgear/models/block/forge_front_left_lit.json
 c8035d5eed1fcfac87ad7322b2fab82f1e20c4da assets/bobsmobgear/models/block/forge_front_right.json
 1fa15f110fe9b2786b37e7ebb5cb9e21aaaeb326 assets/bobsmobgear/models/block/axe_template.json

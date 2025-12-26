@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage
 import net.minecraft.block.AbstractBlock
+import net.minecraft.block.AirBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks.createLightLevelFromLitBlockState
 import net.minecraft.block.FluidBlock
@@ -97,6 +98,14 @@ object BobsMobGearBlocks {
         breakInstantly()
         sounds(BlockSoundGroup.GRASS)
         pistonBehavior(PistonBehavior.DESTROY)
+    }))
+
+    // Necessary for FBP drips to work properly
+    @JvmField val LIQUID_METAL = register("liquid_metal", AirBlock(blockSettings {
+        replaceable()
+        noCollision()
+        dropsNothing()
+        air()
     }))
 
     // BLOCK ENTITIES
