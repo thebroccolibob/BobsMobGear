@@ -1,11 +1,8 @@
 package io.github.thebroccolibob.bobsmobgear.client.emi
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
-import io.github.thebroccolibob.bobsmobgear.item.FluidPotItem
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
 import net.minecraft.fluid.Fluid
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
@@ -14,6 +11,10 @@ import dev.emi.emi.api.recipe.BasicEmiRecipe
 import dev.emi.emi.api.render.EmiTexture
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.item.FluidPotItem
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 
 class ForgeFillingEmiRecipe(id: Identifier, input: ItemStack, fluid: Fluid, amount: Long, output: ItemStack) :
     BasicEmiRecipe(BobsMobGearEmiPlugin.FORGE_FILLING_CATEGORY, id, 90, 28) {
@@ -47,8 +48,9 @@ class ForgeFillingEmiRecipe(id: Identifier, input: ItemStack, fluid: Fluid, amou
         )
 
         fun addRecipes(registry: EmiRegistry) {
-            for (pot in BobsMobGearItems.FILLED_POTS)
-                registry.addRecipe(of(pot as FluidPotItem))
+            for (item in Registries.ITEM)
+                if (item is FluidPotItem && !item.fluid.matchesType(Fluids.EMPTY))
+                    registry.addRecipe(of(item))
         }
     }
 }
