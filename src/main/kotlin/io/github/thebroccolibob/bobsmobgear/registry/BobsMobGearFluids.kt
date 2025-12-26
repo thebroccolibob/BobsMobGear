@@ -32,9 +32,9 @@ object BobsMobGearFluids {
     private fun tagOf(id: Identifier): TagKey<Fluid> = TagKey.of(RegistryKeys.FLUID, id)
     private fun tagOf(path: String) = tagOf(BobsMobGear.id(path))
 
-    @JvmField val IRON = register("iron", MetalFluid(0xD8AF93, BobsMobGearParticles.IRON_DRIPS.dripping))
-    @JvmField val DIAMOND = register("diamond", MetalFluid(0x20C5B5, BobsMobGearParticles.DIAMOND_DRIPS.dripping))
-    @JvmField val NETHERITE = register("netherite", MetalFluid(0x111111, BobsMobGearParticles.NETHERITE_DRIPS.dripping))
+    @JvmField val IRON = register("iron", MetalFluid(0xD8D8D8, BobsMobGearParticles.IRON_DRIPS.dripping))
+    @JvmField val DIAMOND = register("diamond", MetalFluid(0x4AEDD9, BobsMobGearParticles.DIAMOND_DRIPS.dripping))
+    @JvmField val NETHERITE = register("netherite", MetalFluid(0x4C4143, BobsMobGearParticles.NETHERITE_DRIPS.dripping))
     @JvmField val BLACK_STEEL = register("${BobsMobGearCompat.CATACLYSM}/black_steel", MetalFluid(0x111133, BobsMobGearParticles.BLACK_STEEL_DRIPS.dripping))
 
     @JvmField val LIQUID_METALS = listOf(IRON, DIAMOND, NETHERITE, BLACK_STEEL)
