@@ -141,10 +141,9 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
                  world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_HAMMER, SoundCategory.BLOCKS)
                  hammerHits++
             }
-            !baseStack.isEmpty -> {
+            checkValid(player, getMatch(getRecipeInput(withIngredient = stack, ingredientsPartial = true, skipFluid = true))) -> {
                 // any ingredient slot is open
-                if (!(0..<ingredientsInventory.size).any { ingredientsInventory[it].isEmpty }
-                    || !checkValid(player, getMatch(getRecipeInput(withIngredient = stack, skipFluid = true, ingredientsPartial = true)))) return false
+                if (!(0..<ingredientsInventory.size).any { ingredientsInventory[it].isEmpty }) return false
 
                 ingredientsInventory[ingredientsInventory.indexOf(ItemStack.EMPTY)] = stack.splitUnlessCreative(1, player)
 
