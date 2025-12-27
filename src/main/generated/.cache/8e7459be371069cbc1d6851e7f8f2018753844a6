@@ -1,6 +1,8 @@
-// 1.21.1	2025-12-24T23:17:34.22615474	Bob's Mob Gear/Recipes
+// 1.21.1	2025-12-27T00:47:28.188617664	Bob's Mob Gear/Recipes
+a2041b0914ad2b06f3bce9188b888b6553bfd680 data/bobsmobgear/advancement/recipes/template/warden_fist.json
 98b945ba8d0ff1f3ccb5a45f3e8c6a86e14fcf8c data/bobsmobgear/recipe/template/diamond.json
 2df4211a3297deff7105df985a93bbac6c8175df data/bobsmobgear/recipe/forging/cataclysm/black_steel.json
+c44bfa635586db0a7fadc90f5a595cdceb6f6405 data/bobsmobgear/recipe/template/warden_fist.json
 52ad1b23715e8e63100be941883c166638ee3cad data/bobsmobgear/recipe/forging/netherite.json
 ef9f459c6a1d1200d60b3e06a151e75773e16bd9 data/bobsmobgear/recipe/template/iron_ingot.json
 ad015548e41c3bab0501d9d785002f04ee611650 data/bobsmobgear/advancement/recipes/tools/empty_template.json

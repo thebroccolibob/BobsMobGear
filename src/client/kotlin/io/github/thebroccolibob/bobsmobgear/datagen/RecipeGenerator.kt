@@ -163,6 +163,26 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
                 ),
                 exporter
             )
+
+        acceptTemplateRecipe(TemplateRecipe(
+            BobsMobGearBlocks.EMPTY_TEMPLATE,
+            smithingSurface,
+            Ingredient.EMPTY,
+            ingredientList(
+                Items.SCULK_SENSOR,
+                Items.SCULK_CATALYST,
+                BobsMobGearItems.SCULK_SYMBIOTE,
+                Items.SCULK_SHRIEKER,
+                Items.ECHO_SHARD,
+                Items.ECHO_SHARD,
+            ),
+            FluidVariant.of(BobsMobGearFluids.NETHERITE),
+            FluidConstants.INGOT * 2,
+            true,
+            BobsMobGearItems.WARDEN_FIST.defaultStack.apply {
+                set(BobsMobGearComponents.HEATED)
+            },
+        ), exporter)
     }
 
     companion object {

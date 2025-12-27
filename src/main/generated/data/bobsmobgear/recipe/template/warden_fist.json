@@ -1,0 +1,36 @@
+{
+  "type": "bobsmobgear:template",
+  "block_below": "#bobsmobgear:smithing_surface",
+  "fluid": {
+    "fluid": "bobsmobgear:netherite"
+  },
+  "fluid_amount": 18000,
+  "ingredients": [
+    {
+      "item": "minecraft:sculk_sensor"
+    },
+    {
+      "item": "minecraft:sculk_catalyst"
+    },
+    {
+      "item": "bobsmobgear:sculk_symbiote"
+    },
+    {
+      "item": "minecraft:sculk_shrieker"
+    },
+    {
+      "item": "minecraft:echo_shard"
+    },
+    {
+      "item": "minecraft:echo_shard"
+    }
+  ],
+  "requires_hammer": true,
+  "result": {
+    "components": {
+      "bobsmobgear:heated": {}
+    },
+    "id": "bobsmobgear:warden_fist"
+  },
+  "template": "bobsmobgear:empty_template"
+}
