@@ -61,6 +61,19 @@ class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), Block
         world.setBlockState(pos, state.with(LIT, false))
     }
 
+    override fun onStateReplaced(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        newState: BlockState,
+        moved: Boolean
+    ) {
+        if (!state[CONNECTION].isConnected && newState[CONNECTION].isConnected && state[LIT])
+            world.getBlockEntity(pos, BobsMobGearBlocks.FORGE_HEATER_BLOCK_ENTITY).getOrNull()
+                ?.resetHeat()
+        super.onStateReplaced(state, world, pos, newState, moved)
+    }
+
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
         if (!state[LIT]) return
 

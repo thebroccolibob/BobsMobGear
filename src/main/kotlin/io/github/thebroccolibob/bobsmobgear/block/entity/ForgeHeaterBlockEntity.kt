@@ -1,8 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
-import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
-import io.github.thebroccolibob.bobsmobgear.block.ForgeHeaterBlock
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
@@ -11,6 +8,9 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
+import io.github.thebroccolibob.bobsmobgear.block.ForgeHeaterBlock
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 
 class ForgeHeaterBlockEntity(type: BlockEntityType<out ForgeHeaterBlockEntity>, pos: BlockPos, state: BlockState) : BlockEntity(type, pos, state) {
 
@@ -24,6 +24,11 @@ class ForgeHeaterBlockEntity(type: BlockEntityType<out ForgeHeaterBlockEntity>, 
     fun addHeat(heatedTicks: Int) {
         world?.setBlockState(pos, cachedState.with(AbstractForgeBlock.LIT, true))
         this.heatedTicks += heatedTicks
+    }
+
+    fun resetHeat() {
+        world?.scheduleBlockTick(pos, cachedState.block, 1)
+        heatedTicks = 0
     }
 
     override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
