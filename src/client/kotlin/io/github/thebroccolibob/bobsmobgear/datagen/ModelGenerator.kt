@@ -25,6 +25,7 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
             registerCutoutTemplate(template)
         registerForge(BobsMobGearBlocks.FORGE)
         registerForge(BobsMobGearBlocks.FORGE_HEATER, BobsMobGearBlocks.FORGE)
+        registerSingleton(BobsMobGearBlocks.LIQUID_METAL, TexturedModel.PARTICLE)
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator): Unit = with(itemModelGenerator) {

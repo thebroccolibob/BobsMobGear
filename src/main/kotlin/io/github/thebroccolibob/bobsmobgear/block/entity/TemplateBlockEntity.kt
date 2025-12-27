@@ -1,7 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.block.entity
 
 import archives.tater.rpgskills.data.LockGroup
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage
@@ -85,7 +87,8 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
         }
 
         if (!tryAddNextItem(stack, player, hand)) {
-            if (!FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand))
+            if (!checkValid(player, getMatch(getRecipeInput(withFluid = FluidStorage.ITEM.find(stack, ContainerItemContext.ofPlayerHand(player, hand))?.first()?.resource)))
+                || !FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand))
                 return false
         }
 
@@ -138,10 +141,9 @@ class TemplateBlockEntity(type: BlockEntityType<out TemplateBlockEntity>, pos: B
                  world?.playSound(null, pos, BobsMobGearSounds.TEMPLATE_HAMMER, SoundCategory.BLOCKS)
                  hammerHits++
             }
-            !baseStack.isEmpty -> {
+            checkValid(player, getMatch(getRecipeInput(withIngredient = stack, ingredientsPartial = true, skipFluid = true))) -> {
                 // any ingredient slot is open
-                if (!(0..<ingredientsInventory.size).any { ingredientsInventory[it].isEmpty }
-                    || !checkValid(player, getMatch(getRecipeInput(withIngredient = stack, skipFluid = true, ingredientsPartial = true)))) return false
+                if (!(0..<ingredientsInventory.size).any { ingredientsInventory[it].isEmpty }) return false
 
                 ingredientsInventory[ingredientsInventory.indexOf(ItemStack.EMPTY)] = stack.splitUnlessCreative(1, player)
 

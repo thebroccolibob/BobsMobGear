@@ -1,18 +1,14 @@
 package io.github.thebroccolibob.bobsmobgear.block
 
-import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
-import io.github.thebroccolibob.bobsmobgear.mixin.FluidInvoker
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
-import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
+import net.minecraft.block.CampfireBlock
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.SoundEvents
@@ -24,16 +20,15 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
+import io.github.thebroccolibob.bobsmobgear.mixin.FluidInvoker
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
+import io.github.thebroccolibob.bobsmobgear.util.*
 import kotlin.jvm.optionals.getOrNull
 
 class ForgeBlock(private val weakHeatSources: TagKey<Block>, private val heaterBlock: Block, settings: Settings) : AbstractForgeBlock(settings), BlockEntityProvider {
 
     fun isHeatSource(state: BlockState) = (state isIn weakHeatSources || state isOf heaterBlock) && (LIT !in state || state[LIT])
-
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return super.getPlacementState(ctx)
-            .with(LIT, ctx.world[ctx.blockPos.down()].let { isHeatSource(it) })
-    }
 
     override fun onStateReplaced(
         state: BlockState?,
@@ -82,6 +77,11 @@ class ForgeBlock(private val weakHeatSources: TagKey<Block>, private val heaterB
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
+        if (state[LIT] && random.nextFloat() < 0.5F)
+            repeat(random.nextInt(2) + 2) {
+                CampfireBlock.spawnSmokeParticle(world, pos, false, false);
+            }
+
         if (random.nextFloat() > 0.25f) return
 
         val fluidStorage = getBlockEntity(world, pos)?.fluidStorage?.takeUnless { it.isResourceBlank } ?: return

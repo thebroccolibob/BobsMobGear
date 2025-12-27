@@ -1,19 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
-import io.github.thebroccolibob.bobsmobgear.block.ForgeHeaterBlock
-import io.github.thebroccolibob.bobsmobgear.block.GunflowerBlock
-import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
-import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
-import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
-import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
-import io.github.thebroccolibob.bobsmobgear.util.BlockEntityType
-import io.github.thebroccolibob.bobsmobgear.util.blockSettings
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage
 import net.minecraft.block.AbstractBlock
+import net.minecraft.block.AirBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks.createLightLevelFromLitBlockState
 import net.minecraft.block.FluidBlock
@@ -27,6 +18,16 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.Identifier
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.block.ForgeBlock
+import io.github.thebroccolibob.bobsmobgear.block.ForgeHeaterBlock
+import io.github.thebroccolibob.bobsmobgear.block.GunflowerBlock
+import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeBlockEntity
+import io.github.thebroccolibob.bobsmobgear.block.entity.ForgeHeaterBlockEntity
+import io.github.thebroccolibob.bobsmobgear.block.entity.TemplateBlockEntity
+import io.github.thebroccolibob.bobsmobgear.util.BlockEntityType
+import io.github.thebroccolibob.bobsmobgear.util.blockSettings
 
 @Suppress("MemberVisibilityCanBePrivate")
 object BobsMobGearBlocks {
@@ -48,12 +49,15 @@ object BobsMobGearBlocks {
 
     private val templates = mutableListOf<Block>()
 
-    private fun registerTemplate(type: String): Block =
-        register("${type}_template", TemplateBlock(blockSettings {
+    @JvmStatic
+    fun registerTemplate(id: Identifier) =
+        register(id.withSuffixedPath("_template"), TemplateBlock(blockSettings {
             sounds(BlockSoundGroup.STONE)
             strength(0.5f)
             nonOpaque()
-        })).also { templates.add(it) }
+        }))
+
+    private fun registerTemplate(name: String) = registerTemplate(BobsMobGear.id(name)).also { templates.add(it) }
 
     // BLOCKS
 
@@ -94,6 +98,14 @@ object BobsMobGearBlocks {
         breakInstantly()
         sounds(BlockSoundGroup.GRASS)
         pistonBehavior(PistonBehavior.DESTROY)
+    }))
+
+    // Necessary for FBP drips to work properly
+    @JvmField val LIQUID_METAL = register("liquid_metal", AirBlock(blockSettings {
+        replaceable()
+        noCollision()
+        dropsNothing()
+        air()
     }))
 
     // BLOCK ENTITIES
