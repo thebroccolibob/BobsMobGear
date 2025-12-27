@@ -68,7 +68,7 @@ class ForgeHeaterBlock(settings: Settings) : AbstractForgeBlock(settings), Block
         newState: BlockState,
         moved: Boolean
     ) {
-        if (!state[CONNECTION].isConnected && newState[CONNECTION].isConnected && state[LIT])
+        if (state isOf this && newState isOf this && !state[CONNECTION].isConnected && newState[CONNECTION].isConnected && state[LIT])
             world.getBlockEntity(pos, BobsMobGearBlocks.FORGE_HEATER_BLOCK_ENTITY).getOrNull()
                 ?.resetHeat()
         super.onStateReplaced(state, world, pos, newState, moved)
