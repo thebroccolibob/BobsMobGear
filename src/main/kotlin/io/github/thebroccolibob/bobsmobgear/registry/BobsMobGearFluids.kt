@@ -1,8 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.registry
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
-import io.github.thebroccolibob.bobsmobgear.fluid.MetalFluid
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributeHandler
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes
@@ -13,20 +10,25 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import net.minecraft.util.Util.createTranslationKey
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.fluid.MetalFluid
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 object BobsMobGearFluids {
     private fun <T: Fluid> register(path: String, fluid: T): T =
         Registry.register(Registries.FLUID, BobsMobGear.id(path), fluid)
 
-    @JvmStatic
-    fun registerAttributes(fluid: Fluid, emptySound: SoundEvent? = null) {
-        FluidVariantAttributes.register(fluid, object : FluidVariantAttributeHandler {
-            val emptySoundOptional = Optional.ofNullable(emptySound)
+    val METAL_FLUID_ATTRIBUTES = object : FluidVariantAttributeHandler {
+        override fun getEmptySound(variant: FluidVariant?): Optional<SoundEvent> = Optional.of(SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
 
-            override fun getEmptySound(variant: FluidVariant?): Optional<SoundEvent> = emptySoundOptional
-        })
+        override fun getName(fluidVariant: FluidVariant): Text = fluidVariant.registryEntry.key.getOrNull()
+            ?.value?.let { Text.translatable(createTranslationKey("fluid", it)) }
+            ?: super.getName(fluidVariant)
     }
 
     private fun tagOf(id: Identifier): TagKey<Fluid> = TagKey.of(RegistryKeys.FLUID, id)
@@ -44,9 +46,9 @@ object BobsMobGearFluids {
     @JvmField val MOLTEN_NETHERITE_TAG = tagOf(Identifier.of("c", "molten_netherite"))
 
     fun register() {
-        registerAttributes(IRON, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
-        registerAttributes(DIAMOND, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
-        registerAttributes(NETHERITE, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
-        registerAttributes(BLACK_STEEL, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
+        FluidVariantAttributes.register(IRON, METAL_FLUID_ATTRIBUTES)
+        FluidVariantAttributes.register(DIAMOND, METAL_FLUID_ATTRIBUTES)
+        FluidVariantAttributes.register(NETHERITE, METAL_FLUID_ATTRIBUTES)
+        FluidVariantAttributes.register(BLACK_STEEL, METAL_FLUID_ATTRIBUTES)
     }
 }

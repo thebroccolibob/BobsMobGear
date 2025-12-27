@@ -1,10 +1,10 @@
-// 1.21.1	2025-12-25T22:14:04.454441346	Bob's Mob Gear/Tags for minecraft:item
+// 1.21.1	2025-12-27T01:43:17.149968635	Bob's Mob Gear/Tags for minecraft:item
 86f80fe56a466898ba09a60c3a842c2f2d0f7005 data/bobsmobgear/tags/item/weak_heat_sources.json
 b8ad64afc89b2b82efb1204f8b89f41ca1a794f1 data/bobsmobgear/tags/item/forges/cataclysm/black_steel_ingot.json
 d43e2238772073f1088dd2dec9522d20ccd0d5f8 data/bobsmobgear/tags/item/smithing_surface.json
 fdf7b3edb7560dc4e08855df4e3c7b2325e080a9 data/bobsmobgear/tags/item/not_weapon.json
-a5d5abfb55e483220386fda78f208fb6a667cfcf data/c/tags/item/tools/melee_weapon.json
 97161931caf5634aa648e07fcd4813ea765bb132 data/c/tags/item/tools.json
+a5d5abfb55e483220386fda78f208fb6a667cfcf data/c/tags/item/tools/melee_weapon.json
 21bbde4f192f9e1403c7a5964b406103a82e7def data/bobsmobgear/tags/item/lower_use_priority.json
 2c8e67964358aa183d1170eb333ce7af66b67551 data/bobsmobgear/tags/item/smithing_hammers.json
 fdf7b3edb7560dc4e08855df4e3c7b2325e080a9 data/bobsmobgear/tags/item/enchantable/mender_primary.json

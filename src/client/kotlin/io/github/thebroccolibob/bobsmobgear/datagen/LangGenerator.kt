@@ -127,7 +127,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         }
 
         fun TranslationBuilder.add(fluid: Fluid, value: String) {
-            add(createTranslationKey("block", Registries.FLUID.getId(fluid)), value)
+            add(createTranslationKey("fluid", Registries.FLUID.getId(fluid)), value)
         }
 
         fun TranslationBuilder.add(effect: RegistryEntry<StatusEffect>, value: String) {
