@@ -23,6 +23,7 @@ object BobsMobGearFluids {
     private fun <T: Fluid> register(path: String, fluid: T): T =
         Registry.register(Registries.FLUID, BobsMobGear.id(path), fluid)
 
+    @JvmField
     val METAL_FLUID_ATTRIBUTES = object : FluidVariantAttributeHandler {
         override fun getEmptySound(variant: FluidVariant?): Optional<SoundEvent> = Optional.of(SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
 
