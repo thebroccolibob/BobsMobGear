@@ -1,16 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.client.util.Sound
-import io.github.thebroccolibob.bobsmobgear.client.util.SoundEntry
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
-import io.github.thebroccolibob.bobsmobgear.util.AlternateCodec
-import io.github.thebroccolibob.bobsmobgear.util.toOptional
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.minecraft.client.sound.Sound
 import net.minecraft.client.sound.SoundEntry
 import net.minecraft.data.DataOutput
@@ -20,6 +14,12 @@ import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.floatprovider.ConstantFloatProvider
 import net.minecraft.util.math.floatprovider.FloatSupplier
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.client.util.Sound
+import io.github.thebroccolibob.bobsmobgear.client.util.SoundEntry
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearSounds
+import io.github.thebroccolibob.bobsmobgear.util.AlternateCodec
+import io.github.thebroccolibob.bobsmobgear.util.toOptional
 import java.util.concurrent.CompletableFuture
 import kotlin.jvm.optionals.getOrNull
 
@@ -73,6 +73,8 @@ class SoundsGenerator(
         addSoundSubtitle(BobsMobGearSounds.TONGS_DROP,
             Sound(Identifier.ofVanilla("random/pop"), volume = 0.5f, pitch = 0.8f)
         )
+        addSound(BobsMobGearSounds.WARDEN_SHEARED,
+            SoundEntry(Identifier.ofVanilla("mob/sheep/shear"), subtitle = "subtitles.item.shears"))
     }
 
     override fun run(writer: DataWriter): CompletableFuture<*> {

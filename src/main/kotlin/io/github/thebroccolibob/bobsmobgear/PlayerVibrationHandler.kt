@@ -1,14 +1,12 @@
 package io.github.thebroccolibob.bobsmobgear
 
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearGameEvents
-import io.github.thebroccolibob.bobsmobgear.util.get
-import io.github.thebroccolibob.bobsmobgear.util.isIn
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
@@ -20,6 +18,11 @@ import net.minecraft.world.event.Vibrations
 import net.minecraft.world.event.Vibrations.ListenerData
 import net.minecraft.world.event.Vibrations.VibrationListener
 import net.minecraft.world.event.listener.EntityGameEventHandler
+import io.github.thebroccolibob.bobsmobgear.network.DetectedEntityPayload
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearGameEvents
+import io.github.thebroccolibob.bobsmobgear.util.get
+import io.github.thebroccolibob.bobsmobgear.util.isIn
 
 class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vibrations.Callback {
     private var cooldown = 0
@@ -35,6 +38,10 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
     private fun canAcceptCharge(stack: ItemStack) =
         cooldown <= 0 &&
         !player.itemCooldownManager.isCoolingDown(stack.item) &&
+        BobsMobGearComponents.MAX_SONIC_CHARGE in stack
+
+    private fun hasSpaceForCharge(stack: ItemStack) =
+        canAcceptCharge(stack) &&
         stack[BobsMobGearComponents.MAX_SONIC_CHARGE]?.let { (stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0) < it } == true
 
     override fun getTag(): TagKey<GameEvent> = BobsMobGearGameEvents.CHARGES_WARDEN_FIST
@@ -46,7 +53,7 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
         emitter: GameEvent.Emitter
     ): Boolean =
         !player.isDead &&
-        (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST || emitter.sourceEntity?.let { it.isLiving && it != player } == true) &&
+        (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST || emitter.sourceEntity?.let { it.isLiving && it.isAlive && it != player } == true) &&
         Hand.entries.any { hand -> canAcceptCharge(player[hand]) }
 
     override fun accept(
@@ -59,7 +66,7 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
     ) {
         val full = Hand.entries
             .map { player[it] }
-            .firstOrNull(::canAcceptCharge)
+            .firstOrNull(::hasSpaceForCharge)
             ?.let { stack ->
                 ((stack[BobsMobGearComponents.SONIC_CHARGE] ?: 0) +
                         if (event isIn BobsMobGearGameEvents.SUPER_CHARGES_WARDEN_FIST) SUPER_CHARGE_INCREASE else 1
@@ -68,6 +75,8 @@ class PlayerVibrationHandler(private val player: PlayerEntity) : Vibrations, Vib
                 } == stack[BobsMobGearComponents.MAX_SONIC_CHARGE]
             } == true
         world.playSoundFromEntity(null, player, if (full) SoundEvents.ENTITY_WARDEN_NEARBY_CLOSEST else SoundEvents.ENTITY_WARDEN_TENDRIL_CLICKS, player.soundCategory, 1f, 1f)
+        if (sourceEntity != null)
+            ServerPlayNetworking.send(player as ServerPlayerEntity, DetectedEntityPayload(sourceEntity))
         cooldown = MAX_COOLDOWN
     }
 

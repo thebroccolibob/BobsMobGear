@@ -1,9 +1,11 @@
-// 1.21.1	2025-12-27T01:43:17.145738503	Bob's Mob Gear/Recipes
+// 1.21.1	2026-05-26T01:47:42.159599832	Bob's Mob Gear/Recipes
 98b945ba8d0ff1f3ccb5a45f3e8c6a86e14fcf8c data/bobsmobgear/recipe/template/diamond.json
+efb965b750a678065ac8f32301a71a891ef9ff43 data/bobsmobgear/recipe/template/warden_gauntlet.json
 2df4211a3297deff7105df985a93bbac6c8175df data/bobsmobgear/recipe/forging/cataclysm/black_steel.json
 52ad1b23715e8e63100be941883c166638ee3cad data/bobsmobgear/recipe/forging/netherite.json
 ef9f459c6a1d1200d60b3e06a151e75773e16bd9 data/bobsmobgear/recipe/template/iron_ingot.json
 ad015548e41c3bab0501d9d785002f04ee611650 data/bobsmobgear/advancement/recipes/tools/empty_template.json
+73869a040b7795e630f62664cb4c405f99d1d96c data/bobsmobgear/advancement/recipes/template/warden_gauntlet.json
 60c77e7e115c5e626a1a4ae470424afa32fa643c data/bobsmobgear/advancement/recipes/tools/smithing_hammer.json
 f63044ee7b564f35b7a44305cad596c7e006e7d1 data/bobsmobgear/recipe/template/hot_potato.json
 56618dfa13cfecad66efb6e9a055f47b8a015a64 data/bobsmobgear/recipe/template/unlimited_bacon.json

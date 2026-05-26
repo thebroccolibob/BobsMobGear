@@ -3,6 +3,7 @@ package io.github.thebroccolibob.bobsmobgear.datagen
 import io.github.thebroccolibob.bobsmobgear.client.HeatedTooltip
 import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
 import io.github.thebroccolibob.bobsmobgear.client.UsePriorityTooltip
+import io.github.thebroccolibob.bobsmobgear.client.VanishingTooltip
 import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
 import io.github.thebroccolibob.bobsmobgear.item.TongsItem
 import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
@@ -64,7 +65,8 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItems.DIAMOND_POT, "Pot of Molten Diamond")
         add(BobsMobGearItems.NETHERITE_POT, "Pot of Molten Netherite")
         add(BobsMobGearItems.BLACK_STEEL_POT, "Pot of Molten Black Steel")
-        add(BobsMobGearItems.WARDEN_FIST, "Warden Fist")
+        add(BobsMobGearItems.WARDEN_TENDRILS, "Warden Tendril")
+        add(BobsMobGearItems.WARDEN_GAUNTLET, "Warden Gauntlet")
         add(BobsMobGearItems.UNLIMITED_BACON, "Unlimited Bacon")
         add(UnlimitedBaconItem.KICK_REASON, "...but no games")
 
@@ -88,6 +90,7 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearFluids.BLACK_STEEL, "Molten Black Steel")
 
         add(HeatedTooltip.TOOLTIP, "Heated")
+        add(VanishingTooltip.TOOLTIP, "Vanishing")
         add(TongsItem.HELD_ITEM_TOOLTIP, "Held Item:")
         add(SonicChargeTooltip.TOOLTIP, "Sonic Charge: %s/%s")
         add(UsePriorityTooltip.TOOLTIP, "Lower use priority")

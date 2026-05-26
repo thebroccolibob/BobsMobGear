@@ -9,13 +9,13 @@ import net.minecraft.util.Formatting
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.util.Translation
 
-object HeatedTooltip : ItemTooltipCallback {
-    val TOOLTIP = Translation.unit("item.bobsmobgear.heated") {
-        formatted(Formatting.GOLD)
+object VanishingTooltip : ItemTooltipCallback {
+    val TOOLTIP = Translation.unit("item.bobsmobgear.vanishing") {
+        formatted(Formatting.RED)
     }
 
     override fun getTooltip(stack: ItemStack, tooltipContext: Item.TooltipContext, tooltipType: TooltipType, lines: MutableList<Text>) {
-        if (BobsMobGearComponents.HEATED in stack)
+        if (BobsMobGearComponents.VANISHING in stack)
             lines.add(TOOLTIP.text)
     }
 

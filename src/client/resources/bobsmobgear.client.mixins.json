@@ -10,6 +10,7 @@
     "ItemStackMixin",
     "LandingBlockLeakParticleInvoker",
     "MinecraftClientMixin",
+    "EntityMixin",
     "bettercombat.MinecraftClientInjectMixin"
   ],
   "injectors": {

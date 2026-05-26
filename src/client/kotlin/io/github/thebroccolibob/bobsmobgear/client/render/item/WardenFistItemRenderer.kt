@@ -17,10 +17,10 @@ import kotlin.math.PI
 import kotlin.math.sin
 
 object WardenFistItemRenderer : DynamicItemRenderer {
-    val BASE_MODEL = BobsMobGear.id("item/warden_fist_base")
-    val BASE_CHARGING_MODEL = BobsMobGear.id("item/warden_fist_base_charging")
-    val GLOW_MODEL = BobsMobGear.id("item/warden_fist_glow")
-    val GUI_MODEL = BobsMobGear.id("item/warden_fist_gui")
+    val BASE_MODEL = BobsMobGear.id("item/warden_gauntlet_base")
+    val BASE_CHARGING_MODEL = BobsMobGear.id("item/warden_gauntlet_base_charging")
+    val GLOW_MODEL = BobsMobGear.id("item/warden_gauntlet_glow")
+    val GUI_MODEL = BobsMobGear.id("item/warden_gauntlet_gui")
 
     override fun render(
         stack: ItemStack,
@@ -63,7 +63,7 @@ object WardenFistItemRenderer : DynamicItemRenderer {
         ModelLoadingPlugin.register {
             it.addModels(BASE_MODEL, BASE_CHARGING_MODEL, GLOW_MODEL, GUI_MODEL)
         }
-        BuiltinItemRendererRegistry.INSTANCE.register(BobsMobGearItems.WARDEN_FIST, this)
+        BuiltinItemRendererRegistry.INSTANCE.register(BobsMobGearItems.WARDEN_GAUNTLET, this)
     }
 
 }

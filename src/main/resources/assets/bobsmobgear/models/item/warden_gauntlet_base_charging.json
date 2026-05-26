@@ -1,5 +1,5 @@
 {
-  "parent": "bobsmobgear:item/warden_fist_base",
+  "parent": "bobsmobgear:item/warden_gauntlet_base",
   "display": {
     "firstperson_righthand": {
       "rotation": [110, 0, 0],

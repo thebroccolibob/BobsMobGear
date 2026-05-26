@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"texture": "bobsmobgear:item/warden_fist",
-		"particle": "bobsmobgear:item/warden_fist"
+		"texture": "bobsmobgear:item/warden_gauntlet",
+		"particle": "bobsmobgear:item/warden_gauntlet"
 	},
 	"elements": [
 		{

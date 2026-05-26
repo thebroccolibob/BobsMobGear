@@ -1,13 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.datagen.util
 
-import io.github.thebroccolibob.bobsmobgear.BobsMobGear
-import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
-import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
-import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
-import io.github.thebroccolibob.bobsmobgear.util.set
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants
@@ -33,6 +25,14 @@ import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
+import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
+import io.github.thebroccolibob.bobsmobgear.recipe.ForgingRecipe
+import io.github.thebroccolibob.bobsmobgear.recipe.TemplateRecipe
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearFluids
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import io.github.thebroccolibob.bobsmobgear.util.set
 
 fun acceptTemplateRecipe(recipeId: Identifier, recipe: TemplateRecipe, exporter: RecipeExporter) {
     exporter.accept(
@@ -67,6 +67,9 @@ fun acceptForgingRecipe(recipe: ForgingRecipe, exporter: RecipeExporter) {
 
 fun ingredientList(vararg ingredients: Ingredient): DefaultedList<Ingredient> =
     DefaultedList.copyOf(Ingredient.EMPTY, *ingredients)
+
+fun ingredientList(first: ItemConvertible, vararg items: ItemConvertible): DefaultedList<Ingredient> =
+    ingredientList(Ingredient.ofItems(first), *items.map { Ingredient.ofItems(it) }.toTypedArray())
 
 fun RecipeExporter.shapedRecipe(category: RecipeCategory, output: ItemConvertible, count: Int = 1, name: String? = null, init: ShapedRecipeJsonBuilder.() -> Unit) {
     ShapedRecipeJsonBuilder(category, output, count).apply(init).run {

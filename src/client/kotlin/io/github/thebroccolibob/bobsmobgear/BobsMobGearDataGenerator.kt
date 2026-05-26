@@ -1,10 +1,10 @@
 package io.github.thebroccolibob.bobsmobgear
 
-import io.github.thebroccolibob.bobsmobgear.datagen.*
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.minecraft.registry.RegistryBuilder
 import net.minecraft.registry.RegistryKeys
+import io.github.thebroccolibob.bobsmobgear.datagen.*
 
 object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 
@@ -28,6 +28,7 @@ object BobsMobGearDataGenerator : DataGeneratorEntrypoint {
 			addProvider(::DamageTypeGenerator)
 			addProvider(::DamageTypeTagGenerator)
 			addProvider(::CreateRecipeGenerator)
+            addProvider(::MiscLootTableGenerator)
 
 			addProvider(::ModelGenerator)
 			addProvider(::SoundsGenerator)

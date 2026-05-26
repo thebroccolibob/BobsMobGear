@@ -98,7 +98,10 @@ object BobsMobGearItems {
     @JvmField val WORN_CREEPER_CORE = register("worn_creeper_core", Item(itemSettings {}))
     @JvmField val WORN_SEETHING_PEARL = register("worn_seething_pearl", Item(itemSettings {}))
     @JvmField val WORN_SEETHING_EYE = register("worn_seething_eye", Item(itemSettings {}))
-    @JvmField val SCULK_SYMBIOTE = register("sculk_symbiote", Item(itemSettings {}))
+    @JvmField val WARDEN_TENDRILS = register("warden_tendrils", Item(itemSettings {
+        component(BobsMobGearComponents.VANISHING)
+        rarity(Rarity.RARE)
+    }))
 
     @JvmField val FLESH_GLOVE = register("flesh_glove",
         AbstractFleshGlove(
@@ -121,7 +124,7 @@ object BobsMobGearItems {
         )
     )
 
-    @JvmField val WARDEN_FIST = register("warden_fist", WardenFistItem(itemSettings {
+    @JvmField val WARDEN_GAUNTLET = register("warden_gauntlet", WardenFistItem(itemSettings {
         rarity(Rarity.RARE)
         fireproof()
         attributeModifiers(WardenFistItem.createAttributeModifiers())
@@ -216,7 +219,7 @@ object BobsMobGearItems {
                 WORN_CREEPER_CORE,
                 WORN_SEETHING_PEARL,
                 WORN_SEETHING_EYE,
-                SCULK_SYMBIOTE,
+                WARDEN_TENDRILS,
 
                 FLESH_GLOVE,
                 IRON_FLESH_GLOVE,
@@ -226,7 +229,7 @@ object BobsMobGearItems {
                 IRON_ENDER_EYE_SPEAR,
             )
             entries.addAll(
-                WARDEN_FIST.defaultStack.also {
+                WARDEN_GAUNTLET.defaultStack.also {
                     it[SONIC_CHARGE] = 16
                 },
             )

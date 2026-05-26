@@ -2,19 +2,24 @@ package io.github.thebroccolibob.bobsmobgear.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import io.github.thebroccolibob.bobsmobgear.duck.WebShotUser;
-import io.github.thebroccolibob.bobsmobgear.entity.WebShotEntity;
-import io.github.thebroccolibob.bobsmobgear.item.WardenFistItem;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+
+import net.minecraft.component.ComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import io.github.thebroccolibob.bobsmobgear.duck.WebShotUser;
+import io.github.thebroccolibob.bobsmobgear.entity.WebShotEntity;
+import io.github.thebroccolibob.bobsmobgear.item.WardenFistItem;
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements WebShotUser {
@@ -32,6 +37,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements WebShotU
     private DamageSource modifyDamageSource(DamageSources instance, PlayerEntity attacker, Operation<DamageSource> original) {
         var activeItem = getActiveItem();
         return activeItem == null || !(activeItem.getItem() instanceof WardenFistItem) ? original.call(instance, attacker) : instance.sonicBoom(attacker);
+    }
+
+    @WrapOperation(
+            method = "vanishCursedItems",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;hasAnyEnchantmentsWith(Lnet/minecraft/item/ItemStack;Lnet/minecraft/component/ComponentType;)Z")
+    )
+    private boolean checkVanishingComponent(ItemStack stack, ComponentType<?> componentType, Operation<Boolean> original) {
+        return original.call(stack, componentType) || stack.contains(BobsMobGearComponents.VANISHING);
     }
 
     @Override

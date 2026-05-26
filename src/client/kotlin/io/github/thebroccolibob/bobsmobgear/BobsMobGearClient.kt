@@ -49,10 +49,12 @@ object BobsMobGearClient : ClientModInitializer {
 		registerEntityRenderers()
 		TongsItemRenderer.register(BobsMobGearItems.SMITHING_TONGS)
 		WardenFistItemRenderer.register()
-		HeatedTooltip.register()
+        HeatedTooltip.register()
+		VanishingTooltip.register()
 		UsePriorityTooltip.register()
 		SonicChargeTooltip.register()
 		SonicChargeHudRenderer.register()
+        DetectedEntity.register()
 
 		ClientSpecialAttackCallback.register { stack, user, _, _ ->
 			if (user != MinecraftClient.getInstance().player) return@register ActionResult.PASS
