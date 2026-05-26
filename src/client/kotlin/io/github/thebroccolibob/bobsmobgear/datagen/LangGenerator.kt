@@ -1,5 +1,15 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
+import io.github.thebroccolibob.bobsmobgear.client.HeatedTooltip
+import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
+import io.github.thebroccolibob.bobsmobgear.client.UsePriorityTooltip
+import io.github.thebroccolibob.bobsmobgear.client.VanishingTooltip
+import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
+import io.github.thebroccolibob.bobsmobgear.item.TongsItem
+import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
+import io.github.thebroccolibob.bobsmobgear.registry.*
+import io.github.thebroccolibob.bobsmobgear.util.add
+import io.github.thebroccolibob.bobsmobgear.util.value
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.entity.damage.DamageType
@@ -13,16 +23,6 @@ import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Util.createTranslationKey
 import dev.emi.emi.api.recipe.EmiRecipeCategory
-import io.github.thebroccolibob.bobsmobgear.client.HeatedTooltip
-import io.github.thebroccolibob.bobsmobgear.client.SonicChargeTooltip
-import io.github.thebroccolibob.bobsmobgear.client.UsePriorityTooltip
-import io.github.thebroccolibob.bobsmobgear.client.VanishingTooltip
-import io.github.thebroccolibob.bobsmobgear.client.emi.BobsMobGearEmiPlugin
-import io.github.thebroccolibob.bobsmobgear.item.TongsItem
-import io.github.thebroccolibob.bobsmobgear.item.UnlimitedBaconItem
-import io.github.thebroccolibob.bobsmobgear.registry.*
-import io.github.thebroccolibob.bobsmobgear.util.add
-import io.github.thebroccolibob.bobsmobgear.util.value
 import java.util.concurrent.CompletableFuture
 
 class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFuture<RegistryWrapper.WrapperLookup>) :
@@ -65,7 +65,8 @@ class LangGenerator(dataOutput: FabricDataOutput, registryLookup: CompletableFut
         add(BobsMobGearItems.DIAMOND_POT, "Pot of Molten Diamond")
         add(BobsMobGearItems.NETHERITE_POT, "Pot of Molten Netherite")
         add(BobsMobGearItems.BLACK_STEEL_POT, "Pot of Molten Black Steel")
-        add(BobsMobGearItems.WARDEN_FIST, "Warden Fist")
+        add(BobsMobGearItems.WARDEN_TENDRILS, "Warden Tendril")
+        add(BobsMobGearItems.WARDEN_GAUNTLET, "Warden Gauntlet")
         add(BobsMobGearItems.UNLIMITED_BACON, "Unlimited Bacon")
         add(UnlimitedBaconItem.KICK_REASON, "...but no games")
 

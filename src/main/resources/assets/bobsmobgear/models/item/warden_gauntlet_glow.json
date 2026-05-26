@@ -1,0 +1,6 @@
+{
+	"parent": "bobsmobgear:item/warden_gauntlet_base",
+	"textures": {
+		"texture": "bobsmobgear:item/warden_gauntlet_glow"
+	}
+}

@@ -21,7 +21,7 @@ class MiscLootTableGenerator(
     override fun accept(lootTableBiConsumer: BiConsumer<RegistryKey<LootTable>, LootTable.Builder>) {
         lootTableBiConsumer.accept(BobsMobGearLoot.SHEAR_WARDEN, lootTableBuilder {
             pool {
-                with(ItemEntry.builder(BobsMobGearItems.SCULK_SYMBIOTE))
+                with(ItemEntry.builder(BobsMobGearItems.WARDEN_TENDRILS))
             }
         })
     }

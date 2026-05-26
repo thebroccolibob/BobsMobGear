@@ -13,7 +13,7 @@
       "item": "minecraft:sculk_catalyst"
     },
     {
-      "item": "bobsmobgear:sculk_symbiote"
+      "item": "bobsmobgear:warden_tendrils"
     },
     {
       "item": "minecraft:sculk_shrieker"
@@ -30,7 +30,7 @@
     "components": {
       "bobsmobgear:heated": {}
     },
-    "id": "bobsmobgear:warden_fist"
+    "id": "bobsmobgear:warden_gauntlet"
   },
   "template": "bobsmobgear:empty_template"
 }

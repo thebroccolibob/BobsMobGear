@@ -1,6 +1,0 @@
-{
-	"parent": "bobsmobgear:item/warden_fist_base",
-	"textures": {
-		"texture": "bobsmobgear:item/warden_fist_glow"
-	}
-}

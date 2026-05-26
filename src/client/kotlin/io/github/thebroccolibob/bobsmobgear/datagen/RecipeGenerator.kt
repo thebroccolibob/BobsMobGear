@@ -171,7 +171,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
             ingredientList(
                 Items.SCULK_SENSOR,
                 Items.SCULK_CATALYST,
-                BobsMobGearItems.SCULK_SYMBIOTE,
+                BobsMobGearItems.WARDEN_TENDRILS,
                 Items.SCULK_SHRIEKER,
                 Items.ECHO_SHARD,
                 Items.ECHO_SHARD,
@@ -179,7 +179,7 @@ class RecipeGenerator(output: FabricDataOutput, private val registriesFuture: Co
             FluidVariant.of(BobsMobGearFluids.NETHERITE),
             FluidConstants.INGOT * 2,
             true,
-            BobsMobGearItems.WARDEN_FIST.defaultStack.apply {
+            BobsMobGearItems.WARDEN_GAUNTLET.defaultStack.apply {
                 set(BobsMobGearComponents.HEATED)
             },
         ), exporter)

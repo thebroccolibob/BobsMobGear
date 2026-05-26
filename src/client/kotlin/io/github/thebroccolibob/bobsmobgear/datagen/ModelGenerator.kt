@@ -41,13 +41,13 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerGenerated(BobsMobGearItems.WORN_CREEPER_CORE)
         registerGenerated(BobsMobGearItems.WORN_SEETHING_PEARL)
         registerGenerated(BobsMobGearItems.WORN_SEETHING_EYE)
-        registerGenerated(BobsMobGearItems.SCULK_SYMBIOTE)
+        registerGenerated(BobsMobGearItems.WARDEN_TENDRILS)
 
         register(BobsMobGearItems.IRON_BONE_HAMMER, Models.HANDHELD)
         register(BobsMobGearItems.IRON_SPIDER_DAGGER, Models.HANDHELD)
         registerSpear(BobsMobGearItems.IRON_ENDER_SPEAR)
         registerSpear(BobsMobGearItems.IRON_ENDER_EYE_SPEAR)
-        register(BobsMobGearItems.WARDEN_FIST, "_gui", Models.GENERATED)
+        register(BobsMobGearItems.WARDEN_GAUNTLET, "_gui", Models.GENERATED)
         register(BobsMobGearItems.IRON_BOOM_BATON, Models.HANDHELD)
         register(BobsMobGearItems.UNLIMITED_BACON, FarmersDelightItems.COOKED_BACON.get(), Models.GENERATED)
 
