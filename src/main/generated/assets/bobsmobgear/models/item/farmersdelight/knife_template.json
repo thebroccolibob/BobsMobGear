@@ -1,6 +1,0 @@
-{
-  "parent": "bobsmobgear:item/cutout_template",
-  "textures": {
-    "layer1": "bobsmobgear:block/farmersdelight/knife_template"
-  }
-}

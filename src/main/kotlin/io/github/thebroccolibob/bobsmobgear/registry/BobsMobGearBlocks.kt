@@ -68,16 +68,16 @@ object BobsMobGearBlocks {
     @JvmField val SHOVEL_TEMPLATE = registerTemplate("shovel")
     @JvmField val HOE_TEMPLATE = registerTemplate("hoe")
 
-    @JvmField val GREATHAMMER_TEMPLATE = registerTemplate("rpg/greathammer")
-    @JvmField val MACE_TEMPLATE = registerTemplate("rpg/mace")
-    @JvmField val CLAYMORE_TEMPLATE = registerTemplate("rpg/claymore")
-    @JvmField val KITE_SHIELD_TEMPLATE = registerTemplate("rpg/kite_shield")
-    @JvmField val DAGGER_TEMPLATE = registerTemplate("rpg/dagger")
-    @JvmField val GLAIVE_TEMPLATE = registerTemplate("rpg/glaive")
-    @JvmField val SICKLE_TEMPLATE = registerTemplate("rpg/sickle")
-    @JvmField val DOUBLE_AXE_TEMPLATE = registerTemplate("rpg/double_axe")
-    @JvmField val SPEAR_TEMPLATE = registerTemplate("rpg/spear")
-    @JvmField val KNIFE_TEMPLATE = registerTemplate("farmersdelight/knife")
+//    @JvmField val GREATHAMMER_TEMPLATE = registerTemplate("rpg/greathammer")
+//    @JvmField val MACE_TEMPLATE = registerTemplate("rpg/mace")
+//    @JvmField val CLAYMORE_TEMPLATE = registerTemplate("rpg/claymore")
+//    @JvmField val KITE_SHIELD_TEMPLATE = registerTemplate("rpg/kite_shield")
+//    @JvmField val DAGGER_TEMPLATE = registerTemplate("rpg/dagger")
+//    @JvmField val GLAIVE_TEMPLATE = registerTemplate("rpg/glaive")
+//    @JvmField val SICKLE_TEMPLATE = registerTemplate("rpg/sickle")
+//    @JvmField val DOUBLE_AXE_TEMPLATE = registerTemplate("rpg/double_axe")
+//    @JvmField val SPEAR_TEMPLATE = registerTemplate("rpg/spear")
+//    @JvmField val KNIFE_TEMPLATE = registerTemplate("farmersdelight/knife")
 
     val TEMPLATES by lazy { templates.toTypedArray() }
 

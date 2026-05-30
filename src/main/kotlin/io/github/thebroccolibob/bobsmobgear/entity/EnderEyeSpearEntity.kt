@@ -1,9 +1,7 @@
 package io.github.thebroccolibob.bobsmobgear.entity
 
-import com.google.common.base.Predicate
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDamageTypes
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearEntities
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.*
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
@@ -18,6 +16,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import com.google.common.base.Predicate
 import java.util.*
 
 class EnderEyeSpearEntity : AbstractEnderSpearEntity {
@@ -40,7 +39,7 @@ class EnderEyeSpearEntity : AbstractEnderSpearEntity {
     var targetUUID: UUID? = null
     var target by entityProperty(::targetUUID)
 
-    override fun getDefaultItemStack(): ItemStack = BobsMobGearItems.IRON_ENDER_EYE_SPEAR.defaultStack
+    override fun getDefaultItemStack(): ItemStack = ItemStack.EMPTY //BobsMobGearItems.IRON_ENDER_EYE_SPEAR.defaultStack
 
     private fun updateTarget() {
         if (age % 2 == 0 && target?.isAlive != true)

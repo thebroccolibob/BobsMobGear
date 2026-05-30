@@ -2,8 +2,6 @@ package io.github.thebroccolibob.bobsmobgear.registry
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearCompat
-import io.github.thebroccolibob.bobsmobgear.entity.EnderEyeSpearEntity
-import io.github.thebroccolibob.bobsmobgear.entity.EnderSpearEntity
 import io.github.thebroccolibob.bobsmobgear.item.*
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.MAX_SONIC_CHARGE
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.SONIC_CHARGE
@@ -56,16 +54,16 @@ object BobsMobGearItems {
     @JvmField val SHOVEL_TEMPLATE = register(BobsMobGearBlocks.SHOVEL_TEMPLATE)
     @JvmField val HOE_TEMPLATE = register(BobsMobGearBlocks.HOE_TEMPLATE)
 
-    @JvmField val GREATHAMMER_TEMPLATE = register(BobsMobGearBlocks.GREATHAMMER_TEMPLATE)
-    @JvmField val MACE_TEMPLATE = register(BobsMobGearBlocks.MACE_TEMPLATE)
-    @JvmField val CLAYMORE_TEMPLATE = register(BobsMobGearBlocks.CLAYMORE_TEMPLATE)
-    @JvmField val KITE_SHIELD_TEMPLATE = register(BobsMobGearBlocks.KITE_SHIELD_TEMPLATE)
-    @JvmField val DAGGER_TEMPLATE = register(BobsMobGearBlocks.DAGGER_TEMPLATE)
-    @JvmField val GLAIVE_TEMPLATE = register(BobsMobGearBlocks.GLAIVE_TEMPLATE)
-    @JvmField val SICKLE_TEMPLATE = register(BobsMobGearBlocks.SICKLE_TEMPLATE)
-    @JvmField val DOUBLE_AXE_TEMPLATE = register(BobsMobGearBlocks.DOUBLE_AXE_TEMPLATE)
-    @JvmField val SPEAR_TEMPLATE = register(BobsMobGearBlocks.SPEAR_TEMPLATE)
-    @JvmField val KNIFE_TEMPLATE = register(BobsMobGearBlocks.KNIFE_TEMPLATE)
+//    @JvmField val GREATHAMMER_TEMPLATE = register(BobsMobGearBlocks.GREATHAMMER_TEMPLATE)
+//    @JvmField val MACE_TEMPLATE = register(BobsMobGearBlocks.MACE_TEMPLATE)
+//    @JvmField val CLAYMORE_TEMPLATE = register(BobsMobGearBlocks.CLAYMORE_TEMPLATE)
+//    @JvmField val KITE_SHIELD_TEMPLATE = register(BobsMobGearBlocks.KITE_SHIELD_TEMPLATE)
+//    @JvmField val DAGGER_TEMPLATE = register(BobsMobGearBlocks.DAGGER_TEMPLATE)
+//    @JvmField val GLAIVE_TEMPLATE = register(BobsMobGearBlocks.GLAIVE_TEMPLATE)
+//    @JvmField val SICKLE_TEMPLATE = register(BobsMobGearBlocks.SICKLE_TEMPLATE)
+//    @JvmField val DOUBLE_AXE_TEMPLATE = register(BobsMobGearBlocks.DOUBLE_AXE_TEMPLATE)
+//    @JvmField val SPEAR_TEMPLATE = register(BobsMobGearBlocks.SPEAR_TEMPLATE)
+//    @JvmField val KNIFE_TEMPLATE = register(BobsMobGearBlocks.KNIFE_TEMPLATE)
 
     @JvmField val FORGE = register(BobsMobGearBlocks.FORGE)
     @JvmField val FORGE_HEATER = register(BobsMobGearBlocks.FORGE_HEATER)
@@ -92,37 +90,37 @@ object BobsMobGearItems {
         component(TONGS_HELD_ITEM, ComparableItemStack.EMPTY)
     }))
 
-    @JvmField val WORN_HARDENED_FLESH = register("worn_hardened_flesh", Item(itemSettings {}))
-    @JvmField val WORN_STURDY_BONE = register("worn_sturdy_bone", Item(itemSettings {}))
-    @JvmField val WORN_SPIDER_FANG = register("worn_spider_fang", Item(itemSettings {}))
-    @JvmField val WORN_CREEPER_CORE = register("worn_creeper_core", Item(itemSettings {}))
-    @JvmField val WORN_SEETHING_PEARL = register("worn_seething_pearl", Item(itemSettings {}))
-    @JvmField val WORN_SEETHING_EYE = register("worn_seething_eye", Item(itemSettings {}))
+//    @JvmField val WORN_HARDENED_FLESH = register("worn_hardened_flesh", Item(itemSettings {}))
+//    @JvmField val WORN_STURDY_BONE = register("worn_sturdy_bone", Item(itemSettings {}))
+//    @JvmField val WORN_SPIDER_FANG = register("worn_spider_fang", Item(itemSettings {}))
+//    @JvmField val WORN_CREEPER_CORE = register("worn_creeper_core", Item(itemSettings {}))
+//    @JvmField val WORN_SEETHING_PEARL = register("worn_seething_pearl", Item(itemSettings {}))
+//    @JvmField val WORN_SEETHING_EYE = register("worn_seething_eye", Item(itemSettings {}))
     @JvmField val WARDEN_TENDRILS = register("warden_tendrils", Item(itemSettings {
         component(BobsMobGearComponents.VANISHING)
         rarity(Rarity.RARE)
     }))
 
-    @JvmField val FLESH_GLOVE = register("flesh_glove",
-        AbstractFleshGlove(
-            FLESH_GLOVE_MATERIAL,
-            itemSettings {
-                maxCount(1)
-                rarity(Rarity.COMMON)
-            }
-        )
-    )
-
-    @JvmField val IRON_FLESH_GLOVE = register("iron_flesh_glove",
-        FleshGloveItem(
-            ToolMaterials.IRON,
-            itemSettings {
-                maxCount(1)
-                rarity(Rarity.COMMON)
-            },
-            0.3f
-        )
-    )
+//    @JvmField val FLESH_GLOVE = register("flesh_glove",
+//        AbstractFleshGlove(
+//            FLESH_GLOVE_MATERIAL,
+//            itemSettings {
+//                maxCount(1)
+//                rarity(Rarity.COMMON)
+//            }
+//        )
+//    )
+//
+//    @JvmField val IRON_FLESH_GLOVE = register("iron_flesh_glove",
+//        FleshGloveItem(
+//            ToolMaterials.IRON,
+//            itemSettings {
+//                maxCount(1)
+//                rarity(Rarity.COMMON)
+//            },
+//            0.3f
+//        )
+//    )
 
     @JvmField val WARDEN_GAUNTLET = register("warden_gauntlet", WardenFistItem(itemSettings {
         rarity(Rarity.RARE)
@@ -132,25 +130,25 @@ object BobsMobGearItems {
         component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
     }))
 
-    @JvmField val IRON_BONE_HAMMER = register("iron_bone_hammer", BoneHammerItem(5 * 20, ToolMaterials.STONE, itemSettings { // TODO
-
-    }))
-
-    @JvmField val IRON_SPIDER_DAGGER = register("iron_spider_dagger", SpiderDaggerItem(2.0, ToolMaterials.STONE, itemSettings { // TODO
-
-    }))
-
-    @JvmField val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem.teleporting(3f, 5 * 20, ::EnderSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
-
-    }))
-
-    @JvmField val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem.homing(16.0, ::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
-
-    }))
-
-    @JvmField val IRON_BOOM_BATON = register("iron_boom_baton", BoomBatonItem(8, 5 * 20, BobsMobGearBlocks.WORN_GUNFLOWER, ToolMaterials.IRON, itemSettings {
-
-    }))
+//    @JvmField val IRON_BONE_HAMMER = register("iron_bone_hammer", BoneHammerItem(5 * 20, ToolMaterials.STONE, itemSettings { // TODO
+//
+//    }))
+//
+//    @JvmField val IRON_SPIDER_DAGGER = register("iron_spider_dagger", SpiderDaggerItem(2.0, ToolMaterials.STONE, itemSettings { // TODO
+//
+//    }))
+//
+//    @JvmField val IRON_ENDER_SPEAR = register("iron_ender_spear", EnderSpearItem.teleporting(3f, 5 * 20, ::EnderSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
+//
+//    }))
+//
+//    @JvmField val IRON_ENDER_EYE_SPEAR = register("iron_ender_eye_spear", EnderSpearItem.homing(16.0, ::EnderEyeSpearEntity, ToolMaterials.STONE, itemSettings { // TODO
+//
+//    }))
+//
+//    @JvmField val IRON_BOOM_BATON = register("iron_boom_baton", BoomBatonItem(8, 5 * 20, BobsMobGearBlocks.WORN_GUNFLOWER, ToolMaterials.IRON, itemSettings {
+//
+//    }))
 
     @JvmField val UNLIMITED_BACON = register("unlimited_bacon", UnlimitedBaconItem(itemSettings {
         component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
@@ -177,28 +175,28 @@ object BobsMobGearItems {
                 SHOVEL_TEMPLATE,
                 HOE_TEMPLATE,
             )
-            if (BobsMobGearCompat.PALADINS_INSTALLED)
-                entries.addAll(
-                    GREATHAMMER_TEMPLATE,
-                    MACE_TEMPLATE,
-                    CLAYMORE_TEMPLATE,
-                    KITE_SHIELD_TEMPLATE,
-                )
-            if (BobsMobGearCompat.ROGUES_INSTALLED)
-                entries.addAll(
-                    DAGGER_TEMPLATE,
-                    GLAIVE_TEMPLATE,
-                    SICKLE_TEMPLATE,
-                    DOUBLE_AXE_TEMPLATE,
-                )
-            if (BobsMobGearCompat.ARCHERS_INSTALLED)
-                entries.addAll(
-                    SPEAR_TEMPLATE,
-                )
-            if (BobsMobGearCompat.FARMERS_DELIGHT_INSTALLED)
-                entries.addAll(
-                    KNIFE_TEMPLATE,
-                )
+//            if (BobsMobGearCompat.PALADINS_INSTALLED)
+//                entries.addAll(
+//                    GREATHAMMER_TEMPLATE,
+//                    MACE_TEMPLATE,
+//                    CLAYMORE_TEMPLATE,
+//                    KITE_SHIELD_TEMPLATE,
+//                )
+//            if (BobsMobGearCompat.ROGUES_INSTALLED)
+//                entries.addAll(
+//                    DAGGER_TEMPLATE,
+//                    GLAIVE_TEMPLATE,
+//                    SICKLE_TEMPLATE,
+//                    DOUBLE_AXE_TEMPLATE,
+//                )
+//            if (BobsMobGearCompat.ARCHERS_INSTALLED)
+//                entries.addAll(
+//                    SPEAR_TEMPLATE,
+//                )
+//            if (BobsMobGearCompat.FARMERS_DELIGHT_INSTALLED)
+//                entries.addAll(
+//                    KNIFE_TEMPLATE,
+//                )
             entries.addAll(
                 FORGE,
                 FORGE_HEATER,
@@ -213,20 +211,20 @@ object BobsMobGearItems {
                 SMITHING_HAMMER,
                 SMITHING_TONGS,
 
-                WORN_HARDENED_FLESH,
-                WORN_STURDY_BONE,
-                WORN_SPIDER_FANG,
-                WORN_CREEPER_CORE,
-                WORN_SEETHING_PEARL,
-                WORN_SEETHING_EYE,
+//                WORN_HARDENED_FLESH,
+//                WORN_STURDY_BONE,
+//                WORN_SPIDER_FANG,
+//                WORN_CREEPER_CORE,
+//                WORN_SEETHING_PEARL,
+//                WORN_SEETHING_EYE,
                 WARDEN_TENDRILS,
 
-                FLESH_GLOVE,
-                IRON_FLESH_GLOVE,
-                IRON_SPIDER_DAGGER,
-                IRON_BONE_HAMMER,
-                IRON_ENDER_SPEAR,
-                IRON_ENDER_EYE_SPEAR,
+//                FLESH_GLOVE,
+//                IRON_FLESH_GLOVE,
+//                IRON_SPIDER_DAGGER,
+//                IRON_BONE_HAMMER,
+//                IRON_ENDER_SPEAR,
+//                IRON_ENDER_EYE_SPEAR,
             )
             entries.addAll(
                 WARDEN_GAUNTLET.defaultStack.also {

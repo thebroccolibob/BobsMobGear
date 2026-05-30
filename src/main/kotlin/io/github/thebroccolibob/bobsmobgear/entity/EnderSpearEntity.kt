@@ -27,7 +27,7 @@ class EnderSpearEntity : AbstractEnderSpearEntity {
 
     private var teleported = false
 
-    override fun getDefaultItemStack(): ItemStack = BobsMobGearItems.IRON_ENDER_SPEAR.defaultStack
+    override fun getDefaultItemStack(): ItemStack = ItemStack.EMPTY //BobsMobGearItems.IRON_ENDER_SPEAR.defaultStack
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
         super.writeCustomDataToNbt(nbt)

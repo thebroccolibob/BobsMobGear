@@ -1,6 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import io.github.thebroccolibob.bobsmobgear.util.ToolMaterial
 import net.minecraft.block.BlockState
 import net.minecraft.component.DataComponentTypes
@@ -41,5 +40,5 @@ val FLESH_GLOVE_MATERIAL = ToolMaterial(
     enchantability = 5,
     inverseTag = BlockTags.PICKAXE_MINEABLE,
     miningSpeedMultiplier = 0.0f,
-    repairIngredient = Ingredient.ofItems(BobsMobGearItems.WORN_HARDENED_FLESH)
+    repairIngredient = Ingredient.EMPTY // Ingredient.ofItems(BobsMobGearItems.WORN_HARDENED_FLESH)
 )

@@ -1,5 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
+import io.github.thebroccolibob.bobsmobgear.client.util.cataclysmId
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDatagenItems
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags
@@ -7,10 +11,6 @@ import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.ItemTags
-import io.github.thebroccolibob.bobsmobgear.client.util.cataclysmId
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearDatagenItems
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
-import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
 import net.spell_engine.api.item.Equipment
 import net.spell_engine.rpg_series.tags.RPGSeriesItemTags
 import java.util.concurrent.CompletableFuture
@@ -83,11 +83,11 @@ class ItemTagGenerator(
         with(getOrCreateTagBuilder(BobsMobGearItemTags.NON_FORGE_FUEL)) {
             forceAddTag(ConventionalItemTags.TOOLS)
         }
-        getOrCreateTagBuilder(BobsMobGearItemTags.LOWER_USE_PRIORITY).add(
-            BobsMobGearItems.IRON_FLESH_GLOVE,
-            BobsMobGearItems.IRON_SPIDER_DAGGER,
-            BobsMobGearItems.IRON_ENDER_SPEAR,
-        )
+//        getOrCreateTagBuilder(BobsMobGearItemTags.LOWER_USE_PRIORITY).add(
+//            BobsMobGearItems.IRON_FLESH_GLOVE,
+//            BobsMobGearItems.IRON_SPIDER_DAGGER,
+//            BobsMobGearItems.IRON_ENDER_SPEAR,
+//        )
         with(getOrCreateTagBuilder(BobsMobGearItemTags.NOT_WEAPON)) {
             forceAddTag(BobsMobGearItemTags.SMITHING_HAMMERS)
         }
@@ -100,13 +100,13 @@ class ItemTagGenerator(
             Items.CAULDRON,
         )
         getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS).add(
-            BobsMobGearItems.FLESH_GLOVE,
-            BobsMobGearItems.IRON_FLESH_GLOVE,
+//            BobsMobGearItems.FLESH_GLOVE,
+//            BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.WARDEN_GAUNTLET,
-            BobsMobGearItems.IRON_SPIDER_DAGGER,
-            BobsMobGearItems.IRON_BONE_HAMMER,
-            BobsMobGearItems.IRON_ENDER_SPEAR,
-            BobsMobGearItems.IRON_ENDER_EYE_SPEAR,
+//            BobsMobGearItems.IRON_SPIDER_DAGGER,
+//            BobsMobGearItems.IRON_BONE_HAMMER,
+//            BobsMobGearItems.IRON_ENDER_SPEAR,
+//            BobsMobGearItems.IRON_ENDER_EYE_SPEAR,
         )
         with (getOrCreateTagBuilder(ConventionalItemTags.TOOLS)) {
             add(BobsMobGearItems.SMITHING_TONGS)
@@ -114,13 +114,13 @@ class ItemTagGenerator(
         }
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE).add(
             BobsMobGearItems.SMITHING_HAMMER,
-            BobsMobGearItems.FLESH_GLOVE,
-            BobsMobGearItems.IRON_FLESH_GLOVE,
+//            BobsMobGearItems.FLESH_GLOVE,
+//            BobsMobGearItems.IRON_FLESH_GLOVE,
             BobsMobGearItems.WARDEN_GAUNTLET,
-            BobsMobGearItems.IRON_SPIDER_DAGGER,
-            BobsMobGearItems.IRON_BONE_HAMMER,
-            BobsMobGearItems.IRON_ENDER_SPEAR,
-            BobsMobGearItems.IRON_ENDER_EYE_SPEAR,
+//            BobsMobGearItems.IRON_SPIDER_DAGGER,
+//            BobsMobGearItems.IRON_BONE_HAMMER,
+//            BobsMobGearItems.IRON_ENDER_SPEAR,
+//            BobsMobGearItems.IRON_ENDER_EYE_SPEAR,
         )
     }
 }

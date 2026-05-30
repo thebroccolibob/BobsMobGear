@@ -1,13 +1,5 @@
 package io.github.thebroccolibob.bobsmobgear.datagen
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
-import net.minecraft.block.Block
-import net.minecraft.data.client.*
-import net.minecraft.data.client.BlockStateModelGenerator.createBooleanModelMap
-import net.minecraft.data.client.BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates
-import net.minecraft.item.Item
-import net.minecraft.util.Identifier
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
 import io.github.thebroccolibob.bobsmobgear.BobsMobGearClient
 import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
@@ -16,6 +8,14 @@ import io.github.thebroccolibob.bobsmobgear.block.TemplateBlock
 import io.github.thebroccolibob.bobsmobgear.client.util.*
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItems
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
+import net.minecraft.block.Block
+import net.minecraft.data.client.*
+import net.minecraft.data.client.BlockStateModelGenerator.createBooleanModelMap
+import net.minecraft.data.client.BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates
+import net.minecraft.item.Item
+import net.minecraft.util.Identifier
 import vectorwing.farmersdelight.common.registry.ModItems as FarmersDelightItems
 
 class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
@@ -35,20 +35,20 @@ class ModelGenerator(output: FabricDataOutput) : FabricModelProvider(output) {
         registerGenerated(BobsMobGearItems.NETHERITE_POT)
         registerGenerated(BobsMobGearItems.BLACK_STEEL_POT)
 
-        registerGenerated(BobsMobGearItems.WORN_HARDENED_FLESH)
-        registerGenerated(BobsMobGearItems.WORN_STURDY_BONE)
-        registerGenerated(BobsMobGearItems.WORN_SPIDER_FANG)
-        registerGenerated(BobsMobGearItems.WORN_CREEPER_CORE)
-        registerGenerated(BobsMobGearItems.WORN_SEETHING_PEARL)
-        registerGenerated(BobsMobGearItems.WORN_SEETHING_EYE)
+//        registerGenerated(BobsMobGearItems.WORN_HARDENED_FLESH)
+//        registerGenerated(BobsMobGearItems.WORN_STURDY_BONE)
+//        registerGenerated(BobsMobGearItems.WORN_SPIDER_FANG)
+//        registerGenerated(BobsMobGearItems.WORN_CREEPER_CORE)
+//        registerGenerated(BobsMobGearItems.WORN_SEETHING_PEARL)
+//        registerGenerated(BobsMobGearItems.WORN_SEETHING_EYE)
         registerGenerated(BobsMobGearItems.WARDEN_TENDRILS)
 
-        register(BobsMobGearItems.IRON_BONE_HAMMER, Models.HANDHELD)
-        register(BobsMobGearItems.IRON_SPIDER_DAGGER, Models.HANDHELD)
-        registerSpear(BobsMobGearItems.IRON_ENDER_SPEAR)
-        registerSpear(BobsMobGearItems.IRON_ENDER_EYE_SPEAR)
+//        register(BobsMobGearItems.IRON_BONE_HAMMER, Models.HANDHELD)
+//        register(BobsMobGearItems.IRON_SPIDER_DAGGER, Models.HANDHELD)
+//        registerSpear(BobsMobGearItems.IRON_ENDER_SPEAR)
+//        registerSpear(BobsMobGearItems.IRON_ENDER_EYE_SPEAR)
         register(BobsMobGearItems.WARDEN_GAUNTLET, "_gui", Models.GENERATED)
-        register(BobsMobGearItems.IRON_BOOM_BATON, Models.HANDHELD)
+//        register(BobsMobGearItems.IRON_BOOM_BATON, Models.HANDHELD)
         register(BobsMobGearItems.UNLIMITED_BACON, FarmersDelightItems.COOKED_BACON.get(), Models.GENERATED)
 
         register(BobsMobGearItems.SMITHING_HAMMER, SMITHING_HAMMER_MODEL)
