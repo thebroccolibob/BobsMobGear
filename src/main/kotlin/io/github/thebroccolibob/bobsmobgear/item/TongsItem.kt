@@ -1,7 +1,9 @@
 package io.github.thebroccolibob.bobsmobgear.item
 
 import io.github.thebroccolibob.bobsmobgear.BobsMobGear
+import io.github.thebroccolibob.bobsmobgear.block.AbstractForgeBlock
 import io.github.thebroccolibob.bobsmobgear.extinguishHeatedStack
+import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearBlocks
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearComponents.TONGS_HELD_ITEM
 import io.github.thebroccolibob.bobsmobgear.registry.BobsMobGearItemTags
@@ -17,10 +19,13 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.tooltip.TooltipType
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.screen.slot.Slot
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.ClickType
@@ -58,6 +63,20 @@ class TongsItem(settings: Settings) : Item(settings) {
             context.stack[TONGS_HELD_ITEM] = heldItem.copy().also {
                 extinguishHeatedStack(it, context.world, context.player, context.blockPos)
             }
+            return ActionResult.SUCCESS
+        } else if (BobsMobGearComponents.HEATED !in heldItem && state isOf BobsMobGearBlocks.FORGE_HEATER) {
+            if (!state[AbstractForgeBlock.LIT]) return ActionResult.FAIL
+
+            context.stack[TONGS_HELD_ITEM] = heldItem.copy().apply {
+                set(BobsMobGearComponents.HEATED)
+            }
+
+            val pos = context.hitPos
+            context.world.playSound(context.player, pos.x, pos.y, pos.z, SoundEvents.BLOCK_FIRE_AMBIENT, context.player?.soundCategory ?: SoundCategory.NEUTRAL, 2f, 1f)
+            (context.world as? ServerWorld)?.run {
+                spawnParticles(ParticleTypes.FLAME, pos.x, pos.y, pos.z, 4, 0.25, 0.125, 0.25, 0.0)
+            }
+
             return ActionResult.SUCCESS
         }
 
